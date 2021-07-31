@@ -1,0 +1,150 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d921444352c3724f96a56f69b242ade, type: 3}
+  m_Name: CardItemSO
+  m_EditorClassIdentifier: 
+  cardItems:
+  - name: "\uCC9C\uBC8C"
+    sprite: {fileID: -533655650184955271, guid: 4454062fe2a78614587b7e6f430aaafe,
+      type: 3}
+    god: "\uC81C\uC6B0\uC2A4"
+    info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC0C1\uB300  \uC9C0\uC18D\uC2DC\uAC04: 1\uD134\n\uCC9C\uB465\uC758
+      \uD798\uC744 \uBE4C\uB824 \uC0C1\uB300\uB97C \uD55C\uD134 \uB3D9\uC548 \uB9C8\uBE44
+      \uC0C1\uD0DC\uC5D0 \uBE60\uD2B8\uB9BD\uB2C8\uB2E4."
+  - name: "\uC8FD\uC74C\uC758 \uB545"
+    sprite: {fileID: 288311869226211982, guid: 4454062fe2a78614587b7e6f430aaafe, type: 3}
+    god: "\uD558\uB370\uC2A4"
+    info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC601\uC5ED  \uC9C0\uC18D\uC2DC\uAC04: \uC601\uAD6C\uC9C0\uC18D\n\uB4E4\uC5B4\uC624\uB294
+      \uBAA8\uB4E0 \uAC83\uC744 \uC8FD\uC774\uB294 \uC8FD\uC74C\uC758 \uB545\uC744
+      \uB9CC\uB4ED\uB2C8\uB2E4."
+  - name: "\uC81C\uBB3C"
+    sprite: {fileID: 5184140531708663575, guid: 4454062fe2a78614587b7e6f430aaafe,
+      type: 3}
+    god: "\uD558\uB370\uC2A4"
+    info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC544\uAD70  \uC9C0\uC18D\uC2DC\uAC04: \uC989\uC2DC\n\uC544\uAD70\uC758
+      \uB9D0\uC744 \uC81C\uBB3C\uB85C \uBC1B\uD600 \uC0C1\uB300\uC758 \uB79C\uB364
+      \uCE74\uB4DC \uD55C\uC7A5\uC744 \uC81C\uAC70\uD569\uB2C8\uB2E4."
+  - name: "\uC218\uC911\uAC10\uC625"
+    sprite: {fileID: 1874605397469896423, guid: 4454062fe2a78614587b7e6f430aaafe,
+      type: 3}
+    god: "\uD3EC\uC138\uC774\uB3C8"
+    info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC544\uAD70  \uC9C0\uC18D\uC2DC\uAC04: 1\uD134\n\uC218\uC911\uAC10\uC625\uC744
+      \uC0DD\uC131\uD558\uC5EC \uAC00\uB461\uB2C8\uB2E4. \uC218\uC911\uAC10\uC625\uC5D0\uC11C
+      \uB098\uC628 \uB9D0\uC5D0\uAC8C \uC8FD\uC744 \uC218\uB3C4 \uC788\uC73C\uB2C8
+      \uC8FC\uC758\uD558\uC138\uC694."
+  - name: "\uC218\uBA74"
+    sprite: {fileID: 2242647959389591976, guid: 4454062fe2a78614587b7e6f430aaafe,
+      type: 3}
+    god: "\uD788\uD504\uB178\uC2A4"
+    info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC0C1\uB300  \uC9C0\uC18D\uC2DC\uAC04: 1\uD134\n\uC6C0\uC9C1\uC774\uC9C0
+      \uC54A\uC73C\uBA74 \uC218\uBA74\uC5D0 \uBE60\uC9C0\uAC8C \uD569\uB2C8\uB2E4."
+  - name: "\uD30C\uB3C4"
+    sprite: {fileID: 3357908773177276807, guid: 4454062fe2a78614587b7e6f430aaafe,
+      type: 3}
+    god: "\uD3EC\uC138\uC774\uB3C8"
+    info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC544\uBB34 \uB9D0  \uC9C0\uC18D\uC2DC\uAC04:
+      \uC989\uC2DC\n\uD30C\uB3C4\uB97C \uC77C\uC73C\uCF1C \uD55C \uC904\uC5D0 \uC788\uB294
+      \uBAA8\uB4E0 \uB9D0\uB4E4\uC744 \uB4A4\uB85C \uBC00\uC5B4\uB0C5\uB2C8\uB2E4."
+  - name: "\uB2EC\uBE5B"
+    sprite: {fileID: 6352706402464596295, guid: 4454062fe2a78614587b7e6f430aaafe,
+      type: 3}
+    god: "\uC544\uB974\uD14C\uBBF8\uC2A4"
+    info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC544\uAD70  \uC9C0\uC18D\uC2DC\uAC04: \uC774\uB3D9\uD560\uB54C(2\uD134)\n\uB2EC\uBE5B
+      \uC18D\uC5D0\uC11C \uC740\uC2E0\uD569\uB2C8\uB2E4."
+  - name: "\uC804\uC7C1\uAD11"
+    sprite: {fileID: -5575379494814502858, guid: 4454062fe2a78614587b7e6f430aaafe,
+      type: 3}
+    god: "\uC544\uB808\uC2A4"
+    info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC544\uAD70  \uC9C0\uC18D\uC2DC\uAC04: \uC774\uB3D9\uD560\uB54C(2\uD134)\n\uC804\uC7C1\uC758
+      \uBBF8\uCCD0 2\uBC88 \uC774\uB3D9 \uD560 \uC218 \uC788\uB3C4\uB85D \uD569\uB2C8\uB2E4.
+      \uADF8 \uD6C4, \uB9D0\uC740 \uC8FD\uC2B5\uB2C8\uB2E4."
+  - name: "\uC815\uC758\uAD6C\uD604"
+    sprite: {fileID: 8713842005784037069, guid: 4454062fe2a78614587b7e6f430aaafe,
+      type: 3}
+    god: "\uC544\uD14C\uB098"
+    info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC870\uAC74\uB300\uC0C1  \uC9C0\uC18D\uC2DC\uAC04:
+      1\uD134\n\uC0B4\uC0DD\uC744 \uD55C \uB9D0\uB4E4\uC744 \uCC98\uBC8C\uD558\uC5EC
+      \uC774\uB3D9\uBD88\uAC00 \uC0C1\uD0DC\uB85C \uB9CC\uB4ED\uB2C8\uB2E4."
+  - name: "\uC544\uD14C\uB098\uC758 \uBC29\uD328"
+    sprite: {fileID: -3662950376928585174, guid: 4454062fe2a78614587b7e6f430aaafe,
+      type: 3}
+    god: "\uC544\uD14C\uB098"
+    info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC544\uAD70  \uC9C0\uC18D\uC2DC\uAC04: \uC774\uB3D9\uD560
+      \uB54C\n\uC544\uD14C\uB098\uC758 \uBC29\uD328\uB85C \uC8FD\uC74C\uC73C\uB85C\uBD80\uD130
+      \uBCF4\uD638 \uC2DC\uD0B5\uB2C8\uB2E4."
+  - name: "\uC9C8\uC11C"
+    sprite: {fileID: 6759782793127277833, guid: 4454062fe2a78614587b7e6f430aaafe,
+      type: 3}
+    god: "\uB370\uBBF8\uD14C\uB974"
+    info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC544\uAD70  \uC9C0\uC18D\uC2DC\uAC04: 1\n\uC55E\uC5D0
+      \uC788\uB294 \uB9D0\uC774 \uC9C8\uC11C\uB97C \uC9C0\uCF1C \uB118\uC5B4 \uAC08
+      \uC218 \uC788\uAC8C \uD574 \uC90D\uB2C8\uB2E4.\t"
+  - name: "\uBC14\uCE74\uC2A4"
+    sprite: {fileID: -8881772293097203296, guid: 4454062fe2a78614587b7e6f430aaafe,
+      type: 3}
+    god: "\uB514\uC624\uB2C8\uC18C\uC2A4"
+    info: "\uC0AC\uC6A9 \uB300\uC0C1: \uBAA8\uB4E0\uB9D0  \uC9C0\uC18D\uC2DC\uAC04:
+      1\uD134\n\uCDE8\uAE30\uC5D0 \uBAA8\uB4E0 \uB9D0\uB4E4\uC774 \uC6C0\uC9C1\uC774\uAE30
+      \uBD88\uD3B8\uD574 \uC9D1\uB2C8\uB2E4."
+  - name: "\uC5D0\uB85C\uC2A4\uC758 \uC0AC\uB791"
+    sprite: {fileID: 4377211301867728294, guid: 4454062fe2a78614587b7e6f430aaafe,
+      type: 3}
+    god: "\uD5E4\uB77C"
+    info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC544\uAD70  \uC9C0\uC18D\uC2DC\uAC04: \uB9D0\uC774
+      \uC8FD\uC744\uB54C\n\uC544\uAD70\uC758 \uB9D0\uC774 \uC11C\uB85C\uB97C \uC0AC\uB791\uD558\uC5EC
+      \uB300\uC2E0 \uC8FD\uC5B4\uC90D\uB2C8\uB2E4."
+  - name: "\uCD9C\uC0B0"
+    sprite: {fileID: -7733277330374266041, guid: 4454062fe2a78614587b7e6f430aaafe,
+      type: 3}
+    god: "\uD5E4\uB77C"
+    info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC544\uAD70  \uC9C0\uC18D\uC2DC\uAC04: \uB9D0\uC774
+      \uC8FD\uC744\uB54C\n\uB9D0\uC774 \uD3F0\uC744 \uCD9C\uC0B0\uC744 \uD558\uACE0
+      \uB5A0\uB0A9\uB2C8\uB2E4."
+  - name: "\uC74C\uC545"
+    sprite: {fileID: -4597402790068737863, guid: 4454062fe2a78614587b7e6f430aaafe,
+      type: 3}
+    god: "\uD5E4\uB77C"
+    info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC0C1\uB300  \uC9C0\uC18D\uC2DC\uAC04: 1~3\uD134\n\uC0C1\uB300\uB97C
+      \uC74C\uC545\uC5D0 \uBE60\uC9C0\uAC8C \uD558\uC5EC \uC6C0\uC9C1\uC774\uC9C0
+      \uBABB\uD558\uAC8C \uD569\uB2C8\uB2E4."
+  - name: "\uAE38\uB3D9\uBB34"
+    sprite: {fileID: -5150909702134055488, guid: 4454062fe2a78614587b7e6f430aaafe,
+      type: 3}
+    god: "\uD0C0\uB098\uD1A0\uC2A4"
+    info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC544\uAD70  \uC9C0\uC18D\uC2DC\uAC04: \uB9D0\uC774
+      \uC8FD\uC744\uB54C\n\uC790\uC2E0\uC774 \uC8FD\uC740 \uC801\uACFC \uD568\uAED8
+      \uC8FD\uC2B5\uB2C8\uB2E4."
+  - name: "\uB3CC\uC9C4"
+    sprite: {fileID: 5394022533433988051, guid: 4454062fe2a78614587b7e6f430aaafe,
+      type: 3}
+    god: "\uD30C\uC6B0\uB204\uC2A4"
+    info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC544\uAD70  \uC9C0\uC18D\uC2DC\uAC04: 1\uD134\n1\uCE78
+      \uB354 \uB3CC\uC9C4\uD569\uB2C8\uB2E4."
+  - name: "\uC11C\uD48D"
+    sprite: {fileID: -7065897798621633364, guid: 4454062fe2a78614587b7e6f430aaafe,
+      type: 3}
+    god: "\uD30C\uC6B0\uB204\uC2A4"
+    info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC0C1\uB300  \uC9C0\uC18D\uC2DC\uAC04: 2\uD134\n\uB300\uC0C1\uC744
+      \uACF5\uC911\uC5D0 \uB744\uC6B0\uACE0 \uB2E4\uB978 \uB9D0\uC740 \uBABB\uB4E4\uC5B4\uC624\uB294
+      \uAC15\uB825\uD55C \uC11C\uD48D\uC744 \uC0DD\uC131\uD569\uB2C8\uB2E4."
+  - name: "\uC5EC\uD589\uC790"
+    sprite: {fileID: -8491534248698147650, guid: 4454062fe2a78614587b7e6f430aaafe,
+      type: 3}
+    god: "\uD5E4\uB974\uBA54\uC2A4"
+    info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC0C1\uB300  \uC9C0\uC18D\uC2DC\uAC04: 2\uD134\n\uD3F0\uC774
+      \uACF3\uACF3\uC744 \uC5EC\uD589\uD569\uB2C8\uB2E4."
+  - name: "\uC2DC\uAC04\uC65C\uACE1"
+    sprite: {fileID: -7837417378511994517, guid: 4454062fe2a78614587b7e6f430aaafe,
+      type: 3}
+    god: "\uD06C\uB85C\uB178\uC2A4"
+    info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC0C1\uB300  \uC9C0\uC18D\uC2DC\uAC04: 2\uD134\n\uACFC\uAC70\uB85C
+      \uAC00\uC11C \uCE74\uB4DC\uB97C \uB4E4\uACE0 \uC635\uB2C8\uB2E4."
