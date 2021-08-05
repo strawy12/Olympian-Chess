@@ -4,33 +4,29 @@ using UnityEngine;
 
 public class MovePlate : MonoBehaviour
 {
-    #region 변수
+    public GameObject controller;
+
+    Chessman reference = null;
     [SerializeField] ECardState eCardState;
     // Board positions(not wolrd Positions) 
     int matrixX;
     int matrixY;
     // false: movement, true: attacking
-    [Header("속성")]
     public bool attack = false;
+    private bool isSelected = false;
     public bool isOD = false;
 
-    private bool isSelected = false;
     enum ECardState { Moving, UsingCard }
-
-    Chessman reference = null;
-
-    #endregion
 
     public void Start()
     {
         AttackChess();
-
     }
     private void AttackChess()
     {
+        // 공격하는 함수
         if (attack)
         {
-            // change color
             gameObject.GetComponent<SpriteRenderer>().color = new Color(1.0f, 0.0f, 0.0f, 1.0f);
         }
     }
@@ -83,255 +79,145 @@ public class MovePlate : MonoBehaviour
         }
 
         reference.isMoving = true;
-        TurnManager.Instance.ButtonColor();
+        TurnManager.Inst.ButtonColor();
     }
 
-    private IEnumerator ReturnMovingCard()
+    private IEnumerator OnMouseUpEvent()
     {
-        yield return MovingCard();
-    }
-   
-    #region isAttack일때
-    private void War()
-    {
-        Chessman cp = GameManager.Inst.GetPosition(matrixX, matrixY);
-
-        Skill war = SkillManager.Inst.GetSkillList("전쟁광", GetCurrentPlayer(true));
-
-        if (war == null)
-        {
-            war = SkillManager.Inst.GetSkillList("전쟁광", GetCurrentPlayer(false));
-        }
-        if (war.cnt != 0)
-        {
-            if (cp.name == "black_king" || cp.name == "white_king") return;
-        }
-    }
-    private void Athen()
-    {
-        Chessman cp = GameManager.Inst.GetPosition(matrixX, matrixY);
-        Skill athen = SkillManager.Inst.GetSkillList("아테나의 방패", GetCurrentPlayer(false));
-
-        athen.IsAttack(true);
-        athen.CheckAS();
-        cp.DestroyMovePlates();
-        TurnManager.Instance.ButtonColor();
-    }
-
-    private void Born()
-    {
-        Chessman cp = GameManager.Inst.GetPosition(matrixX, matrixY);
-        Skill born = SkillManager.Inst.GetSkillList("출산", GetCurrentPlayer(false));
-
-        Chessman cm;
-        GameManager.Inst.SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
-
-        if (cp.player == "white")
-        {
-            cm = GameManager.Inst.Creat("white_pawn", cp.GetXBoard(), cp.GetYBoard());
-            cm.transform.Rotate(0f, 0f, 180f);
-            GameManager.Inst.SetPosition(cm);
-        }
-        else
-        {
-            cm = GameManager.Inst.Creat("black_pawn", cp.GetXBoard(), cp.GetYBoard());
-            GameManager.Inst.SetPosition(cm);
-        }
-
-        reference.SetCoords();
-        GameManager.Inst.SetPosition(reference);
-        reference.DestroyMovePlates();
-        reference.SetIsMoved(true);
-        Destroy(cp.gameObject);
-        born.SelectPieceNull();
-        SkillManager.Inst.DeleteSkillList(born);
-        //sk.
-        Destroy(born.gameObject);
-        GameManager.Inst.UpdateArr(cp);
-        GameManager.Inst.AddArr(cm);
-        TurnManager.Instance.ButtonColor();
-    }
-
-    private void Eros()
-    {
-        Chessman cp = GameManager.Inst.GetPosition(matrixX, matrixY);
-        Skill erosLove = SkillManager.Inst.GetSkillList("에로스의 사랑", GetCurrentPlayer(false));
-
-        if (erosLove == null)
-        {
-            return;
-        }
-        if (cp != erosLove.GetSelectPieceTo())
-        {
-            return;
-        }
-
-        else
-        {
-            erosLove.GetSelectPieceTo().SetXBoard(erosLove.GetSelectPiece().GetXBoard());
-            erosLove.GetSelectPieceTo().SetYBoard(erosLove.GetSelectPiece().GetYBoard());
-            erosLove.GetSelectPieceTo().SetCoords();
-            Destroy(erosLove.GetSelectPiece().gameObject);
-            GameManager.Inst.SetPosition(erosLove.GetSelectPieceTo());
-            GameManager.Inst.UpdateArr(erosLove.GetSelectPiece());
-            erosLove.SetIsUsingCard(false);
-            reference.DestroyMovePlates();
-            TurnManager.Instance.ButtonColor();
-        }
-    }
-
-    private void GillDongMu()
-    {
-        Chessman cp = GameManager.Inst.GetPosition(matrixX, matrixY);
-        Skill gillDongMu = SkillManager.Inst.GetSkillList("길동무", GetCurrentPlayer(false));
-
-        if (gillDongMu == null) return;
-
-        if (reference.name == "black_king" || reference.name == "white_king")
-        {
-            Debug.Log("왕왕왕");
-        }
-
-        else
-        {
-            reference.DestroyMovePlates();
-            Destroy(reference.gameObject);
-            Destroy(cp.gameObject);
-            GameManager.Inst.SetPositionEmpty(reference.GetXBoard(), reference.GetYBoard());
-            GameManager.Inst.SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
-            GameManager.Inst.UpdateArr(reference);
-            GameManager.Inst.UpdateArr(cp);
-        }
-
-        TurnManager.Instance.ButtonColor();
-        gillDongMu.ReloadStreetFriend();
-        gillDongMu.SetIsUsingCard(false);
-
-    }
-
-    private void Card()
-    {
-        Chessman cp = GameManager.Inst.GetPosition(matrixX, matrixY);
-
-        Skill athen = SkillManager.Inst.GetSkillList("아테나의 방패", GetCurrentPlayer(false));
-
-        if (SkillManager.Inst.CheckSkillList("전쟁광", GetCurrentPlayer(true)) || SkillManager.Inst.CheckSkillList("전쟁광", GetCurrentPlayer(false)))
-        {
-            War();
-        }
-
-        if (SkillManager.Inst.CheckSkillList("달빛", GetCurrentPlayer(true)))
-        {
-            if (cp.name == "black_king" || cp.name == "white_king")
-                return;
-        }
-
-        if (CheckSkillList("아테나의 방패", GetCurrentPlayer(false)) && cp == athen.GetSelectPiece())
-        {
-            Athen();
-        }
-
-        if (CheckSkillList("출산", GetCurrentPlayer(false)))
-        {
-            Born();
-        }
-
-        if (CheckSkillList("에로스의 사랑", GetCurrentPlayer(false)))
-        {
-            Eros();
-        }
-
-        if (CheckSkillList("길동무", GetCurrentPlayer(false)))
-        {
-            GillDongMu();
-        }
-        if (GetCurrentPlayer(false) == cp.player)
-        {
-            PilSalGi.Inst.attackCntPlus();
-        }
-
-        Destroy(cp.gameObject);
-        GameManager.Inst.SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
-        GameManager.Inst.UpdateArr(cp);
-    }
-    #endregion
-
-    #region 현재상태에따라서
-    private void Eros2()
-    {
-        Skill erosLove = SkillManager.Inst.GetSkillList("에로스의 사랑", GetCurrentPlayer(true));
-        if (erosLove == null) return;
-
-        erosLove.SetSelectPieceTo(GameManager.Inst.GetPosition(reference.GetXBoard(), reference.GetYBoard()));
-        reference.DestroyMovePlates();
-        erosLove.StartLOE_Effect();
-        CardManager.Inst.ChangeIsUse(true);
-
-        //TurnManager.Inst.EndTurn();
-        SkillManager.Inst.SetIsUsingCard(false);
-    }
-
-    private void Wave()
-    {
-        Skill wave = SkillManager.Inst.GetSkillList("파도", GetCurrentPlayer(true));
-        Debug.Log(matrixX);
-        Debug.Log(matrixY);
-        if (matrixX == wave.GetSelectPiece().GetXBoard() + 1)
-            WaveMove(true, true);
-        else if (matrixX == wave.GetSelectPiece().GetXBoard() - 1)
-            WaveMove(true, false);
-        else if (matrixY == wave.GetSelectPiece().GetYBoard() + 1)
-            WaveMove(false, true);
-        else if (matrixY == wave.GetSelectPiece().GetYBoard() - 1)
-            WaveMove(false, false);
-        SkillManager.Inst.SetIsUsingCard(false);
-        wave.ReSetWave();
-        reference.DestroyMovePlates();
-        TurnManager.Instance.SetIsActive(true);
-        CardManager.Inst.ChangeIsUse(true);
-    }
-    private void Sleep()
-    {
-        Skill sleep = SkillManager.Inst.GetSkillList("수면", GetCurrentPlayer(true));
-        if (sleep == null) return;
-        sleep.SetSelectPieceTo(GameManager.Inst.GetPosition(reference.GetXBoard(), reference.GetYBoard()));
-        sleep.GetSelectPiece().SetIsMoved(false);
-        sleep.GetSelectPieceTo().SetIsMoved(false);
-        reference.DestroyMovePlates();
-        sleep.StartSP_SkillEffect();
-        //TurnManager.Inst.EndTurn();
-        CardManager.Inst.ChangeIsUse(true);
-        SkillManager.Inst.SetIsUsingCard(false);
-    }
-
-    private void Card2()
-    {
-        if (CheckSkillList("에로스의 사랑", GetCurrentPlayer(true)))
-        {
-            Eros2();
-        }
-
-        if (CheckSkillList("파도", GetCurrentPlayer(true)))
-        {
-            Wave();
-        }
-        if (CheckSkillList("수면", GetCurrentPlayer(true)))
-        {
-            Sleep();
-        }
-    } 
-    #endregion
-    private void OnMouseUpEvent()
-    {
-        Chessman cp = GameManager.Inst.GetPosition(matrixX, matrixY);
-
-        // set card state
+        //== set card state
         SetECardState();
 
-        // card attack 
+        //== card attack 
         if (attack)
         {
-            Card();
+            Chessman cp = GameManager.Inst.GetPosition(matrixX, matrixY);
+            Skill athen = SkillManager.Inst.GetSkillList("아테나의 방패", GetCurrentPlayer(false));
+
+            if (SkillManager.Inst.CheckSkillList("전쟁광", GetCurrentPlayer(true)) || SkillManager.Inst.CheckSkillList("전쟁광", GetCurrentPlayer(false)))
+            {
+                Skill sk = SkillManager.Inst.GetSkillList("전쟁광", GetCurrentPlayer(true));
+                if (sk == null)
+                {
+                    sk = SkillManager.Inst.GetSkillList("전쟁광", GetCurrentPlayer(false));
+                }
+                if (sk.cnt != 0)
+                {
+                    if (cp.name == "black_king" || cp.name == "white_king")
+                        yield break;
+                }
+            }
+            if (SkillManager.Inst.CheckSkillList("달빛", GetCurrentPlayer(true)))
+            {
+                if (cp.name == "black_king" || cp.name == "white_king")
+                    yield break;
+            }
+
+            if (CheckSkillList("아테나의 방패", GetCurrentPlayer(false)) && cp == athen.GetSelectPiece())
+            {
+                athen.IsAttack(true);
+                athen.CheckAS();
+                cp.DestroyMovePlates();
+                TurnManager.Inst.ButtonColor();
+                yield break;
+            }
+
+            if (CheckSkillList("출산", GetCurrentPlayer(false)))
+            {
+                Chessman cm;
+                Skill sk = SkillManager.Inst.GetSkillList("출산", GetCurrentPlayer(false));
+                GameManager.Inst.SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
+
+                if (cp.player == "white")
+                {
+                    cm = GameManager.Inst.Creat("white_pawn", cp.GetXBoard(), cp.GetYBoard());
+                    cm.transform.Rotate(0f, 0f, 180f);
+                    GameManager.Inst.SetPosition(cm);
+                }
+                else
+                {
+                    cm = GameManager.Inst.Creat("black_pawn", cp.GetXBoard(), cp.GetYBoard());
+                    GameManager.Inst.SetPosition(cm);
+                }
+
+                reference.SetCoords();
+                GameManager.Inst.SetPosition(reference);
+                reference.DestroyMovePlates();
+                reference.SetIsMoved(true);
+                Destroy(cp.gameObject);
+                sk.SelectPieceNull();
+                SkillManager.Inst.DeleteSkillList(sk);
+                //sk.
+                Destroy(sk.gameObject);
+                GameManager.Inst.UpdateArr(cp);
+                GameManager.Inst.AddArr(cm);
+                TurnManager.Inst.ButtonColor();
+
+                yield break;
+            }
+
+            if (CheckSkillList("에로스의 사랑", GetCurrentPlayer(false)))
+            {
+                Skill sk = SkillManager.Inst.GetSkillList("에로스의 사랑", GetCurrentPlayer(false));
+                if (sk == null)
+                {
+                    yield break;
+                }
+                if (cp != sk.GetSelectPieceTo())
+                {
+                    yield return 0;    
+                }
+
+                else
+                {
+                    sk.GetSelectPieceTo().SetXBoard(sk.GetSelectPiece().GetXBoard());
+                    sk.GetSelectPieceTo().SetYBoard(sk.GetSelectPiece().GetYBoard());
+                    sk.GetSelectPieceTo().SetCoords();
+                    Destroy(sk.GetSelectPiece().gameObject);
+                    GameManager.Inst.SetPosition(sk.GetSelectPieceTo());
+                    GameManager.Inst.UpdateArr(sk.GetSelectPiece());
+                    sk.SetIsUsingCard(false);
+                    reference.DestroyMovePlates();
+                    TurnManager.Inst.ButtonColor();
+                    yield break;
+                }
+            }
+
+            if (CheckSkillList("길동무", GetCurrentPlayer(false)))
+            {
+                Skill sk = SkillManager.Inst.GetSkillList("길동무", GetCurrentPlayer(false));
+                if (sk == null) yield break;
+
+                if (reference.name == "black_king" || reference.name == "white_king")
+                {
+                    Debug.Log("왕왕왕");
+                }
+
+                else
+                {
+                    reference.DestroyMovePlates();
+                    Destroy(reference.gameObject);
+                    Destroy(cp.gameObject);
+                    GameManager.Inst.SetPositionEmpty(reference.GetXBoard(), reference.GetYBoard());
+                    GameManager.Inst.SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
+                    GameManager.Inst.UpdateArr(reference);
+                    GameManager.Inst.UpdateArr(cp);
+                    yield break;
+                }
+
+                TurnManager.Inst.ButtonColor();
+                sk.ReloadStreetFriend();
+                sk.SetIsUsingCard(false);
+            }
+            if (GetCurrentPlayer(false) == cp.player)
+            {
+                PilSalGi.Inst.attackCntPlus();
+            }
+
+            Destroy(cp.gameObject);
+            GameManager.Inst.SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
+            GameManager.Inst.UpdateArr(cp);
+            
+            
 
             if (reference.isAttacking)
             {
@@ -343,40 +229,88 @@ public class MovePlate : MonoBehaviour
             GameManager.Inst.CheckDeadSkillPiece(cp);
             reference.isAttacking = true;
         }
-       
+        //== card move
+        // Repeat the game controller to see if this is an attack
+        // Reset the position so that the position is empty
         if (eCardState == ECardState.Moving)
         {
-            StartCoroutine(ReturnMovingCard());
+            yield return MovingCard();
         }
+
 
         else if (eCardState == ECardState.UsingCard)
         {
-            Card2();
+            if (CheckSkillList("에로스의 사랑", GetCurrentPlayer(true))) // 만약 에로스의 사랑이 사용되고있다면
+            {
+                Skill sk = SkillManager.Inst.GetSkillList("에로스의 사랑", GetCurrentPlayer(true));
+                if (sk == null) yield break;
+
+                sk.SetSelectPieceTo(GameManager.Inst.GetPosition(reference.GetXBoard(), reference.GetYBoard()));
+                reference.DestroyMovePlates();
+                sk.StartLOE_Effect();
+                CardManager.Inst.ChangeIsUse(true);
+
+                //TurnManager.Inst.EndTurn();
+                SkillManager.Inst.SetIsUsingCard(false);
+            }
+
+            if (CheckSkillList("파도", GetCurrentPlayer(true)))
+            {
+                Skill sk = SkillManager.Inst.GetSkillList("파도", GetCurrentPlayer(true));
+                Debug.Log(matrixX);
+                Debug.Log(matrixY);
+                if (matrixX == sk.GetSelectPiece().GetXBoard() + 1)
+                    WaveMove(true, true);
+                else if (matrixX == sk.GetSelectPiece().GetXBoard() - 1)
+                    WaveMove(true, false);
+                else if (matrixY == sk.GetSelectPiece().GetYBoard() + 1)
+                    WaveMove(false, true);
+                else if (matrixY == sk.GetSelectPiece().GetYBoard() - 1)
+                    WaveMove(false, false);
+                SkillManager.Inst.SetIsUsingCard(false);
+                sk.ReSetWave();
+                reference.DestroyMovePlates();
+                TurnManager.Inst.SetIsActive(true);
+                CardManager.Inst.ChangeIsUse(true);
+            }
+            if (CheckSkillList("수면", GetCurrentPlayer(true)))
+            {
+                Debug.Log("냠");
+                Skill sk = SkillManager.Inst.GetSkillList("수면", GetCurrentPlayer(true));
+                if (sk == null) yield break;
+                sk.SetSelectPieceTo(GameManager.Inst.GetPosition(reference.GetXBoard(), reference.GetYBoard()));
+                sk.GetSelectPiece().SetIsMoved(false);
+                sk.GetSelectPieceTo().SetIsMoved(false);
+                reference.DestroyMovePlates();
+                sk.StartSP_SkillEffect();
+                //TurnManager.Inst.EndTurn();
+                CardManager.Inst.ChangeIsUse(true);
+                SkillManager.Inst.SetIsUsingCard(false);
+            }
         }
-        
+
+        yield return null;
     }
 
-  
     public void OnMouseUp()
     {
-        if (TurnManager.Instance.isLoading) return;
+        if (TurnManager.Inst.isLoading) return;
         if (isSelected) return;
         if(PilSalGi.Inst.GetisUsePilSalGi())
         {
             PilSalGi.Inst.SetselectPiece(GameManager.Inst.GetPosition(matrixX, matrixY));
             return;
         }
-        Debug.Log("말 이동 성공");
+        Debug.Log("야호");
         // change to coroutine for moving animation
-        OnMouseUpEvent();
+        StartCoroutine(OnMouseUpEvent());
     }
 
     void SetECardState()
     {
-        // Change current state to usingCard if card was used
         if (SkillManager.Inst.UsingCard())
             eCardState = ECardState.UsingCard;
-        // If not, change the current state to moving
+
         else
             eCardState = ECardState.Moving;
     }

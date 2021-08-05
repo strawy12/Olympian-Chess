@@ -10,7 +10,7 @@ public class RotationBoard
     public static List<Card> mycards;
     public static List<Card> ohtercards;
      
-    public static void Rotate()
+    public static void Rotate() //카메라 돌리는 함수
     {
         camera.transform.Rotate(0f, 0f, 180f);
         foreach (var w in playerWhite)

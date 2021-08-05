@@ -52,4 +52,53 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         print("로비접속완료");
     }
 
+    public void CreateRoom()
+    {
+        PhotonNetwork.CreateRoom(roomInput.text, new RoomOptions { MaxPlayers = 2 });
+    }
+
+    public void JoinRoom()
+    {
+        PhotonNetwork.JoinRoom(roomInput.text);
+    }
+
+    public void JoinOrCreateRoom()
+    {
+        PhotonNetwork.JoinOrCreateRoom(roomInput.text, new RoomOptions { MaxPlayers = 2 }, null);
+    }
+
+    public void JoinRandomRoom()
+    {
+        PhotonNetwork.JoinRandomRoom();
+    }
+
+    public void LeaveRoom()
+    {
+        PhotonNetwork.LeaveRoom();
+    }
+
+    public override void OnCreatedRoom()
+    {
+        print("방만들기완료");
+    }
+
+    public override void OnJoinedRoom()
+    {
+        print("방참가완료");
+    }
+
+    public override void OnCreateRoomFailed(short returnCode, string message)
+    {
+        print("방만들기실패");
+    }
+
+    public override void OnJoinRoomFailed(short returnCode, string message)
+    {
+         print("방참가실패");
+    }
+
+    public override void OnJoinRandomFailed(short returnCode, string message)
+    {
+        print("방랜덤참가실패");
+    }
 }
