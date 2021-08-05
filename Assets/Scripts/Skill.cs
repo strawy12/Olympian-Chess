@@ -110,7 +110,7 @@ public class Skill : MonoBehaviour
                 break;
         }
     }
-    //에로스의 사랑 함수
+    //Love of Eros functions
     private void LoveOfEros(Chessman chessPiece)
     {
         selectPiece = chessPiece;
@@ -123,16 +123,18 @@ public class Skill : MonoBehaviour
         isUsingCard = true;
         SkillManager.Inst.SetIsUsingCard(true);
     }
-    //천벌 함수
+    //HeavenlyPunishment functions
     private void HeavenlyPunishment(Chessman chessPiece)
     {
-        //킹이 천벌의 대상이 되는 것을 막음
+        //Preventing King from being the target of HeavenlyPunishment
         if (chessPiece.name == "black_king" || chessPiece.name == "white_king")
         {
             CardManager.Inst.SetisBreak(true);
             return;
         }
 
+        // if the opposing team has a rook or rooks,
+        //Preventing Queen from being the target of HeavenlyPunishment
         if (chessPiece.name == "black_queen" || chessPiece.name == "white_queen")
         {
             if (CheckPlayer("white"))
@@ -152,6 +154,7 @@ public class Skill : MonoBehaviour
         isUsingCard = false;
         SkillManager.Inst.SetDontClickPiece(selectPiece);
     }
+    //Sleep functions
     private void Sleep(Chessman chessPiece)
     {
         selectPiece = chessPiece;
@@ -163,6 +166,7 @@ public class Skill : MonoBehaviour
         chessPiece.SetMovePlateColor(new Color32(255, 255, 36, 255));
         SkillManager.Inst.SetIsUsingCard(true);
     }
+    //West wind functions
     private void WestWind(Chessman chessPiece)
     {
         selectPiece = chessPiece;
@@ -178,6 +182,7 @@ public class Skill : MonoBehaviour
         isBreak = false;
 
     }
+    //Rush functions
     private void Rush(Chessman chessPiece)
     {
         isUsingCard = false;
@@ -189,6 +194,8 @@ public class Skill : MonoBehaviour
         posX_rush = selectPiece.GetXBoard();
         posY_rush = selectPiece.GetYBoard();
 
+        //if color of selected piece is white,
+        //selected piece moves up one space
         if (selectPiece.player == "white")
         {
             if (GameManager.Inst.GetPosition(posX_rush, posY_rush + 1) == null)
@@ -204,6 +211,8 @@ public class Skill : MonoBehaviour
                 CardManager.Inst.SetisBreak(false);
 
             }
+
+            // if the space to go is not empty, Use of the card is canceled.
             else
             {
                 CardManager.Inst.SetisBreak(true);
@@ -211,6 +220,8 @@ public class Skill : MonoBehaviour
         }
         else
         {
+            //if color of selected piece is black,
+            //selected piece moves down one space
             if (GameManager.Inst.GetPosition(posX_rush, posY_rush - 1) == null)
             {
                 GameManager.Inst.SetPositionEmpty(posX_rush, posY_rush);
@@ -223,17 +234,20 @@ public class Skill : MonoBehaviour
                 CardManager.Inst.SetisBreak(false);
                 GameManager.Inst.SetPosition(selectPiece);
             }
+            // if the space to go is not empty, Use of the card is canceled.
             else
             {
                 CardManager.Inst.SetisBreak(true);
             }
 
         }
-
+        //Because of the immediate use of card, it is removed from the skill list.
         DeleteSkill();
     }
+    //Music functions
     private void Music(Chessman chessPiece)
     {
+        //Preventing King from being the target of Music
         if (chessPiece.name == "black_king" || chessPiece.name == "white_king")
         {
             CardManager.Inst.SetisBreak(true);
@@ -246,6 +260,7 @@ public class Skill : MonoBehaviour
         isUsingCard = false;
         SkillManager.Inst.SetDontClickPiece(selectPiece);
     }
+    //OceanJail functions
     private void OceanJail(Chessman chessPiece)
     {
         selectPiece = chessPiece;
@@ -261,6 +276,7 @@ public class Skill : MonoBehaviour
         isBreak = false;
 
     }
+    //Order functions
     private void Order(Chessman chessPiece)
     {
         turn = GetTurnTime() + 2;
@@ -270,8 +286,10 @@ public class Skill : MonoBehaviour
         selectPiece.spriteRenderer.material.SetColor("_Color", new Color32(0, 0, 0, 144));
         isBreak = false;
     }
+    //Ground of death functions
     private void GroundOfDeath(Chessman chesspiece)
     {
+        // Only pawns are the target of Ground of death
         if (chesspiece.name == "white_pawn" || chesspiece.name == "black_pawn")
         {
             isUsingCard = false;
@@ -283,9 +301,11 @@ public class Skill : MonoBehaviour
             turn = GetTurnTime() + 1;
             isBreak = false;
         }
+        //if the pieces whithout pawns, use of card is canceled
         else
             CardManager.Inst.SetisBreak(true);
     }
+    //Functions to check if the chess piece of sleep have moved
     public void checkSPChessPiece()
     {
         turn = GetTurnTime() + 1;
@@ -348,6 +368,7 @@ public class Skill : MonoBehaviour
         turn = 0;
         //Destroy(gameObject);
     }
+    //War buff Functions
     private void WarBuff(Chessman chessPiece)
     {
         isUsingCard = false;
