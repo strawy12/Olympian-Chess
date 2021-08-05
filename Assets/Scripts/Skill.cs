@@ -998,6 +998,4 @@ public class Skill : MonoBehaviour
     }
 
     #endregion
-
-
 }

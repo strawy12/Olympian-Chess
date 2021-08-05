@@ -278,7 +278,7 @@ public class SkillManager : MonoBehaviour
         skillList.Remove(sk);
     }
 
-    // to be removed later**********************************
+    // to be removed later************************************************
     public void RemoveSkillList(Skill sk)
     {
         skillList.Remove(sk);
