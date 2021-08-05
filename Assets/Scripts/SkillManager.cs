@@ -4,23 +4,23 @@ using UnityEngine;
 
 public class SkillManager : MonoBehaviour
 {
-    //SkillManager 싱글톤
+    //SkillManager singleton
     public static SkillManager Inst { get; private set; }
     Card card;
     [SerializeField] private GameObject skillPrefab;
 
     private bool isUsingCard = false;
 
-    //클릭 허용하지 않는 체스피스 리스트
+    // List of non-clickable chess pieces
     public List<Chessman> dontClickPiece = new List<Chessman>();
-    //현재 사용 중인 스킬 리스트
+    //List of skills currently in use
     [SerializeField]
     private List<Skill> skillList = new List<Skill>();
 
     public int turnTime { get; private set; } = 0;
     void Awake() => Inst = this;
 
-    //현재 턴이 있는 플레이어의 색(black or white)을 반환하는 함수
+    //Function returning the color(black or white) of the player who is current turn.
     public string GetCurrentPlayer(bool reverse)
     {
         if (!reverse)
@@ -41,13 +41,13 @@ public class SkillManager : MonoBehaviour
         return GameManager.Inst.GetCurrentPlayer();
 
     }
-    //턴이 끝날 때 턴타임을 1씩 증가시키고 스킬 지속 시간을 확인하는 함수를 호출하는 함수
+    //A function increasing the turntime and checking the skill time
     public void SetTurnTime()
     {
         turnTime++;
         CheckSkillTime();
     }
-    //스킬 지속 시간을 확인하는 함수
+    //Function checking every skill's times
     private void CheckSkillTime()
     {
         Skill sk;
@@ -164,7 +164,7 @@ public class SkillManager : MonoBehaviour
             sk.StartGOD_SkillEffect();
         }
     }
-    // 사용하다 취소한 카드들(에로스의 사랑, 수면)의 사용을 중지하는 함수
+    // Function to stop using the canceled cards (Eros love, sleep)
     public void CheckSkillCancel()
     {
         Skill sk;
@@ -191,29 +191,28 @@ public class SkillManager : MonoBehaviour
             RemoveSkillList(sk);
         }
     }
-
-    // isUsingCard의 bool값을 반환하는 함수
+    // Function returning isUsingCard value
     public bool UsingCard()
     {
         return isUsingCard;
     }
-    // isUsingCard의 bool값을 설정하는 함수
+    // Function setting isUsingCard value
     public void SetIsUsingCard(bool isUsingCard)
     {
         this.isUsingCard = isUsingCard;
     }
-    // dontClickPiece 리스트에 인자값(매개변수) 체스피스를 추가하는 함수
+    // Function adding the cp to dontClickPiece list
     public void SetDontClickPiece(Chessman cp)
     {
         dontClickPiece.Add(cp);
     }
-    // dontClickPiece 리스트에서 인자값(매개변수) 체스피스를 제거하는 함수
+    // Function removing cp from dontClickPiece list
     public void RemoveDontClickPiece(Chessman cp)
     {
         dontClickPiece.Remove(cp);
     }
-    // 인자값(매개변수) 체스피스가 dontClickPiece 리스트에 있는지의 여부를 판별하는 함수
-    // 있다면 true
+    // Function returning whether the cp is in the dontClickPiece list.
+    // if there is return true
     public bool CheckDontClickPiece(Chessman cp)
     {
         for (int i = 0; i < dontClickPiece.Count; i++)
@@ -223,22 +222,23 @@ public class SkillManager : MonoBehaviour
         }
         return false;
     }
-    // 인자 값 스킬을 현재 사용중인 스킬 리스트에 추가하는 함수
+    // Function adding sk to skillList
+
     public void SetSkillList(Skill sk)
     {
         skillList.Add(sk);
     }
-    // 인자 값 스킬을 현재 사용중인 스킬 리스트에서 제거하는 함수
+    // Function removing sk to skillList
     public void DeleteSkillList(Skill sk)
     {
         skillList.Remove(sk);
     }
-    // 나중에 제거할 함수
+    // to be removed later**********************************
     public void RemoveSkillList(Skill sk)
     {
         skillList.Remove(sk);
     }
-    // 스킬 프리팹을 생성하는 함수
+    // Function spawning skill prefab
     public Skill SpawnSkillPrefab(Card card, Chessman chessPiece)
     {
         Skill sk = Instantiate(skillPrefab, transform).GetComponent<Skill>();
@@ -250,8 +250,7 @@ public class SkillManager : MonoBehaviour
 
         return sk;
     }
-    // 인자값에 해당하는 스킬이 있는지 확인하는 함수
-    // (현재 사용 중인 스킬 리스트에 name 있고 player가 그 스킬을 사용했던 플레이어이면 true)
+    // Function checking if there is a skill from skillList that is the same as name
     public bool CheckSkillList(string name, string player)
     {
         for (int i = 0; i < skillList.Count; i++)
@@ -261,8 +260,7 @@ public class SkillManager : MonoBehaviour
         }
         return false;
     }
-    // 인자값에 해당하는 스킬을 반환하는 함수
-    // (현재 사용 중인 스킬 리스트에 name 있고 player가 그 스킬을 사용했던 플레이어이면 스킬 반환)
+    // Function returning skill if there is a skill from skillList that is the same as name
     public Skill GetSkillList(string name, string player)
     {
         for (int i = 0; i < skillList.Count; i++)
@@ -272,8 +270,8 @@ public class SkillManager : MonoBehaviour
         }
         return null;
     }
-    // 스킬 턴 타임을 체크하는 함수
-    // 반환 값이 true이면 스킬 턴이 끝남
+    // Function checking skill's turn time
+    // if the returned value is true, the skill turn ends
     public bool CheckTurnTime(int turn)
     {
         if (turnTime > turn)
