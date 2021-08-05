@@ -2,53 +2,44 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEditorInternal.VersionControl;
 
 public class Card : MonoBehaviour
 {
+
+    #region SerializeField Var
     [SerializeField] Sprite cardFornt;
     [SerializeField] Sprite cardBack;
     [SerializeField] Sprite emptySprite;
     [SerializeField] Sprite cardDefault;
+    #endregion
 
-    public SpriteRenderer cardPrame;
-    public SpriteRenderer card;
+    #region Var List
+    public SpriteRenderer cardPrame { get; private set; }
+    public SpriteRenderer card { get; private set; }
+    private SpriteRenderer spriteRenderer = null;
 
-    SpriteRenderer spriteRenderer = null;
+    public bool isFront { get; private set; } = false;
+    public bool isSelected { get; private set; }
+
+    public Carditem carditem { get; private set; }
+    public PRS originPRS { get; private set; }
 
 
-    public bool isFront = false;
+    #endregion
 
-    public Carditem carditem;
-    public PRS originPRS;
-    public bool isSelected;
-
+    #region System
     private void Start()
     {
-        if (enabled == false)
+        if (enabled == false) // DraftCard Script overlap Prevention 
             return;
 
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    public void SetUp(Carditem carditem, bool isFront)
-    {
-        this.carditem = carditem;
-        this.isFront = isFront;
-        if (this.isFront)
-        {
-            cardPrame.sprite = cardFornt;
-            card.sprite = carditem.sprite;
-        }
-        else
-        {
-            cardPrame.sprite = cardBack;
-            card.sprite = null;
-        }
-    }
-
     private void Update()
     {
-        if (enabled == false)
+        if (enabled == false) 
             return;
         if (CardManager.Inst.isMyCardDrag && !CardManager.Inst.onMyCardArea) return;
 
@@ -56,44 +47,37 @@ public class Card : MonoBehaviour
             cardPrame.sprite = cardFornt;
         else
             cardPrame.sprite = cardBack;
-        //if (Input.GetMouseButtonDown(0))
-        //{
-        //    cardClick = CheckClick();
-        //    if (!cardClick)
-        //        CardManager.Inst.CardMouseUp(this);
-        //    else
-        //        Debug.Log("냠냠");
-        //}
     }
+
     private void OnMouseOver()
     {
-        if (PilSalGi.Inst.GetisUsePilSalGi()) return;
+        if (PilSalGi.Inst.GetisUsePilSalGi()) return; // Card cannot be used while using PilSalGi
         if (enabled == false)
             return;
-        if (TurnManager.Inst.isLoading) return;
+        if (TurnManager.Inst.isLoading) return; // when Turn Loading Card cannot be used
         CardManager.Inst.CardMouseOver(this);
     }
+
     void OnMouseDown()
     {
         if (PilSalGi.Inst.GetisUsePilSalGi()) return;
         if (enabled == false)
             return;
         if (TurnManager.Inst.isLoading) return;
-        if (isSelected) return;
+        if (isSelected) return; // reselection Prevention 
         isSelected = true;
         if (isFront)
             CardManager.Inst.CardMouseDown(this);
         
     }
+
     private void OnMouseUpAsButton()
     {
         if (enabled == false)
             return;
         if (PilSalGi.Inst.GetisUsePilSalGi()) return;
-        if (SkillManager.Inst.CheckSkillList("제물", SkillManager.Inst.GetCurrentPlayer(true)))
+        if (SkillManager.Inst.CheckSkillList("제물", SkillManager.Inst.GetCurrentPlayer(true))) 
         {
-            //카드 제거하고 otherCards 리스트에서 해당 카드 제거
-            //내 카드라면 선택되지 않게
             CardManager.Inst.CardClick(this);
         }
     }
@@ -107,6 +91,7 @@ public class Card : MonoBehaviour
         isSelected = false;
         if (isFront)
             CardManager.Inst.CardMouseUp(this);
+
         //if(!CardManager.Inst.isMine)
         //{
         //    Destroy(gameObject);
@@ -114,10 +99,30 @@ public class Card : MonoBehaviour
         //}
 
     }
+    #endregion
 
-    public void MoveTransform(PRS prs, bool useDotween, float dotweemTime = 0)
+    #region Card Setting
+
+    public void SetUp(Carditem carditem, bool isFront) // Card SetUp
     {
-        if (useDotween)
+        this.carditem = carditem;
+        this.isFront = isFront;
+
+        if (this.isFront)
+        {
+            cardPrame.sprite = cardFornt;
+            card.sprite = carditem.sprite;
+        }
+        else
+        {
+            cardPrame.sprite = cardBack;
+            card.sprite = null;
+        }
+    }
+
+    public void MoveTransform(PRS prs, bool useDotween, float dotweemTime = 0) // Card Move
+    {
+        if (useDotween) 
         {
             transform.DOMove(prs.pos, dotweemTime);
             transform.DORotateQuaternion(prs.rot, dotweemTime);
@@ -132,11 +137,13 @@ public class Card : MonoBehaviour
     }
 
 
-    public void ChangePrime(bool isMine)
+    public void ChangePrime(bool isMine) 
     {
         if(isMine)
             cardPrame.sprite = cardFornt;
         else
             cardPrame.sprite = emptySprite;
     }
+    #endregion
+
 }

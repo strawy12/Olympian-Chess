@@ -162,7 +162,7 @@ public class SkillManager : MonoBehaviour
     public void CheckSkillCancel()
     {
         Skill sk;
-        if (CardManager.Inst.CheckCard("에로스의 사랑"))
+        if (CardManager.Inst.CheckCard("에로스의 사랑", true))
         {
             sk = GetSkillList("에로스의 사랑", GetCurrentPlayer(true));
             if (sk == null) return;
@@ -171,7 +171,7 @@ public class SkillManager : MonoBehaviour
             RemoveSkillList(sk);
         }
 
-        if (CardManager.Inst.CheckCard("수면"))
+        if (CardManager.Inst.CheckCard("수면", true))
         {
             sk = GetSkillList("수면", GetCurrentPlayer(true));
             if (sk == null) return;

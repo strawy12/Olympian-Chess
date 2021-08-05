@@ -240,7 +240,7 @@ public class MovePlate : MonoBehaviour
 
         else if (eCardState == ECardState.UsingCard)
         {
-            if (CheckSkillList("에로스의 사랑", GetCurrentPlayer(true)))
+            if (CheckSkillList("에로스의 사랑", GetCurrentPlayer(true))) // 만약 에로스의 사랑이 사용되고있다면
             {
                 Skill sk = SkillManager.Inst.GetSkillList("에로스의 사랑", GetCurrentPlayer(true));
                 if (sk == null) yield break;
