@@ -79,7 +79,7 @@ public class MovePlate : MonoBehaviour
         }
 
         reference.isMoving = true;
-        TurnManager.Inst.ButtonColor();
+        TurnManager.Instance.ButtonColor();
     }
 
     private IEnumerator OnMouseUpEvent()
@@ -117,7 +117,7 @@ public class MovePlate : MonoBehaviour
                 athen.IsAttack(true);
                 athen.CheckAS();
                 cp.DestroyMovePlates();
-                TurnManager.Inst.ButtonColor();
+                TurnManager.Instance.ButtonColor();
                 yield break;
             }
 
@@ -150,7 +150,7 @@ public class MovePlate : MonoBehaviour
                 Destroy(sk.gameObject);
                 GameManager.Inst.UpdateArr(cp);
                 GameManager.Inst.AddArr(cm);
-                TurnManager.Inst.ButtonColor();
+                TurnManager.Instance.ButtonColor();
 
                 yield break;
             }
@@ -177,7 +177,7 @@ public class MovePlate : MonoBehaviour
                     GameManager.Inst.UpdateArr(sk.GetSelectPiece());
                     sk.SetIsUsingCard(false);
                     reference.DestroyMovePlates();
-                    TurnManager.Inst.ButtonColor();
+                    TurnManager.Instance.ButtonColor();
                     yield break;
                 }
             }
@@ -204,7 +204,7 @@ public class MovePlate : MonoBehaviour
                     yield break;
                 }
 
-                TurnManager.Inst.ButtonColor();
+                TurnManager.Instance.ButtonColor();
                 sk.ReloadStreetFriend();
                 sk.SetIsUsingCard(false);
             }
@@ -270,7 +270,7 @@ public class MovePlate : MonoBehaviour
                 SkillManager.Inst.SetIsUsingCard(false);
                 sk.ReSetWave();
                 reference.DestroyMovePlates();
-                TurnManager.Inst.SetIsActive(true);
+                TurnManager.Instance.SetIsActive(true);
                 CardManager.Inst.ChangeIsUse(true);
             }
             if (CheckSkillList("¼ö¸é", GetCurrentPlayer(true)))
@@ -294,7 +294,7 @@ public class MovePlate : MonoBehaviour
 
     public void OnMouseUp()
     {
-        if (TurnManager.Inst.isLoading) return;
+        if (TurnManager.Instance.isLoading) return;
         if (isSelected) return;
         if(PilSalGi.Inst.GetisUsePilSalGi())
         {

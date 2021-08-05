@@ -391,16 +391,16 @@ public class GameManager : MonoBehaviour
     }
     public void StartGame()
     {
-        StartCoroutine(TurnManager.Inst.StartGameCo());
+        TurnManager.Instance.StartGame();
     }
 
     public IEnumerator GameOver(bool isMyWin)
     {
         yield return delay2;
 
-        TurnManager.Inst.isLoading = true;
+        TurnManager.Instance.isLoading = true;
 
-        TurnManager.Inst.isLoading = true;
+        TurnManager.Instance.isLoading = true;
         //endTurnButton.SetActive(false);
         //resultPanal.Show(isMyWin ? "½Â¸®" : "ÆÐ¹è");
         //cameraEffect.SetGrayScale(true);

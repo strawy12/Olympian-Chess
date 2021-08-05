@@ -353,14 +353,14 @@ public class Skill : MonoBehaviour
             selectPiece = chessPiece;
             if (selectPiece.isMoving)
             {
-                TurnManager.Inst.SetIsActive(false);
+                TurnManager.Instance.SetIsActive(false);
             }
             return;
         }
         selectPiece = chessPiece;
         if (selectPiece.isMoving)
         {
-            TurnManager.Inst.SetIsActive(false);
+            TurnManager.Instance.SetIsActive(false);
         }
     }
     public void ReLoadWWChessPiece()
@@ -600,7 +600,7 @@ public class Skill : MonoBehaviour
         selectPiece = chessPiece;
         WV_MovePlate(selectPiece, selectPiece.GetXBoard(), selectPiece.GetYBoard());
         SkillManager.Inst.SetIsUsingCard(true);
-        TurnManager.Inst.ButtonInactive();
+        TurnManager.Instance.ButtonInactive();
     }
     public void StartLOE_Effect()
     {

@@ -109,10 +109,10 @@ public class CardManager : MonoBehaviour
 
     private void Update()
     {
-        if (TurnManager.Inst.isLoading) return;
+        if (TurnManager.Instance.isLoading) return;
         if (isMyCardDrag)
             CardDrag();
-        if (!TurnManager.Inst.isLoading)
+        if (!TurnManager.Instance.isLoading)
             DetectCardArea();
 
         SetECardState();
@@ -560,10 +560,10 @@ public class CardManager : MonoBehaviour
     }
     void SetECardState()
     {
-        if (TurnManager.Inst.isLoading)
+        if (TurnManager.Instance.isLoading)
             eCardState = ECardState.Nothing;
 
-        else if (TurnManager.Inst.myTurn)
+        else if (TurnManager.Instance.myTurn)
             eCardState = ECardState.CanMouseDrag;
 
 

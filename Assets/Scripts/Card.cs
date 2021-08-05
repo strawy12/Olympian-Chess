@@ -70,7 +70,7 @@ public class Card : MonoBehaviour
         if (PilSalGi.Inst.GetisUsePilSalGi()) return;
         if (enabled == false)
             return;
-        if (TurnManager.Inst.isLoading) return;
+        if (TurnManager.Instance.isLoading) return;
         CardManager.Inst.CardMouseOver(this);
     }
     void OnMouseDown()
@@ -78,7 +78,7 @@ public class Card : MonoBehaviour
         if (PilSalGi.Inst.GetisUsePilSalGi()) return;
         if (enabled == false)
             return;
-        if (TurnManager.Inst.isLoading) return;
+        if (TurnManager.Instance.isLoading) return;
         if (isSelected) return;
         isSelected = true;
         if (isFront)
@@ -103,7 +103,7 @@ public class Card : MonoBehaviour
         if (PilSalGi.Inst.GetisUsePilSalGi()) return;
         if (enabled == false)
             return;
-        if (TurnManager.Inst.isLoading) return;
+        if (TurnManager.Instance.isLoading) return;
         isSelected = false;
         if (isFront)
             CardManager.Inst.CardMouseUp(this);

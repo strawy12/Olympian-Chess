@@ -7,96 +7,103 @@ using Random = UnityEngine.Random;
 
 public class TurnManager : MonoBehaviour
 {
-    private static TurnManager inst;
-    public static TurnManager Inst
+    #region SingleTon
+
+    private static TurnManager _instance;
+
+    public static TurnManager Instance
     {
         get
         {
-            if (inst == null)
+            if (_instance == null)
             {
-                var obj = FindObjectOfType<TurnManager>();
-                if (obj != null)
+                _instance = FindObjectOfType<TurnManager>();
+                if(_instance==null)
                 {
-                    inst = obj;
-                }
-                else
-                {
-                    var newObj = new GameObject().AddComponent<TurnManager>();
-                    inst = newObj;
+                    _instance = new GameObject("TurnManager").AddComponent<TurnManager>();
                 }
             }
-            return inst;
+            return _instance;
         }
     }
-    private void Awake()
-    {
-        var objs = FindObjectsOfType<TurnManager>();
-        if (objs.Length != 1)
-        {
-            Destroy(gameObject);
-            return;
-        }
-    }
+    #endregion
 
-    private GameManager gameManager = null;
-
-    [Header("Develop")]
+    #region 변수정의
+    [Header("턴 정하기")]
     [SerializeField] [Tooltip("시작 턴 모드를 정합니다.")] EturnMode eTurnMode;
+    [Header("빠른모드 설정")]
     [SerializeField] [Tooltip("카드 배분이 매우 빨라집니다.")] bool fastMode;
+    [Header("시작할때 카드 개수")]
     [SerializeField] [Tooltip("시작 카드 개수를 정합니다.")] int startCardCount;
 
-    [SerializeField] Button buttonWhite;
-    [SerializeField] Button buttonBlack;
-    [SerializeField] Sprite buttonActive;
-    [SerializeField] Sprite buttonInactive;
-    [SerializeField] Transform posUp;
-    [SerializeField] Transform posDown;
+    [Header("상대와 나의 버튼")]
+    [SerializeField] Button buttonWhite; // player's button
+    [SerializeField] Button buttonBlack; // opponent's button
+
+    [Header("활성화,비활성화 버튼 이미지")]
+    [SerializeField] Sprite buttonActive; // Activated button image
+    [SerializeField] Sprite buttonInactive; // Disabled button image
+
+    [Header("상대와 나의 버튼 위치")]
+    [SerializeField] Transform posUp; // Opponent's button position
+    [SerializeField] Transform posDown; // button position of the current player
 
     private bool isActive = false;
 
 
-    [Header("Properties")]
+    [Header("속성")]
     public bool isLoading;
-    public bool myTurn;
-
-    Chessman cm;
+    public bool myTurn; 
+    #endregion
 
     enum EturnMode { Random, My, Other }
+
+    // delay
     WaitForSeconds delay05 = new WaitForSeconds(0.5f);
     WaitForSeconds delay07 = new WaitForSeconds(0.7f);
 
     public static event Action<bool> OnTurnStarted;
 
-    private void Start()
+    public void StartGame()
     {
-        gameManager = FindObjectOfType<GameManager>();
+        TurnSetting();
+        Coroutine();
     }
-    void GameSetUp()
+    private void Coroutine()
     {
+        StartCoroutine(CardShare());
+        StartCoroutine(StartTurnCo());
+    }
+
+    void TurnSetting()
+    {
+        // 5 second delay in fast mode
         if (fastMode)
             delay05 = new WaitForSeconds(0.05f);
 
+        // normal turn mode
         switch (eTurnMode)
         {
+            // In Random mode, choose a turn at random with your opponent
             case EturnMode.Random:
                 myTurn = Random.Range(0, 2) == 0;
                 break;
 
+            // If it's my turn, activate my turn
             case EturnMode.My:
                 myTurn = true;
                 break;
 
+            // If it's your opponent's turn, activate your opponent's turn.
             case EturnMode.Other:
                 myTurn = false;
                 break;
         }
+        isLoading = true;
     }
 
-    public IEnumerator StartGameCo()
+    private IEnumerator CardShare()
     {
-        GameSetUp();
-        isLoading = true;
-
         for (int i = 0; i < startCardCount; i++)
         {
             yield return delay05;
@@ -104,12 +111,12 @@ public class TurnManager : MonoBehaviour
             yield return delay05;
             CardManager.Inst.AddCard(true);
         }
-        StartCoroutine(StartTurnCo());
     }
 
-    // 게임 끝나는 함수 
+    // Start a new turn & Win, lose decision
     public IEnumerator StartTurnCo()
     {
+        // [turn division
         isLoading = true;
         if (myTurn)
             Debug.Log("나의 턴");
@@ -118,13 +125,25 @@ public class TurnManager : MonoBehaviour
 
         yield return delay07;
         isLoading = false;
+                 
         OnTurnStarted?.Invoke(myTurn);
-        //yield return new WaitForSeconds(0.5f);
+        #region 위 문법이랑 같은 뜻
+        /*if(OnTurnStarted!=null)
+        {
+            OnTurnStarted(myTurn);
+        } */
+        #endregion
+    }
+
+    private void WinOrLose()
+    {
+        // When these conditions are met, the search is the winner and the game is over.
         if (!GameManager.Inst.CheckArr(true, "white_king"))
         {
             GameManager.Inst.Winner("black");
             GameManager.Inst.GameOver();
         }
+        // When these conditions are met, White is the winner and the game is over.
         else if (!GameManager.Inst.CheckArr(false, "black_king"))
         {
             GameManager.Inst.Winner("white");
@@ -132,19 +151,21 @@ public class TurnManager : MonoBehaviour
         }
     }
 
-   
+   // Re Active
     public bool GetIsActive()
     {
         return isActive;
     }
+    // Setting Active
     public void SetIsActive(bool isActive)
     {
         this.isActive = isActive;
     }
 
+    // Change my button or someone else's button to the active button image depending on context
     public void ButtonColor()
     {
-        if(myTurn)
+        if (myTurn)
             buttonWhite.image.sprite = buttonActive;
 
         else if(!myTurn)
@@ -153,6 +174,7 @@ public class TurnManager : MonoBehaviour
         isActive = true;
     }
 
+    // Change the other party and my button to a disabled button image
     public void ButtonInactive()
     {
         buttonWhite.image.sprite = buttonInactive;
@@ -161,14 +183,16 @@ public class TurnManager : MonoBehaviour
         isActive = false;
     }
 
+    // Changing the position of the button according to the turn
     private void ChangeButtonTransform()
     {
-        if(GameManager.Inst.GetCurrentPlayer() == "white")
+        // If the current player is white, set the position of your button and the opposing team's button
+        if (GameManager.Inst.GetCurrentPlayer() == "white")
         {
             buttonWhite.transform.position = new Vector2(posUp.position.x, posUp.position.y);
             buttonBlack.transform.position = new Vector2(posDown.position.x, posDown.position.y);
         }
-
+        // else, set the position of your button and the opposing team's button
         else
         {
             buttonWhite.transform.position = new Vector2(posDown.position.x, posDown.position.y);
@@ -176,6 +200,7 @@ public class TurnManager : MonoBehaviour
         }
     }
 
+    // There are so many functions referenced elsewhere here that it is impossible to interpret
     public void EndTurn()
     {
         if (!isActive) return;
@@ -205,6 +230,7 @@ public class TurnManager : MonoBehaviour
             attack[i].attackCount++;
 
         StartCoroutine(StartTurnCo());
+        WinOrLose();
     }
 
     private bool CheckSkillList(string name, string player)

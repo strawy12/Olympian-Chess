@@ -22,7 +22,6 @@ public class Chessman : MonoBehaviour
     public Sprite black_bishop, black_king, black_knight, black_pawn, black_queen, black_rook;
     public Sprite white_bishop, white_king, white_knight, white_pawn, white_queen, white_rook;
     private Color32 movePlateColor = new Color32(255, 255, 36, 255);
-    GameObject mp = null;
     // Check if the chess pieces moved or not
     public bool isMoved = false;
     public bool isMoving = false;
@@ -106,8 +105,6 @@ public class Chessman : MonoBehaviour
 
     }
 
-
-
     public int GetXBoard()
     {
         return xBoard;
@@ -129,7 +126,7 @@ public class Chessman : MonoBehaviour
     {
         if (PilSalGi.Inst.GetisUsePilSalGi()) return;
         List<Chessman> attack = GameManager.Inst.attackings;
-        if (TurnManager.Inst.GetIsActive()) return;
+        if (TurnManager.Instance.GetIsActive()) return;
         if (SkillManager.Inst.CheckDontClickPiece(this)) return;
         if (WarbuffCheck()) return;
         if (CheckSkillList("정의구현", GetCurrentPlayer(false)) && attackCount != 0 && attackCount < 3) return;

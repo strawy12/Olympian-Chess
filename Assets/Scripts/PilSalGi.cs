@@ -93,7 +93,7 @@ public class PilSalGi : MonoBehaviour
     private void OnMouseUp()
     {
         if (!isUsePilSalGi) return;
-        TurnManager.Inst.SetIsActive(false);
+        TurnManager.Instance.SetIsActive(false);
         GameManager.Inst.AllMovePlateSpawn(null, true);
     }
     public bool GetisUsePilSalGi()
@@ -129,7 +129,7 @@ public class PilSalGi : MonoBehaviour
         StartCoroutine(SkillEffect());
         isUsePilSalGi = false;
         selectPiece.DestroyMovePlates();
-        TurnManager.Inst.ButtonColor();
+        TurnManager.Instance.ButtonColor();
         attackCnt = 0;
     }
     private void ResetPilSalGi()
