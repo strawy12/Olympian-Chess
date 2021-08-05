@@ -18,6 +18,7 @@ public class Skill : MonoBehaviour
     public int cnt { get; private set; } = 0;
     private GameObject god_mp;
 
+    // Functions checking if the parameter is equal to current player
     private bool CheckPlayer(string player)
     {
         if (GameManager.Inst.GetCurrentPlayer() == player)
@@ -25,20 +26,23 @@ public class Skill : MonoBehaviour
         else
             return false;
     }
+    // Function that returns whether parameter(turn) is greater than turntime.
+    // if(turn < turnTime) => return true => this skill is over
     private bool CheckTurnTime(int turn)
     {
         return SkillManager.Inst.CheckTurnTime(turn);
     }
+    // Function getting turnTime of SkillManager
     private int GetTurnTime()
     {
         return SkillManager.Inst.turnTime;
     }
-
+    // Function setting isUsingCard to parameter value
     public void SetIsUsingCard(bool isUsingCard)
     {
         this.isUsingCard = isUsingCard;
     }
-
+    // Function using card based on parameter values
     public void UseSkill(Card card, Chessman chessPiece)
     {
         if (card == null) return;
@@ -107,7 +111,7 @@ public class Skill : MonoBehaviour
                 break;
         }
     }
-
+    //Love of Eros function
     private void LoveOfEros(Chessman chessPiece)
     {
         selectPiece = chessPiece;
@@ -120,15 +124,18 @@ public class Skill : MonoBehaviour
         isUsingCard = true;
         SkillManager.Inst.SetIsUsingCard(true);
     }
+    //HeavenlyPunishment function
     private void HeavenlyPunishment(Chessman chessPiece)
     {
+        //Preventing King from being the target of HeavenlyPunishment
         if (chessPiece.name == "black_king" || chessPiece.name == "white_king")
         {
-
             CardManager.Inst.SetisBreak(true);
             return;
         }
 
+        // if the opposing team has a rook or rooks,
+        //Preventing Queen from being the target of HeavenlyPunishment
         if (chessPiece.name == "black_queen" || chessPiece.name == "white_queen")
         {
             if (CheckPlayer("white"))
@@ -137,7 +144,6 @@ public class Skill : MonoBehaviour
                 isBreak = GameManager.Inst.CheckArr(true, "white_rook");
             if (isBreak)
             {
-
                 CardManager.Inst.SetisBreak(true);
                 return;
             }
@@ -149,6 +155,7 @@ public class Skill : MonoBehaviour
         isUsingCard = false;
         SkillManager.Inst.SetDontClickPiece(selectPiece);
     }
+    //Sleep function
     private void Sleep(Chessman chessPiece)
     {
         selectPiece = chessPiece;
@@ -160,6 +167,7 @@ public class Skill : MonoBehaviour
         chessPiece.SetMovePlateColor(new Color32(255, 255, 36, 255));
         SkillManager.Inst.SetIsUsingCard(true);
     }
+    //West wind function
     private void WestWind(Chessman chessPiece)
     {
         selectPiece = chessPiece;
@@ -175,6 +183,7 @@ public class Skill : MonoBehaviour
         isBreak = false;
 
     }
+    //Rush function
     private void Rush(Chessman chessPiece)
     {
         isUsingCard = false;
@@ -186,6 +195,8 @@ public class Skill : MonoBehaviour
         posX_rush = selectPiece.GetXBoard();
         posY_rush = selectPiece.GetYBoard();
 
+        //if color of selected piece is white,
+        //selected piece moves up one space
         if (selectPiece.player == "white")
         {
             if (GameManager.Inst.GetPosition(posX_rush, posY_rush + 1) == null)
@@ -201,6 +212,8 @@ public class Skill : MonoBehaviour
                 CardManager.Inst.SetisBreak(false);
 
             }
+
+            // if the space to go is not empty, Use of the card is canceled.
             else
             {
                 CardManager.Inst.SetisBreak(true);
@@ -208,6 +221,8 @@ public class Skill : MonoBehaviour
         }
         else
         {
+            //if color of selected piece is black,
+            //selected piece moves down one space
             if (GameManager.Inst.GetPosition(posX_rush, posY_rush - 1) == null)
             {
                 GameManager.Inst.SetPositionEmpty(posX_rush, posY_rush);
@@ -220,17 +235,20 @@ public class Skill : MonoBehaviour
                 CardManager.Inst.SetisBreak(false);
                 GameManager.Inst.SetPosition(selectPiece);
             }
+            // if the space to go is not empty, Use of the card is canceled.
             else
             {
                 CardManager.Inst.SetisBreak(true);
             }
 
         }
-
+        //Because of the immediate use of card, it is removed from the skill list.
         DeleteSkill();
     }
+    //Music function
     private void Music(Chessman chessPiece)
     {
+        //Preventing King from being the target of Music
         if (chessPiece.name == "black_king" || chessPiece.name == "white_king")
         {
             CardManager.Inst.SetisBreak(true);
@@ -243,6 +261,7 @@ public class Skill : MonoBehaviour
         isUsingCard = false;
         SkillManager.Inst.SetDontClickPiece(selectPiece);
     }
+    //OceanJail function
     private void OceanJail(Chessman chessPiece)
     {
         selectPiece = chessPiece;
@@ -258,6 +277,7 @@ public class Skill : MonoBehaviour
         isBreak = false;
 
     }
+    //Order function
     private void Order(Chessman chessPiece)
     {
         turn = GetTurnTime() + 2;
@@ -267,8 +287,10 @@ public class Skill : MonoBehaviour
         selectPiece.spriteRenderer.material.SetColor("_Color", new Color32(0, 0, 0, 144));
         isBreak = false;
     }
+    //Ground of death function
     private void GroundOfDeath(Chessman chesspiece)
     {
+        // Only pawns are the target of Ground of death
         if (chesspiece.name == "white_pawn" || chesspiece.name == "black_pawn")
         {
             isUsingCard = false;
@@ -280,9 +302,11 @@ public class Skill : MonoBehaviour
             turn = GetTurnTime() + 1;
             isBreak = false;
         }
+        //if the pieces are not pawns, use of card is canceled
         else
             CardManager.Inst.SetisBreak(true);
     }
+    //Function to check if the chess piece of sleep have moved
     public void checkSPChessPiece()
     {
         turn = GetTurnTime() + 1;
@@ -310,8 +334,11 @@ public class Skill : MonoBehaviour
             return;
         }
     }
+    // function checking the particles
     public void CheckParticle()
     {
+        //remain all particles
+        //neither clicked
         if (selectPiece != null && selectPieceTo != null && CheckTurnTime(turn))
         {
             selectPiece.SleepParticle(false, selectPiece.player);
@@ -322,6 +349,8 @@ public class Skill : MonoBehaviour
             selectPieceTo = null;
 
         }
+        //remain only selectPiece's particle
+        //only selectPieceTo clicked
         else if (selectPiece != null && CheckTurnTime(turn))
         {
             selectPiece.SleepParticle(false, selectPiece.player);
@@ -330,6 +359,8 @@ public class Skill : MonoBehaviour
 
         }
 
+        //remain only selectPieceTo's particle
+        //only selectPiece clicked
         else if (selectPieceTo != null && CheckTurnTime(turn))
         {
             selectPieceTo.SleepParticle(false, selectPieceTo.player);
@@ -337,6 +368,7 @@ public class Skill : MonoBehaviour
             selectPieceTo = null;
 
         }
+        //niether have particles
         else
         {
             return;
@@ -345,6 +377,7 @@ public class Skill : MonoBehaviour
         turn = 0;
         //Destroy(gameObject);
     }
+    //War buff Function
     private void WarBuff(Chessman chessPiece)
     {
         isUsingCard = false;
@@ -363,6 +396,8 @@ public class Skill : MonoBehaviour
             TurnManager.Instance.SetIsActive(false);
         }
     }
+    // A function that removes this and returns what has changed by Western Wind
+    // when Western Wind is over,
     public void ReLoadWWChessPiece()
     {
         if (!CheckTurnTime(turn)) return;
@@ -380,6 +415,8 @@ public class Skill : MonoBehaviour
         SkillManager.Inst.RemoveSkillList(this);
         Destroy(gameObject);
     }
+    // Function that removes this and returns what has changed by Ocean Jail
+    // when Ocean Jail is over,
     public void ReLoadOJChessPiece()
     {
         if (!CheckTurnTime(turn)) return;
@@ -397,6 +434,8 @@ public class Skill : MonoBehaviour
         SkillManager.Inst.RemoveSkillList(this);
         Destroy(gameObject);
     }
+    // Function that removes this and returns what has changed by Order
+    // when Order is over,
     public void ReLoadODChessPiece()
     {
         if (!CheckTurnTime(turn)) return;
@@ -405,6 +444,7 @@ public class Skill : MonoBehaviour
         SkillManager.Inst.RemoveSkillList(this);
         Destroy(gameObject);
     }
+    //Functions setting true or false randomly
     private bool RandomPercent(int turnTime, int k)
     {
         int percent = Random.Range(1, 11);
@@ -434,8 +474,10 @@ public class Skill : MonoBehaviour
             return false;
     }
 
+    //Traveler Function
     private void Traveler(Chessman chessPiece)
     {
+        // Only pawns are the target of Traveler
         if (chessPiece.name == "white_pawn" || chessPiece.name == "black_pawn")
         {
             isUsingCard = false;
@@ -443,6 +485,7 @@ public class Skill : MonoBehaviour
 
             int randomX, randomY;
 
+            // randomly set a location(x,y)
             do
             {
                 randomX = Random.Range(0, 8);
@@ -456,6 +499,7 @@ public class Skill : MonoBehaviour
             GameManager.Inst.SetPosition(selectPiece);
         }
 
+        //if the pieces are not pawns, use of card is canceled
         else
         {
             CardManager.Inst.SetisBreak(true);
@@ -464,6 +508,7 @@ public class Skill : MonoBehaviour
         DeleteSkill();
         SkillManager.Inst.DeleteSkillList(this);
     }
+    // Street Friend Function
     private void StreetFriend(Chessman chessPiece)
     {
         isUsingCard = false;
@@ -471,13 +516,17 @@ public class Skill : MonoBehaviour
 
         selectPiece.spriteRenderer.material.SetColor("_Color", new Color32(129, 0, 1, 0));
     }
+    // Bacchrs Function
     private void Bacchrs()
     {
         isUsingCard = false;
         turn = GetTurnTime() + 1;
     }
+    // Time warp Function
     private void TimeWarp()
     {
+        // if number of used card is zero, 
+        // use of this card is canceled
         if (CardManager.Inst.usedCards.Count == 0)
         {
             CardManager.Inst.SetisBreak(true);
@@ -493,8 +542,10 @@ public class Skill : MonoBehaviour
         CardManager.Inst.AddUsedCard(random);
         DeleteSkill();
     }
+    // Offering function
     private void Offering(Chessman chessPiece)
     {
+        //Preventing Pawns from being the target of Offering
         if (chessPiece.name == "black_pawn" || chessPiece.name == "white_pawn")
         {
             CardManager.Inst.SetisBreak(true);
@@ -506,19 +557,23 @@ public class Skill : MonoBehaviour
 
         Destroy(selectPiece.gameObject);
     }
+    //Justice function
     private void Justice()
     {
         isUsingCard = false;
 
         turn = GetTurnTime() + 2;
     }
+    //GiveBirth function
     private void GiveBirth(Chessman chessPiece)
     {
         isUsingCard = false;
         selectPiece = chessPiece;
     }
+    //Shield of Athena function
     private void AthenaShield(Chessman chessPiece)
     {
+        //Preventing Kings from being the target of Shield of Athena
         if (chessPiece.name == "black_king" || chessPiece.name == "white_king")
         {
             CardManager.Inst.SetisBreak(true);
@@ -531,6 +586,7 @@ public class Skill : MonoBehaviour
         posY = selectPiece.GetYBoard();
         selectPiece.spriteRenderer.material.SetColor("_Color", new Color(0, 0, 1, 0));
     }
+    //Moon light function
     private void MoonLight(Chessman chessPiece)
     {
         isUsingCard = false;
@@ -539,36 +595,45 @@ public class Skill : MonoBehaviour
 
         turn = GetTurnTime() + 3;
     }
+    //function removing this from the skill list
+    //Use it when the skill's ability ends
     public void DestroyObject()
     {
         SkillManager.Inst.RemoveSkillList(this);
         Destroy(gameObject);
     }
+    //function adding cnt
     public void PlusCnt()
     {
         cnt++;
     }
+    //function resetting cnt to zero
     public void ResetCnt()
     {
         cnt = 0;
     }
+    //function returning selectPiece
     public Chessman GetSelectPiece()
     {
         return selectPiece;
     }
+    //function setting selectPieceto to parameter value
     public void SetSelectPieceTo(Chessman cp)
     {
         selectPieceTo = cp;
     }
+    //function returning player
     public string GetPalyer()
     {
         return player;
     }
+    //function setting player to parameter
     public void SetPalyer(string player)
     {
         this.player = player;
     }
-
+    //function checking 2D position(x and y)
+    // if(parameter value(x, y) == location(posX, posY)) => true
     public bool CheckPos(int x, int y)
     {
         if (x == posX && y == posY)
@@ -577,11 +642,12 @@ public class Skill : MonoBehaviour
         else
             return false;
     }
-
+    //function returning selectPieceTo
     public Chessman GetSelectPieceTo()
     {
         return selectPieceTo;
     }
+    //function checking whether selected piece of Moonlight is visible
     public void CheckML()
     {
         if (selectPiece == null) return;
@@ -595,6 +661,7 @@ public class Skill : MonoBehaviour
             selectPiece.spriteRenderer.enabled = false;
         }
     }
+    //Wave function
     private void Wave(Chessman chessPiece)
     {
         selectPiece = chessPiece;
@@ -602,10 +669,12 @@ public class Skill : MonoBehaviour
         SkillManager.Inst.SetIsUsingCard(true);
         TurnManager.Instance.ButtonInactive();
     }
+    //function starting LOE_SkillEffect Coroutine
     public void StartLOE_Effect()
     {
         StartCoroutine(LOE_SkillEffect());
     }
+    //function starting Ground of Death Skill Effect
     public void StartGOD_SkillEffect()
     {
         Debug.Log(turn);
@@ -614,13 +683,16 @@ public class Skill : MonoBehaviour
         if (!CheckTurnTime(turn)) return;
         StartCoroutine(GOD_SkillEffect());
     }
+    //function starting Ground of Death Skill Effect
     public void StartSP_SkillEffect()
     {
         StartCoroutine(SP_SkillEffect());
     }
+    //Coroutine of effect of Love of Eros
     public IEnumerator LOE_SkillEffect()
     {
         int k = GetTurnTime() + 4;
+        //sparkling effect(pink)
         while (GetTurnTime() < k && isUsingCard)
         {
             if (selectPiece == null) yield break;
@@ -630,6 +702,7 @@ public class Skill : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
 
+        // When card time is over, destroy gameObject
         Destroy(gameObject);
         SkillManager.Inst.RemoveDontClickPiece(selectPiece);
         SkillManager.Inst.RemoveDontClickPiece(selectPieceTo);
@@ -638,19 +711,26 @@ public class Skill : MonoBehaviour
         selectPieceTo = null;
         isUsingCard = false;
     }
+    //Coroutine of effect of Ground of Death
     private IEnumerator GOD_SkillEffect()
     {
         Chessman cp;
+        // if the ground of death is empty
+        // move plate of ground of death is invisible
         if (GameManager.Inst.GetPosition(posX, posY) == null)
         {
             god_mp.SetActive(false);
             yield return 0;
         }
 
+        // if the ground of death is not empty,
+        // explosion effect is towards chess piece on ground of death
+        // and destroy the chess piece and move plate
         else if (GameManager.Inst.GetPosition(posX, posY) != null)
         {
             god_mp.SetActive(true);
             cp = GameManager.Inst.GetPosition(posX, posY);
+            //sparkling effect (red)
             for (int i = 0; i < 5; i++)
             {
                 cp.spriteRenderer.material.SetColor("_Color", new Color(1, 0, 0, 0));
@@ -663,10 +743,12 @@ public class Skill : MonoBehaviour
             god_mp.SetActive(false);
         }
     }
+    //Coroutine of effect of Sleep
     public IEnumerator SP_SkillEffect()
     {
         int k = GetTurnTime() + 2;
         isBreak = true;
+        //sparkling effect (sky blue)
         while (GetTurnTime() < k)
         {
             selectPiece.spriteRenderer.material.color = new Color32(0, 216, 255, 0);
@@ -676,14 +758,17 @@ public class Skill : MonoBehaviour
             selectPieceTo.spriteRenderer.material.color = new Color32(0, 0, 0, 0);
             yield return new WaitForSeconds(0.5f);
         }
+        // When card time is over, selected pieces turn to original color
         selectPiece.spriteRenderer.material.color = new Color32(0, 0, 0, 0);
         selectPieceTo.spriteRenderer.material.color = new Color32(0, 0, 0, 0);
         checkSPChessPiece();
         isBreak = false;
     }
+    //Coroutine of effect of HeavenlyPunishment
     private IEnumerator HP_SkillEffect()
     {
         int k = GetTurnTime() + 2;
+        //sparkling effect (yellow)
         while (GetTurnTime() < k)
         {
             selectPiece.spriteRenderer.material.color = new Color32(255, 228, 0, 0);
@@ -691,25 +776,28 @@ public class Skill : MonoBehaviour
             selectPiece.spriteRenderer.material.color = new Color32(0, 0, 0, 0);
             yield return new WaitForSeconds(0.2f);
         }
+        // When card time is over, selected pieces turn to original color
         selectPiece = null;
         SkillManager.Inst.RemoveSkillList(this);
         SkillManager.Inst.RemoveDontClickPiece(selectPiece);
         Destroy(gameObject);
     }
+    // Function spawning move plates of Wave
     private void WV_MovePlate(Chessman chessPiece, int x, int y)
     {
-        if (GameManager.Inst.CheckNull(true, true, y) > 0 && x != 7) //©Л
+        if (GameManager.Inst.CheckNull(true, true, y) > 0 && x != 7) //right
             chessPiece.WV_MovePlateSpawn(x + 1, y);
 
-        if (GameManager.Inst.CheckNull(true, false, y) > 0 && x != 0) //аб
+        if (GameManager.Inst.CheckNull(true, false, y) > 0 && x != 0) //left
             chessPiece.WV_MovePlateSpawn(x - 1, y);
 
-        if (GameManager.Inst.CheckNull(false, true, x) > 0 && y != 7) //╩С
+        if (GameManager.Inst.CheckNull(false, true, x) > 0 && y != 7) //up
             chessPiece.WV_MovePlateSpawn(x, y + 1);
 
-        if (GameManager.Inst.CheckNull(false, false, x) > 0 && y != 0) //го
+        if (GameManager.Inst.CheckNull(false, false, x) > 0 && y != 0) //down
             chessPiece.WV_MovePlateSpawn(x, y - 1);
     }
+    // Function to determine whether Athena's shield is maintained or not
     public void CheckAS()
     {
         if (!CheckPos(selectPiece.GetXBoard(), selectPiece.GetYBoard()) || isAttack)
@@ -721,11 +809,13 @@ public class Skill : MonoBehaviour
             DeleteSkill();
         }
     }
+    // Function Removing and Resetting Wave from skill list
     public void ReSetWave()
     {
         selectPiece = null;
         DeleteSkill();
     }
+    // Function Removing and Resetting Moonlight from skill list
     public void ResetML()
     {
         if (selectPiece == null) return;
@@ -735,6 +825,7 @@ public class Skill : MonoBehaviour
         turn = 0;
         DeleteSkill();
     }
+    // Function Removing and Resetting Street Friend from skill list
     public void ReloadStreetFriend()
     {
         if (selectPiece == null) return;
@@ -743,25 +834,30 @@ public class Skill : MonoBehaviour
         turn = 0;
         DeleteSkill();
     }
+    // Function Removing and Resetting Bacchrs from skill list
     public void ReloadBacchrs()
     {
         turn = 0;
         DeleteSkill();
     }
+    // Function Removing and Resetting Justice from skill list
     public void ReLoadJustice()
     {
         turn = 0;
         DeleteSkill();
     }
+    // Function Removing skill from skill list
     public void DeleteSkill()
     {
         SkillManager.Inst.DeleteSkillList(this);
         Destroy(gameObject);
     }
+    // Function Setting selected piece to null
     public void SelectPieceNull()
     {
         selectPiece = null;
     }
+    // Function setting isAttack value based on parameter value
     public void IsAttack(bool isTrue)
     {
         if (isTrue)
@@ -769,6 +865,7 @@ public class Skill : MonoBehaviour
         else
             isAttack = false;
     }
+    // Function setting isML_moved value based on parameter value
     public void SetIsMLMoved(bool isTrue)
     {
         if (isTrue)
@@ -776,15 +873,17 @@ public class Skill : MonoBehaviour
         else
             isML_moved = false;
     }
+    // Function returning isML_moved
     public bool isMLMoved()
     {
         return isML_moved;
     }
-
+    // Music effect function
     private IEnumerator MC_SkillEffect()
     {
         int k = GetTurnTime();
         int cnt = 1;
+        // Randomly determines whether or not there is a sparkling effect
         while (GetTurnTime() < k + 4)
         {
             if (GetTurnTime() > k + 1)
@@ -801,7 +900,6 @@ public class Skill : MonoBehaviour
                     if (RandomPercent(GetTurnTime(), k))
                         break;
                 }
-
             }
 
             selectPiece.spriteRenderer.material.color = new Color32(237, 175, 140, 0);
@@ -810,7 +908,8 @@ public class Skill : MonoBehaviour
             yield return new WaitForSeconds(0.2f);
         }
 
-
+        // if use of this card is over,
+        // remove this from skill list and destroy this game object
         SkillManager.Inst.RemoveSkillList(this);
         SkillManager.Inst.RemoveDontClickPiece(selectPiece);
         selectPiece = null;
