@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PilSalGi : MonoBehaviour
 {
+    #region SingleTon
     private static PilSalGi inst;
     public static PilSalGi Inst
     {
@@ -34,39 +35,72 @@ public class PilSalGi : MonoBehaviour
             return;
         }
     }
+    #endregion
 
+    #region SerializeField Var
     [SerializeField] Sprite firstSp;
     [SerializeField] Sprite secondSp;
     [SerializeField] Sprite thirdSp;
     [SerializeField] Sprite fourthSp;
     [SerializeField] Sprite lastSp;
+    #endregion
+
+    #region Var List
+
     private int attackCnt = 0;
     private bool isUsePilSalGi = false;
     private SpriteRenderer spriteRenderer = null;
     private Chessman selectPiece = null;
-    public List<Chessman> cps { get; set; } = new List<Chessman>();
+    public List<Chessman> cps { get; private set; } = new List<Chessman>();
 
+    #endregion
+
+    #region System
     private void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Y))
-            attackCntPlus();
+            AttackCntPlus();
     }
+
+    private void OnMouseUp() // PilSalGi Object Click
+    {
+        if (!isUsePilSalGi) return;
+        TurnManager.Inst.SetIsActive(false); // Btn Disabled
+        GameManager.Inst.AllMovePlateSpawn(null, true);
+    }
+
+    #endregion
+
+    #region Script Access 
+
     private int GetTurnTime()
     {
         return SkillManager.Inst.turnTime;
     }
-    public void attackCntPlus()
+
+    public bool GetisUsePilSalGi()
+    {
+        return isUsePilSalGi;
+    }
+
+    #endregion
+
+    #region PilSalGi System
+
+    public void AttackCntPlus()
     {
         attackCnt++;
         ChangeSprite();
     }
-    private void ChangeSprite()
+
+    private void ChangeSprite() // When AttackCntPlus ChangeSprite
     {
-        switch(attackCnt)
+        switch (attackCnt)
         {
             case 1:
                 spriteRenderer.sprite = firstSp;
@@ -90,35 +124,27 @@ public class PilSalGi : MonoBehaviour
 
         }
     }
-    private void OnMouseUp()
-    {
-        if (!isUsePilSalGi) return;
-        TurnManager.Instance.SetIsActive(false);
-        GameManager.Inst.AllMovePlateSpawn(null, true);
-    }
-    public bool GetisUsePilSalGi()
-    {
-        return isUsePilSalGi;
-    }
-    public void SetselectPiece(Chessman cp)
+
+    public void SetselectPiece(Chessman cp) //Set of ChessPiece to be used for PilSalGi
     {
         GameManager.Inst.DestroyMovePlates();
         selectPiece = cp;
         selectPiece.spriteRenderer.material.SetColor("_Color", new Color32(133, 101, 0, 0));
-        selectPiece.InitiateMovePlates();
+        selectPiece.InitiateMovePlates(); //Create MovePlates with the movement range of the ChessPiece
         UsingPilSalGi();
     }
+
     private void UsingPilSalGi()
     {
         MovePlate[] mps = FindObjectsOfType<MovePlate>();
         for (int i = 0; i < mps.Length; i++)
         {
-            if(mps[i].Getreference() == selectPiece && mps[i].GetChessPiece() != selectPiece)
+            if (mps[i].Getreference() == selectPiece && mps[i].GetChessPiece() != selectPiece)
             {
                 cps.Add(mps[i].GetChessPiece());
             }
-            
-        }
+
+        } // Check the ChessPieces on the MovePlate
 
         for (int i = 0; i < cps.Count; i++)
         {
@@ -126,12 +152,14 @@ public class PilSalGi : MonoBehaviour
                 continue;
             SkillManager.Inst.SetDontClickPiece(cps[i]);
         }
+
         StartCoroutine(SkillEffect());
         isUsePilSalGi = false;
         selectPiece.DestroyMovePlates();
-        TurnManager.Instance.ButtonColor();
+        TurnManager.Inst.ButtonColor(); // Btn Activate
         attackCnt = 0;
     }
+
     private void ResetPilSalGi()
     {
         ChangeSprite();
@@ -140,11 +168,12 @@ public class PilSalGi : MonoBehaviour
         this.selectPiece = null;
         cps = null;
     }
+
     private IEnumerator SkillEffect()
     {
         Chessman cp = null;
         int k = GetTurnTime() + 2;
-        
+
         while (GetTurnTime() < k)
         {
             for (int i = 0; i < cps.Count; i++)
@@ -165,6 +194,8 @@ public class PilSalGi : MonoBehaviour
                 cp.spriteRenderer.material.SetColor("_Color", new Color32(0, 0, 0, 0));
             }
             yield return new WaitForSeconds(0.2f);
+
+            // 설정된 체스말들에게 이펙트 적용시키는 코드
         }
         for (int i = 0; i < cps.Count; i++)
         {
@@ -172,9 +203,10 @@ public class PilSalGi : MonoBehaviour
                 continue;
             cp = cps[i];
 
-            SkillManager.Inst.RemoveDontClickPiece(cp);
+            SkillManager.Inst.RemoveDontClickPiece(cp); // 다 끝나면 모두 초기화 시킴
         }
-        
-        ResetPilSalGi();
+
+        ResetPilSalGi(); // 리셋
     }
+    #endregion
 }

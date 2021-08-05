@@ -9,21 +9,21 @@ public class TurnManager : MonoBehaviour
 {
     #region SingleTon
 
-    private static TurnManager _instance;
+    private static TurnManager inst;
 
-    public static TurnManager Instance
+    public static TurnManager Inst
     {
         get
         {
-            if (_instance == null)
+            if (inst == null)
             {
-                _instance = FindObjectOfType<TurnManager>();
-                if(_instance==null)
+                inst = FindObjectOfType<TurnManager>();
+                if(inst == null)
                 {
-                    _instance = new GameObject("TurnManager").AddComponent<TurnManager>();
+                    inst = new GameObject("TurnManager").AddComponent<TurnManager>();
                 }
             }
-            return _instance;
+            return inst;
         }
     }
     #endregion

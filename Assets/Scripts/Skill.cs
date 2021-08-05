@@ -386,14 +386,14 @@ public class Skill : MonoBehaviour
             selectPiece = chessPiece;
             if (selectPiece.isMoving)
             {
-                TurnManager.Instance.SetIsActive(false);
+                TurnManager.Inst.SetIsActive(false);
             }
             return;
         }
         selectPiece = chessPiece;
         if (selectPiece.isMoving)
         {
-            TurnManager.Instance.SetIsActive(false);
+            TurnManager.Inst.SetIsActive(false);
         }
     }
     // A function that removes this and returns what has changed by Western Wind
@@ -667,7 +667,7 @@ public class Skill : MonoBehaviour
         selectPiece = chessPiece;
         WV_MovePlate(selectPiece, selectPiece.GetXBoard(), selectPiece.GetYBoard());
         SkillManager.Inst.SetIsUsingCard(true);
-        TurnManager.Instance.ButtonInactive();
+        TurnManager.Inst.ButtonInactive();
     }
     //function starting LOE_SkillEffect Coroutine
     public void StartLOE_Effect()

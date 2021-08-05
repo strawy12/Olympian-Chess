@@ -126,7 +126,7 @@ public class Chessman : MonoBehaviour
     {
         if (PilSalGi.Inst.GetisUsePilSalGi()) return;
         List<Chessman> attack = GameManager.Inst.attackings;
-        if (TurnManager.Instance.GetIsActive()) return;
+        if (TurnManager.Inst.GetIsActive()) return;
         if (SkillManager.Inst.CheckDontClickPiece(this)) return;
         if (WarbuffCheck()) return;
         if (CheckSkillList("정의구현", GetCurrentPlayer(false)) && attackCount != 0 && attackCount < 3) return;

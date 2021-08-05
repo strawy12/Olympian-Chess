@@ -4,19 +4,23 @@ using UnityEngine;
 
 public class SkillManager : MonoBehaviour
 {
+    //SkillManager singleton
     public static SkillManager Inst { get; private set; }
     Card card;
     [SerializeField] private GameObject skillPrefab;
 
     private bool isUsingCard = false;
 
+    // List of non-clickable chess pieces
     public List<Chessman> dontClickPiece = new List<Chessman>();
+    //List of skills currently in use
     [SerializeField]
     private List<Skill> skillList = new List<Skill>();
 
     public int turnTime { get; private set; } = 0;
     void Awake() => Inst = this;
 
+    //Function returning the color(black or white) of the player who is current turn.
     public string GetCurrentPlayer(bool reverse)
     {
         if (!reverse)
@@ -37,17 +41,19 @@ public class SkillManager : MonoBehaviour
         return GameManager.Inst.GetCurrentPlayer();
 
     }
+    //A function increasing the turntime and checking the skill time
     public void SetTurnTime()
     {
-
         turnTime++;
         CheckSkillTime();
     }
+    //Function checking every skill's times
     private void CheckSkillTime()
     {
         Skill sk;
         Skill sk1;
         Skill sk2;
+
         if (CheckSkillList("길동무", GetCurrentPlayer(true)))
         {
             sk = GetSkillList("길동무", GetCurrentPlayer(true));
@@ -158,46 +164,55 @@ public class SkillManager : MonoBehaviour
             sk.StartGOD_SkillEffect();
         }
     }
-
+    // Function to stop using the canceled cards (Eros love, sleep)
     public void CheckSkillCancel()
     {
         Skill sk;
-        if (CardManager.Inst.CheckCard("에로스의 사랑", true))
+
+        if (CardManager.Inst.CheckCard("에로스의 사랑"))
         {
             sk = GetSkillList("에로스의 사랑", GetCurrentPlayer(true));
             if (sk == null) return;
             if (sk.GetSelectPieceTo() != null) return;
+            // 에로스의 사랑을 사용하지 않은 상태가 아니고
+            // 스킬 사용을 위해 선택한 체스피스가 없다면 스킬 제거
             Destroy(sk.gameObject);
             RemoveSkillList(sk);
         }
 
-        if (CardManager.Inst.CheckCard("수면", true))
+        if (CardManager.Inst.CheckCard("수면"))
         {
             sk = GetSkillList("수면", GetCurrentPlayer(true));
             if (sk == null) return;
             if (sk.GetSelectPieceTo() != null) return;
+            // 수면을 사용하지 않은 상태가 아니고
+            // 스킬 사용을 위해 선택한 체스피스가 없다면 스킬 제거
             Destroy(sk.gameObject);
             RemoveSkillList(sk);
         }
     }
-
+    // Function returning isUsingCard value
     public bool UsingCard()
     {
         return isUsingCard;
     }
+    // Function setting isUsingCard value
     public void SetIsUsingCard(bool isUsingCard)
     {
         this.isUsingCard = isUsingCard;
     }
-
+    // Function adding the cp to dontClickPiece list
     public void SetDontClickPiece(Chessman cp)
     {
         dontClickPiece.Add(cp);
     }
+    // Function removing cp from dontClickPiece list
     public void RemoveDontClickPiece(Chessman cp)
     {
         dontClickPiece.Remove(cp);
     }
+    // Function returning whether the cp is in the dontClickPiece list.
+    // if there is return true
     public bool CheckDontClickPiece(Chessman cp)
     {
         for (int i = 0; i < dontClickPiece.Count; i++)
@@ -207,18 +222,23 @@ public class SkillManager : MonoBehaviour
         }
         return false;
     }
+    // Function adding sk to skillList
+
     public void SetSkillList(Skill sk)
     {
         skillList.Add(sk);
     }
+    // Function removing sk to skillList
     public void DeleteSkillList(Skill sk)
     {
         skillList.Remove(sk);
     }
+    // to be removed later**********************************
     public void RemoveSkillList(Skill sk)
     {
         skillList.Remove(sk);
     }
+    // Function spawning skill prefab
     public Skill SpawnSkillPrefab(Card card, Chessman chessPiece)
     {
         Skill sk = Instantiate(skillPrefab, transform).GetComponent<Skill>();
@@ -230,6 +250,7 @@ public class SkillManager : MonoBehaviour
 
         return sk;
     }
+    // Function checking if there is a skill from skillList that is the same as name
     public bool CheckSkillList(string name, string player)
     {
         for (int i = 0; i < skillList.Count; i++)
@@ -239,6 +260,7 @@ public class SkillManager : MonoBehaviour
         }
         return false;
     }
+    // Function returning skill if there is a skill from skillList that is the same as name
     public Skill GetSkillList(string name, string player)
     {
         for (int i = 0; i < skillList.Count; i++)
@@ -248,6 +270,8 @@ public class SkillManager : MonoBehaviour
         }
         return null;
     }
+    // Function checking skill's turn time
+    // if the returned value is true, the skill turn ends
     public bool CheckTurnTime(int turn)
     {
         if (turnTime > turn)
