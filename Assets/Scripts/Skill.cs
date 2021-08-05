@@ -18,6 +18,7 @@ public class Skill : MonoBehaviour
     public int cnt { get; private set; } = 0;
     private GameObject god_mp;
 
+    // 인자값이 현재 플레이어인지 확인하는 함수
     private bool CheckPlayer(string player)
     {
         if (GameManager.Inst.GetCurrentPlayer() == player)
@@ -25,20 +26,22 @@ public class Skill : MonoBehaviour
         else
             return false;
     }
+    // 스킬의 턴 수를 확인하는 함수
     private bool CheckTurnTime(int turn)
     {
         return SkillManager.Inst.CheckTurnTime(turn);
     }
+    // 턴 타임을 가져오는 함수
     private int GetTurnTime()
     {
         return SkillManager.Inst.turnTime;
     }
-
+    // isUsingCard를 인자값으로 설정하는 함수
     public void SetIsUsingCard(bool isUsingCard)
     {
         this.isUsingCard = isUsingCard;
     }
-
+    // 인자값의 카드를 사용하는 함수
     public void UseSkill(Card card, Chessman chessPiece)
     {
         if (card == null) return;
@@ -107,7 +110,7 @@ public class Skill : MonoBehaviour
                 break;
         }
     }
-
+    //에로스의 사랑 함수
     private void LoveOfEros(Chessman chessPiece)
     {
         selectPiece = chessPiece;
@@ -120,11 +123,12 @@ public class Skill : MonoBehaviour
         isUsingCard = true;
         SkillManager.Inst.SetIsUsingCard(true);
     }
+    //천벌 함수
     private void HeavenlyPunishment(Chessman chessPiece)
     {
+        //킹이 천벌의 대상이 되는 것을 막음
         if (chessPiece.name == "black_king" || chessPiece.name == "white_king")
         {
-
             CardManager.Inst.SetisBreak(true);
             return;
         }
@@ -137,7 +141,6 @@ public class Skill : MonoBehaviour
                 isBreak = GameManager.Inst.CheckArr(true, "white_rook");
             if (isBreak)
             {
-
                 CardManager.Inst.SetisBreak(true);
                 return;
             }
@@ -365,6 +368,7 @@ public class Skill : MonoBehaviour
     }
     public void ReLoadWWChessPiece()
     {
+        //false이면 아직
         if (!CheckTurnTime(turn)) return;
         selectPiece.spriteRenderer.sortingOrder = 0;
         selectPiece.gameObject.GetComponent<Collider2D>().enabled = true;
