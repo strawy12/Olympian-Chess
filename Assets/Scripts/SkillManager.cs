@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -297,16 +298,21 @@ public class SkillManager : MonoBehaviour
     }
 
     // Function spawning skill prefab
-    public Skill SpawnSkillPrefab(Card card, Chessman chessPiece)
+    public GameObject SpawnSkillPrefab(Card card, Chessman chessPiece)
     {
-        Skill sk = Instantiate(skillPrefab, transform).GetComponent<Skill>();
-        sk.transform.SetParent(null);
-        SetSkillList(sk);
-        sk.SetPalyer(GameManager.Inst.GetCurrentPlayer());
+        string str = card.carditem.className;
+        Type T = Type.GetType(str);
+        GameObject obj = Instantiate(skillPrefab);
+        obj.AddComponent(T);
+        obj.transform.SetParent(null);
+        obj.name = card.carditem.name;
 
-        sk.UseSkill(card, chessPiece);
+        //SetSkillList(sk);
+        //sk.SetPalyer(GameManager.Inst.GetCurrentPlayer());
 
-        return sk;
+        //sk.UseSkill(card, chessPiece);
+
+        return obj;
     }
     #endregion
 

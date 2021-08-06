@@ -207,7 +207,7 @@ public class CardManager : MonoBehaviour
         infoText.text = string.Format("{0}", selectCard.carditem.info);
         godText.text = string.Format("{0}", selectCard.carditem.god);
         nameText.text = string.Format("{0}", selectCard.carditem.name);
-        NameColor(nameText, selectCard.carditem.name);
+        nameText.color = selectCard.carditem.color;
 
         godImage.sprite = selectCard.carditem.sprite;
     }
@@ -682,10 +682,10 @@ public class CardManager : MonoBehaviour
         if (isUsed)
         {
 
-            Skill sk = SkillManager.Inst.SpawnSkillPrefab(card, chessPiece);
+            SkillManager.Inst.SpawnSkillPrefab(card, chessPiece);
             if (isBreak)
             {
-                Destroy(sk);
+                //Destroy(sk);
                 return false;
             }
             if (CheckSkillList("파도", GameManager.Inst.GetCurrentPlayer())) return true;
