@@ -1,13 +1,15 @@
-using DG.Tweening;
+Ôªøusing DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static System.Net.Mime.MediaTypeNames;
 using Random = UnityEngine.Random;
 
 public class CardManager : MonoBehaviour
 {
+    #region SingleTon
     private static CardManager inst;
     public static CardManager Inst
     {
@@ -29,60 +31,307 @@ public class CardManager : MonoBehaviour
             return inst;
         }
     }
+    #endregion
 
+    #region SerializeField Var
     [SerializeField] CardItemSO cardItemSO;
+
     [SerializeField] GameObject cardPrefab;
-    [SerializeField] Transform cardSpawnPoint;
-    [SerializeField] Transform myCardLeft;
-    [SerializeField] Transform myCardRight;
-    [SerializeField] Transform otherCardRight;
-    [SerializeField] Transform otherCardLeft;
-    public List<Card> myCards;
-    public List<Card> otherCards;
-    [SerializeField] Sprite cardFornt;
-    [SerializeField] Sprite cardBack;
-    [SerializeField] ECardState eCardState;
-    [SerializeField] private GameObject skillPrefab;
+    [SerializeField] GameObject skillPrefab;
     [SerializeField] GameObject targetPicker;
     [SerializeField] GameObject cardArea;
+    [SerializeField] GameObject cardInfo;
+
+    [SerializeField] Transform cardSpawnPoint;
+
+    // Later these var name retouch
+    [SerializeField] Transform myCardLeft; // White Player Card Area Left 
+    [SerializeField] Transform myCardRight; // White Player Card Area Right
+    [SerializeField] Transform otherCardRight;  // Black Player Card Area Right
+    [SerializeField] Transform otherCardLeft; // Black Player Card Area Left
+
+    [SerializeField] List<Card> myCards;
+    [SerializeField] List<Card> otherCards;
+
+    [SerializeField] Sprite cardFornt;
+    [SerializeField] Sprite cardBack;
+
+    [SerializeField] ECardState eCardState; // now Game system state
 
     [SerializeField] Text infoText;
     [SerializeField] Text nameText;
     [SerializeField] Text godText;
+
     [SerializeField] Image godImage;
-    [SerializeField] GameObject cardInfo;
 
+    #endregion
 
-    public List<Carditem> myCardBuffer;
-    public List<Carditem> otherCardBuffer;
-    public List<Carditem> usedCards;
+    #region Var List
+    // Later these var name retouch
+    private List<Carditem> myCardBuffer; //white Card Buffer
+    private List<Carditem> otherCardBuffer; //Balck Card Buffer
+
+    private List<Carditem> usedCards;
+
     private Vector3 localPosition = Vector3.zero;
-    Chessman chessPiece;
-    public Card selectCard;
+    private Chessman chessPiece;
+    private Card selectCard;
     [SerializeField] private GameObject cards;
     private CardbufferManager cardbufferManager;
+
     public bool isMyCardDrag { get; private set; }
     public bool onMyCardArea { get; private set; }
-    public bool isTargeting = false;
-    public bool isMine = false;
+    private bool isTargeting = false;
+    private bool isMine = false;
     private bool isBreak = false;
     private bool isStop = false;
     private bool isUse = false;
+
     int myPutCount;
 
     enum ECardState { Nothing, CanMouseDrag }
+    #endregion
+
+    #region System
     void Awake()
     {
-        var objs = FindObjectsOfType<CardManager>();
-        if (objs.Length != 1)
-        {
-            Destroy(gameObject);
-            return;
-        }
         cardPrefab.GetComponent<Card>().enabled = true;
         cardPrefab.GetComponent<DraftCard>().enabled = false;
     }
-    public Carditem PopCard(bool isMine)
+
+    private void Start()
+    {
+        cardbufferManager = FindObjectOfType<CardbufferManager>();
+        SetUpCardBuffer();
+    }
+
+    private void Update()
+    {
+        if (TurnManager.Inst.isLoading) return;
+        if (isMyCardDrag)
+            CardDrag(); // Dragging
+        if (!TurnManager.Inst.isLoading)
+            DetectCardArea(); // When Dragging Check CardArea in out
+
+        SetECardState(); //enum event check and set
+    }
+    #endregion
+
+    #region System Manage
+
+    public void TargetingChessPiece()
+    {
+        foreach (RaycastHit2D hit in Physics2D.RaycastAll(Utils.MousePos, Vector3.forward))
+        {
+
+            if (hit.collider.CompareTag("ChessPiece"))
+            {
+                chessPiece = hit.collider.gameObject.GetComponent<Chessman>();
+                isMine = chessPiece.CheckinsMine();
+                isTargeting = true;
+                localPosition = hit.collider.transform.position;
+
+                if (CheckCardname(new List<string> { "Ïó¨ÌñâÏûê", "Ï£ΩÏùåÏùò ÎïÖ" }) || (CheckCardname(new List<string> { "Ï†ÑÏüÅÍ¥ë" }) && !CheckPlayer(hit.collider.name))) // Only Pawn Targeting
+                {
+                    if (CheckPawn(hit.collider.name))
+                    {
+                        SpawnTargetPicker(isTargeting, isMine);
+                        break;
+                    }
+                    else
+                    {
+                        isStop = true;
+                        return;
+                    }
+                }
+
+                else if (CheckCardname(new List<string> { "Ï†úÎ¨º" })) // Pawn not Targeting
+                {
+                    if (CheckPawn(hit.collider.name))
+                    {
+                        isStop = true;
+                        return;
+                    }
+                    else
+                    {
+                        SpawnTargetPicker(isTargeting, isMine);
+                        break;
+                    }
+                }
+                SpawnTargetPicker(isTargeting, isMine); // Default Targeting
+                break;
+            }
+            else
+            {
+                isTargeting = false;
+                SpawnTargetPicker(isTargeting, isMine);
+            }
+        }
+    }
+
+    public void SpawnTargetPicker(bool isShow, bool isMine)
+    {
+
+        targetPicker.transform.position = localPosition;
+        if (isMine)
+        {
+            if (CheckCardname(new List<string> { "ÏùåÏïÖ", "Ï≤úÎ≤å", "ÏàòÎ©¥", "ÏÑúÌíç", "ÏàòÏ§ëÍ∞êÏò•" })) // Can not be used for my ChessPiece
+            {
+                isStop = true;
+                return;
+            }
+            else
+            {
+                isStop = false;
+            }
+            targetPicker.GetComponent<SpriteRenderer>().material.SetColor("_Color", new Color32(29, 219, 22, 255));
+        }
+        else
+        {
+            if (CheckCardname(new List<string> { "Ïó¨ÌñâÏûê", "ÏóêÎ°úÏä§Ïùò ÏÇ¨Îûë", "ÏßàÏÑú", "Îã¨Îπõ", "Ï†úÎ¨º", "ÏïÑÌÖåÎÇòÏùò Î∞©Ìå®", "ÎèåÏßÑ", "Í∏∏ÎèôÎ¨¥" })) //Can not be used for other ChessPiece
+            {
+                isStop = true;
+                return;
+            }
+            else
+            {
+                isStop = false;
+            }
+            targetPicker.GetComponent<SpriteRenderer>().material.SetColor("_Color", new Color(1, 0, 0, 1));
+        }
+        targetPicker.SetActive(isShow);
+    }
+
+    private void ShowInfo() // When Card MouseDown, Show CardInfo
+    {
+        if (selectCard == null) return;
+        infoText.text = string.Format("{0}", selectCard.carditem.info);
+        godText.text = string.Format("{0}", selectCard.carditem.god);
+        nameText.text = string.Format("{0}", selectCard.carditem.name);
+        NameColor(nameText, selectCard.carditem.name);
+
+        godImage.sprite = selectCard.carditem.sprite;
+    }
+
+    private void DestroyMovePlates()
+    {
+        GameObject[] movePlates = GameObject.FindGameObjectsWithTag("MovePlate");
+        for (int i = 0; i < movePlates.Length; i++)
+        {
+            Destroy(movePlates[i]);
+        }
+    }
+
+    void SetECardState() // enum event Setting
+    {
+        if (TurnManager.Inst.isLoading)
+            eCardState = ECardState.Nothing;
+
+        else if (TurnManager.Inst.myTurn)
+            eCardState = ECardState.CanMouseDrag;
+    }
+
+    #endregion
+
+    #region System Check
+
+    void DetectCardArea() // CardArea in out Check
+    {
+        RaycastHit2D[] hits = Physics2D.RaycastAll(Utils.MousePos, Vector3.forward);
+        int layer = LayerMask.NameToLayer("CardArea");
+        onMyCardArea = Array.Exists(hits, x => x.collider.gameObject.layer == layer);
+    }
+
+    public bool CheckCard(string name, bool isMine) // same card in CardBuffer Check
+    {
+        List<Card> targetCards;
+
+        targetCards = isMine ? myCards : otherCards;
+
+        for (int i = 0; i < targetCards.Count; i++)
+        {
+            if (targetCards[i].carditem.name == name)
+                return true;
+        }
+        return false;
+    }
+
+    private bool CheckCardname(List<string> names) // Check if a specific card and a select card are the same
+    {
+        for (int i = 0; i < names.Count; i++)
+        {
+            if (names[i] == selectCard.carditem.name)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private bool CheckSkillList(string name, string player) // Check if a specific skill is being used
+    {
+        if (SkillManager.Inst.CheckSkillList(name, player))
+            return true;
+        else
+            return false;
+    }
+
+    private bool CheckPlayer(string name) // CurrentPlayer Check
+    {
+        if (GameManager.Inst.GetCurrentPlayer() == name)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    private bool CheckPawn(string name) // argument value == pawn Check
+    {
+        if (name == "white_pawn" || name == "black_pawn")
+        {
+            return true;
+        }
+        return false;
+    }
+
+    #endregion
+
+    #region Script Access 
+
+    public Chessman GetChessPiece()
+    {
+        return chessPiece;
+    }
+
+    public void SetisBreak(bool isBreak)
+    {
+        this.isBreak = isBreak;
+    }
+
+    public List<Card> GetMyCards()
+    {
+        return myCards;
+    }
+
+    public List<Card> GetOtherCards()
+    {
+        return otherCards;
+    }
+
+    public Card GetSelectCard()
+    {
+        return selectCard;
+    }
+
+    public void ChangeIsUse(bool _isUse)// retouch SetIsUse 
+    {
+        isUse = _isUse;
+    }
+
+    #endregion
+
+    #region CardSetting
+    public Carditem PopCard(bool isMine) // First CardBuffer's Card draw
     {
         if (isMine)
         {
@@ -100,24 +349,8 @@ public class CardManager : MonoBehaviour
         }
 
     }
-    private void Start()
-    {
-        cardbufferManager = FindObjectOfType<CardbufferManager>();
-        SetUpCardBuffer();
-    }
 
-
-    private void Update()
-    {
-        if (TurnManager.Instance.isLoading) return;
-        if (isMyCardDrag)
-            CardDrag();
-        if (!TurnManager.Instance.isLoading)
-            DetectCardArea();
-
-        SetECardState();
-    }
-    void SetUpCardBuffer()
+    void SetUpCardBuffer() // Card Buffer value Get, Set
     {
         if (cardbufferManager == null)
         {
@@ -131,7 +364,9 @@ public class CardManager : MonoBehaviour
         else
         {
             myCardBuffer = cardbufferManager.GetMyCardBuffer();
-        }
+        } // It does come from Draft Scene, cardbufferManager == null
+          // So, if cardbufferManager == null, my.other CardBuffer is default value
+          // CardBufferManager have value from Draft Scene's selectCards
 
         if (cardbufferManager == null)
         {
@@ -148,13 +383,12 @@ public class CardManager : MonoBehaviour
         }
     }
 
-    public void AddCard(bool isMine)
+    public void AddCard(bool isMine) // CardBuffer value => GameObjectCard conversion
     {
         if (myCardBuffer.Count == 0 && otherCardBuffer.Count == 0) return;
 
         if (isMine)
         {
-            if (myCardBuffer.Count == 0) return;
             var cardObject = Instantiate(cardPrefab, cardSpawnPoint.position, Utils.QI);
             cardObject.transform.SetParent(cards.transform);
             var card = cardObject.GetComponent<Card>();
@@ -166,7 +400,6 @@ public class CardManager : MonoBehaviour
         }
         else
         {
-            if (otherCardBuffer.Count == 0) return;
             var cardObject = Instantiate(cardPrefab, cardSpawnPoint.position, Utils.QI);
             cardObject.transform.SetParent(cards.transform);
             var card = cardObject.GetComponent<Card>();
@@ -177,17 +410,74 @@ public class CardManager : MonoBehaviour
             CardAlignment(isMine);
         }
     }
-    public Chessman GetChessPiece()
+
+    public void DestroyCard(Card card, List<Card> targetCards) // Using Card Destroy
     {
-        return chessPiece;
+        if (card == null) return;
+
+        targetCards.Remove(card);
+        card.transform.DOKill();
+        card.transform.SetParent(GameManager.Inst.pool.transform);
+        card.gameObject.SetActive(false);
+        CardAlignment(true);
+        usedCards.Add(card.carditem);
     }
-    public void SetisBreak(bool isBreak)
+
+    public void DestroyCards() // All Cards Destroy
     {
-        this.isBreak = isBreak;
+        for (int i = 0; i < myCards.Count; i++)
+        {
+            Destroy(myCards[i].gameObject);
+        }
+        for (int i = 0; i < otherCards.Count; i++)
+        {
+            Destroy(otherCards[i].gameObject);
+        }
     }
-    void SetOriginOrder(bool isMine)
+
+    public void ChangeCard(bool isColor) // After EndTurn, Change the values ‚Äã‚Äãof myCards and otherCards
     {
-        if (isMine)
+        List<Card> temp = new List<Card>();
+
+        temp = myCards;
+        myCards = otherCards;
+        otherCards = temp;
+        for (int i = 0; i < otherCards.Count; i++)
+        {
+            otherCards[i].card.sprite = null;
+            otherCards[i].ChangePrime(false);
+            otherCards[i].isFront = false;
+        }
+        for (int i = 0; i < myCards.Count; i++)
+        {
+            myCards[i].card.sprite = myCards[i].carditem.sprite;
+            myCards[i].ChangePrime(true);
+            myCards[i].isFront = true;
+        }
+
+        if (isColor)
+        {
+            cardArea.transform.position = new Vector3(0f, 0f, 3f);
+        }
+        else
+        {
+            cardArea.transform.position = new Vector3(0f, 7.7f, 3f);
+        }
+        SetOriginOrder(true);
+    }
+
+    public void UpdateCard() // After EndTurn, Error Check and CardBuffer Update
+    {
+        RotationBoard.ohtercards = otherCards;
+        RotationBoard.mycards = myCards;
+    }
+
+    #endregion
+
+    #region CardObject Setting
+    void SetOriginOrder(bool isMine) // OrderInLayer Setting
+    {
+        if (isMine) // my Cards
         {
             int cnt = myCards.Count;
             if (GameManager.Inst.GetCurrentPlayer() == "white")
@@ -209,7 +499,7 @@ public class CardManager : MonoBehaviour
                 }
             }
         }
-        else
+        else // other Cards
         {
             int cnt = otherCards.Count;
             if (GameManager.Inst.GetCurrentPlayer() == "black")
@@ -232,6 +522,7 @@ public class CardManager : MonoBehaviour
             }
         }
     }
+
     public void CardAlignment(bool isMine)
     {
         if (onMyCardArea) return;
@@ -269,7 +560,8 @@ public class CardManager : MonoBehaviour
 
         SetOriginOrder(isMine);
     }
-    List<PRS> RoundAlignment(Transform leftTr, Transform rightTr, int objCnt, float height, Vector3 scale)
+
+    private List<PRS> RoundAlignment(Transform leftTr, Transform rightTr, int objCnt, float height, Vector3 scale) // practical card sorting (Align the cards using the equation of a circle)
     {
         float[] objLerps = new float[objCnt];
         List<PRS> results = new List<PRS>(objCnt);
@@ -300,7 +592,10 @@ public class CardManager : MonoBehaviour
             results.Add(new PRS(targetPos, targetRot, scale));
         }
         return results;
+
     }
+    // Code you don't necessarily need to understand
+
     private void SetZPosition(bool isMine, List<PRS> originCardPRSs, float zPosition)
     {
         int cnt;
@@ -339,7 +634,7 @@ public class CardManager : MonoBehaviour
         else
         {
             cnt = otherCards.Count;
-            if (GameManager.Inst.GetCurrentPlayer() == "white")
+            if (GameManager.Inst.GetCurrentPlayer() != "white")
             {
                 for (int i = 0; i < cnt; i++)
                 {
@@ -368,7 +663,8 @@ public class CardManager : MonoBehaviour
             }
         }
     }
-    public bool TryPutCard(bool isMine, bool isUsed)
+
+    private bool TryPutCard(bool isMine, bool isUsed) // Executed when using a card
     {
         if (isStop) return false;
         if (isUse) return false;
@@ -389,16 +685,16 @@ public class CardManager : MonoBehaviour
                 Destroy(sk);
                 return false;
             }
-            if (CheckSkillList("∆ƒµµ", GameManager.Inst.GetCurrentPlayer())) return true;
-            if (CheckSkillList("ºˆ∏È", GameManager.Inst.GetCurrentPlayer())) return true;
-            if (CheckSkillList("ø°∑ŒΩ∫¿« ªÁ∂˚", GameManager.Inst.GetCurrentPlayer())) return true;
+            if (CheckSkillList("ÌååÎèÑ", GameManager.Inst.GetCurrentPlayer())) return true;
+            if (CheckSkillList("ÏàòÎ©¥", GameManager.Inst.GetCurrentPlayer())) return true;
+            if (CheckSkillList("ÏóêÎ°úÏä§Ïùò ÏÇ¨Îûë", GameManager.Inst.GetCurrentPlayer())) return true;
 
-            DestroyCard(card, targetCards);
-            isUse = true;
+            DestroyCard(card, targetCards); // ÏÇ¨Ïö©Ìïú Ïπ¥ÎìúÎäî ÏÇ≠Ï†ú
+            isUse = true; // ÏÇ¨Ïö©Ï§ëÏùÑ ÌëúÏãúÌï®
 
-            if (isMine)
+            if (isMine) // ÎÇ¥ Ïπ¥ÎìúÎ•º ÏÇ¨Ïö©ÌïúÍ±∞ÎùºÎ©¥
             {
-                if (selectCard.carditem.name == "¿¸¿Ô±§" || selectCard.carditem.name == "¥ﬁ∫˚")
+                if (selectCard.carditem.name == "Ï†ÑÏüÅÍ¥ë" || selectCard.carditem.name == "Îã¨Îπõ") // Later delete Code
                     targetPicker.SetActive(false);
                 else
                 {
@@ -407,16 +703,16 @@ public class CardManager : MonoBehaviour
                 }
             }
 
-            CardAlignment(isMine);
-            if (CheckSkillList("¡¶π∞", GameManager.Inst.GetCurrentPlayer())) return true;
+            CardAlignment(isMine); // Ïπ¥ÎìúÍ∞Ä ÌïòÎÇò ÏÇ¨ÎùºÏ°åÍ∏∞Ïóê Ïπ¥ÎìúÎ•º Îã§Ïãú Ï†ïÎ†¨ÌïúÎã§
+            if (CheckSkillList("Ï†úÎ¨º", GameManager.Inst.GetCurrentPlayer())) return true; // Later delete Code
             if (selectCard != null)
-                if (selectCard.carditem.name == "¿¸¿Ô±§" || selectCard.carditem.name == "¥ﬁ∫˚")
+                if (selectCard.carditem.name == "Ï†ÑÏüÅÍ¥ë" || selectCard.carditem.name == "Îã¨Îπõ") // Later delete Code
                     return true;
 
             //TurnManager.Inst.EndTurn();
             return true;
         }
-        else
+        else // Later delete Code
         {
             targetCards.ForEach(x => x.GetComponent<Order>().SetMostFrontOrder(false));
             CardAlignment(isMine);
@@ -424,21 +720,117 @@ public class CardManager : MonoBehaviour
         }
 
     }
-    public void ChangeIsUse(bool _isUse)
-    {
-        isUse = _isUse;
-    }
-    public void DestroyCard(Card card, List<Card> targetCards)
-    {
-        if (card == null) return;
 
-        targetCards.Remove(card);
-        card.transform.DOKill();
-        card.transform.SetParent(GameManager.Inst.pool.transform);
-        card.gameObject.SetActive(false);
-        CardAlignment(true);
-        usedCards.Add(card.carditem);
+    private void EnlargeCard(bool isEnlarge, Card card) // Card enlarged when clicked
+    {
+        if (isEnlarge)
+        {
+            if (GameManager.Inst.GetCurrentPlayer() == "white")
+            {
+                Vector3 enlargePos = new Vector3(card.originPRS.pos.x, -3.5f, -10f);
+                card.MoveTransform(new PRS(enlargePos, Utils.QI, Vector3.one * 2.5f), false);
+            }
+            else
+            {
+                Vector3 enlargePos = new Vector3(card.originPRS.pos.x, 3.5f, -10f);
+                Quaternion rot = Quaternion.Euler(180f, 180f, 0f);
+                card.MoveTransform(new PRS(enlargePos, rot, Vector3.one * 2.5f), false);
+            }
+        }
+        else
+            card.MoveTransform(card.originPRS, false);
+
+        card.GetComponent<Order>().SetMostFrontOrder(isEnlarge);
     }
+
+    public void AddUsedCard(int randomNum) // sacrificial function, Among the used cards, randomly add them back to the CardBuffer
+    {
+        if (usedCards.Count == 0) return;
+
+        var cardObject = Instantiate(cardPrefab, cardSpawnPoint.position, Utils.QI);
+        cardObject.transform.SetParent(cards.transform);
+        var card = cardObject.GetComponent<Card>();
+        card.SetUp(usedCards[randomNum], true);
+        myCards.Add(card);
+
+        SetOriginOrder(true);
+        CardAlignment(true);
+    }
+
+    private void NameColor(Text text, string name) // Later CardItemSO Add and this code delete
+    {
+        switch (name)
+        {
+            case "Ï≤úÎ≤å":
+                text.color = new Color32(214, 161, 28, 255);
+                break;
+
+            case "Ï£ΩÏùåÏùò ÎïÖ":
+            case "Ï†úÎ¨º":
+                text.color = new Color32(205, 217, 194, 255);
+                break;
+
+            case "ÏàòÏ§ëÍ∞êÏò•":
+            case "ÌååÎèÑ":
+                text.color = new Color32(173, 180, 255, 255);
+                break;
+
+            case "ÏàòÎ©¥":
+                text.color = new Color32(255, 188, 166, 255);
+                break;
+
+            case "Îã¨Îπõ":
+                text.color = new Color32(236, 245, 247, 255);
+                break;
+
+            case "Ï†ÑÏüÅÍ¥ë":
+                text.color = new Color32(230, 78, 109, 255);
+                break;
+
+            case "Ï†ïÏùòÍµ¨ÌòÑ":
+            case "ÏïÑÌÖåÎÇòÏùò Î∞©Ìå®":
+                text.color = new Color32(255, 245, 160, 255);
+                break;
+
+            case "ÏßàÏÑú":
+                text.color = new Color32(98, 235, 173, 255);
+                break;
+
+            case "Î∞îÏπ¥Ïä§":
+                text.color = new Color32(30, 50, 230, 255);
+                break;
+
+            case "ÏóêÎ°úÏä§Ïùò ÏÇ¨Îûë":
+            case "Ï∂úÏÇ∞":
+            case "ÏùåÏïÖ":
+                text.color = new Color32(231, 163, 233, 255);
+                break;
+
+            case "Í∏∏ÎèôÎ¨¥":
+                text.color = new Color32(165, 148, 209, 255);
+                break;
+
+            case "ÎèåÏßÑ":
+                text.color = new Color32(212, 109, 91, 255);
+                break;
+
+            case "ÏÑúÌíç":
+                text.color = new Color32(141, 187, 235, 255);
+                break;
+
+            case "Ïó¨ÌñâÏûê":
+                text.color = new Color32(214, 184, 155, 255);
+                break;
+
+            case "ÏãúÍ∞ÑÏôúÍ≥°":
+                text.color = new Color32(43, 66, 71, 255);
+                break;
+        }
+    }
+    #endregion
+
+    #region Card Control
+
     public void CardMouseOver(Card card)
     {
         if (eCardState == ECardState.Nothing)
@@ -467,6 +859,7 @@ public class CardManager : MonoBehaviour
         cardInfo.SetActive(true);
         ShowInfo();
     }
+
     public void CardMouseUp(Card card)
     {
         if (isUse) return;
@@ -486,16 +879,16 @@ public class CardManager : MonoBehaviour
 
     public void CardClick(Card card)
     {
-        if (CheckCards(card))
+        if (CheckCard(card.carditem.name, false))
         {
             otherCards.Remove(card);
             Destroy(card.gameObject);
             CardAlignment(false);
             //TurnManager.Inst.EndTurn();
 
-            if (CheckSkillList("¡¶π∞", GameManager.Inst.GetCurrentPlayer()))
+            if (CheckSkillList("Ï†úÎ¨º", GameManager.Inst.GetCurrentPlayer()))
             {
-                SkillManager.Inst.DeleteSkillList(SkillManager.Inst.GetSkillList("¡¶π∞", GameManager.Inst.GetCurrentPlayer()));
+                SkillManager.Inst.DeleteSkillList(SkillManager.Inst.GetSkillList("Ï†úÎ¨º", GameManager.Inst.GetCurrentPlayer()));
             }
         }
         else
@@ -503,6 +896,7 @@ public class CardManager : MonoBehaviour
             return;
         }
     }
+
     private void CardDrag()
     {
         TargetingChessPiece();
@@ -519,305 +913,6 @@ public class CardManager : MonoBehaviour
             cardInfo.SetActive(false);
         }
     }
-    void DetectCardArea()
-    {
-        RaycastHit2D[] hits = Physics2D.RaycastAll(Utils.MousePos, Vector3.forward);
-        int layer = LayerMask.NameToLayer("CardArea");
-        onMyCardArea = Array.Exists(hits, x => x.collider.gameObject.layer == layer);
-    }
 
-    public void EnlargeCard(bool isEnlarge, Card card)
-    {
-        if (isEnlarge)
-        {
-            if (GameManager.Inst.GetCurrentPlayer() == "white")
-            {
-                Vector3 enlargePos = new Vector3(card.originPRS.pos.x, -3.5f, -10f);
-                card.MoveTransform(new PRS(enlargePos, Utils.QI, Vector3.one * 2.5f), false);
-            }
-            else
-            {
-                Vector3 enlargePos = new Vector3(card.originPRS.pos.x, 3.5f, -10f);
-                Quaternion rot = Quaternion.Euler(180f, 180f, 0f);
-                card.MoveTransform(new PRS(enlargePos, rot, Vector3.one * 2.5f), false);
-            }
-        }
-        else
-            card.MoveTransform(card.originPRS, false);
-
-        card.GetComponent<Order>().SetMostFrontOrder(isEnlarge);
-
-
-    }
-    public bool CheckCard(string name)
-    {
-        for (int i = 0; i < myCards.Count; i++)
-        {
-            if (myCards[i].carditem.name == name)
-                return true;
-        }
-        return false;
-    }
-    void SetECardState()
-    {
-        if (TurnManager.Instance.isLoading)
-            eCardState = ECardState.Nothing;
-
-        else if (TurnManager.Instance.myTurn)
-            eCardState = ECardState.CanMouseDrag;
-
-
-    }
-    private void DestroyMovePlates()
-    {
-        GameObject[] movePlates = GameObject.FindGameObjectsWithTag("MovePlate");
-        for (int i = 0; i < movePlates.Length; i++) //π´∫Í«√∑π¿Ã∆Æ ∏µŒ ªÏ««∞Ì ¡¶∞≈
-        {
-            Destroy(movePlates[i]);
-        }
-    }
-
-    public void TargetingChessPiece()
-    {
-
-        foreach (RaycastHit2D hit in Physics2D.RaycastAll(Utils.MousePos, Vector3.forward))
-        {
-
-            if (hit.collider.CompareTag("ChessPiece"))
-            {
-                chessPiece = hit.collider.gameObject.GetComponent<Chessman>();
-                isMine = chessPiece.CheckinsMine();
-                isTargeting = true;
-                localPosition = hit.collider.transform.position;
-
-                if ((selectCard.carditem.name == "¿¸¿Ô±§" && GameManager.Inst.GetCurrentPlayer() != hit.collider.GetComponent<Chessman>().player) || selectCard.carditem.name == "ø©«‡¿⁄" || selectCard.carditem.name == "¡◊¿Ω¿« ∂•")
-                {
-                    if (hit.collider.name == "white_pawn" || hit.collider.name == "black_pawn")
-                    {
-                        SpawnTargetPicker(isTargeting, isMine);
-                        break;
-                    }
-                    else
-                    {
-                        isStop = true;
-                        return;
-                    }
-                }
-                   
-                else if (selectCard.carditem.name == "¡¶π∞")
-                {
-                    if (hit.collider.name == "white_pawn" || hit.collider.name == "black_pawn")
-                    {
-                        isStop = true;
-                        return;
-                    }
-                    else
-                    {
-                        SpawnTargetPicker(isTargeting, isMine);
-                        break;
-                    }
-                }
-                //SkillManager.Inst.isMine = true;
-                SpawnTargetPicker(isTargeting, isMine);
-                break;
-            }
-            else
-            {
-                isTargeting = false;
-                SpawnTargetPicker(isTargeting, isMine);
-            }
-        }
-    }
-    public void SpawnTargetPicker(bool isShow, bool isMine)
-    {
-
-        targetPicker.transform.position = localPosition;
-        if (isMine)
-        {
-            if (selectCard.carditem.name == "¿Ωæ«" || selectCard.carditem.name == "√µπ˙" || selectCard.carditem.name == "ºˆ∏È" || selectCard.carditem.name == "º≠«≥" || selectCard.carditem.name == "¥ÎæÁ")
-            {
-                isStop = true;
-                return;
-            }
-            else
-            {
-                isStop = false;
-            }
-            targetPicker.GetComponent<SpriteRenderer>().material.SetColor("_Color", new Color32(29, 219, 22, 255));
-        }
-        else
-        {
-            if ( selectCard.carditem.name == "ø©«‡¿⁄" || selectCard.carditem.name == "ø°∑ŒΩ∫¿« ªÁ∂˚" || selectCard.carditem.name == "¡˙º≠" || selectCard.carditem.name == "ø©«‡¿⁄" || selectCard.carditem.name == "¥ﬁ∫˚" || selectCard.carditem.name == "¡¶π∞" || selectCard.carditem.name == "æ∆≈◊≥™¿« πÊ∆–" || selectCard.carditem.name == "µπ¡¯" || selectCard.carditem.name == "±Êµøπ´")
-            {
-                isStop = true;
-                return;
-            }
-            else
-            {
-                isStop = false;
-            }
-            targetPicker.GetComponent<SpriteRenderer>().material.SetColor("_Color", new Color(1, 0, 0, 1));
-        }
-        targetPicker.SetActive(isShow);
-    }
-
-    public void DestroyCards()
-    {
-        for (int i = 0; i < myCards.Count; i++)
-        {
-            Destroy(myCards[i].gameObject);
-        }
-        for (int i = 0; i < otherCards.Count; i++)
-        {
-            Destroy(otherCards[i].gameObject);
-        }
-    }
-
-    private bool CheckCards(Card card)
-    {
-        for (int i = 0; i < otherCards.Count; i++)
-        {
-            if (otherCards[i] == card)
-                return true;
-        }
-        return false;
-    }
-    public void ChangeCard(bool isColor)
-    {
-        List<Card> temp = new List<Card>();
-
-        temp = myCards;
-        myCards = otherCards;
-        otherCards = temp;
-        for (int i = 0; i < otherCards.Count; i++)
-        {
-            otherCards[i].card.sprite = null;
-            otherCards[i].ChangePrime(false);
-            otherCards[i].isFront = false;
-        }
-        for (int i = 0; i < myCards.Count; i++)
-        {
-            myCards[i].card.sprite = myCards[i].carditem.sprite;
-            myCards[i].ChangePrime(true);
-            myCards[i].isFront = true;
-        }
-
-        if (isColor)
-        {
-            cardArea.transform.position = new Vector3(0f, 0f, 3f);
-        }
-        else
-        {
-            cardArea.transform.position = new Vector3(0f, 7.7f, 3f);
-        }
-        SetOriginOrder(true);
-    }
-
-    public void UpdateCard()
-    {
-        RotationBoard.ohtercards = otherCards;
-        RotationBoard.mycards = myCards;
-    }
-
-    public void AddUsedCard(int randomNum)
-    {
-        if (usedCards.Count == 0) return;
-
-        var cardObject = Instantiate(cardPrefab, cardSpawnPoint.position, Utils.QI);
-        cardObject.transform.SetParent(cards.transform);
-        var card = cardObject.GetComponent<Card>();
-        card.SetUp(usedCards[randomNum], true);
-        myCards.Add(card);
-
-        SetOriginOrder(true);
-        CardAlignment(true);
-    }
-
-    private bool CheckSkillList(string name, string player)
-    {
-        if (SkillManager.Inst.CheckSkillList(name, player))
-            return true;
-        else
-            return false;
-    }
-    private void ShowInfo()
-    {
-        if (selectCard == null) return;
-        infoText.text = string.Format("{0}", selectCard.carditem.info);
-        godText.text = string.Format("{0}", selectCard.carditem.god);
-        nameText.text = string.Format("{0}", selectCard.carditem.name);
-        NameColor(nameText, selectCard.carditem.name);
-
-        godImage.sprite = selectCard.carditem.sprite;
-    }
-    private void NameColor(Text text, string name)
-    {
-        switch (name)
-        {
-            case "√µπ˙":
-                text.color = new Color32(214, 161, 28, 255);
-                break;
-
-            case "¡◊¿Ω¿« ∂•":
-            case "¡¶π∞":
-                text.color = new Color32(205, 217, 194, 255);
-                break;
-
-            case "ºˆ¡ﬂ∞®ø¡":
-            case "∆ƒµµ":
-                text.color = new Color32(173, 180, 255, 255);
-                break;
-
-            case "ºˆ∏È":
-                text.color = new Color32(255, 188, 166, 255);
-                break;
-
-            case "¥ﬁ∫˚":
-                text.color = new Color32(236, 245, 247, 255);
-                break;
-
-            case "¿¸¿Ô±§":
-                text.color = new Color32(230, 78, 109, 255);
-                break;
-
-            case "¡§¿«±∏«ˆ":
-            case "æ∆≈◊≥™¿« πÊ∆–":
-                text.color = new Color32(255, 245, 160, 255);
-                break;
-
-            case "¡˙º≠":
-                text.color = new Color32(98, 235, 173, 255);
-                break;
-
-            case "πŸƒ´Ω∫":
-                text.color = new Color32(30, 50, 230, 255);
-                break;
-
-            case "ø°∑ŒΩ∫¿« ªÁ∂˚":
-            case "√‚ªÍ":
-            case "¿Ωæ«":
-                text.color = new Color32(231, 163, 233, 255);
-                break;
-
-            case "±Êµøπ´":
-                text.color = new Color32(165, 148, 209, 255);
-                break;
-
-            case "µπ¡¯":
-                text.color = new Color32(212, 109, 91, 255);
-                break;
-
-            case "º≠«≥":
-                text.color = new Color32(141, 187, 235, 255);
-                break;
-
-            case "ø©«‡¿⁄":
-                text.color = new Color32(214, 184, 155, 255);
-                break;
-
-            case "Ω√∞£ø÷∞Ó":
-                text.color = new Color32(43, 66, 71, 255);
-                break;
-        }
-    }
+    #endregion
 }
