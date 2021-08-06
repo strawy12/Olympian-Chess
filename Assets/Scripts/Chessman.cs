@@ -56,7 +56,7 @@ public class Chessman : MonoBehaviour
             case "white_pawn": this.GetComponent<SpriteRenderer>().sprite = white_pawn; player = "white"; break;
         }
     }
-
+    // setting coords
     public void SetCoords()
     {
         float x = xBoard;
@@ -104,19 +104,22 @@ public class Chessman : MonoBehaviour
         
 
     }
-
+     // get x board 
     public int GetXBoard()
     {
         return xBoard;
     }
+    // get y board
     public int GetYBoard()
     {
         return yBoard;
     }
+    // set x board
     public void SetXBoard(int x)
     {
         xBoard = x;
     }
+    // set y board
     public void SetYBoard(int y)
     {
         yBoard = y;
@@ -124,13 +127,8 @@ public class Chessman : MonoBehaviour
 
     private void OnMouseUp()
     {
-        if (PilSalGi.Inst.GetisUsePilSalGi()) return;
+        OnMouseReturn();
         List<Chessman> attack = GameManager.Inst.attackings;
-        if (TurnManager.Instance.GetIsActive()) return;
-        if (SkillManager.Inst.CheckDontClickPiece(this)) return;
-        if (WarbuffCheck()) return;
-        if (CheckSkillList("정의구현", GetCurrentPlayer(false)) && attackCount != 0 && attackCount < 3) return;
-
         SkillManager.Inst.SetIsUsingCard(false);
         SkillManager.Inst.CheckSkillCancel();
 
@@ -140,6 +138,16 @@ public class Chessman : MonoBehaviour
             InitiateMovePlates(); // Instatiate
         }
     }
+    private void OnMouseReturn()
+    {
+        //Returns when the conditions below are met
+        if (PilSalGi.Inst.GetisUsePilSalGi()) return;
+        if (TurnManager.Instance.GetIsActive()) return;
+        if (SkillManager.Inst.CheckDontClickPiece(this)) return;
+        if (WarbuffCheck()) return;
+        if (CheckSkillList("정의구현", GetCurrentPlayer(false)) && attackCount != 0 && attackCount < 3) return;
+    }
+
     private string GetCurrentPlayer(bool reverse)
     {
         if (!reverse)
@@ -198,6 +206,7 @@ public class Chessman : MonoBehaviour
 
     public void InitiateMovePlates()
     {
+        // according to the name of the current horse
         switch (this.name)
         {
             case "black_queen":
