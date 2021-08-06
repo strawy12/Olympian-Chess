@@ -15,15 +15,15 @@ public class Card : MonoBehaviour
     #endregion
 
     #region Var List
-    public SpriteRenderer cardPrame { get; private set; }
-    public SpriteRenderer card { get; private set; }
+    public SpriteRenderer cardPrame;
+    public SpriteRenderer card;
     private SpriteRenderer spriteRenderer = null;
 
-    public bool isFront { get; private set; } = false;
-    public bool isSelected { get; private set; }
+    public bool isFront= false;
+    public bool isSelected;
 
-    public Carditem carditem { get; private set; }
-    public PRS originPRS { get; private set; }
+    public Carditem carditem;
+    public PRS originPRS;
 
 
     #endregion
@@ -54,7 +54,7 @@ public class Card : MonoBehaviour
         if (PilSalGi.Inst.GetisUsePilSalGi()) return; // Card cannot be used while using PilSalGi
         if (enabled == false)
             return;
-        if (TurnManager.Inst.isLoading) return; // when Turn Loading Card cannot be used
+        if (TurnManager.Instance.isLoading) return; // when Turn Loading Card cannot be used
         CardManager.Inst.CardMouseOver(this);
     }
 
@@ -63,7 +63,7 @@ public class Card : MonoBehaviour
         if (PilSalGi.Inst.GetisUsePilSalGi()) return;
         if (enabled == false)
             return;
-        if (TurnManager.Inst.isLoading) return;
+        if (TurnManager.Instance.isLoading) return;
         if (isSelected) return; // reselection Prevention 
         isSelected = true;
         if (isFront)
@@ -87,7 +87,7 @@ public class Card : MonoBehaviour
         if (PilSalGi.Inst.GetisUsePilSalGi()) return;
         if (enabled == false)
             return;
-        if (TurnManager.Inst.isLoading) return;
+        if (TurnManager.Instance.isLoading) return;
         isSelected = false;
         if (isFront)
             CardManager.Inst.CardMouseUp(this);

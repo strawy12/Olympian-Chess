@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using static System.Net.Mime.MediaTypeNames;
 
 public class GameManager : MonoBehaviour
 {
@@ -66,7 +65,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         pool = FindObjectOfType<PoolManager>();
-        TurnManager.Inst.StartGame();
+        TurnManager.Instance.StartGame();
         SettingGame();
     }
     // Function setting game at first
@@ -145,7 +144,7 @@ public class GameManager : MonoBehaviour
         }
     }
     // Function setting isMoving to false
-    public void FalleIsMoving()
+    public void FalseIsMoving()
     {
         for (int i = 0; i < playerWhite.Length; i++)
         {
@@ -405,8 +404,8 @@ public class GameManager : MonoBehaviour
     {
         yield return delay2;
 
-        TurnManager.Inst.isLoading = true;
-        TurnManager.Inst.isLoading = true;
+        TurnManager.Instance.isLoading = true;
+        TurnManager.Instance.isLoading = true;
         //endTurnButton.SetActive(false);
         //resultPanal.Show(isMyWin ? "½Â¸®" : "ÆÐ¹è");
         //cameraEffect.SetGrayScale(true);

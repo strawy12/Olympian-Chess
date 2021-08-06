@@ -1,8 +1,7 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Skill : MonoBehaviour
 {
@@ -613,14 +612,14 @@ public class Skill : MonoBehaviour
             selectPiece = chessPiece;
             if (selectPiece.isMoving)
             {
-                TurnManager.Inst.SetIsActive(false);
+                TurnManager.Instance.SetIsActive(false);
             }
             return;
         }
         selectPiece = chessPiece;
         if (selectPiece.isMoving)
         {
-            TurnManager.Inst.SetIsActive(false);
+            TurnManager.Instance.SetIsActive(false);
         }
     }
 
@@ -680,7 +679,7 @@ public class Skill : MonoBehaviour
     {
         // if number of used card is zero, 
         // use of this card is canceled
-        if (CardManager.Inst.usedCards.Count == 0)
+        if (CardManager.Inst.GetUsedCards().Count == 0)
         {
             CardManager.Inst.SetisBreak(true);
             Debug.Log("사용한 카드가 0개입니다.");
@@ -691,7 +690,7 @@ public class Skill : MonoBehaviour
 
         int random;
 
-        random = Random.Range(0, CardManager.Inst.usedCards.Count);
+        random = Random.Range(0, CardManager.Inst.GetUsedCards().Count);
         CardManager.Inst.AddUsedCard(random);
         DeleteSkill();
     }
@@ -760,7 +759,7 @@ public class Skill : MonoBehaviour
         selectPiece = chessPiece;
         WV_MovePlate(selectPiece, selectPiece.GetXBoard(), selectPiece.GetYBoard());
         SkillManager.Inst.SetIsUsingCard(true);
-        TurnManager.Inst.ButtonInactive();
+        TurnManager.Instance.ButtonInactive();
     }
     #endregion
 

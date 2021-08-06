@@ -210,15 +210,15 @@ public class TurnManager : MonoBehaviour
 
         if (GameManager.Inst.gameOver) return;
 
-        if (CardManager.Inst.selectCard != null)
+        if (CardManager.Inst.GetSelectCard() != null)
         {
-            var targetCards = CardManager.Inst.myCards;
-            CardManager.Inst.DestroyCard(CardManager.Inst.selectCard, targetCards);
+            var targetCards = CardManager.Inst.GetMyCards();
+            CardManager.Inst.DestroyCard(CardManager.Inst.GetSelectCard(), targetCards);
         }
         CardManager.Inst.UpdateCard();
         myTurn = !myTurn;
 
-        GameManager.Inst.FasleIsMoving();
+        GameManager.Inst.FalseIsMoving();
         ChangeButtonTransform();
         ButtonInactive();
 

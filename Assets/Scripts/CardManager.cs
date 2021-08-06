@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using static System.Net.Mime.MediaTypeNames;
 using Random = UnityEngine.Random;
 
 public class CardManager : MonoBehaviour
@@ -107,10 +106,10 @@ public class CardManager : MonoBehaviour
 
     private void Update()
     {
-        if (TurnManager.Inst.isLoading) return;
+        if (TurnManager.Instance.isLoading) return;
         if (isMyCardDrag)
             CardDrag(); // Dragging
-        if (!TurnManager.Inst.isLoading)
+        if (!TurnManager.Instance.isLoading)
             DetectCardArea(); // When Dragging Check CardArea in out
 
         SetECardState(); //enum event check and set
@@ -224,10 +223,10 @@ public class CardManager : MonoBehaviour
 
     void SetECardState() // enum event Setting
     {
-        if (TurnManager.Inst.isLoading)
+        if (TurnManager.Instance.isLoading)
             eCardState = ECardState.Nothing;
 
-        else if (TurnManager.Inst.myTurn)
+        else if (TurnManager.Instance.myTurn)
             eCardState = ECardState.CanMouseDrag;
     }
 
@@ -311,6 +310,10 @@ public class CardManager : MonoBehaviour
     public List<Card> GetMyCards()
     {
         return myCards;
+    }
+    public List<Carditem> GetUsedCards()
+    {
+        return usedCards;
     }
 
     public List<Card> GetOtherCards()
