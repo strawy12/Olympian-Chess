@@ -70,7 +70,7 @@ public class CardManager : MonoBehaviour
     private List<Carditem> myCardBuffer; //white Card Buffer
     private List<Carditem> otherCardBuffer; //Balck Card Buffer
 
-    private List<Carditem> usedCards;
+    private List<Carditem> usedCards = new List<Carditem>();
 
     private Vector3 localPosition = Vector3.zero;
     private Chessman chessPiece;
@@ -126,7 +126,7 @@ public class CardManager : MonoBehaviour
             if (hit.collider.CompareTag("ChessPiece"))
             {
                 chessPiece = hit.collider.gameObject.GetComponent<Chessman>();
-                isMine = chessPiece.CheckinsMine();
+                isMine = chessPiece.CheckIsMine();
                 isTargeting = true;
                 localPosition = hit.collider.transform.position;
 
@@ -853,8 +853,8 @@ public class CardManager : MonoBehaviour
         if (isUse) return;
 
         DestroyMovePlates();
-        SkillManager.Inst.SetIsUsingCard(false);
-        SkillManager.Inst.CheckSkillCancel();
+        SkillManager.Inst.SetUsingCard(false);
+        //SkillManager.Inst.CheckSkillCancel();
 
         isMyCardDrag = true;
         selectCard = card;
@@ -889,10 +889,10 @@ public class CardManager : MonoBehaviour
             CardAlignment(false);
             //TurnManager.Inst.EndTurn();
 
-            if (CheckSkillList("제물", GameManager.Inst.GetCurrentPlayer()))
-            {
-                SkillManager.Inst.DeleteSkillList(SkillManager.Inst.GetSkillList("제물", GameManager.Inst.GetCurrentPlayer()));
-            }
+            //if (CheckSkillList("제물", GameManager.Inst.GetCurrentPlayer()))
+            //{
+            //    SkillManager.Inst.DeleteSkillList(SkillManager.Inst.GetSkillList("제물", GameManager.Inst.GetCurrentPlayer()));
+            //}
         }
         else
         {

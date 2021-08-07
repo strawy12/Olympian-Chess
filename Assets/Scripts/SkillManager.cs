@@ -13,7 +13,7 @@ public class SkillManager : MonoBehaviour
 
     #region SerializeField Var
     //List of skills currently in use
-    [SerializeField] private List<SkillController> skillList = new List<SkillController>();
+    [SerializeField] private List<SkillBase> skillList = new List<SkillBase>();
     [SerializeField] private GameObject skillPrefab;
 
     #endregion
@@ -22,39 +22,14 @@ public class SkillManager : MonoBehaviour
     // List of non-clickable chess pieces
     public List<Chessman> dontClickPiece = new List<Chessman>();
     private bool isUsingCard = false;
-    Card card;
-    public int turnTime { get; private set; } = 0;
 
     #endregion
 
     #region System Check
-    //Function checking every skill's times
-    // Function to stop using the canceled cards (Eros love, sleep)
-    public void CheckSkillCancel()
-    {
-        SkillController sk;
-
-            sk = GetSkillList("에로스의 사랑", GetCurrentPlayer(true));
-            if (sk == null) return;
-            if (sk.GetSelectPieceTo() != null) return;
-            // 에로스의 사랑을 사용하지 않은 상태가 아니고
-            // 스킬 사용을 위해 선택한 체스피스가 없다면 스킬 제거
-            Destroy(sk.gameObject);
-            RemoveSkillList(sk);
-    }
-
-    // Function checking skill's turn time
-    // if the returned value is true, the skill turn ends
-    public bool CheckTurnTime(int turn)
-    {
-        if (turnTime > turn)
-            return true;
-        else
-            return false;
-    }
 
     // Function returning whether the cp is in the dontClickPiece list.
     // if there is return true
+
     public bool CheckDontClickPiece(Chessman cp)
     {
         for (int i = 0; i < dontClickPiece.Count; i++)
@@ -79,42 +54,20 @@ public class SkillManager : MonoBehaviour
     #endregion
 
     #region Script Access 
-    //Function returning the color(black or white) of the player who is current turn.
-    public string GetCurrentPlayer(bool reverse)
-    {
-        if (!reverse)
-        {
-            if (GameManager.Inst.GetCurrentPlayer() == "white")
-            {
-                return "black";
-            }
-            else if (GameManager.Inst.GetCurrentPlayer() == "black")
-            {
-                return "white";
-            }
-        }
-        else
-        {
-            return GameManager.Inst.GetCurrentPlayer();
-        }
-        return GameManager.Inst.GetCurrentPlayer();
-
-    }
-
     // Function returning isUsingCard value
-    public bool UsingCard()
+    public bool GetUsingCard()
     {
         return isUsingCard;
     }
 
     // Function setting isUsingCard value
-    public void SetIsUsingCard(bool isUsingCard)
+    public void SetUsingCard(bool isUsingCard)
     {
         this.isUsingCard = isUsingCard;
     }
 
     // Function returning skill if there is a skill from skillList that is the same as name
-    public SkillController GetSkillList(string name, string player)
+    public SkillBase GetSkillList(string name, string player)
     {
         for (int i = 0; i < skillList.Count; i++)
         {
@@ -128,34 +81,28 @@ public class SkillManager : MonoBehaviour
 
     #region System
 
-    //A function increasing the turntime and checking the skill time
-    public void SetTurnTime()
+    public void SkillListCntPlus()
     {
-        turnTime++;
-        //CheckSkillTime();
+        for(int i = 0; i < skillList.Count; i++)
+        {
+            skillList[i].TurnCntPlus();
+        }
     }
 
     // Function adding sk to skillList
-
-    public void SetSkillList(SkillController sk)
+    public void AddSkillList(SkillBase sb)
     {
-        skillList.Add(sk);
+        skillList.Add(sb);
     }
 
-    // Function removing sk to skillList
-    public void DeleteSkillList(SkillController sk)
+    // to be removed later
+    public void RemoveSkillList(SkillBase sb)
     {
-        skillList.Remove(sk);
-    }
-
-    // to be removed later**********************************
-    public void RemoveSkillList(SkillController sk)
-    {
-        skillList.Remove(sk);
+        skillList.Remove(sb);
     }
 
     // Function adding the cp to dontClickPiece list
-    public void SetDontClickPiece(Chessman cp)
+    public void AddDontClickPiece(Chessman cp)
     {
         dontClickPiece.Add(cp);
     }
@@ -167,22 +114,89 @@ public class SkillManager : MonoBehaviour
     }
 
     // Function spawning skill prefab
-    public GameObject SpawnSkillPrefab(Card card, Chessman chessPiece)
+    public SkillBase SpawnSkillPrefab(Card card, Chessman chessPiece)
     {
-        string str = card.carditem.className;
-        Type T = Type.GetType(str);
-        GameObject obj = Instantiate(skillPrefab);
-        obj.AddComponent(T);
-        obj.transform.SetParent(null);
+        SkillBase sb = CheckSkill(card).GetComponent<SkillBase>();
+
+        AddSkillList(sb);
+        sb.SetPalyer(GameManager.Inst.GetCurrentPlayer());
+        sb.SetSelectPiece(chessPiece);
+        sb.UsingSkill();
+
+        return sb;
+    }
+    private GameObject CheckSkill(Card card)
+    {
+        GameObject obj = null;
+        obj = Instantiate(skillPrefab, transform);
         obj.name = card.carditem.name;
-
-        //SetSkillList(sk);
-        //sk.SetPalyer(GameManager.Inst.GetCurrentPlayer());
-
-        //sk.UseSkill(card, chessPiece);
-
+        obj.transform.SetParent(null);
+        switch (card.carditem.name)
+        {
+            case "천벌":
+                obj.AddComponent<HeavenlyPunishment>();
+                break;
+                //case "에로스의 사랑":
+                //    LoveOfEros(chessPiece);
+                //    break;
+                //case "수면":
+                //    Sleep(chessPiece);
+                //    break;
+                //case "음악":
+                //    Music(chessPiece);
+                //    break;
+                //case "돌진":
+                //    Rush(chessPiece);
+                //    break;
+                //case "여행자":
+                //    Traveler(chessPiece);
+                //    break;
+                //case "길동무":
+                //    StreetFriend(chessPiece);
+                //    break;
+                //case "바카스":
+                //    Bacchrs();
+                //    break;
+                //case "시간왜곡":
+                //    TimeWarp();
+                //    break;
+                //case "제물":
+                //    Offering(chessPiece);
+                //    break;
+                //case "정의구현":
+                //    Justice();
+                //    break;
+                //case "출산":
+                //    GiveBirth(chessPiece);
+                //    break;
+                //case "아테나의 방패":
+                //    AthenaShield(chessPiece);
+                //    break;
+                //case "달빛":
+                //    MoonLight(chessPiece);
+                //    break;
+                //case "파도":
+                //    Wave(chessPiece);
+                //    break;
+                //case "서풍":
+                //    WestWind(chessPiece);
+                //    break;
+                //case "수중감옥":
+                //    OceanJail(chessPiece);
+                //    break;
+                //case "질서":
+                //    Order(chessPiece);
+                //    break;
+                //case "죽음의 땅":
+                //    GroundOfDeath(chessPiece);
+                //    break;
+                //case "전쟁광":
+                //    WarBuff(chessPiece);
+                //    break;
+        }
         return obj;
     }
+
     #endregion
 
 }

@@ -192,15 +192,15 @@ public class GameManager : MonoBehaviour
     // destroy the skill from skill list
     public void CheckDeadSkillPiece(Chessman cp)
     {
-        Skill[] sks = FindObjectsOfType<Skill>();
+        SkillBase[] sbs = FindObjectsOfType<SkillBase>();
 
-        for (int i = 0; i < sks.Length; i++)
+        for (int i = 0; i < sbs.Length; i++)
         {
-            if (sks[i].GetSelectPiece() == cp || sks[i].GetSelectPieceTo() == cp)
+            if (sbs[i].GetSelectPiece() == cp || sbs[i].GetSelectPieceTo() == cp)
             {
-                SkillManager.Inst.DeleteSkillList(sks[i]);
+                SkillManager.Inst.RemoveSkillList(sbs[i]);
                 cp.spriteRenderer.material.SetColor("_Color", new Color(0, 0, 0, 0));
-                Destroy(sks[i].gameObject);
+                Destroy(sbs[i].gameObject);
                 return;
             }
         }

@@ -12,6 +12,7 @@ public class Card : MonoBehaviour
     [SerializeField] Sprite cardBack;
     [SerializeField] Sprite emptySprite;
     [SerializeField] Sprite cardDefault;
+    [SerializeField] ECardState eCardState;
     #endregion
 
     #region Var List
@@ -24,7 +25,7 @@ public class Card : MonoBehaviour
 
     public Carditem carditem;
     public PRS originPRS;
-
+    enum ECardState { Nothing, CanMouseDrag }
 
     #endregion
 
@@ -47,11 +48,15 @@ public class Card : MonoBehaviour
             cardPrame.sprite = cardFornt;
         else
             cardPrame.sprite = cardBack;
+
+        SetECardState();
     }
 
     private void OnMouseOver()
     {
-        if (PilSalGi.Inst.GetisUsePilSalGi()) return; // Card cannot be used while using PilSalGi
+        if (eCardState == ECardState.Nothing)
+            return;
+        //if (PilSalGi.Inst.GetisUsePilSalGi()) return; // Card cannot be used while using PilSalGi
         if (enabled == false)
             return;
         if (TurnManager.Instance.isLoading) return; // when Turn Loading Card cannot be used
@@ -60,7 +65,9 @@ public class Card : MonoBehaviour
 
     void OnMouseDown()
     {
-        if (PilSalGi.Inst.GetisUsePilSalGi()) return;
+        if (eCardState == ECardState.Nothing)
+            return;
+        //if (PilSalGi.Inst.GetisUsePilSalGi()) return;
         if (enabled == false)
             return;
         if (TurnManager.Instance.isLoading) return;
@@ -71,20 +78,22 @@ public class Card : MonoBehaviour
 
     }
 
-    private void OnMouseUpAsButton()
-    {
-        if (enabled == false)
-            return;
-        if (PilSalGi.Inst.GetisUsePilSalGi()) return;
-        if (SkillManager.Inst.CheckSkillList("제물", SkillManager.Inst.GetCurrentPlayer(true)))
-        {
-            CardManager.Inst.CardClick(this);
-        }
-    }
+    //private void OnMouseUpAsButton()
+    //{
+       // if (enabled == false)
+         //   return;
+       // if (PilSalGi.Inst.GetisUsePilSalGi()) return;
+       //if (SkillManager.Inst.CheckSkillList("제물", SkillManager.Inst.GetCurrentPlayer(true)))
+       // {
+       //     CardManager.Inst.CardClick(this);
+       // }
+   // }
 
     void OnMouseUp()
     {
-        if (PilSalGi.Inst.GetisUsePilSalGi()) return;
+        if (eCardState == ECardState.Nothing)
+            return;
+        // if (PilSalGi.Inst.GetisUsePilSalGi()) return;
         if (enabled == false)
             return;
         if (TurnManager.Instance.isLoading) return;
@@ -98,6 +107,15 @@ public class Card : MonoBehaviour
         //    CardManager.Inst.CardAlignment(false);
         //}
 
+    }
+
+    void SetECardState() // enum event Setting
+    {
+        if (TurnManager.Instance.isLoading)
+            eCardState = ECardState.Nothing;
+
+        else if (TurnManager.Instance.myTurn)
+            eCardState = ECardState.CanMouseDrag;
     }
     #endregion
 

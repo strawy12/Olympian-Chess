@@ -9,7 +9,7 @@ public class HeavenlyPunishment : SkillBase
 
     public override void UsingSkill()
     {
-        HP_UsingSkill()
+        HP_UsingSkill();
     }
 
     private void HP_UsingSkill()
@@ -28,24 +28,20 @@ public class HeavenlyPunishment : SkillBase
                 isBreak = GameManager.Inst.CheckArr(false, "black_rook");
             else
                 isBreak = GameManager.Inst.CheckArr(true, "white_rook");
-            if ()
-            {
-                CardManager.Inst.SetisBreak(isBreak);
-                return;
-            }
 
+            CardManager.Inst.SetisBreak(isBreak);
+            return;
         }
         StartCoroutine(HP_SkillEffect());
         CardManager.Inst.SetisBreak(false);
-        isUsingCard = false;
-        SkillManager.Inst.SetDontClickPiece(selectPiece);
+        SkillManager.Inst.AddDontClickPiece(selectPiece);
     }
 
     private IEnumerator HP_SkillEffect()
     {
         int k = turnCnt + 2;
         //sparkling effect (yellow)
-        while (GetTurnTime() < k)
+        while (turnCnt < k)
         {
             selectPiece.spriteRenderer.material.color = new Color32(255, 228, 0, 0);
             yield return new WaitForSeconds(0.2f);
@@ -54,7 +50,7 @@ public class HeavenlyPunishment : SkillBase
         }
         // When card time is over, selected pieces turn to original color
         selectPiece = null;
-        SkillManager.Inst.RemoveSkillList(gameObject.);
+        SkillManager.Inst.RemoveSkillList(this);
         SkillManager.Inst.RemoveDontClickPiece(selectPiece);
         Destroy(gameObject); 
     }
