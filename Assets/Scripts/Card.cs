@@ -111,11 +111,13 @@ public class Card : MonoBehaviour
         {
             cardPrame.sprite = cardFornt;
             card.sprite = carditem.sprite;
+            gameObject.name = carditem.name;
         }
         else
         {
             cardPrame.sprite = cardBack;
             card.sprite = null;
+            gameObject.name = carditem.name;
         }
     }
 

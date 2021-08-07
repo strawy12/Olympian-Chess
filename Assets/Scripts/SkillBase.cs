@@ -40,6 +40,15 @@ public class SkillBase : MonoBehaviour
     {
         this.player = player;
     }
+    public void SetPosX(int posX)
+    {
+        this.posX = posX;
+    }
+
+    public void SetPosY(int posY)
+    {
+        this.posY = posY;
+    }
 
     public void TurnCntPlus()
     {

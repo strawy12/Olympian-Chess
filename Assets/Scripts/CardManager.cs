@@ -325,6 +325,10 @@ public class CardManager : MonoBehaviour
     {
         return selectCard;
     }
+    public void SetSelectCard(Card card)
+    {
+        selectCard = card;
+    }
 
     public void ChangeIsUse(bool _isUse)// retouch SetIsUse 
     {
@@ -682,6 +686,7 @@ public class CardManager : MonoBehaviour
         if (isUsed)
         {
 
+            isTargeting = false;
             SkillManager.Inst.SpawnSkillPrefab(card, chessPiece);
             if (isBreak)
             {
@@ -760,76 +765,6 @@ public class CardManager : MonoBehaviour
         CardAlignment(true);
     }
 
-    private void NameColor(Text text, string name) // Later CardItemSO Add and this code delete
-    {
-        switch (name)
-        {
-            case "천벌":
-                text.color = new Color32(214, 161, 28, 255);
-                break;
-
-            case "죽음의 땅":
-            case "제물":
-                text.color = new Color32(205, 217, 194, 255);
-                break;
-
-            case "수중감옥":
-            case "파도":
-                text.color = new Color32(173, 180, 255, 255);
-                break;
-
-            case "수면":
-                text.color = new Color32(255, 188, 166, 255);
-                break;
-
-            case "달빛":
-                text.color = new Color32(236, 245, 247, 255);
-                break;
-
-            case "전쟁광":
-                text.color = new Color32(230, 78, 109, 255);
-                break;
-
-            case "정의구현":
-            case "아테나의 방패":
-                text.color = new Color32(255, 245, 160, 255);
-                break;
-
-            case "질서":
-                text.color = new Color32(98, 235, 173, 255);
-                break;
-
-            case "바카스":
-                text.color = new Color32(30, 50, 230, 255);
-                break;
-
-            case "에로스의 사랑":
-            case "출산":
-            case "음악":
-                text.color = new Color32(231, 163, 233, 255);
-                break;
-
-            case "길동무":
-                text.color = new Color32(165, 148, 209, 255);
-                break;
-
-            case "돌진":
-                text.color = new Color32(212, 109, 91, 255);
-                break;
-
-            case "서풍":
-                text.color = new Color32(141, 187, 235, 255);
-                break;
-
-            case "여행자":
-                text.color = new Color32(214, 184, 155, 255);
-                break;
-
-            case "시간왜곡":
-                text.color = new Color32(43, 66, 71, 255);
-                break;
-        }
-    }
     #endregion
 
     #region Card Control
@@ -855,7 +790,6 @@ public class CardManager : MonoBehaviour
         DestroyMovePlates();
         SkillManager.Inst.SetUsingCard(false);
         //SkillManager.Inst.CheckSkillCancel();
-
         isMyCardDrag = true;
         selectCard = card;
         EnlargeCard(true, card);
@@ -875,7 +809,6 @@ public class CardManager : MonoBehaviour
         if (!TryPutCard(true, isTargeting))
         {
             selectCard = null;
-
         }
 
     }

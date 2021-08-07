@@ -1502,19 +1502,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffcf051e76def7a409cdd30c5eaf3711, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firstSp: {fileID: -3115555338532431703, guid: d4d230f1f58838a48889923ecaa9c399,
-    type: 3}
-  secondSp: {fileID: 1708468074230251167, guid: d4d230f1f58838a48889923ecaa9c399,
-    type: 3}
-  thirdSp: {fileID: 117638731248362808, guid: d4d230f1f58838a48889923ecaa9c399, type: 3}
-  fourthSp: {fileID: -5650735192027036054, guid: d4d230f1f58838a48889923ecaa9c399,
-    type: 3}
-  lastSp: {fileID: -3921340277463664303, guid: d4d230f1f58838a48889923ecaa9c399, type: 3}
-  attackCnt: 0
-  isUsePilSalGi: 0
-  spriteRenderer: {fileID: 0}
-  selectPiece: {fileID: 0}
-  <cps>k__BackingField: []
 --- !u!58 &891267666
 CircleCollider2D:
   m_ObjectHideFlags: 0

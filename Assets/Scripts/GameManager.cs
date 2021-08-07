@@ -232,16 +232,16 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-
+            GameObject mp;
             if (currentPlayer != "white")
             {
                 for (int i = 0; i < playerWhite.Length; i++)
                 {
                     if (playerWhite[i] == null || playerWhite[i] == cm)
                         continue;
-                    cm.SetMovePlateColor(new Color32(255, 0, 0, 255));
-                    playerWhite[i].MovePlateSpawn(playerWhite[i].GetXBoard(), playerWhite[i].GetYBoard());
-                    playerWhite[i].SetMovePlateColor(new Color32(255, 255, 36, 255));
+
+                    mp = playerWhite[i].MovePlateSpawn(playerWhite[i].GetXBoard(), playerWhite[i].GetYBoard());
+                    mp.GetComponent<SpriteRenderer>().material.SetColor("_Color", new Color32(255, 0, 0, 255));
                 }
             }
             else if (currentPlayer != "black")
@@ -250,74 +250,15 @@ public class GameManager : MonoBehaviour
                 {
                     if (playerBlack[i] == null || playerBlack[i] == cm)
                         continue;
-                    playerBlack[i].SetMovePlateColor(new Color32(255, 0, 0, 255));
-                    playerBlack[i].MovePlateSpawn(playerBlack[i].GetXBoard(), playerBlack[i].GetYBoard());
-                    playerBlack[i].SetMovePlateColor(new Color32(255, 255, 36, 255));
+
+                    mp = playerBlack[i].MovePlateSpawn(playerBlack[i].GetXBoard(), playerBlack[i].GetYBoard());
+                    mp.GetComponent<SpriteRenderer>().material.SetColor("_Color", new Color32(255, 0, 0, 255));
+
                 }
             }
         }
     }
-    // Function checking whether pos is empty or not empty
-    public int CheckNull(bool isXY, bool isPlma, int pos)
-    {
-        //isXY => true => X
-        //isPlma => true => Plus
-
-        int cnt = 0;
-        //+X
-        if (isXY && isPlma)
-        {
-            for (int i = 7; i >= 0; i--)
-            {
-                if (GetPosition(i, pos) == null)
-                {
-                    cnt = i;
-                    return cnt;
-                }
-            }
-        }
-
-        //-X
-        else if (isXY && !isPlma)
-        {
-            for (int i = 0; i < 8; i++)
-            {
-                if (GameManager.Inst.GetPosition(i, pos) == null)
-                {
-                    cnt = i;
-                    return cnt;
-                }
-
-            }
-        }
-
-        //+Y
-        else if (!isXY && isPlma)
-        {
-            for (int i = 7; i >= 0; i--)
-            {
-                if (GameManager.Inst.GetPosition(pos, i) == null)
-                {
-                    cnt = i;
-                    return cnt;
-                }
-            }
-        }
-
-        //-Y
-        else if (!isXY && !isPlma)
-        {
-            for (int i = 0; i < 8; i++)
-            {
-                if (GameManager.Inst.GetPosition(pos, i) == null)
-                {
-                    cnt = i;
-                    return cnt;
-                }
-            }
-        }
-        return 0;
-    }
+    
     // Function removing every pawn
     private void DeletePawn()
     {

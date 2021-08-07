@@ -40,7 +40,7 @@ public class MovePlate : MonoBehaviour
         GameManager.Inst.SetPositionEmpty(reference.GetXBoard(), reference.GetYBoard());
         reference.SetXBoard(matrixX);
         reference.SetYBoard(matrixY);
-        reference.SetIsMoved(true);
+        reference.PlusMoveCnt();
 
         //reference.SetCoords(); --> change to anmiation
 
@@ -271,38 +271,8 @@ public class MovePlate : MonoBehaviour
     //    SkillManager.Inst.SetIsUsingCard(false);
     //}
 
-    //private void Wave()
-    //{
-    //    Skill wave = SkillManager.Inst.GetSkillList("파도", GetCurrentPlayer(true));
-    //    Debug.Log(matrixX);
-    //    Debug.Log(matrixY);
-    //    if (matrixX == wave.GetSelectPiece().GetXBoard() + 1)
-    //        WaveMove(true, true);
-    //    else if (matrixX == wave.GetSelectPiece().GetXBoard() - 1)
-    //        WaveMove(true, false);
-    //    else if (matrixY == wave.GetSelectPiece().GetYBoard() + 1)
-    //        WaveMove(false, true);
-    //    else if (matrixY == wave.GetSelectPiece().GetYBoard() - 1)
-    //        WaveMove(false, false);
-    //    SkillManager.Inst.SetIsUsingCard(false);
-    //    wave.ReSetWave();
-    //    reference.DestroyMovePlates();
-    //    TurnManager.Instance.SetIsActive(true);
-    //    CardManager.Inst.ChangeIsUse(true);
-    //}
-    //private void Sleep()
-    //{
-    //    Skill sleep = SkillManager.Inst.GetSkillList("수면", GetCurrentPlayer(true));
-    //    if (sleep == null) return;
-    //    sleep.SetSelectPieceTo(GameManager.Inst.GetPosition(reference.GetXBoard(), reference.GetYBoard()));
-    //    sleep.GetSelectPiece().SetIsMoved(false);
-    //    sleep.GetSelectPieceTo().SetIsMoved(false);
-    //    reference.DestroyMovePlates();
-    //    sleep.StartSP_SkillEffect();
-    //    //TurnManager.Inst.EndTurn();
-    //    CardManager.Inst.ChangeIsUse(true);
-    //    SkillManager.Inst.SetIsUsingCard(false);
-    //}
+
+
 
     //private void Card2()
     //{
@@ -351,8 +321,7 @@ public class MovePlate : MonoBehaviour
 
         else if (eCardState == ECardState.UsingCard)
         {
-            //Card2();
-            Debug.Log("윾하준 바보");
+            SkillManager.Inst.UsingSkill(this);
         }
         
     }
@@ -382,92 +351,10 @@ public class MovePlate : MonoBehaviour
             eCardState = ECardState.Moving;
     }
 
-    //void WaveMove(bool isXY, bool isPlma)
-    //{
-    //    Debug.Log(isXY);
-    //    Debug.Log(isPlma);
-
-    //    List<Chessman> cmList = new List<Chessman>();
-    //    int cnt = 0;
-    //    cnt = GameManager.Inst.CheckNull(isXY, isPlma, isXY ? matrixX : matrixY);
 
 
-    //    if (isXY && isPlma)
-    //    {
-    //        for (int i = 0; i < cnt; i++)
-    //        {
-    //            cmList.Add(WV_Move(isXY, i, isPlma));
-    //        }
-    //    }
 
-    //    else if (isXY && !isPlma)
-    //    {
-    //        for (int i = 7; i >= cnt; i--)
-    //        {
-    //            cmList.Add(WV_Move(isXY, i, isPlma));
-    //        }
-    //    }
 
-    //    else if (!isXY && isPlma)
-    //    {
-    //        for (int i = 0; i < cnt; i++)
-    //        {
-    //            cmList.Add(WV_Move(isXY, i, isPlma));
-    //        }
-    //    }
-
-    //    else if (!isXY && !isPlma)
-    //    {
-    //        for (int i = 7; i >= cnt; i--)
-    //        {
-    //            cmList.Add(WV_Move(isXY, i, isPlma));
-    //        }
-    //    }
-
-    //    for (int i = 0; i < cmList.Count; i++)
-    //    {
-    //        GameManager.Inst.SetPosition(cmList[i]);
-    //    }
-
-    //}
-    //Chessman WV_Move(bool isXY, int i, bool isPlma)
-    //{
-    //    if (isXY)
-    //    {
-    //        Chessman cm = GameManager.Inst.GetPosition(i, matrixY);
-    //        if (cm == null) return cm;
-    //        GameManager.Inst.SetPositionEmpty(cm.GetXBoard(), cm.GetYBoard());
-
-    //        if (isPlma)
-    //            cm.SetXBoard(i + 1);
-    //        else
-    //            cm.SetXBoard(i - 1);
-
-    //        cm.SetCoords();
-    //        cm.DestroyMovePlates();
-    //        cm.SetIsMoved(true);
-    //        return cm;
-    //    }
-    //    else
-    //    {
-    //        Chessman cm = GameManager.Inst.GetPosition(matrixX, i);
-    //        if (cm == null) return cm;
-    //        GameManager.Inst.SetPositionEmpty(cm.GetXBoard(), cm.GetYBoard());
-
-    //        if (isPlma)
-    //            cm.SetYBoard(i + 1);
-    //        else
-    //            cm.SetYBoard(i - 1);
-
-    //        cm.SetCoords();
-    //        cm.SetIsMoved(true);
-    //        return cm;
-    //    }
-
-    //}
-   
-   
-    
     public void SetIsSelected(bool isSelected)
     {
         this.isSelected = isSelected;
@@ -477,6 +364,16 @@ public class MovePlate : MonoBehaviour
     {
         matrixX = x;
         matrixY = y;
+    }
+
+    public int GetPosX()
+    {
+        return matrixX;
+    }
+
+    public int GetPosY()
+    {
+        return matrixY;
     }
 
     public void Setreference(Chessman obj)
