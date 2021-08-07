@@ -4,16 +4,34 @@ using UnityEngine;
 
 public class SkillBase : MonoBehaviour
 {
-    protected Chessman selectPiece;
-    protected Chessman selectPieceTo;
+    public Chessman selectPiece { get; private set; }
+    public Chessman selectPieceTo { get; private set; }
     protected int posX;
     protected int posY;
     protected int turnCnt = 0;
+    protected SkillController skillController;
 
-    public void UsingSkill() {}
+    private void Start()
+    {
+        skillController = GetComponent<SkillController>();
+    }
+    public virtual void UsingSkill() {}
 
-    public void StandardSkill() {}
+    public virtual void StandardSkill() {}
 
-    public void ResetSkill() {}
+    public virtual void ResetSkill() {}
 
+    public void SetSelectPiece(Chessman cp) 
+    {
+        selectPiece = cp;
+    }
+    public Chessman GetSelectPieceTo() 
+    {
+        return selectPieceTo;
+    }
+
+    public void TurnCntPlus()
+    {
+        turnCnt++;
+    }
 }
