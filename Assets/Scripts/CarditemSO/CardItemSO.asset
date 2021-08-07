@@ -22,7 +22,7 @@ MonoBehaviour:
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC0C1\uB300  \uC9C0\uC18D\uC2DC\uAC04: 1\uD134\n\uCC9C\uB465\uC758
       \uD798\uC744 \uBE4C\uB824 \uC0C1\uB300\uB97C \uD55C\uD134 \uB3D9\uC548 \uB9C8\uBE44
       \uC0C1\uD0DC\uC5D0 \uBE60\uD2B8\uB9BD\uB2C8\uB2E4."
-  - name: "\uC5EC\uD589\uC790"
+  - name: "\uCD9C\uC0B0"
     className: GroundOfDeath
     god: "\uD558\uB370\uC2A4"
     sprite: {fileID: 288311869226211982, guid: 4454062fe2a78614587b7e6f430aaafe, type: 3}

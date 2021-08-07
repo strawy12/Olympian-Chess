@@ -86,6 +86,18 @@ public class SkillManager : MonoBehaviour
         for (int i = 0; i < skillList.Count; i++)
         {
             skillList[i].TurnCntPlus();
+            skillList[i].ResetSkill();
+        }
+    }
+
+    public void SkillListStandard(Chessman cm)
+    {
+        for (int i = 0; i < skillList.Count; i++)
+        {
+            if (skillList[i].selectPiece == cm)
+            {
+                skillList[i].StandardSkill();
+            }
         }
     }
 
@@ -145,36 +157,36 @@ public class SkillManager : MonoBehaviour
             //case "음악":
             //    Music(chessPiece);
             //    break;
-            //case "돌진":
-            //    Rush(chessPiece);
-            //    break;
+            case "돌진":
+                obj.AddComponent<Rush>();
+                break;
             case "여행자":
                 obj.AddComponent<Traveler>();
                 break;
-                //case "길동무":
-                //    StreetFriend(chessPiece);
-                //    break;
-                //case "바카스":
-                //    Bacchrs();
-                //    break;
-                //case "시간왜곡":
-                //    TimeWarp();
-                //    break;
-                //case "제물":
-                //    Offering(chessPiece);
-                //    break;
-                //case "정의구현":
-                //    Justice();
-                //    break;
-                //case "출산":
-                //    GiveBirth(chessPiece);
-                //    break;
-                //case "아테나의 방패":
-                //    AthenaShield(chessPiece);
-                //    break;
-                //case "달빛":
-                //    MoonLight(chessPiece);
-                //    break;
+            //case "길동무":
+            //    StreetFriend(chessPiece);
+            //    break;
+            //case "바카스":
+            //    Bacchrs();
+            //    break;
+            case "시간왜곡":
+                obj.AddComponent<TimeWarp>();
+                break;
+            case "제물":
+                obj.AddComponent<Offering>();
+                break;
+            //case "정의구현":
+            //    Justice();
+            //    break;
+            case "출산":
+                obj.AddComponent<GiveBirth>();
+                break;
+            //case "아테나의 방패":
+            //    AthenaShield(chessPiece);
+            //    break;
+            case "달빛":
+                obj.AddComponent<MoonLight>();
+                break;
                 //case "파도":
                 //    Wave(chessPiece);
                 //    break;

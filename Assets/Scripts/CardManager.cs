@@ -52,9 +52,6 @@ public class CardManager : MonoBehaviour
     [SerializeField] List<Card> myCards;
     [SerializeField] List<Card> otherCards;
 
-    [SerializeField] Sprite cardFornt;
-    [SerializeField] Sprite cardBack;
-
     [SerializeField] ECardState eCardState; // now Game system state
 
     [SerializeField] Text infoText;
@@ -70,7 +67,7 @@ public class CardManager : MonoBehaviour
     private List<Carditem> myCardBuffer; //white Card Buffer
     private List<Carditem> otherCardBuffer; //Balck Card Buffer
 
-    private List<Carditem> usedCards = new List<Carditem>();
+    public List<Carditem> usedCards = new List<Carditem>();
 
     private Vector3 localPosition = Vector3.zero;
     private Chessman chessPiece;
@@ -416,6 +413,8 @@ public class CardManager : MonoBehaviour
 
     public void DestroyCard(Card card, List<Card> targetCards) // Using Card Destroy
     {
+        bool isSame = false;
+
         if (card == null) return;
 
         targetCards.Remove(card);
@@ -423,7 +422,15 @@ public class CardManager : MonoBehaviour
         card.transform.SetParent(GameManager.Inst.pool.transform);
         card.gameObject.SetActive(false);
         CardAlignment(true);
-        usedCards.Add(card.carditem);
+
+        for (int i = 0; i < usedCards.Count; i++)
+        {
+            if (card.carditem.name == usedCards[i].name)
+                isSame = true;
+        }
+
+        if (!isSame)
+            usedCards.Add(card.carditem);
     }
 
     public void DestroyCards() // All Cards Destroy
@@ -830,6 +837,13 @@ public class CardManager : MonoBehaviour
                 break;
         }
     }
+
+    public void RemoveCard(int rand)
+    {
+        Destroy(otherCards[rand].gameObject);
+        otherCards.RemoveAt(rand);
+        CardAlignment(!isMine);
+    }
     #endregion
 
     #region Card Control
@@ -887,12 +901,6 @@ public class CardManager : MonoBehaviour
             otherCards.Remove(card);
             Destroy(card.gameObject);
             CardAlignment(false);
-            //TurnManager.Inst.EndTurn();
-
-            //if (CheckSkillList("제물", GameManager.Inst.GetCurrentPlayer()))
-            //{
-            //    SkillManager.Inst.DeleteSkillList(SkillManager.Inst.GetSkillList("제물", GameManager.Inst.GetCurrentPlayer()));
-            //}
         }
         else
         {
