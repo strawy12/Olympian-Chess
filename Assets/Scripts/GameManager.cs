@@ -179,6 +179,15 @@ public class GameManager : MonoBehaviour
             Destroy(movePlates[i].gameObject);
         }
     }
+    // Functions checking if the parameter is equal to current player
+    public bool CheckPlayer(string player)
+    {
+        if (GetCurrentPlayer() == player)
+            return true;
+        else
+            return false;
+    }
+
     // if cp that is same as sks's selected piece is dead,
     // destroy the skill from skill list
     public void CheckDeadSkillPiece(Chessman cp)
