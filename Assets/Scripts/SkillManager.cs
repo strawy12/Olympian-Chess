@@ -13,7 +13,7 @@ public class SkillManager : MonoBehaviour
 
     #region SerializeField Var
     //List of skills currently in use
-    [SerializeField] private List<SkillController> skillList = new List<SkillController>();
+    [SerializeField] private List<SkillBase> skillList = new List<SkillBase>();
     [SerializeField] private GameObject skillPrefab;
 
     #endregion
@@ -45,7 +45,7 @@ public class SkillManager : MonoBehaviour
     {
         for (int i = 0; i < skillList.Count; i++)
         {
-            if (skillList[i].gameObject.name == name && skillList[i].GetPalyer() == player)
+            if (skillList[i].gameObject.name == name && skillList[i].GetPlayer() == player)
                 return true;
         }
         return false;
@@ -67,11 +67,11 @@ public class SkillManager : MonoBehaviour
     }
 
     // Function returning skill if there is a skill from skillList that is the same as name
-    public SkillController GetSkillList(string name, string player)
+    public SkillBase GetSkillList(string name, string player)
     {
         for (int i = 0; i < skillList.Count; i++)
         {
-            if (skillList[i].gameObject.name == name && skillList[i].GetPalyer() == player)
+            if (skillList[i].gameObject.name == name && skillList[i].GetPlayer() == player)
                 return skillList[i];
         }
         return null;
@@ -81,17 +81,24 @@ public class SkillManager : MonoBehaviour
 
     #region System
 
-    // Function adding sk to skillList
-
-    public void AddSkillList(SkillController sc)
+    public void SkillListCntPlus()
     {
-        skillList.Add(sc);
+        for(int i = 0; i < skillList.Count; i++)
+        {
+            skillList[i].TurnCntPlus();
+        }
+    }
+
+    // Function adding sk to skillList
+    public void AddSkillList(SkillBase sb)
+    {
+        skillList.Add(sb);
     }
 
     // to be removed later
-    public void RemoveSkillList(SkillController sc)
+    public void RemoveSkillList(SkillBase sb)
     {
-        skillList.Remove(sc);
+        skillList.Remove(sb);
     }
 
     // Function adding the cp to dontClickPiece list
@@ -107,18 +114,89 @@ public class SkillManager : MonoBehaviour
     }
 
     // Function spawning skill prefab
-    public SkillController SpawnSkillPrefab(Card card, Chessman chessPiece)
+    public SkillBase SpawnSkillPrefab(Card card, Chessman chessPiece)
     {
-        SkillController sc = Instantiate(skillPrefab, transform).GetComponent<SkillController>();
-        sc.transform.SetParent(null);
-        AddSkillList(sc);
-        sc.SetPalyer(GameManager.Inst.GetCurrentPlayer());
-        sc.gameObject.name = card.carditem.name;
+        SkillBase sb = CheckSkill(card).GetComponent<SkillBase>();
 
-        sc.SettingSkill(chessPiece);
+        AddSkillList(sb);
+        sb.SetPalyer(GameManager.Inst.GetCurrentPlayer());
+        sb.SetSelectPiece(chessPiece);
+        sb.UsingSkill();
 
-        return sc;
+        return sb;
     }
+    private GameObject CheckSkill(Card card)
+    {
+        GameObject obj = null;
+        obj = Instantiate(skillPrefab, transform);
+        obj.name = card.carditem.name;
+        obj.transform.SetParent(null);
+        switch (card.carditem.name)
+        {
+            case "천벌":
+                obj.AddComponent<HeavenlyPunishment>();
+                break;
+                //case "에로스의 사랑":
+                //    LoveOfEros(chessPiece);
+                //    break;
+                //case "수면":
+                //    Sleep(chessPiece);
+                //    break;
+                //case "음악":
+                //    Music(chessPiece);
+                //    break;
+                //case "돌진":
+                //    Rush(chessPiece);
+                //    break;
+                //case "여행자":
+                //    Traveler(chessPiece);
+                //    break;
+                //case "길동무":
+                //    StreetFriend(chessPiece);
+                //    break;
+                //case "바카스":
+                //    Bacchrs();
+                //    break;
+                //case "시간왜곡":
+                //    TimeWarp();
+                //    break;
+                //case "제물":
+                //    Offering(chessPiece);
+                //    break;
+                //case "정의구현":
+                //    Justice();
+                //    break;
+                //case "출산":
+                //    GiveBirth(chessPiece);
+                //    break;
+                //case "아테나의 방패":
+                //    AthenaShield(chessPiece);
+                //    break;
+                //case "달빛":
+                //    MoonLight(chessPiece);
+                //    break;
+                //case "파도":
+                //    Wave(chessPiece);
+                //    break;
+                //case "서풍":
+                //    WestWind(chessPiece);
+                //    break;
+                //case "수중감옥":
+                //    OceanJail(chessPiece);
+                //    break;
+                //case "질서":
+                //    Order(chessPiece);
+                //    break;
+                //case "죽음의 땅":
+                //    GroundOfDeath(chessPiece);
+                //    break;
+                //case "전쟁광":
+                //    WarBuff(chessPiece);
+                //    break;
+        }
+        return obj;
+    }
+
     #endregion
 
 }

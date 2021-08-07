@@ -952,6 +952,11 @@ MonoBehaviour:
   cardItemSO: {fileID: 11400000, guid: db0d74c26d4d2164e8380b62e5e5e3d9, type: 2}
   cardPrefab: {fileID: 533931229646251596, guid: 6b57a13e070ff4c4b81b325781718e2c,
     type: 3}
+  skillPrefab: {fileID: 1996141749020464303, guid: d13e829210bf1d64dadb4a0a53432b78,
+    type: 3}
+  targetPicker: {fileID: 1072564072}
+  cardArea: {fileID: 1345313709}
+  cardInfo: {fileID: 2116978884}
   cardSpawnPoint: {fileID: 983496012}
   myCardLeft: {fileID: 345451345}
   myCardRight: {fileID: 1862974116}
@@ -963,22 +968,11 @@ MonoBehaviour:
   cardBack: {fileID: -4457850898058260020, guid: 52bbcc1d660a1dd47a4813b73fc79455,
     type: 3}
   eCardState: 0
-  skillPrefab: {fileID: 1996141749020464303, guid: d13e829210bf1d64dadb4a0a53432b78,
-    type: 3}
-  targetPicker: {fileID: 1072564072}
-  cardArea: {fileID: 1345313709}
   infoText: {fileID: 666164921}
   nameText: {fileID: 1316750624}
   godText: {fileID: 417723384}
   godImage: {fileID: 1715859911}
-  cardInfo: {fileID: 2116978884}
-  myCardBuffer: []
-  otherCardBuffer: []
-  usedCards: []
-  selectCard: {fileID: 0}
   cards: {fileID: 398568243}
-  isTargeting: 0
-  isMine: 0
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1516,6 +1510,11 @@ MonoBehaviour:
   fourthSp: {fileID: -5650735192027036054, guid: d4d230f1f58838a48889923ecaa9c399,
     type: 3}
   lastSp: {fileID: -3921340277463664303, guid: d4d230f1f58838a48889923ecaa9c399, type: 3}
+  attackCnt: 0
+  isUsePilSalGi: 0
+  spriteRenderer: {fileID: 0}
+  selectPiece: {fileID: 0}
+  <cps>k__BackingField: []
 --- !u!58 &891267666
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1786,8 +1785,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1226214064}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.0013, y: -0.1145, z: 1}
-  m_LocalScale: {x: 2.1487072, y: 2.1487072, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalScale: {x: 2.14, y: 2.14, z: 2.14}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 10
@@ -2050,10 +2049,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92189d24854f7cc4a94d50c55dd49276, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillList: []
   skillPrefab: {fileID: 1996141749020464303, guid: d13e829210bf1d64dadb4a0a53432b78,
     type: 3}
   dontClickPiece: []
-  skillList: []
 --- !u!1 &1345313709
 GameObject:
   m_ObjectHideFlags: 0

@@ -60,7 +60,7 @@ public class TurnManager : MonoBehaviour
 
     // delay
     WaitForSeconds delay05 = new WaitForSeconds(0.5f);
-    WaitForSeconds delay07 = new WaitForSeconds(0.7f);
+    WaitForSeconds delay07 = new WaitForSeconds(2f);
 
     public static event Action<bool> OnTurnStarted;
 
@@ -206,7 +206,7 @@ public class TurnManager : MonoBehaviour
         if (!isActive) return;
 
         List<Chessman> attack = GameManager.Inst.attackings;
-        Skill sk = SkillManager.Inst.GetSkillList("´Þºû", GameManager.Inst.GetCurrentPlayer());
+        //Skill sk = SkillManager.Inst.GetSkillList("´Þºû", GameManager.Inst.GetCurrentPlayer());
 
         if (GameManager.Inst.gameOver) return;
 
@@ -223,7 +223,7 @@ public class TurnManager : MonoBehaviour
         ButtonInactive();
 
         CardManager.Inst.ChangeIsUse(false);
-        SkillManager.Inst.SetTurnTime();
+        SkillManager.Inst.SkillListCntPlus();
         GameManager.Inst.NextTurn();
 
         for (int i = 0; i < attack.Count; i++)
