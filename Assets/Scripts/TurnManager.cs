@@ -116,7 +116,7 @@ public class TurnManager : MonoBehaviour
     // Start a new turn & Win, lose decision
     public IEnumerator StartTurnCo()
     {
-        // [turn division
+        // turn division
         isLoading = true;
         if (myTurn)
             Debug.Log("³ªÀÇ ÅÏ");

@@ -4,19 +4,12 @@ using UnityEngine;
 
 public class Traveler : SkillBase
 {
-    SkillController skillController;
-
-    private void Start()
-    {
-        skillController = GetComponent<SkillController>();
-    }
-
     public override void UsingSkill()
     {
-        TravelerSkill();
+        TV_UsingSkill();
     }
 
-    private void TravelerSkill()
+    private void TV_UsingSkill()
     {
         //Only pawns are the target of Traveler
         if (selectPiece.name == "white_pawn" || selectPiece.name == "black_pawn")
@@ -30,6 +23,7 @@ public class Traveler : SkillBase
                 randomY = Random.Range(0, 8);
             } while (GameManager.Inst.GetPosition(randomX, randomY) != null);
 
+            GameManager.Inst.SetPositionEmpty(selectPiece.GetXBoard(), selectPiece.GetYBoard());
             selectPiece.SetXBoard(randomX);
             selectPiece.SetYBoard(randomY);
             selectPiece.SetCoords();
@@ -43,6 +37,7 @@ public class Traveler : SkillBase
             CardManager.Inst.SetisBreak(true);
             return;
         }
-        //SkillManager.Inst.DeleteSkillList(this);
+        SkillManager.Inst.RemoveSkillList(this);
+        Destroy(gameObject);
     }
 }

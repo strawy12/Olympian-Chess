@@ -83,7 +83,7 @@ public class SkillManager : MonoBehaviour
 
     public void SkillListCntPlus()
     {
-        for(int i = 0; i < skillList.Count; i++)
+        for (int i = 0; i < skillList.Count; i++)
         {
             skillList[i].TurnCntPlus();
         }
@@ -117,7 +117,7 @@ public class SkillManager : MonoBehaviour
     public SkillBase SpawnSkillPrefab(Card card, Chessman chessPiece)
     {
         SkillBase sb = CheckSkill(card).GetComponent<SkillBase>();
-
+        if (sb == null) return null;
         AddSkillList(sb);
         sb.SetPalyer(GameManager.Inst.GetCurrentPlayer());
         sb.SetSelectPiece(chessPiece);
@@ -136,21 +136,21 @@ public class SkillManager : MonoBehaviour
             case "천벌":
                 obj.AddComponent<HeavenlyPunishment>();
                 break;
-                //case "에로스의 사랑":
-                //    LoveOfEros(chessPiece);
-                //    break;
-                //case "수면":
-                //    Sleep(chessPiece);
-                //    break;
-                //case "음악":
-                //    Music(chessPiece);
-                //    break;
-                //case "돌진":
-                //    Rush(chessPiece);
-                //    break;
-                //case "여행자":
-                //    Traveler(chessPiece);
-                //    break;
+            //case "에로스의 사랑":
+            //    LoveOfEros(chessPiece);
+            //    break;
+            //case "수면":
+            //    Sleep(chessPiece);
+            //    break;
+            //case "음악":
+            //    Music(chessPiece);
+            //    break;
+            //case "돌진":
+            //    Rush(chessPiece);
+            //    break;
+            case "여행자":
+                obj.AddComponent<Traveler>();
+                break;
                 //case "길동무":
                 //    StreetFriend(chessPiece);
                 //    break;

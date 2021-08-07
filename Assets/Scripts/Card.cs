@@ -12,7 +12,6 @@ public class Card : MonoBehaviour
     [SerializeField] Sprite cardBack;
     [SerializeField] Sprite emptySprite;
     [SerializeField] Sprite cardDefault;
-    [SerializeField] ECardState eCardState;
     #endregion
 
     #region Var List
@@ -25,7 +24,6 @@ public class Card : MonoBehaviour
 
     public Carditem carditem;
     public PRS originPRS;
-    enum ECardState { Nothing, CanMouseDrag }
 
     #endregion
 
@@ -48,14 +46,10 @@ public class Card : MonoBehaviour
             cardPrame.sprite = cardFornt;
         else
             cardPrame.sprite = cardBack;
-
-        SetECardState();
     }
 
     private void OnMouseOver()
     {
-        if (eCardState == ECardState.Nothing)
-            return;
         //if (PilSalGi.Inst.GetisUsePilSalGi()) return; // Card cannot be used while using PilSalGi
         if (enabled == false)
             return;
@@ -65,8 +59,6 @@ public class Card : MonoBehaviour
 
     void OnMouseDown()
     {
-        if (eCardState == ECardState.Nothing)
-            return;
         //if (PilSalGi.Inst.GetisUsePilSalGi()) return;
         if (enabled == false)
             return;
@@ -91,8 +83,6 @@ public class Card : MonoBehaviour
 
     void OnMouseUp()
     {
-        if (eCardState == ECardState.Nothing)
-            return;
         // if (PilSalGi.Inst.GetisUsePilSalGi()) return;
         if (enabled == false)
             return;
@@ -107,15 +97,6 @@ public class Card : MonoBehaviour
         //    CardManager.Inst.CardAlignment(false);
         //}
 
-    }
-
-    void SetECardState() // enum event Setting
-    {
-        if (TurnManager.Instance.isLoading)
-            eCardState = ECardState.Nothing;
-
-        else if (TurnManager.Instance.myTurn)
-            eCardState = ECardState.CanMouseDrag;
     }
     #endregion
 
