@@ -10,10 +10,10 @@ public class SkillBase : MonoBehaviour
     protected int posY;
     protected int turnCnt = 0;
 
-    public void UsingSkill() {}
+    public virtual void UsingSkill(){}
 
-    public void StandardSkill() {}
+    public virtual void StandardSkill(){}
 
-    public void ResetSkill() {}
+    public virtual void ResetSkill(){}
 
 }

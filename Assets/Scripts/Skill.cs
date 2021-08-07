@@ -368,14 +368,14 @@ public class Skill : MonoBehaviour
     //Use it when the skill's ability ends
     public void DestroyObject()
     {
-        SkillManager.Inst.RemoveSkillList(this);
+        //SkillManager.Inst.RemoveSkillList(this);
         Destroy(gameObject);
     }
 
     // Function Removing skill from skill list
     public void DeleteSkill()
     {
-        SkillManager.Inst.DeleteSkillList(this);
+        //SkillManager.Inst.DeleteSkillList(this);
         Destroy(gameObject);
     }
 
@@ -626,7 +626,7 @@ public class Skill : MonoBehaviour
     //Traveler Function
     private void Traveler(Chessman chessPiece)
     {
-        // Only pawns are the target of Traveler
+        //Only pawns are the target of Traveler
         if (chessPiece.name == "white_pawn" || chessPiece.name == "black_pawn")
         {
             isUsingCard = false;
@@ -655,7 +655,7 @@ public class Skill : MonoBehaviour
             return;
         }
         DeleteSkill();
-        SkillManager.Inst.DeleteSkillList(this);
+        //SkillManager.Inst.DeleteSkillList(this);
     }
 
     // Street Friend Function
@@ -780,7 +780,7 @@ public class Skill : MonoBehaviour
         selectPiece.spriteRenderer.material.SetColor("_Color", new Color32(0, 0, 0, 0));
         selectPiece = null;
         turn = 0;
-        SkillManager.Inst.RemoveSkillList(this);
+        //SkillManager.Inst.RemoveSkillList(this);
         Destroy(gameObject);
     }
 
@@ -800,7 +800,7 @@ public class Skill : MonoBehaviour
         selectPiece.spriteRenderer.material.SetColor("_Color", new Color32(0, 0, 0, 0));
         selectPiece = null;
         turn = 0;
-        SkillManager.Inst.RemoveSkillList(this);
+        //SkillManager.Inst.RemoveSkillList(this);
         Destroy(gameObject);
     }
 
@@ -811,7 +811,7 @@ public class Skill : MonoBehaviour
         if (!CheckTurnTime(turn)) return;
         selectPiece.spriteRenderer.material.SetColor("_Color", new Color32(0, 0, 0, 0));
         selectPiece = null;
-        SkillManager.Inst.RemoveSkillList(this);
+        //SkillManager.Inst.RemoveSkillList(this);
         Destroy(gameObject);
     }
 
@@ -880,7 +880,7 @@ public class Skill : MonoBehaviour
         Destroy(gameObject);
         SkillManager.Inst.RemoveDontClickPiece(selectPiece);
         SkillManager.Inst.RemoveDontClickPiece(selectPieceTo);
-        SkillManager.Inst.RemoveSkillList(this);
+       // SkillManager.Inst.RemoveSkillList(this);
         selectPiece = null;
         selectPieceTo = null;
         isUsingCard = false;
@@ -955,7 +955,7 @@ public class Skill : MonoBehaviour
         }
         // When card time is over, selected pieces turn to original color
         selectPiece = null;
-        SkillManager.Inst.RemoveSkillList(this);
+        //SkillManager.Inst.RemoveSkillList(this);
         SkillManager.Inst.RemoveDontClickPiece(selectPiece);
         Destroy(gameObject);
     }
@@ -992,7 +992,7 @@ public class Skill : MonoBehaviour
 
         // if use of this card is over,
         // remove this from skill list and destroy this game object
-        SkillManager.Inst.RemoveSkillList(this);
+        //SkillManager.Inst.RemoveSkillList(this);
         SkillManager.Inst.RemoveDontClickPiece(selectPiece);
         selectPiece = null;
         Destroy(gameObject);

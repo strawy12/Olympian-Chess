@@ -13,7 +13,7 @@ public class SkillManager : MonoBehaviour
 
     #region SerializeField Var
     //List of skills currently in use
-    [SerializeField] private List<Skill> skillList = new List<Skill>();
+    [SerializeField] private List<SkillController> skillList = new List<SkillController>();
     [SerializeField] private GameObject skillPrefab;
 
     #endregion
@@ -29,130 +29,11 @@ public class SkillManager : MonoBehaviour
 
     #region System Check
     //Function checking every skill's times
-    private void CheckSkillTime()
-    {
-        Skill sk;
-        Skill sk1;
-        Skill sk2;
-
-        if (CheckSkillList("길동무", GetCurrentPlayer(true)))
-        {
-            sk = GetSkillList("길동무", GetCurrentPlayer(true));
-            if (sk == null) return;
-            if (sk.GetSelectPiece() == null)
-            {
-                sk.ReloadStreetFriend();
-            }
-        }
-
-        if (CheckSkillList("바카스", GetCurrentPlayer(true)))
-        {
-            sk = GetSkillList("바카스", GetCurrentPlayer(true));
-            if (sk == null) return;
-            if (CheckTurnTime(sk.turn))
-            {
-                sk.ReloadBacchrs();
-            }
-        }
-
-        if (CheckSkillList("정의구현", GetCurrentPlayer(true)))
-        {
-            sk = GetSkillList("정의구현", GetCurrentPlayer(true));
-            if (sk == null) return;
-            if (CheckTurnTime(sk.turn))
-            {
-                sk.ReLoadJustice();
-            }
-        }
-
-        if (CheckSkillList("아테나의 방패", GetCurrentPlayer(true)))
-        {
-            sk = GetSkillList("아테나의 방패", GetCurrentPlayer(true));
-            if (sk == null) return;
-            sk.CheckAS();
-        }
-
-        if (CheckSkillList("달빛", GetCurrentPlayer(true)))
-        {
-            sk = GetSkillList("달빛", GetCurrentPlayer(true));
-            if (sk == null) return;
-            if (CheckTurnTime(sk.turn))
-                sk.ResetML();
-            else
-                sk.CheckML();
-        }
-
-        if (CheckSkillList("달빛", GetCurrentPlayer(false)))
-        {
-            sk = GetSkillList("달빛", GetCurrentPlayer(false));
-            if (sk == null) return;
-            if (CheckTurnTime(sk.turn))
-                sk.ResetML();
-            else
-                sk.CheckML();
-        }
-        if (CheckSkillList("수면", GetCurrentPlayer(false)))
-        {
-            sk = GetSkillList("수면", GetCurrentPlayer(false));
-            if (sk == null) return;
-            if (sk.isBreak) return;
-            sk.CheckParticle();
-        }
-        if (CheckSkillList("서풍", GetCurrentPlayer(true)))
-        {
-            sk = GetSkillList("서풍", GetCurrentPlayer(true));
-            if (sk == null) return;
-            if (sk.isBreak) return;
-            sk.ReLoadWWChessPiece();
-        }
-        if (CheckSkillList("수중감옥", GetCurrentPlayer(true)))
-        {
-            sk = GetSkillList("수중감옥", GetCurrentPlayer(true));
-            if (sk == null) return;
-            if (sk.isBreak) return;
-            sk.ReLoadOJChessPiece();
-        }
-        if (CheckSkillList("질서", GetCurrentPlayer(true)))
-        {
-            sk = GetSkillList("질서", GetCurrentPlayer(true));
-            if (sk == null) return;
-            if (sk.isBreak) return;
-            sk.ReLoadODChessPiece();
-        }
-        if (CheckSkillList("죽음의 땅", GetCurrentPlayer(true)) && CheckSkillList("죽음의 땅", GetCurrentPlayer(false)))
-        {
-            sk1 = GetSkillList("죽음의 땅", GetCurrentPlayer(true));
-            sk2 = GetSkillList("죽음의 땅", GetCurrentPlayer(false));
-            if (sk1 == null || sk2 == null) return;
-            if (sk1.isBreak || sk2.isBreak) return;
-            sk1.StartGOD_SkillEffect();
-            sk2.StartGOD_SkillEffect();
-        }
-
-        if (CheckSkillList("죽음의 땅", GetCurrentPlayer(true)))
-        {
-            sk = GetSkillList("죽음의 땅", GetCurrentPlayer(true));
-
-            if (sk.isBreak) return;
-            sk.StartGOD_SkillEffect();
-        }
-
-        if (CheckSkillList("죽음의 땅", GetCurrentPlayer(false)))
-        {
-            sk = GetSkillList("죽음의 땅", GetCurrentPlayer(false));
-
-            if (sk.isBreak) return;
-            sk.StartGOD_SkillEffect();
-        }
-    }
-
     // Function to stop using the canceled cards (Eros love, sleep)
     public void CheckSkillCancel()
     {
-        Skill sk;
+        SkillController sk;
 
-        if (CardManager.Inst.CheckCard("에로스의 사랑", true))
-        {
             sk = GetSkillList("에로스의 사랑", GetCurrentPlayer(true));
             if (sk == null) return;
             if (sk.GetSelectPieceTo() != null) return;
@@ -160,18 +41,6 @@ public class SkillManager : MonoBehaviour
             // 스킬 사용을 위해 선택한 체스피스가 없다면 스킬 제거
             Destroy(sk.gameObject);
             RemoveSkillList(sk);
-        }
-
-        if (CardManager.Inst.CheckCard("수면", true))
-        {
-            sk = GetSkillList("수면", GetCurrentPlayer(true));
-            if (sk == null) return;
-            if (sk.GetSelectPieceTo() != null) return;
-            // 수면을 사용하지 않은 상태가 아니고
-            // 스킬 사용을 위해 선택한 체스피스가 없다면 스킬 제거
-            Destroy(sk.gameObject);
-            RemoveSkillList(sk);
-        }
     }
 
     // Function checking skill's turn time
@@ -201,7 +70,7 @@ public class SkillManager : MonoBehaviour
     {
         for (int i = 0; i < skillList.Count; i++)
         {
-            if (skillList[i].gameObject.name == name && skillList[i].GetPalyer() == player)
+            if (skillList[i].gameObject.name == name && skillList[i].GetPlayer() == player)
                 return true;
         }
         return false;
@@ -245,11 +114,11 @@ public class SkillManager : MonoBehaviour
     }
 
     // Function returning skill if there is a skill from skillList that is the same as name
-    public Skill GetSkillList(string name, string player)
+    public SkillController GetSkillList(string name, string player)
     {
         for (int i = 0; i < skillList.Count; i++)
         {
-            if (skillList[i].gameObject.name == name && skillList[i].GetPalyer() == player)
+            if (skillList[i].gameObject.name == name && skillList[i].GetPlayer() == player)
                 return skillList[i];
         }
         return null;
@@ -263,24 +132,24 @@ public class SkillManager : MonoBehaviour
     public void SetTurnTime()
     {
         turnTime++;
-        CheckSkillTime();
+        //CheckSkillTime();
     }
 
     // Function adding sk to skillList
 
-    public void SetSkillList(Skill sk)
+    public void SetSkillList(SkillController sk)
     {
         skillList.Add(sk);
     }
 
     // Function removing sk to skillList
-    public void DeleteSkillList(Skill sk)
+    public void DeleteSkillList(SkillController sk)
     {
         skillList.Remove(sk);
     }
 
     // to be removed later**********************************
-    public void RemoveSkillList(Skill sk)
+    public void RemoveSkillList(SkillController sk)
     {
         skillList.Remove(sk);
     }
