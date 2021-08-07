@@ -74,14 +74,7 @@ public class MovePlate : MonoBehaviour
 
         //}
 
-        //if (CheckSkillList("´Þºû", GetCurrentPlayer(true)))
-        //{
-        //    Skill sk = SkillManager.Inst.GetSkillList("´Þºû", GetCurrentPlayer(true));
-
-        //    sk.GetSelectPiece().spriteRenderer.material.color = new Color(0.5f, 0.5f, 0.5f, 0f);
-        //    sk.SetIsMLMoved(true);
         //}
-
         reference.isMoving = true;
         TurnManager.Instance.ButtonColor();
     }
@@ -251,6 +244,8 @@ public class MovePlate : MonoBehaviour
         //}
 
         Destroy(cp.gameObject);
+        SkillManager.Inst.SkillListStandard(cp);
+        Debug.Log("dfdfdf");
         GameManager.Inst.SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
         GameManager.Inst.UpdateArr(cp);
     }
@@ -352,7 +347,6 @@ public class MovePlate : MonoBehaviour
         else if (eCardState == ECardState.UsingCard)
         {
             //Card2();
-            Debug.Log("Ÿ¶ÇÏÁØ ¹Ùº¸");
         }
         
     }

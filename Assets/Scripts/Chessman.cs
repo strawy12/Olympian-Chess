@@ -26,6 +26,8 @@ public class Chessman : MonoBehaviour
     public bool isMoved = false;
     public bool isMoving = false;
     public bool isAttacking = false;
+    private bool isSelecting = false;
+    private bool isAttackSelecting = false;
     private bool isMySkill = false;
     private void Start()
     {
@@ -670,6 +672,7 @@ public class Chessman : MonoBehaviour
     }
     public void MovePlateAttackSpawn(int matrixX, int matrixY)
     {
+        if (IsAttackSpawn(matrixX, matrixY)) return;
         //Skill sk = SkillManager.Inst.GetSkillList("´Þºû", GetCurrentPlayer(true));
 
         //if ((CheckSkillList("´Þºû", GetCurrentPlayer(true)) && !sk.isMLMoved()))
@@ -696,4 +699,29 @@ public class Chessman : MonoBehaviour
         mpScript.SetCoords(matrixX, matrixY);
     }
    
+    public void SetIsSelecting(bool _isHidden)
+    {
+        isSelecting = _isHidden;
+    }
+
+    public bool GetIsSelecting()
+    {
+        return isSelecting;
+    }
+
+    private bool IsAttackSpawn(int x, int y)
+    {
+        if (isSelecting && GameManager.Inst.GetPosition(x, y).name.Contains("king")) return true;
+        else return false;
+    }
+
+    public void SetIsAttackSelecting(bool _isAttackSelecting)
+    {
+        isAttackSelecting = _isAttackSelecting;
+    }
+
+    public bool GetIsAttackSelecting()
+    {
+        return isAttackSelecting;
+    }
 }

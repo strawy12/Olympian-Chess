@@ -11,18 +11,18 @@ public class SkillBase : MonoBehaviour
     protected int turnCnt = 0;
     protected string player = "white";
 
-    public virtual void UsingSkill() {}
+    public virtual void UsingSkill() { }
 
-    public virtual void StandardSkill() {}
+    public virtual void StandardSkill() { }
 
-    public virtual void ResetSkill() {}
+    public virtual void ResetSkill() { }
 
-    public void SetSelectPiece(Chessman cp) 
+    public void SetSelectPiece(Chessman cp)
     {
         selectPiece = cp;
     }
 
-    public Chessman GetSelectPieceTo() 
+    public Chessman GetSelectPieceTo()
     {
         return selectPieceTo;
     }
@@ -39,6 +39,15 @@ public class SkillBase : MonoBehaviour
     public void SetPalyer(string player)
     {
         this.player = player;
+    }
+    public void SetPosX(int posX)
+    {
+        this.posX = posX;
+    }
+
+    public void SetPosY(int posY)
+    {
+        this.posY = posY;
     }
 
     public void TurnCntPlus()
