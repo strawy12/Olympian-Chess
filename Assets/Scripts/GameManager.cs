@@ -49,6 +49,9 @@ public class GameManager : MonoBehaviour
     [Multiline(10)]
     [SerializeField] string cheatInfo;
 
+    private bool usingSkill = false;
+    private bool moving = true;
+
     Chessman cm;
 
     WaitForSeconds delay2 = new WaitForSeconds(2);
@@ -389,6 +392,26 @@ public class GameManager : MonoBehaviour
     {
         return gameOver;
     }
+
+    public bool GetUsingSkill()
+    {
+        return usingSkill;
+    }
+
+    public bool GetMoving()
+    {
+        return moving;
+    } 
+    public void SetUsingSkill(bool usingSkill)
+    {
+        this.usingSkill = usingSkill;
+    }
+
+    public void SetMoving(bool moving)
+    {
+        this.moving = moving;
+    }    
+
     // Function calling next turn
     public void NextTurn()
     {

@@ -12,8 +12,6 @@ public class Sleep : SkillBase
     private string cp_Player;
     public override void UsingSkill()
     {
-        
-        
         SP_UsingSkill();
     }
 
@@ -28,7 +26,8 @@ public class Sleep : SkillBase
 
     private void SP_UsingSkill()
     {
-        SkillManager.Inst.SetUsingCard(true);
+        GameManager.Inst.SetUsingSkill(true);
+        GameManager.Inst.SetMoving(false);
         GameObject mp =  selectPiece.MovePlateSpawn(selectPiece.GetXBoard(), selectPiece.GetYBoard());
         mp.GetComponent<SpriteRenderer>().material.SetColor("_Color", new Color32(95, 0, 255, 255));
         GameManager.Inst.AllMovePlateSpawn(selectPiece, false);
@@ -41,7 +40,8 @@ public class Sleep : SkillBase
         moveCnt2 = selectPieceTo.GetMoveCnt();
         selectPiece.DestroyMovePlates();
         StartCoroutine(SP_SkillEffect());
-        SkillManager.Inst.SetUsingCard(false);
+        GameManager.Inst.SetUsingSkill(false);
+        GameManager.Inst.SetMoving(true);
         turn = 3;
     }
 

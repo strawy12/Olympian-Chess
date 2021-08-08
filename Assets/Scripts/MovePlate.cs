@@ -15,7 +15,7 @@ public class MovePlate : MonoBehaviour
     public bool isOD = false;
 
     private bool isSelected = false;
-    enum ECardState { Moving, UsingCard }
+    enum ECardState { Moving, Skill, MovingAndSkill }
 
     Chessman reference = null;
 
@@ -319,9 +319,13 @@ public class MovePlate : MonoBehaviour
             StartCoroutine(ReturnMovingCard());
         }
 
-        else if (eCardState == ECardState.UsingCard)
+        else if (eCardState == ECardState.Skill)
         {
             SkillManager.Inst.UsingSkill(this);
+        }
+        else if(eCardState == ECardState.MovingAndSkill)
+        {
+
         }
         
     }
@@ -344,11 +348,21 @@ public class MovePlate : MonoBehaviour
     void SetECardState()
     {
         // Change current state to usingCard if card was used
-        if (SkillManager.Inst.GetUsingCard())
-            eCardState = ECardState.UsingCard;
+        if (GameManager.Inst.GetMoving() && GameManager.Inst.GetUsingSkill())
+        {
+            eCardState = ECardState.MovingAndSkill;
+        }
+            
         // If not, change the current state to moving
-        else
+        else if(GameManager.Inst.GetMoving() && !GameManager.Inst.GetUsingSkill())
+        {
             eCardState = ECardState.Moving;
+        }
+            
+        else if (!GameManager.Inst.GetMoving() && GameManager.Inst.GetUsingSkill())
+        {
+            eCardState = ECardState.Skill;
+        }
     }
 
 
