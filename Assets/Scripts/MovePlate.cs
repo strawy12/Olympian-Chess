@@ -24,8 +24,8 @@ public class MovePlate : MonoBehaviour
     public void Start()
     {
         AttackChess();
-
     }
+
     private void AttackChess()
     {
         if (attack)
@@ -48,6 +48,7 @@ public class MovePlate : MonoBehaviour
         reference.DestroyMovePlates();
         GameManager.Inst.SetPosition(reference);
 
+        #region
         //if (SkillManager.Inst.CheckSkillList("ÀüÀï±¤", GetCurrentPlayer(true)) || SkillManager.Inst.CheckSkillList("ÀüÀï±¤", GetCurrentPlayer(false)))
         //{
         //    SkillController sc = SkillManager.Inst.GetSkillList("ÀüÀï±¤", GetCurrentPlayer(true));
@@ -75,6 +76,7 @@ public class MovePlate : MonoBehaviour
         //}
 
         //}
+        #endregion
         reference.isMoving = true;
         TurnManager.Instance.ButtonColor();
     }
@@ -83,7 +85,7 @@ public class MovePlate : MonoBehaviour
     {
         yield return MovingCard();
     }
-   
+
     #region isAttackÀÏ¶§
     //private void War()
     //{
@@ -201,55 +203,56 @@ public class MovePlate : MonoBehaviour
     //    gillDongMu.SetIsUsingCard(false);
 
     //}
-
+    #endregion
     private void Card()
     {
         Chessman cp = GameManager.Inst.GetPosition(matrixX, matrixY);
 
-        //Skill athen = SkillManager.Inst.GetSkillList("¾ÆÅ×³ªÀÇ ¹æÆÐ", GetCurrentPlayer(false));
+        #region
+        /* Skill athen = SkillManager.Inst.GetSkillList("¾ÆÅ×³ªÀÇ ¹æÆÐ", GetCurrentPlayer(false));
 
-        //if (SkillManager.Inst.CheckSkillList("ÀüÀï±¤", GetCurrentPlayer(true)) || SkillManager.Inst.CheckSkillList("ÀüÀï±¤", GetCurrentPlayer(false)))
-        //{
-        //    War();
-        //}
+        if (SkillManager.Inst.CheckSkillList("ÀüÀï±¤", GetCurrentPlayer(true)) || SkillManager.Inst.CheckSkillList("ÀüÀï±¤", GetCurrentPlayer(false)))
+        {
+            War();
+        }
 
-        //if (SkillManager.Inst.CheckSkillList("´Þºû", GetCurrentPlayer(true)))
-        //{
-        //    if (cp.name == "black_king" || cp.name == "white_king")
-        //        return;
-        //}
+        if (SkillManager.Inst.CheckSkillList("´Þºû", GetCurrentPlayer(true)))
+        {
+            if (cp.name == "black_king" || cp.name == "white_king")
+                return;
+        }
 
-        //if (CheckSkillList("¾ÆÅ×³ªÀÇ ¹æÆÐ", GetCurrentPlayer(false)) && cp == athen.GetSelectPiece())
-        //{
-        //    Athen();
-        //}
+        if (CheckSkillList("¾ÆÅ×³ªÀÇ ¹æÆÐ", GetCurrentPlayer(false)) && cp == athen.GetSelectPiece())
+        {
+            Athen();
+        }
 
-        //if (CheckSkillList("Ãâ»ê", GetCurrentPlayer(false)))
-        //{
-        //    Born();
-        //}
+        if (CheckSkillList("Ãâ»ê", GetCurrentPlayer(false)))
+        {
+            Born();
+        }
 
-        //if (CheckSkillList("¿¡·Î½ºÀÇ »ç¶û", GetCurrentPlayer(false)))
-        //{
-        //    Eros();
-        //}
+        if (CheckSkillList("¿¡·Î½ºÀÇ »ç¶û", GetCurrentPlayer(false)))
+        {
+            Eros();
+        }
 
-        //if (CheckSkillList("±æµ¿¹«", GetCurrentPlayer(false)))
-        //{
-        //    GillDongMu();
-        //}
-        //if (GetCurrentPlayer(false) == cp.player)
-        //{
-        //    PilSalGi.Inst.attackCntPlus();
-        //}
+        if (CheckSkillList("±æµ¿¹«", GetCurrentPlayer(false)))
+        {
+            GillDongMu();
+        }
+        if (GetCurrentPlayer(false) == cp.player)
+        {
+            PilSalGi.Inst.attackCntPlus();
+        }*/
+        #endregion
 
         Destroy(cp.gameObject);
         SkillManager.Inst.SkillListStandard(cp);
-        Debug.Log("dfdfdf");
         GameManager.Inst.SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
         GameManager.Inst.UpdateArr(cp);
     }
-    #endregion
+
 
     #region ÇöÀç»óÅÂ¿¡µû¶ó¼­
     //private void Eros2()
@@ -328,17 +331,17 @@ public class MovePlate : MonoBehaviour
         {
             Card();
 
-            //if (reference.isAttacking)
-            //{
-            //    GameManager.Inst.attackings.Remove(reference);
-            //    reference.attackCount = 0;
-            //}
+            if (reference.isAttacking)
+            {
+                GameManager.Inst.attackings.Remove(reference);
+                reference.attackCount = 0;
+            }
 
-            //GameManager.Inst.attackings.Add(reference);
+            GameManager.Inst.attackings.Add(reference);
             //GameManager.Inst.CheckDeadSkillPiece(cp);
-            //reference.isAttacking = true;
+            reference.isAttacking = true;
         }
-       
+
         if (eCardState == ECardState.Moving)
         {
             StartCoroutine(ReturnMovingCard());
@@ -350,7 +353,6 @@ public class MovePlate : MonoBehaviour
         }
         
     }
-
   
     public void OnMouseUp()
     {

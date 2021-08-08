@@ -264,13 +264,13 @@ public class CardManager : MonoBehaviour
         return false;
     }
 
-    private bool CheckSkillList(string name, string player) // Check if a specific skill is being used
-    {
-        if (SkillManager.Inst.CheckSkillList(name, player))
-            return true;
-        else
-            return false;
-    }
+    //private bool CheckSkillList(string name, string player) // Check if a specific skill is being used
+    //{
+    //    if (SkillManager.Inst.CheckSkillList(name, player))
+    //        return true;
+    //    else
+    //        return false;
+    //}
 
     private bool CheckPlayer(string name) // CurrentPlayer Check
     {
@@ -695,9 +695,7 @@ public class CardManager : MonoBehaviour
                 //Destroy(sk);
                 return false;
             }
-            if (CheckSkillList("파도", GameManager.Inst.GetCurrentPlayer())) return true;
-            if (CheckSkillList("수면", GameManager.Inst.GetCurrentPlayer())) return true;
-            if (CheckSkillList("에로스의 사랑", GameManager.Inst.GetCurrentPlayer())) return true;
+
 
             DestroyCard(card, targetCards); // 사용한 카드는 삭제
             isUse = true; // 사용중을 표시함
@@ -714,7 +712,6 @@ public class CardManager : MonoBehaviour
             }
 
             CardAlignment(isMine); // 카드가 하나 사라졌기에 카드를 다시 정렬한다
-            if (CheckSkillList("제물", GameManager.Inst.GetCurrentPlayer())) return true; // Later delete Code
             if (selectCard != null)
                 if (selectCard.carditem.name == "전쟁광" || selectCard.carditem.name == "달빛") // Later delete Code
                     return true;

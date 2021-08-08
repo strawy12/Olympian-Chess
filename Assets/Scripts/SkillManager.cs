@@ -41,15 +41,16 @@ public class SkillManager : MonoBehaviour
     }
 
     // Function checking if there is a skill from skillList that is the same as name
-    public bool CheckSkillList(string name, string player)
+    public bool CheckSkillList(string skill, string player)
     {
         for (int i = 0; i < skillList.Count; i++)
         {
-            if (skillList[i].gameObject.name == name && skillList[i].GetPlayer() == player)
+            if (skillList[i].name == skill && skillList[i].GetPlayer() == player)
                 return true;
         }
         return false;
     }
+
 
     #endregion
 
@@ -113,6 +114,11 @@ public class SkillManager : MonoBehaviour
         skillList.Remove(sb);
     }
 
+    public List<SkillBase> GetSkillList()
+    {
+        return skillList;
+    }
+
     // Function adding the cp to dontClickPiece list
     public void AddDontClickPiece(Chessman cp)
     {
@@ -154,9 +160,9 @@ public class SkillManager : MonoBehaviour
             //case "수면":
             //    Sleep(chessPiece);
             //    break;
-            //case "음악":
-            //    Music(chessPiece);
-            //    break;
+            case "음악":
+                obj.AddComponent<Music>();
+                break;
             case "돌진":
                 obj.AddComponent<Rush>();
                 break;
@@ -166,18 +172,18 @@ public class SkillManager : MonoBehaviour
             //case "길동무":
             //    StreetFriend(chessPiece);
             //    break;
-            //case "바카스":
-            //    Bacchrs();
-            //    break;
+            case "바카스":
+                obj.AddComponent<Bacchrs>();
+                break;
             case "시간왜곡":
                 obj.AddComponent<TimeWarp>();
                 break;
             case "제물":
                 obj.AddComponent<Offering>();
                 break;
-            //case "정의구현":
-            //    Justice();
-            //    break;
+            case "정의구현":
+                obj.AddComponent<Justice>();
+                break;
             case "출산":
                 obj.AddComponent<GiveBirth>();
                 break;

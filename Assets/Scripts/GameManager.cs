@@ -46,6 +46,8 @@ public class GameManager : MonoBehaviour
     private string currentPlayer = "white";
 
     public bool gameOver = false;
+    public bool isBacchrs = false;
+
     [Multiline(10)]
     [SerializeField] string cheatInfo;
 
@@ -500,6 +502,24 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < playerWhite.Length; i++)
         {
             playerBlack[i].isMoving = false;
+        }
+    }
+
+    public void PlusAttackCnt()
+    {
+        for (int i = 0; i < attackings.Count; i++)
+        {
+            if(attackings[i]==null)
+            {
+                attackings.RemoveAt(i);
+            }
+
+            attackings[i].attackCount++;
+
+            if(attackings[i].attackCount > 2)
+            {
+                attackings.RemoveAt(i);
+            }
         }
     }
     #endregion

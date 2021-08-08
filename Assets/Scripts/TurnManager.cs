@@ -205,9 +205,6 @@ public class TurnManager : MonoBehaviour
     {
         if (!isActive) return;
 
-        List<Chessman> attack = GameManager.Inst.attackings;
-        //Skill sk = SkillManager.Inst.GetSkillList("´Þºû", GameManager.Inst.GetCurrentPlayer());
-
         if (GameManager.Inst.gameOver) return;
 
         if (CardManager.Inst.GetSelectCard() != null)
@@ -225,19 +222,17 @@ public class TurnManager : MonoBehaviour
         CardManager.Inst.ChangeIsUse(false);
         SkillManager.Inst.SkillListCntPlus();
         GameManager.Inst.NextTurn();
-
-        for (int i = 0; i < attack.Count; i++)
-            attack[i].attackCount++;
+        GameManager.Inst.PlusAttackCnt();
 
         StartCoroutine(StartTurnCo());
         WinOrLose();
     }
 
-    private bool CheckSkillList(string name, string player)
-    {
-        if (SkillManager.Inst.CheckSkillList(name, player))
-            return true;
-        else
-            return false;
-    }
+    //private bool CheckSkillList(string name, string player)
+    //{
+    //    if (SkillManager.Inst.CheckSkillList(name, player))
+    //        return true;
+    //    else
+    //        return false;
+    //}
 }
