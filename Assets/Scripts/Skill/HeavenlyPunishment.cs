@@ -49,7 +49,7 @@ public class HeavenlyPunishment : SkillBase
             yield return new WaitForSeconds(0.2f);
         }
         // When card time is over, selected pieces turn to original color
-        selectPiece = null;
+
         SkillManager.Inst.RemoveSkillList(this);
         SkillManager.Inst.RemoveDontClickPiece(selectPiece);
         Destroy(gameObject); 

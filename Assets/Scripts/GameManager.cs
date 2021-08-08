@@ -40,6 +40,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Chessman[] playerBlack = new Chessman[16];
     [SerializeField] private Chessman[] playerWhite = new Chessman[16];
 
+    [SerializeField] ECardState eCardState;
+    [SerializeField] GameObject movePlate;
+
+    enum ECardState { Moving, Skill, MovingAndSkill }
+
     //List including attacking chesspiece
     public List<Chessman> attackings;
 
@@ -48,6 +53,7 @@ public class GameManager : MonoBehaviour
     public bool gameOver = false;
     [Multiline(10)]
     [SerializeField] string cheatInfo;
+    [SerializeField] private List<GameObject> movePlateList = new List<GameObject>();
 
     private bool usingSkill = false;
     private bool moving = true;
@@ -136,7 +142,11 @@ public class GameManager : MonoBehaviour
         //A => Deleting Pawn
         if (Input.GetKeyDown(KeyCode.A))
         {
-            DeletePawn();
+            RealAllMovePlateSpawn();
+        }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            DestroyMovePlates();
         }
         //gameOver && click => reloading game
         if (gameOver == true && Input.GetMouseButtonDown(0))
@@ -174,16 +184,15 @@ public class GameManager : MonoBehaviour
     // Function destroying move plates that not are used
     public void DestroyMovePlates()
     {
-        //find all move plates that exist on chess board
-        MovePlate[] movePlates = FindObjectsOfType<MovePlate>();
-
-        for (int i = 0; i < movePlates.Length; i++) //무브플레이트 모두 살피고 제거
+        int cnt = movePlateList.Count;
+        for (int i = 0; i < cnt; i++)
         {
-            Destroy(movePlates[i].gameObject);
+            Destroy(movePlateList[0]);
+            RemoveMovePlateList(movePlateList[0]);
         }
     }
-    // Functions checking if the parameter is equal to current player
-    public bool CheckPlayer(string player)
+        // Functions checking if the parameter is equal to current player
+        public bool CheckPlayer(string player)
     {
         if (GetCurrentPlayer() == player)
             return true;
@@ -212,6 +221,8 @@ public class GameManager : MonoBehaviour
     // that exist parameter value(black or white) color
     public void AllMovePlateSpawn(Chessman cm, bool isMine)
     {
+        GameObject mp;
+        Chessman cp;
         if (isMine)
         {
             if (currentPlayer == "white")
@@ -220,7 +231,7 @@ public class GameManager : MonoBehaviour
                 {
                     if (playerWhite[i] == null || playerWhite[i] == cm)
                         continue;
-                    playerWhite[i].MovePlateSpawn(playerWhite[i].GetXBoard(), playerWhite[i].GetYBoard());
+                    MovePlateSpawn(playerWhite[i].GetXBoard(), playerWhite[i].GetYBoard(), cm);
                 }
             }
             else
@@ -229,13 +240,13 @@ public class GameManager : MonoBehaviour
                 {
                     if (playerBlack[i] == null || playerBlack[i] == cm)
                         continue;
-                    playerBlack[i].MovePlateSpawn(playerBlack[i].GetXBoard(), playerBlack[i].GetYBoard());
+                    MovePlateSpawn(playerBlack[i].GetXBoard(), playerBlack[i].GetYBoard(), cm);
                 }
             }
         }
         else
         {
-            GameObject mp;
+            
             if (currentPlayer != "white")
             {
                 for (int i = 0; i < playerWhite.Length; i++)
@@ -243,7 +254,7 @@ public class GameManager : MonoBehaviour
                     if (playerWhite[i] == null || playerWhite[i] == cm)
                         continue;
 
-                    mp = playerWhite[i].MovePlateSpawn(playerWhite[i].GetXBoard(), playerWhite[i].GetYBoard());
+                    mp = MovePlateSpawn(playerWhite[i].GetXBoard(), playerWhite[i].GetYBoard(), cm);
                     mp.GetComponent<SpriteRenderer>().material.SetColor("_Color", new Color32(255, 0, 0, 255));
                 }
             }
@@ -254,14 +265,70 @@ public class GameManager : MonoBehaviour
                     if (playerBlack[i] == null || playerBlack[i] == cm)
                         continue;
 
-                    mp = playerBlack[i].MovePlateSpawn(playerBlack[i].GetXBoard(), playerBlack[i].GetYBoard());
+                    mp = MovePlateSpawn(playerBlack[i].GetXBoard(), playerBlack[i].GetYBoard(), cm);
                     mp.GetComponent<SpriteRenderer>().material.SetColor("_Color", new Color32(255, 0, 0, 255));
 
                 }
             }
         }
     }
-    
+
+    public void RealAllMovePlateSpawn()
+    {
+        Chessman cp;
+        for(int i = 0; i < 8; i++)
+        {
+            for(int j = 0; j < 8; j++)
+            {
+                cp = GetPosition(i, j);
+                MovePlateSpawn(i, j, cp);
+            }
+        }
+    }
+    public GameObject MovePlateSpawn(int matrixX, int matrixY, Chessman cp)
+    {
+        //if (CheckReturnMovePlate(matrixX, matrixY, "서풍"))
+        //    return;
+
+        float x = matrixX;
+        float y = matrixY;
+
+        x *= 0.684f;
+        y *= 0.684f;
+
+        x += -2.4f;
+        y += -2.4f;
+
+        GameObject mp = Instantiate(movePlate, new Vector3(x, y, -3.0f), Quaternion.identity);
+        MovePlate mpScript = mp.GetComponent<MovePlate>();
+        mpScript.Setreference(cp);
+        mpScript.SetCoords(matrixX, matrixY);
+        AddMovePlateList(mp);
+        return mp;
+    }
+
+    public void MovePlateAttackSpawn(int matrixX, int matrixY, Chessman cp)
+    {
+        if (cp.IsAttackSpawn(matrixX, matrixY)) return;
+        float x = matrixX;
+        float y = matrixY;
+
+        x *= 0.684f;
+        y *= 0.684f;
+
+        x += -2.4f;
+        y += -2.4f;
+
+        GameObject mp = Instantiate(movePlate, new Vector3(x, y, -3.0f), Quaternion.identity);
+
+        MovePlate mpScript = mp.GetComponent<MovePlate>();
+        mpScript.attack = true;
+        mpScript.Setreference(cp);
+        mpScript.SetCoords(matrixX, matrixY);
+        AddMovePlateList(mp);
+
+
+    }
     // Function removing every pawn
     private void DeletePawn()
     {
@@ -382,6 +449,18 @@ public class GameManager : MonoBehaviour
         if (x < 0 || y < 0 || x >= position.GetLength(0) || y >= position.GetLength(1)) return false;
         return true;
     }
+    public void AddMovePlateList(GameObject mp)
+    {
+        movePlateList.Add(mp);
+    }
+
+    // Function removing cp from dontClickPiece list
+    public void RemoveMovePlateList(GameObject mp)
+    {
+        movePlateList.Remove(mp);
+
+    }
+
     // Function returning current player
     public string GetCurrentPlayer()
     {
@@ -397,11 +476,11 @@ public class GameManager : MonoBehaviour
     {
         return usingSkill;
     }
-
     public bool GetMoving()
     {
         return moving;
-    } 
+    }
+    
     public void SetUsingSkill(bool usingSkill)
     {
         this.usingSkill = usingSkill;

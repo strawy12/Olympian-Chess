@@ -22,10 +22,12 @@ public class Chessman : MonoBehaviour
     // Reference all chesspiece(in Game)
     public Sprite black_bishop, black_king, black_knight, black_pawn, black_queen, black_rook;
     public Sprite white_bishop, white_king, white_knight, white_pawn, white_queen, white_rook;
+    private List<SkillBase> chosenSkill = new List<SkillBase>();
     // Check if the chess pieces moved or not
     public bool isMoving = false;
     public bool isAttacking = false;
-    private bool isMySkill = false;
+    public bool attackSelecting = false;
+    private bool noneAttack = false;
     private void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -73,7 +75,7 @@ public class Chessman : MonoBehaviour
 
     public IEnumerator SetCoordsAnimation()
     {
-        
+
         // start position if (this == null) gameObject.SetActive(false);
         Vector3 startPos = transform.position;
 
@@ -100,7 +102,7 @@ public class Chessman : MonoBehaviour
             transform.position = Vector3.Lerp(startPos, endPos, t);
             yield return null;
         }
-        
+
 
     }
 
@@ -137,7 +139,7 @@ public class Chessman : MonoBehaviour
 
         if (!GameManager.Inst.IsGameOver() && GameManager.Inst.GetCurrentPlayer() == player)
         {
-            DestroyMovePlates(); // Destroy
+            GameManager.Inst.DestroyMovePlates(); // Destroy
             InitiateMovePlates(); // Instatiate
         }
     }
@@ -187,7 +189,7 @@ public class Chessman : MonoBehaviour
     {
         moveCnt++;
     }
-    
+
     public int GetMoveCnt()
     {
         return moveCnt;
@@ -196,14 +198,24 @@ public class Chessman : MonoBehaviour
     {
         this.isMoving = isMoving;
     }
-    public void DestroyMovePlates()
-    {
-        GameObject[] movePlates = GameObject.FindGameObjectsWithTag("MovePlate");
 
-        for (int i = 0; i < movePlates.Length; i++) //무브플레이트 모두 살피고 제거
-        {
-            Destroy(movePlates[i]);
-        }
+    public void SetAttackSelecting(bool attackSelecting)
+    {
+        this.attackSelecting = attackSelecting;
+    }
+    
+    public bool GetAttackSelecting()
+    {
+        return attackSelecting;
+    }
+    public void AddChosenSkill(SkillBase skill)
+    {
+        chosenSkill.Add(skill);
+    }
+
+    public void RemoveChosenSkill(SkillBase skill)
+    {
+        chosenSkill.Remove(skill);
     }
 
     public void InitiateMovePlates()
@@ -232,7 +244,7 @@ public class Chessman : MonoBehaviour
                 //    LineMovePlate(0, -1);
                 //}
                 //else
-                    LMovePlate();
+                LMovePlate();
                 break;
 
             case "black_bishop":
@@ -276,12 +288,12 @@ public class Chessman : MonoBehaviour
             InitiateMovePlates();
             movePlates = FindObjectsOfType<MovePlate>();
         }
-            List<Chessman> cps = new List<Chessman>();
+        List<Chessman> cps = new List<Chessman>();
         for (int i = 0; i < movePlates.Length; i++)
         {
             cps.Add(movePlates[i].GetChessPiece());
         }
-        
+
         Debug.Log("응애 나 체크끝났당");
         return cps;
     }
@@ -354,14 +366,14 @@ public class Chessman : MonoBehaviour
         //}
         while (GameManager.Inst.PositionOnBoard(x, y) && GameManager.Inst.GetPosition(x, y) == null)
         {
-            MovePlateSpawn(x, y);
+            GameManager.Inst.MovePlateSpawn(x, y, this);
             x += xIncrement;
             y += yIncrement;
         }
 
         if (GameManager.Inst.PositionOnBoard(x, y) && GameManager.Inst.GetPosition(x, y).player != player)
         {
-            MovePlateAttackSpawn(x, y);
+            GameManager.Inst.MovePlateAttackSpawn(x, y, this);
         }
 
     }
@@ -394,7 +406,7 @@ public class Chessman : MonoBehaviour
 
     public void PointMovePlate(int x, int y)
     {
-        
+
         if (GameManager.Inst.PositionOnBoard(x, y))
         {
             Chessman cp = GameManager.Inst.GetPosition(x, y);
@@ -407,12 +419,12 @@ public class Chessman : MonoBehaviour
 
             if (cp == null)
             {
-                MovePlateSpawn(x, y);
+                GameManager.Inst.MovePlateSpawn(x, y, this);
             }
 
             else if (cp.player != player)
             {
-                MovePlateAttackSpawn(x, y);
+                GameManager.Inst.MovePlateAttackSpawn(x, y, this);
             }
 
         }
@@ -500,24 +512,24 @@ public class Chessman : MonoBehaviour
             if (GameManager.Inst.GetPosition(x, y) == null)
             {
                 if (moveCnt != 0)
-                    MovePlateSpawn(x, y);
+                    GameManager.Inst.MovePlateSpawn(x, y, this);
 
                 else
                 {
                     if (player == "white")
                     {
-                        MovePlateSpawn(x, y);
+                        GameManager.Inst.MovePlateSpawn(x, y, this);
                         //if (CheckSkillList("바카스", GetCurrentPlayer(false))) return;
                         if (GameManager.Inst.GetPosition(x, y + 1) == null)
-                            MovePlateSpawn(x, y + 1);
+                            GameManager.Inst.MovePlateSpawn(x, y + 1, this);
                     }
 
                     else if (player == "black")
                     {
-                        MovePlateSpawn(x, y);
+                        GameManager.Inst.MovePlateSpawn(x, y, this);
                         //if (CheckSkillList("바카스", GetCurrentPlayer(false))) return;
                         if (GameManager.Inst.GetPosition(x, y - 1) == null)
-                            MovePlateSpawn(x, y - 1);
+                            GameManager.Inst.MovePlateSpawn(x, y - 1, this);
                     }
                 }
             }
@@ -525,13 +537,13 @@ public class Chessman : MonoBehaviour
             if (GameManager.Inst.PositionOnBoard(x + 1, y) && GameManager.Inst.GetPosition(x + 1, y) != null &&
                GameManager.Inst.GetPosition(x + 1, y).GetComponent<Chessman>().player != player)
             {
-                MovePlateAttackSpawn(x + 1, y);
+                GameManager.Inst.MovePlateAttackSpawn(x + 1, y, this);
             }
 
             if (GameManager.Inst.PositionOnBoard(x - 1, y) && GameManager.Inst.GetPosition(x - 1, y) != null &&
                 GameManager.Inst.GetPosition(x - 1, y).GetComponent<Chessman>().player != player)
             {
-                MovePlateAttackSpawn(x - 1, y);
+                GameManager.Inst.MovePlateAttackSpawn(x - 1, y, this);
             }
         }
     }
@@ -574,44 +586,7 @@ public class Chessman : MonoBehaviour
     //    mv.Setreference(this);
     //    mv.SetCoords(matrixX, matrixY);
     //}
-    public GameObject MovePlateSpawn(int matrixX, int matrixY)
-    {
-        //if (CheckReturnMovePlate(matrixX, matrixY, "서풍"))
-        //    return;
 
-        float x = matrixX;
-        float y = matrixY;
-
-        x *= 0.684f;
-        y *= 0.684f;
-
-        x += -2.4f;
-        y += -2.4f;
-
-        GameObject mp = Instantiate(movePlate, new Vector3(x, y, -3.0f), Quaternion.identity);
-        MovePlate mpScript = mp.GetComponent<MovePlate>();
-        mpScript.Setreference(this);
-        mpScript.SetCoords(matrixX, matrixY);
-        return mp;
-
-        //if (isMySkill)
-        //{
-        //    mp.GetComponent<SpriteRenderer>().material.SetColor("_Color", movePlateColor);
-        //    mp.GetComponent<MovePlate>().SetIsSelected(true);
-        //    MovePlate mpScript = mp.GetComponent<MovePlate>();
-        //    mpScript.Setreference(this);
-        //    mpScript.SetCoords(matrixX, matrixY);
-
-        //    return;
-        //}
-        //else
-        //{
-        //    mp.GetComponent<SpriteRenderer>().material.SetColor("_Color", movePlateColor);
-        //    MovePlate mpScript = mp.GetComponent<MovePlate>();
-        //    mpScript.Setreference(this);
-        //    mpScript.SetCoords(matrixX, matrixY);
-        //}
-    }
 
     //private bool CheckReturnMovePlate(int x, int y, string name)
     //{
@@ -652,6 +627,18 @@ public class Chessman : MonoBehaviour
     //    return false;
     //}
 
+    private bool CheckSkillList(List<SkillBase> skillList, string player)
+    {
+        for (int i = 0; i < skillList.Count; i++)
+        {
+            if (SkillManager.Inst.CheckSkillList(skillList[i], player))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public bool CheckIsMine()
     {
         if (player == GameManager.Inst.GetCurrentPlayer())
@@ -659,34 +646,15 @@ public class Chessman : MonoBehaviour
         else
             return false;
     }
-    public void MovePlateAttackSpawn(int matrixX, int matrixY)
+
+    public void SetNoneAttack(bool noneAttack)
     {
-        //Skill sk = SkillManager.Inst.GetSkillList("달빛", GetCurrentPlayer(true));
-
-        //if ((CheckSkillList("달빛", GetCurrentPlayer(true)) && !sk.isMLMoved()))
-        //    if (GameManager.Inst.GetPosition(matrixX, matrixY).name == "black_king" || GameManager.Inst.GetPosition(matrixX, matrixY).name == "white_king")
-        //        return;
-        //if (CheckSkillList("질서", GetCurrentPlayer(true)))
-        //    if (GameManager.Inst.GetPosition(matrixX, matrixY).name == "black_king" || GameManager.Inst.GetPosition(matrixX, matrixY).name == "white_king")
-        //        return;
-
-        float x = matrixX;
-        float y = matrixY;
-
-        x *= 0.684f;
-        y *= 0.684f;
-
-        x += -2.4f;
-        y += -2.4f;
-
-        GameObject mp = Instantiate(movePlate, new Vector3(x, y, -3.0f), Quaternion.identity);
-
-        MovePlate mpScript = mp.GetComponent<MovePlate>();
-        mpScript.attack = true;
-        mpScript.Setreference(this);
-        mpScript.SetCoords(matrixX, matrixY);
-
-        
+        this.noneAttack = noneAttack;
     }
-   
+
+    public bool IsAttackSpawn(int x, int y)
+    {
+        if (noneAttack && GameManager.Inst.GetPosition(x, y).name.Contains("king")) return true;
+        else return false;
+    }
 }

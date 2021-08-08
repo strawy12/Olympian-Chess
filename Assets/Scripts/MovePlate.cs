@@ -45,7 +45,7 @@ public class MovePlate : MonoBehaviour
         //reference.SetCoords(); --> change to anmiation
 
         yield return reference.SetCoordsAnimation();
-        reference.DestroyMovePlates();
+        GameManager.Inst.DestroyMovePlates();
         GameManager.Inst.SetPosition(reference);
 
         //if (SkillManager.Inst.CheckSkillList("ÀüÀï±¤", GetCurrentPlayer(true)) || SkillManager.Inst.CheckSkillList("ÀüÀï±¤", GetCurrentPlayer(false)))
@@ -83,11 +83,11 @@ public class MovePlate : MonoBehaviour
         //}
 
         reference.isMoving = true;
-        TurnManager.Instance.ButtonColor();
     }
 
     private IEnumerator ReturnMovingCard()
     {
+        TurnManager.Instance.ButtonColor();
         yield return MovingCard();
     }
    
@@ -213,6 +213,13 @@ public class MovePlate : MonoBehaviour
     {
         Chessman cp = GameManager.Inst.GetPosition(matrixX, matrixY);
 
+        if (cp.GetAttackSelecting())
+        {
+            Debug.Log("³È");
+            SkillManager.Inst.AttackUsingSkill(this);
+            return;
+        }
+
         //Skill athen = SkillManager.Inst.GetSkillList("¾ÆÅ×³ªÀÇ ¹æÆÐ", GetCurrentPlayer(false));
 
         //if (SkillManager.Inst.CheckSkillList("ÀüÀï±¤", GetCurrentPlayer(true)) || SkillManager.Inst.CheckSkillList("ÀüÀï±¤", GetCurrentPlayer(false)))
@@ -301,8 +308,8 @@ public class MovePlate : MonoBehaviour
         // card attack 
         if (attack)
         {
-            Card();
 
+            Card();
             //if (reference.isAttacking)
             //{
             //    GameManager.Inst.attackings.Remove(reference);
@@ -321,26 +328,29 @@ public class MovePlate : MonoBehaviour
 
         else if (eCardState == ECardState.Skill)
         {
+            Debug.Log("¸» ÀÌµ¿ ¼º°ø");
             SkillManager.Inst.UsingSkill(this);
         }
-        else if(eCardState == ECardState.MovingAndSkill)
-        {
 
+        if (eCardState == ECardState.MovingAndSkill)
+        {
+            StartCoroutine(ReturnMovingCard());
+            SkillManager.Inst.UsingSkill(this);
         }
-        
     }
 
   
     public void OnMouseUp()
     {
         if (TurnManager.Instance.isLoading) return;
+        if (TurnManager.Instance.GetIsActive()) return;
         if (isSelected) return;
         //if(PilSalGi.Inst.GetisUsePilSalGi())
         //{
         //    PilSalGi.Inst.SetselectPiece(GameManager.Inst.GetPosition(matrixX, matrixY));
         //    return;
         //}
-        Debug.Log("¸» ÀÌµ¿ ¼º°ø");
+        
         // change to coroutine for moving animation
         OnMouseUpEvent();
     }

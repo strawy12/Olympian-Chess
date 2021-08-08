@@ -29,7 +29,8 @@ public class Wave : SkillBase
 
     private void WV_UsingSkill()
     {
-        SkillManager.Inst.SetUsingCard(true);
+        GameManager.Inst.SetUsingSkill(true);
+        GameManager.Inst.SetMoving(false);
         TurnManager.Instance.ButtonInactive();
         WV_MovePlate(selectPiece, selectPiece.GetXBoard(), selectPiece.GetYBoard());
     }
@@ -37,16 +38,16 @@ public class Wave : SkillBase
     private void WV_MovePlate(Chessman chessPiece, int x, int y)
     {
         if (CheckNull(true, true, y) > 0 && x != 7) //right
-            chessPiece.MovePlateSpawn(x + 1, y);
+            GameManager.Inst.MovePlateSpawn(x + 1, y, selectPiece);
 
         if (CheckNull(true, false, y) > 0 && x != 0) //left
-            chessPiece.MovePlateSpawn(x - 1, y);
+            GameManager.Inst.MovePlateSpawn(x - 1, y, selectPiece);
 
         if (CheckNull(false, true, x) > 0 && y != 7) //up
-            chessPiece.MovePlateSpawn(x, y + 1);
+            GameManager.Inst.MovePlateSpawn(x, y + 1, selectPiece);
 
         if (CheckNull(false, false, x) > 0 && y != 0) //down
-            chessPiece.MovePlateSpawn(x, y - 1);
+            GameManager.Inst.MovePlateSpawn(x, y - 1, selectPiece);
     }
 
     private void WaveCheck()
@@ -59,7 +60,8 @@ public class Wave : SkillBase
             WaveMove(false, true);
         else if (posY == selectPiece.GetYBoard() - 1)
             WaveMove(false, false);
-        selectPiece.DestroyMovePlates();
+
+        GameManager.Inst.DestroyMovePlates();
         ResetSkill();
     }
 
@@ -125,7 +127,6 @@ public class Wave : SkillBase
                 cm.SetXBoard(i - 1);
 
             cm.SetCoords();
-            cm.DestroyMovePlates();
             cm.PlusMoveCnt();
             return cm;
         }

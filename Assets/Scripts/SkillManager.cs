@@ -21,6 +21,7 @@ public class SkillManager : MonoBehaviour
     #region Var List
     // List of non-clickable chess pieces
     public List<Chessman> dontClickPiece = new List<Chessman>();
+    private SkillBase selectingSkill;
     private bool isUsingCard = false;
     
 
@@ -42,11 +43,11 @@ public class SkillManager : MonoBehaviour
     }
 
     // Function checking if there is a skill from skillList that is the same as name
-    public bool CheckSkillList(string name, string player)
+    public bool CheckSkillList(SkillBase skill, string player)
     {
         for (int i = 0; i < skillList.Count; i++)
         {
-            if (skillList[i].gameObject.name == name && skillList[i].GetPlayer() == player)
+            if (skillList[i] == skill && skillList[i].GetPlayer() == player)
                 return true;
         }
         return false;
@@ -68,14 +69,17 @@ public class SkillManager : MonoBehaviour
     }
 
     // Function returning skill if there is a skill from skillList that is the same as name
-    public SkillBase GetSkillList(string name, string player)
+    public List<SkillBase> GetSkillList(string name, string player)
     {
+        List<SkillBase> _skillList = new List<SkillBase>();
+
+        string[] names = name.Split(',');
         for (int i = 0; i < skillList.Count; i++)
         {
             if (skillList[i].gameObject.name == name && skillList[i].GetPlayer() == player)
-                return skillList[i];
+                _skillList.Add(skillList[i]);
         }
-        return null;
+        return _skillList;
     }
 
     #endregion
@@ -122,7 +126,21 @@ public class SkillManager : MonoBehaviour
         sb.SetPosX(mp.GetPosX());
         sb.SetPosY(mp.GetPosY());
         sb.StandardSkill();
-        isUsingCard = false;
+        GameManager.Inst.SetUsingSkill(false);
+        GameManager.Inst.SetMoving(true);
+    }
+    public void AttackUsingSkill(MovePlate mp)
+    {
+        string player = GameManager.Inst.GetCurrentPlayer() == "white" ? "black" : "white";
+        List<SkillBase> _skillList = GetSkillList("출산,아테나의 방패,에로스의 사랑,길동무", player);
+        for (int i = 0; i < _skillList.Count; i++)
+        {
+            _skillList[i].SetPosX(mp.GetPosX());
+            _skillList[i].SetPosY(mp.GetPosY());
+            _skillList[i].StandardSkill();
+        }
+        GameManager.Inst.SetUsingSkill(false);
+        GameManager.Inst.SetMoving(true);
     }
 
     // Function spawning skill prefab
@@ -133,6 +151,8 @@ public class SkillManager : MonoBehaviour
         AddSkillList(sb);
         sb.SetPalyer(GameManager.Inst.GetCurrentPlayer());
         sb.SetSelectPiece(chessPiece);
+        chessPiece.AddChosenSkill(sb);
+        selectingSkill = sb;
         sb.UsingSkill();
 
         return sb;
@@ -183,9 +203,9 @@ public class SkillManager : MonoBehaviour
             //case "출산":
             //    GiveBirth(chessPiece);
             //    break;
-            //case "아테나의 방패":
-            //    AthenaShield(chessPiece);
-            //    break;
+            case "아테나의 방패":
+                obj.AddComponent<ShieldOfAthena>();
+                break;
             //case "달빛":
             //    MoonLight(chessPiece);
             //    break;
@@ -204,9 +224,9 @@ public class SkillManager : MonoBehaviour
             case "죽음의 땅":
                 obj.AddComponent<GroundOfDeath>();
                 break;
-                //case "전쟁광":
-                //    WarBuff(chessPiece);
-                //    break;
+            case "전쟁광":
+                obj.AddComponent<WarBuff>();
+                break;
         }
         return obj;
     }

@@ -499,9 +499,13 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  eCardState: 0
+  movePlate: {fileID: 6973519945779689939, guid: dbf8c7ff280b91d4f97cc833b0eb3166,
+    type: 3}
   attackings: []
   gameOver: 0
   cheatInfo: 
+  movePlateList: []
 --- !u!1 &189838245
 GameObject:
   m_ObjectHideFlags: 0

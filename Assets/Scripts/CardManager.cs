@@ -87,6 +87,7 @@ public class CardManager : MonoBehaviour
     private bool isUse = false;
 
     int myPutCount;
+    private bool isUsed;
 
     enum ECardState { Nothing, CanMouseDrag }
     #endregion
@@ -130,7 +131,7 @@ public class CardManager : MonoBehaviour
                 isTargeting = true;
                 localPosition = hit.collider.transform.position;
 
-                if (CheckCardname(new List<string> { "여행자", "죽음의 땅" }) || (CheckCardname(new List<string> { "전쟁광" }) && !CheckPlayer(hit.collider.name))) // Only Pawn Targeting
+                if (CheckCardname("여행자") || (CheckCardname("전쟁광") && !CheckPlayer(hit.collider.name))) // Only Pawn Targeting
                 {
                     if (CheckPawn(hit.collider.name))
                     {
@@ -144,7 +145,7 @@ public class CardManager : MonoBehaviour
                     }
                 }
 
-                else if (CheckCardname(new List<string> { "제물" })) // Pawn not Targeting
+                else if (CheckCardname("제물")) // Pawn not Targeting
                 {
                     if (CheckPawn(hit.collider.name))
                     {
@@ -174,7 +175,7 @@ public class CardManager : MonoBehaviour
         targetPicker.transform.position = localPosition;
         if (isMine)
         {
-            if (CheckCardname(new List<string> { "음악", "천벌", "수면", "서풍", "수중감옥" })) // Can not be used for my ChessPiece
+            if (CheckCardname("음악,천벌,수면,서풍,수중감옥")) // Can not be used for my ChessPiece
             {
                 isStop = true;
                 return;
@@ -187,7 +188,8 @@ public class CardManager : MonoBehaviour
         }
         else
         {
-            if (CheckCardname(new List<string> { "여행자", "에로스의 사랑", "질서", "달빛", "제물", "아테나의 방패", "돌진", "길동무" })) //Can not be used for other ChessPiece
+            if (CheckCardname("여행자,에로스의 사랑,질서,달빛,제물,아테나의 방패,돌진,길동무")) //Can not be used for other ChessPiece
+
             {
                 isStop = true;
                 return;
@@ -254,10 +256,11 @@ public class CardManager : MonoBehaviour
         }
         return false;
     }
-
-    private bool CheckCardname(List<string> names) // Check if a specific card and a select card are the same
+    private bool CheckCardname(string name) // Check if a specific card and a select card are the same
     {
-        for (int i = 0; i < names.Count; i++)
+        string[] names = name.Split(',');
+        if(selectCard == null) return false;
+        for (int i = 0; i < names.Length; i++)
         {
             if (names[i] == selectCard.carditem.name)
             {
@@ -267,13 +270,7 @@ public class CardManager : MonoBehaviour
         return false;
     }
 
-    private bool CheckSkillList(string name, string player) // Check if a specific skill is being used
-    {
-        if (SkillManager.Inst.CheckSkillList(name, player))
-            return true;
-        else
-            return false;
-    }
+    
 
     private bool CheckPlayer(string name) // CurrentPlayer Check
     {
@@ -687,15 +684,16 @@ public class CardManager : MonoBehaviour
         {
 
             isTargeting = false;
+
             SkillManager.Inst.SpawnSkillPrefab(card, chessPiece);
             if (isBreak)
             {
                 //Destroy(sk);
                 return false;
             }
-            if (CheckSkillList("파도", GameManager.Inst.GetCurrentPlayer())) return true;
-            if (CheckSkillList("수면", GameManager.Inst.GetCurrentPlayer())) return true;
-            if (CheckSkillList("에로스의 사랑", GameManager.Inst.GetCurrentPlayer())) return true;
+            //if (CheckSkillList("파도", GameManager.Inst.GetCurrentPlayer())) return true;
+            //if (CheckSkillList("수면", GameManager.Inst.GetCurrentPlayer())) return true;
+            //if (CheckSkillList("에로스의 사랑", GameManager.Inst.GetCurrentPlayer())) return true;
 
             DestroyCard(card, targetCards); // 사용한 카드는 삭제
             isUse = true; // 사용중을 표시함
@@ -712,10 +710,10 @@ public class CardManager : MonoBehaviour
             }
 
             CardAlignment(isMine); // 카드가 하나 사라졌기에 카드를 다시 정렬한다
-            if (CheckSkillList("제물", GameManager.Inst.GetCurrentPlayer())) return true; // Later delete Code
-            if (selectCard != null)
-                if (selectCard.carditem.name == "전쟁광" || selectCard.carditem.name == "달빛") // Later delete Code
-                    return true;
+            //if (CheckSkillList("제물", GameManager.Inst.GetCurrentPlayer())) return true; // Later delete Code
+            //if (selectCard != null)
+                //if (selectCard.carditem.name == "전쟁광" || selectCard.carditem.name == "달빛") // Later delete Code
+                    //  return true;
 
             //TurnManager.Inst.EndTurn();
             return true;
@@ -801,12 +799,17 @@ public class CardManager : MonoBehaviour
     {
         if (isUse) return;
         isMyCardDrag = false;
+        isUsed = isTargeting;
         targetPicker.SetActive(false);
         cardInfo.SetActive(false);
         if (eCardState != ECardState.CanMouseDrag || eCardState == ECardState.Nothing)
             return;
         EnlargeCard(false, card);
-        if (!TryPutCard(true, isTargeting))
+        if(CheckCardname("죽음의 땅") && !onMyCardArea)
+        {
+            isUsed = true;
+        }
+        if (!TryPutCard(true, isUsed))
         {
             selectCard = null;
         }

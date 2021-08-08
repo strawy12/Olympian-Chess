@@ -64,6 +64,13 @@ public class TurnManager : MonoBehaviour
 
     public static event Action<bool> OnTurnStarted;
 
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            isActive = !isActive;
+        }
+    }
     public void StartGame()
     {
         TurnSetting();
@@ -233,11 +240,5 @@ public class TurnManager : MonoBehaviour
         WinOrLose();
     }
 
-    private bool CheckSkillList(string name, string player)
-    {
-        if (SkillManager.Inst.CheckSkillList(name, player))
-            return true;
-        else
-            return false;
-    }
+
 }
