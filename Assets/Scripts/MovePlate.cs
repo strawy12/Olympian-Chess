@@ -187,7 +187,7 @@ public class MovePlate : MonoBehaviour
         {
             Card();
 
-            if (reference.isAttacking) 
+            if (reference.isAttacking)
             {
                 GameManager.Inst.attackings.Remove(reference);
                 reference.attackCount = 0;
