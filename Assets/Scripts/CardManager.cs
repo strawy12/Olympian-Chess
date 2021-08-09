@@ -52,9 +52,6 @@ public class CardManager : MonoBehaviour
     [SerializeField] List<Card> myCards;
     [SerializeField] List<Card> otherCards;
 
-    [SerializeField] Sprite cardFornt;
-    [SerializeField] Sprite cardBack;
-
     [SerializeField] ECardState eCardState; // now Game system state
 
     [SerializeField] Text infoText;
@@ -70,7 +67,7 @@ public class CardManager : MonoBehaviour
     private List<Carditem> myCardBuffer; //white Card Buffer
     private List<Carditem> otherCardBuffer; //Balck Card Buffer
 
-    private List<Carditem> usedCards = new List<Carditem>();
+    public List<Carditem> usedCards = new List<Carditem>();
 
     private Vector3 localPosition = Vector3.zero;
     private Chessman chessPiece;
@@ -270,7 +267,17 @@ public class CardManager : MonoBehaviour
         return false;
     }
 
+<<<<<<< HEAD
     
+=======
+    //private bool CheckSkillList(string name, string player) // Check if a specific skill is being used
+    //{
+    //    if (SkillManager.Inst.CheckSkillList(name, player))
+    //        return true;
+    //    else
+    //        return false;
+    //}
+>>>>>>> minyoung
 
     private bool CheckPlayer(string name) // CurrentPlayer Check
     {
@@ -417,6 +424,8 @@ public class CardManager : MonoBehaviour
 
     public void DestroyCard(Card card, List<Card> targetCards) // Using Card Destroy
     {
+        bool isSame = false;
+
         if (card == null) return;
 
         targetCards.Remove(card);
@@ -424,7 +433,15 @@ public class CardManager : MonoBehaviour
         card.transform.SetParent(GameManager.Inst.pool.transform);
         card.gameObject.SetActive(false);
         CardAlignment(true);
-        usedCards.Add(card.carditem);
+
+        for (int i = 0; i < usedCards.Count; i++)
+        {
+            if (card.carditem.name == usedCards[i].name)
+                isSame = true;
+        }
+
+        if (!isSame)
+            usedCards.Add(card.carditem);
     }
 
     public void DestroyCards() // All Cards Destroy
@@ -691,9 +708,13 @@ public class CardManager : MonoBehaviour
                 //Destroy(sk);
                 return false;
             }
+<<<<<<< HEAD
             //if (CheckSkillList("파도", GameManager.Inst.GetCurrentPlayer())) return true;
             //if (CheckSkillList("수면", GameManager.Inst.GetCurrentPlayer())) return true;
             //if (CheckSkillList("에로스의 사랑", GameManager.Inst.GetCurrentPlayer())) return true;
+=======
+
+>>>>>>> minyoung
 
             DestroyCard(card, targetCards); // 사용한 카드는 삭제
             isUse = true; // 사용중을 표시함
@@ -710,10 +731,16 @@ public class CardManager : MonoBehaviour
             }
 
             CardAlignment(isMine); // 카드가 하나 사라졌기에 카드를 다시 정렬한다
+<<<<<<< HEAD
             //if (CheckSkillList("제물", GameManager.Inst.GetCurrentPlayer())) return true; // Later delete Code
             //if (selectCard != null)
                 //if (selectCard.carditem.name == "전쟁광" || selectCard.carditem.name == "달빛") // Later delete Code
                     //  return true;
+=======
+            if (selectCard != null)
+                if (selectCard.carditem.name == "전쟁광" || selectCard.carditem.name == "달빛") // Later delete Code
+                    return true;
+>>>>>>> minyoung
 
             //TurnManager.Inst.EndTurn();
             return true;
@@ -763,6 +790,86 @@ public class CardManager : MonoBehaviour
         CardAlignment(true);
     }
 
+<<<<<<< HEAD
+=======
+    private void NameColor(Text text, string name) // Later CardItemSO Add and this code delete
+    {
+        switch (name)
+        {
+            case "천벌":
+                text.color = new Color32(214, 161, 28, 255);
+                break;
+
+            case "죽음의 땅":
+            case "제물":
+                text.color = new Color32(205, 217, 194, 255);
+                break;
+
+            case "수중감옥":
+            case "파도":
+                text.color = new Color32(173, 180, 255, 255);
+                break;
+
+            case "수면":
+                text.color = new Color32(255, 188, 166, 255);
+                break;
+
+            case "달빛":
+                text.color = new Color32(236, 245, 247, 255);
+                break;
+
+            case "전쟁광":
+                text.color = new Color32(230, 78, 109, 255);
+                break;
+
+            case "정의구현":
+            case "아테나의 방패":
+                text.color = new Color32(255, 245, 160, 255);
+                break;
+
+            case "질서":
+                text.color = new Color32(98, 235, 173, 255);
+                break;
+
+            case "바카스":
+                text.color = new Color32(30, 50, 230, 255);
+                break;
+
+            case "에로스의 사랑":
+            case "출산":
+            case "음악":
+                text.color = new Color32(231, 163, 233, 255);
+                break;
+
+            case "길동무":
+                text.color = new Color32(165, 148, 209, 255);
+                break;
+
+            case "돌진":
+                text.color = new Color32(212, 109, 91, 255);
+                break;
+
+            case "서풍":
+                text.color = new Color32(141, 187, 235, 255);
+                break;
+
+            case "여행자":
+                text.color = new Color32(214, 184, 155, 255);
+                break;
+
+            case "시간왜곡":
+                text.color = new Color32(43, 66, 71, 255);
+                break;
+        }
+    }
+
+    public void RemoveCard(int rand)
+    {
+        Destroy(otherCards[rand].gameObject);
+        otherCards.RemoveAt(rand);
+        CardAlignment(!isMine);
+    }
+>>>>>>> minyoung
     #endregion
 
     #region Card Control
@@ -823,12 +930,6 @@ public class CardManager : MonoBehaviour
             otherCards.Remove(card);
             Destroy(card.gameObject);
             CardAlignment(false);
-            //TurnManager.Inst.EndTurn();
-
-            //if (CheckSkillList("제물", GameManager.Inst.GetCurrentPlayer()))
-            //{
-            //    SkillManager.Inst.DeleteSkillList(SkillManager.Inst.GetSkillList("제물", GameManager.Inst.GetCurrentPlayer()));
-            //}
         }
         else
         {

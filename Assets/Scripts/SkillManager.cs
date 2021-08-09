@@ -43,19 +43,44 @@ public class SkillManager : MonoBehaviour
     }
 
     // Function checking if there is a skill from skillList that is the same as name
+<<<<<<< HEAD
     public bool CheckSkillList(SkillBase skill, string player)
     {
         for (int i = 0; i < skillList.Count; i++)
         {
             if (skillList[i] == skill && skillList[i].GetPlayer() == player)
+=======
+    public bool CheckSkillList(string skill, string player)
+    {
+        for (int i = 0; i < skillList.Count; i++)
+        {
+            if (skillList[i].name == skill && skillList[i].GetPlayer() == player)
+>>>>>>> minyoung
                 return true;
         }
         return false;
     }
 
+
     #endregion
 
     #region Script Access 
+    public void AttackUsingSkill(MovePlate mp)
+    {
+        Chessman cp = GameManager.Inst.GetPosition(mp.GetPosX(), mp.GetPosY());
+        List<SkillBase> _skillList = cp.GetSkillList("출산,아테나의 방패,에로스의 사랑,길동무");
+        Debug.Log(_skillList.Count);
+        for (int i = 0; i < _skillList.Count; i++)
+        {
+            Debug.Log(_skillList[i].name);
+            _skillList[i].SetPosX(mp.Getreference().GetXBoard());
+            _skillList[i].SetPosY(mp.Getreference().GetYBoard());
+            _skillList[i].SetMovePlate(mp);
+            _skillList[i].StandardSkill();
+        }
+    }
+
+
     // Function returning isUsingCard value
     public bool GetUsingCard()
     {
@@ -82,6 +107,30 @@ public class SkillManager : MonoBehaviour
         return _skillList;
     }
 
+    public bool MoveControl(Chessman cp)
+    {
+        List<SkillBase> _skillList = cp.GetSkillList("질서,바카스");
+        int i = 0;
+           
+        for (i = 0; i < _skillList.Count; i++)
+        {
+            if(GameManager.Inst.isBacchrs)
+            {
+                skillList[i].SetSelectPiece(cp);
+            }
+            _skillList[i].StandardSkill();
+        }
+        if(i != 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+
     #endregion
 
     #region System
@@ -92,6 +141,20 @@ public class SkillManager : MonoBehaviour
         {
             skillList[i].TurnCntPlus();
             skillList[i].ResetSkill();
+<<<<<<< HEAD
+=======
+        }
+    }
+
+    public void SkillListStandard(Chessman cm)
+    {
+        for (int i = 0; i < skillList.Count; i++)
+        {
+            if (skillList[i].selectPiece == cm)
+            {
+                skillList[i].StandardSkill();
+            }
+>>>>>>> minyoung
         }
     }
 
@@ -178,6 +241,14 @@ public class SkillManager : MonoBehaviour
         }
     }
 
+    public void UsingSkill(MovePlate mp)
+    {
+        SkillBase sb = skillList[skillList.Count - 1];
+        sb.SetPosX(mp.GetPosX());
+        sb.SetPosY(mp.GetPosY());
+        sb.StandardSkill();
+    }
+
     // Function spawning skill prefab
     public SkillBase SpawnSkillPrefab(Card card, Chessman chessPiece)
     {
@@ -205,6 +276,7 @@ public class SkillManager : MonoBehaviour
             case "천벌":
                 obj.AddComponent<HeavenlyPunishment>();
                 break;
+<<<<<<< HEAD
 
             case "에로스의 사랑":
                 obj.AddComponent<LoveOfEros>();
@@ -271,6 +343,65 @@ public class SkillManager : MonoBehaviour
             case "전쟁광":
                 obj.AddComponent<WarBuff>();
                 break;
+=======
+            //case "에로스의 사랑":
+            //    LoveOfEros(chessPiece);
+            //    break;
+            //case "수면":
+            //    Sleep(chessPiece);
+            //    break;
+            case "음악":
+                obj.AddComponent<Music>();
+                break;
+            case "돌진":
+                obj.AddComponent<Rush>();
+                break;
+            case "여행자":
+                obj.AddComponent<Traveler>();
+                break;
+            case "길동무":
+                obj.AddComponent<StreetFriend>();
+                break;
+            case "바카스":
+                obj.AddComponent<Bacchrs>();
+                break;
+            case "시간왜곡":
+                obj.AddComponent<TimeWarp>();
+                break;
+            case "제물":
+                obj.AddComponent<Offering>();
+                break;
+            case "정의구현":
+                obj.AddComponent<Justice>();
+                break;
+            case "출산":
+                obj.AddComponent<GiveBirth>();
+                break;
+            //case "아테나의 방패":
+            //    AthenaShield(chessPiece);
+            //    break;
+            case "달빛":
+                obj.AddComponent<MoonLight>();
+                break;
+                //case "파도":
+                //    Wave(chessPiece);
+                //    break;
+                //case "서풍":
+                //    WestWind(chessPiece);
+                //    break;
+                //case "수중감옥":
+                //    OceanJail(chessPiece);
+                //    break;
+                //case "질서":
+                //    Order(chessPiece);
+                //    break;
+                //case "죽음의 땅":
+                //    GroundOfDeath(chessPiece);
+                //    break;
+                //case "전쟁광":
+                //    WarBuff(chessPiece);
+                //    break;
+>>>>>>> minyoung
         }
         return obj;
     }

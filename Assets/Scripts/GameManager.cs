@@ -51,6 +51,10 @@ public class GameManager : MonoBehaviour
     private string currentPlayer = "white";
 
     public bool gameOver = false;
+    public bool isBacchrs = false;
+    private bool usingSkill = false;
+    private bool moving = true;
+
     [Multiline(10)]
     [SerializeField] string cheatInfo;
     [SerializeField] private List<GameObject> movePlateList = new List<GameObject>();
@@ -201,6 +205,46 @@ public class GameManager : MonoBehaviour
             return false;
     }
 
+<<<<<<< HEAD
+=======
+    public bool GetUsingSkill()
+    {
+        return usingSkill;
+    }
+    public bool GetMoving()
+    {
+        return moving;
+    }
+
+    public void SetUsingSkill(bool usingSkill)
+    {
+        this.usingSkill = usingSkill;
+    }
+
+    public void SetMoving(bool moving)
+    {
+        this.moving = moving;
+    }
+
+
+    // if cp that is same as sks's selected piece is dead,
+    // destroy the skill from skill list
+    public void CheckDeadSkillPiece(Chessman cp)
+    {
+        SkillBase[] sbs = FindObjectsOfType<SkillBase>();
+
+        for (int i = 0; i < sbs.Length; i++)
+        {
+            if (sbs[i].GetSelectPiece() == cp || sbs[i].GetSelectPieceTo() == cp)
+            {
+                SkillManager.Inst.RemoveSkillList(sbs[i]);
+                cp.spriteRenderer.material.SetColor("_Color", new Color(0, 0, 0, 0));
+                Destroy(sbs[i].gameObject);
+                return;
+            }
+        }
+    }
+>>>>>>> minyoung
     // Function spawning move plates on each non-empty space
     // that exist parameter value(black or white) color
     public void AllMovePlateSpawn(Chessman cm, bool isMine)
@@ -539,6 +583,24 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < playerWhite.Length; i++)
         {
             playerBlack[i].isMoving = false;
+        }
+    }
+
+    public void PlusAttackCnt()
+    {
+        for (int i = 0; i < attackings.Count; i++)
+        {
+            if(attackings[i]==null)
+            {
+                attackings.RemoveAt(i);
+            }
+
+            attackings[i].attackCount++;
+
+            if(attackings[i].attackCount > 2)
+            {
+                attackings.RemoveAt(i);
+            }
         }
     }
     #endregion

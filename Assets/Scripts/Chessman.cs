@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class Chessman : MonoBehaviour
 {
     // Reference
@@ -26,8 +25,17 @@ public class Chessman : MonoBehaviour
     // Check if the chess pieces moved or not
     public bool isMoving = false;
     public bool isAttacking = false;
+<<<<<<< HEAD
     public bool attackSelecting = false;
     private bool noneAttack = false;
+=======
+    private bool isSelecting = false;
+    private bool isAttackSelecting = false;
+    private bool isMySkill = false;
+
+    List<SkillBase> chosenSkill = new List<SkillBase>();
+
+>>>>>>> minyoung
     private void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -75,7 +83,10 @@ public class Chessman : MonoBehaviour
 
     public IEnumerator SetCoordsAnimation()
     {
+<<<<<<< HEAD
 
+=======
+>>>>>>> minyoung
         // start position if (this == null) gameObject.SetActive(false);
         Vector3 startPos = transform.position;
 
@@ -98,12 +109,16 @@ public class Chessman : MonoBehaviour
 
         while (t < 1f)
         {
+            if (transform.position == null) yield break;
             t += Time.deltaTime / distance * 10f;
             transform.position = Vector3.Lerp(startPos, endPos, t);
             yield return null;
         }
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> minyoung
     }
 
     public int GetXBoard()
@@ -136,11 +151,17 @@ public class Chessman : MonoBehaviour
 
         if (!GameManager.Inst.IsGameOver() && GameManager.Inst.GetCurrentPlayer() == player)
         {
+<<<<<<< HEAD
             GameManager.Inst.DestroyMovePlates(); // Destroy
 
             if (SkillManager.Inst.MoveControl(this))
             {
 
+=======
+            DestroyMovePlates(); // Destroy
+            if (SkillManager.Inst.MoveControl(this))
+            {
+>>>>>>> minyoung
                 Debug.Log("ÀÀ¾Ö");
                 return;
             }
@@ -148,26 +169,36 @@ public class Chessman : MonoBehaviour
             InitiateMovePlates(); // Instatiate
         }
     }
-    private string GetCurrentPlayer(bool reverse)
+    public List<SkillBase> GetSkillList(string name)
     {
-        if (!reverse)
+        List<SkillBase> _skillList = new List<SkillBase>();
+        SkillBase skill;
+        string[] names = name.Split(',');
+        for (int i = 0; i < names.Length; i++)
         {
-            if (GameManager.Inst.GetCurrentPlayer() == "white")
+            skill = CheckSkillList(names[i]);
+            if (skill != null)
             {
-                return "black";
+                _skillList.Add(skill);
             }
-            else if (GameManager.Inst.GetCurrentPlayer() == "black")
-            {
-                return "white";
-            }
-        }
-        else
-        {
-            return GameManager.Inst.GetCurrentPlayer();
-        }
 
-        return GameManager.Inst.GetCurrentPlayer();
+        }
+        return _skillList;
     }
+
+    public SkillBase CheckSkillList(string name)
+    {
+        for (int i = 0; i < chosenSkill.Count; i++)
+        {
+            if (chosenSkill[i].gameObject.name == name)
+            {
+                return chosenSkill[i];
+            }
+        }
+        return null;
+    }
+
+
     //private bool WarbuffCheck()
     //{
     //    if (SkillManager.Inst.CheckSkillList("ÀüÀï±¤", GetCurrentPlayer(true)) || SkillManager.Inst.CheckSkillList("ÀüÀï±¤", GetCurrentPlayer(false)))
@@ -241,6 +272,7 @@ public class Chessman : MonoBehaviour
 
             case "black_knight":
             case "white_knight":
+<<<<<<< HEAD
                 //if (CheckSkillList("¹ÙÄ«½º", GetCurrentPlayer(false)))
                 //{
                 //    LineMovePlate(1, 0);
@@ -249,6 +281,8 @@ public class Chessman : MonoBehaviour
                 //    LineMovePlate(0, -1);
                 //}
                 //else
+=======
+>>>>>>> minyoung
                 LMovePlate();
                 break;
 
@@ -284,63 +318,32 @@ public class Chessman : MonoBehaviour
                 break;
         }
     }
+<<<<<<< HEAD
+=======
+
+    public List<Chessman> CheckOnMovePlate()
+    {
+        MovePlate[] movePlates = null;
+        //GameManager.Inst.DestroyMovePlates();
+        if (movePlates == null)
+        {
+            InitiateMovePlates();
+            movePlates = FindObjectsOfType<MovePlate>();
+        }
+        List<Chessman> cps = new List<Chessman>();
+        for (int i = 0; i < movePlates.Length; i++)
+        {
+            cps.Add(movePlates[i].GetChessPiece());
+        }
+
+        return cps;
+    }
+>>>>>>> minyoung
     public void LineMovePlate(int xIncrement, int yIncrement)
     {
-
         int x = xBoard + xIncrement;
         int y = yBoard + yIncrement;
 
-        //if (CheckSkillList("¹ÙÄ«½º", GetCurrentPlayer(false)))
-        //{
-        //    if (GameManager.Inst.PositionOnBoard(x, y) && GameManager.Inst.GetPosition(x, y) == null)
-        //        MovePlateSpawn(x, y);
-
-        //    else if (GameManager.Inst.PositionOnBoard(x, y) && GameManager.Inst.GetPosition(x, y).player != player)
-        //        MovePlateAttackSpawn(x, y);
-
-        //    return;
-        //}
-
-        //if (SkillManager.Inst.CheckSkillList("Áú¼­", GetCurrentPlayer(true)) &&
-        //    SkillManager.Inst.GetSkillList("Áú¼­", GetCurrentPlayer(true)).GetSelectPiece() == this)
-        //{
-        //    Skill sk;
-        //    sk = SkillManager.Inst.GetSkillList("Áú¼­", GetCurrentPlayer(true));
-
-        //    while (GameManager.Inst.PositionOnBoard(x, y))
-        //    {
-
-        //        if (GameManager.Inst.GetPosition(x, y) != null && sk.cnt != 0)
-        //        {
-        //            sk.ResetCnt();
-        //            break;
-        //        }
-
-        //        else if (GameManager.Inst.GetPosition(x, y) != null && sk.cnt == 0)
-        //        {
-        //            sk.PlusCnt();
-        //            if (GameManager.Inst.PositionOnBoard(x, y) && GameManager.Inst.GetPosition(x, y).player != player)
-        //            {
-        //                MovePlateAttackSpawn(x, y);
-        //            }
-        //            x += xIncrement;
-        //            y += yIncrement;
-        //            continue;
-        //        }
-
-        //        MovePlateSpawn(x, y);
-        //        x += xIncrement;
-        //        y += yIncrement;
-        //    }
-
-        //    if (GameManager.Inst.PositionOnBoard(x, y) && GameManager.Inst.GetPosition(x, y).player != player)
-        //    {
-        //        MovePlateAttackSpawn(x, y);
-        //    }
-
-        //    sk.ResetCnt();
-        //    return;
-        //}
         //if(PilSalGi.Inst.GetisUsePilSalGi())
         //{
         //    while (GameManager.Inst.PositionOnBoard(x, y))
@@ -351,6 +354,7 @@ public class Chessman : MonoBehaviour
         //    }
         //    return;
         //}
+
         while (GameManager.Inst.PositionOnBoard(x, y) && GameManager.Inst.GetPosition(x, y) == null)
         {
             GameManager.Inst.MovePlateSpawn(x, y, this);
@@ -362,7 +366,6 @@ public class Chessman : MonoBehaviour
         {
             GameManager.Inst.MovePlateAttackSpawn(x, y, this);
         }
-
     }
 
     public void LMovePlate()
@@ -375,7 +378,6 @@ public class Chessman : MonoBehaviour
         PointMovePlate(xBoard - 1, yBoard - 2);
         PointMovePlate(xBoard - 2, yBoard + 1);
         PointMovePlate(xBoard - 2, yBoard - 1);
-
     }
 
     public void SurroundMovePlate()
@@ -388,12 +390,14 @@ public class Chessman : MonoBehaviour
         PointMovePlate(xBoard + 1, yBoard - 1);
         PointMovePlate(xBoard + 1, yBoard - 0);
         PointMovePlate(xBoard + 1, yBoard + 1);
-
     }
 
     public void PointMovePlate(int x, int y)
     {
+<<<<<<< HEAD
 
+=======
+>>>>>>> minyoung
         if (GameManager.Inst.PositionOnBoard(x, y))
         {
             Chessman cp = GameManager.Inst.GetPosition(x, y);
@@ -413,7 +417,6 @@ public class Chessman : MonoBehaviour
             {
                 GameManager.Inst.MovePlateAttackSpawn(x, y, this);
             }
-
         }
     }
     //private bool OD_PawnMovePlate(int x, int y)
@@ -535,6 +538,7 @@ public class Chessman : MonoBehaviour
         }
     }
 
+<<<<<<< HEAD
     //public void SleepParticle(bool isShow, string player)
     //{
     //    particle.SetActive(isShow);
@@ -644,6 +648,33 @@ public class Chessman : MonoBehaviour
         return _skillList;
     }
 
+=======
+    public void SetMovePlateColor(Color32 color)
+    {
+        movePlateColor = color;
+    }
+
+    public void MovePlateSpawn(int matrixX, int matrixY)
+    {
+        //if (CheckReturnMovePlate(matrixX, matrixY, "¼­Ç³"))
+        //    return;
+
+        float x = matrixX;
+        float y = matrixY;
+
+        x *= 0.684f;
+        y *= 0.684f;
+
+        x += -2.4f;
+        y += -2.4f;
+
+        GameObject mp = Instantiate(movePlate, new Vector3(x, y, -3.0f), Quaternion.identity);
+        MovePlate mpScript = mp.GetComponent<MovePlate>();
+        mpScript.Setreference(this);
+        mpScript.SetCoords(matrixX, matrixY);
+    }
+
+>>>>>>> minyoung
     public bool CheckIsMine()
     {
         if (player == GameManager.Inst.GetCurrentPlayer())
@@ -651,6 +682,24 @@ public class Chessman : MonoBehaviour
         else
             return false;
     }
+<<<<<<< HEAD
+=======
+    public void MovePlateAttackSpawn(int matrixX, int matrixY)
+    {
+        if (IsAttackSpawn(matrixX, matrixY)) return;
+        //if (CheckSkillList("Áú¼­", GetCurrentPlayer(true)))
+        //    if (GameManager.Inst.GetPosition(matrixX, matrixY).name == "black_king" || GameManager.Inst.GetPosition(matrixX, matrixY).name == "white_king")
+        //        return;
+
+        float x = matrixX;
+        float y = matrixY;
+
+        x *= 0.684f;
+        y *= 0.684f;
+
+        x += -2.4f;
+        y += -2.4f;
+>>>>>>> minyoung
 
     public void SetNoneAttack(bool noneAttack)
     {
@@ -662,4 +711,39 @@ public class Chessman : MonoBehaviour
         if (noneAttack && GameManager.Inst.GetPosition(x, y).name.Contains("king")) return true;
         else return false;
     }
+<<<<<<< HEAD
 }
+=======
+
+    public void SetIsSelecting(bool _isHidden)
+    {
+        isSelecting = _isHidden;
+    }
+
+    private bool IsAttackSpawn(int x, int y)
+    {
+        if (isSelecting && GameManager.Inst.GetPosition(x, y).name.Contains("king")) return true;
+        else return false;
+    }
+
+    public void SetIsAttackSelecting(bool _isAttackSelecting)
+    {
+        isAttackSelecting = _isAttackSelecting;
+    }
+
+    public bool GetAttackSelecting()
+    {
+        return isAttackSelecting;
+    }
+
+    public void AddChosenSkill(SkillBase skill)
+    {
+        chosenSkill.Add(skill);
+    }
+
+    public void RemoveChosenSkill(SkillBase skill)
+    {
+        chosenSkill.Remove(skill);
+    }
+}
+>>>>>>> minyoung
