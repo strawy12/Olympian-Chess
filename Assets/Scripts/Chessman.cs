@@ -28,48 +28,48 @@ public class Chessman : MonoBehaviour
     private bool isMySkill = false;
     private void Start()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        //spriteRenderer = GetComponent<SpriteRenderer>();
         particle.SetActive(false);
     }
-    public void Activate()
-    {
+    //public void Activate()
+    //{
 
-        // take the instantiated location and adjust the transform
-        SetCoords();
+    //    // take the instantiated location and adjust the transform
+    //    SetCoords();
 
-        switch (this.gameObject.name)
-        {
-            //what to fix(heavy)
-            case "black_queen": this.GetComponent<SpriteRenderer>().sprite = black_queen; player = "black"; break;
-            case "black_knight": this.GetComponent<SpriteRenderer>().sprite = black_knight; player = "black"; break;
-            case "black_bishop": this.GetComponent<SpriteRenderer>().sprite = black_bishop; player = "black"; break;
-            case "black_king": this.GetComponent<SpriteRenderer>().sprite = black_king; player = "black"; break;
-            case "black_rook": this.GetComponent<SpriteRenderer>().sprite = black_rook; player = "black"; break;
-            case "black_pawn": this.GetComponent<SpriteRenderer>().sprite = black_pawn; player = "black"; break;
+    //    switch (this.gameObject.name)
+    //    {
+    //        //what to fix(heavy)
+    //        case "black_queen": this.GetComponent<SpriteRenderer>().sprite = black_queen; player = "black"; break;
+    //        case "black_knight": this.GetComponent<SpriteRenderer>().sprite = black_knight; player = "black"; break;
+    //        case "black_bishop": this.GetComponent<SpriteRenderer>().sprite = black_bishop; player = "black"; break;
+    //        case "black_king": this.GetComponent<SpriteRenderer>().sprite = black_king; player = "black"; break;
+    //        case "black_rook": this.GetComponent<SpriteRenderer>().sprite = black_rook; player = "black"; break;
+    //        case "black_pawn": this.GetComponent<SpriteRenderer>().sprite = black_pawn; player = "black"; break;
 
-            case "white_queen": this.GetComponent<SpriteRenderer>().sprite = white_queen; player = "white"; break;
-            case "white_knight": this.GetComponent<SpriteRenderer>().sprite = white_knight; player = "white"; break;
-            case "white_bishop": this.GetComponent<SpriteRenderer>().sprite = white_bishop; player = "white"; break;
-            case "white_king": this.GetComponent<SpriteRenderer>().sprite = white_king; player = "white"; break;
-            case "white_rook": this.GetComponent<SpriteRenderer>().sprite = white_rook; player = "white"; break;
-            case "white_pawn": this.GetComponent<SpriteRenderer>().sprite = white_pawn; player = "white"; break;
-        }
-    }
+    //        case "white_queen": this.GetComponent<SpriteRenderer>().sprite = white_queen; player = "white"; break;
+    //        case "white_knight": this.GetComponent<SpriteRenderer>().sprite = white_knight; player = "white"; break;
+    //        case "white_bishop": this.GetComponent<SpriteRenderer>().sprite = white_bishop; player = "white"; break;
+    //        case "white_king": this.GetComponent<SpriteRenderer>().sprite = white_king; player = "white"; break;
+    //        case "white_rook": this.GetComponent<SpriteRenderer>().sprite = white_rook; player = "white"; break;
+    //        case "white_pawn": this.GetComponent<SpriteRenderer>().sprite = white_pawn; player = "white"; break;
+    //    }
+    //}
 
-    public void SetCoords()
-    {
-        float x = xBoard;
-        float y = yBoard;
+    //public void SetCoords()
+    //{
+    //    float x = xBoard;
+    //    float y = yBoard;
 
-        x *= 0.684f;
-        y *= 0.684f;
+    //    x *= 0.684f;
+    //    y *= 0.684f;
 
-        x += -2.4f;
-        y += -2.4f;
+    //    x += -2.4f;
+    //    y += -2.4f;
 
-        // Aligns according the board
-        this.transform.position = new Vector3(x, y, -1.0f);
-    }
+    //    // Aligns according the board
+    //    this.transform.position = new Vector3(x, y, -1.0f);
+    //}
 
     public IEnumerator SetCoordsAnimation()
     {
@@ -119,8 +119,6 @@ public class Chessman : MonoBehaviour
     public void SetYBoard(int y)
     {
         yBoard = y;
-
-
     }
 
     private void OnMouseUp()
@@ -590,7 +588,7 @@ public class Chessman : MonoBehaviour
 
         GameObject mp = Instantiate(movePlate, new Vector3(x, y, -3.0f), Quaternion.identity);
         MovePlate mpScript = mp.GetComponent<MovePlate>();
-        mpScript.Setreference(this);
+        //mpScript.Setreference(this);
         mpScript.SetCoords(matrixX, matrixY);
         return mp;
 
@@ -683,7 +681,7 @@ public class Chessman : MonoBehaviour
 
         MovePlate mpScript = mp.GetComponent<MovePlate>();
         mpScript.attack = true;
-        mpScript.Setreference(this);
+        //mpScript.Setreference(this);
         mpScript.SetCoords(matrixX, matrixY);
 
         

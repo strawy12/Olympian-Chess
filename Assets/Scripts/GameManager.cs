@@ -69,58 +69,59 @@ public class GameManager : MonoBehaviour
     {
         pool = FindObjectOfType<PoolManager>();
         TurnManager.Instance.StartGame();
-        SettingGame();
+        //SettingGame();
     }
     // Function setting game at first
-    private void SettingGame()
-    {
-        RotationBoard.camera = Camera.main;
+    //private void SettingGame()
+    //{
+    //    RotationBoard.camera = Camera.main;
 
-        //spawn chess pieces
-        playerWhite = new Chessman[]
-        {
-           Creat("white_pawn", 1,1), Creat("white_pawn", 2,1), Creat("white_pawn", 3,1),
-           Creat("white_pawn", 4,1), Creat("white_pawn", 5,1), Creat("white_pawn", 6,1),
-           Creat("white_pawn", 7,1), Creat("white_pawn", 0,1), Creat("white_rook", 0,0),
-           Creat("white_knight", 1,0), Creat("white_bishop", 2,0), Creat("white_queen", 3,0),
-           Creat("white_king", 4,0), Creat("white_bishop", 5,0), Creat("white_knight", 6,0),
-           Creat("white_rook", 7,0)
-        };
+    //    //spawn chess pieces
+    //    playerWhite = new Chessman[]
+    //    {
+    //       Creat("white_pawn", 1,1), Creat("white_pawn", 2,1), Creat("white_pawn", 3,1),
+    //       Creat("white_pawn", 4,1), Creat("white_pawn", 5,1), Creat("white_pawn", 6,1),
+    //       Creat("white_pawn", 7,1), Creat("white_pawn", 0,1), Creat("white_rook", 0,0),
+    //       Creat("white_knight", 1,0), Creat("white_bishop", 2,0), Creat("white_queen", 3,0),
+    //       Creat("white_king", 4,0), Creat("white_bishop", 5,0), Creat("white_knight", 6,0),
+    //       Creat("white_rook", 7,0)
+    //    };
 
-        RotationBoard.playerWhite = playerWhite;
+    //    RotationBoard.playerWhite = playerWhite;
 
-        playerBlack = new Chessman[]
-        {
-           Creat("black_pawn", 0,6), Creat("black_pawn", 1,6), Creat("black_pawn", 2,6),
-           Creat("black_pawn", 3,6), Creat("black_pawn", 4,6), Creat("black_pawn", 5,6),
-           Creat("black_pawn", 6,6), Creat("black_pawn", 7,6), Creat("black_rook", 0,7),
-           Creat("black_knight", 1,7), Creat("black_bishop", 2,7), Creat("black_queen", 3,7),
-           Creat("black_king", 4,7), Creat("black_bishop", 5,7),
-           Creat("black_rook", 7,7), Creat("black_knight", 6,7)
-        };
+    //    playerBlack = new Chessman[]
+    //    {
+    //       Creat("black_pawn", 0,6), Creat("black_pawn", 1,6), Creat("black_pawn", 2,6),
+    //       Creat("black_pawn", 3,6), Creat("black_pawn", 4,6), Creat("black_pawn", 5,6),
+    //       Creat("black_pawn", 6,6), Creat("black_pawn", 7,6), Creat("black_rook", 0,7),
+    //       Creat("black_knight", 1,7), Creat("black_bishop", 2,7), Creat("black_queen", 3,7),
+    //       Creat("black_king", 4,7), Creat("black_bishop", 5,7),
+    //       Creat("black_rook", 7,7), Creat("black_knight", 6,7)
+    //    };
 
-        RotationBoard.playerBlack = playerBlack;
-        //setting position(non-empty)
-        for (int i = 0; i < playerBlack.Length; i++)
-        {
-            SetPosition(playerBlack[i]);
-            SetPosition(playerWhite[i]);
-        }
-    }
-    // Function creating chess piece based on parameters' value
-    public Chessman Creat(string name, int x, int y)
-    {
-        GameObject obj = Instantiate(chesspiece, new Vector3(0, 0, -1), Quaternion.identity);
-        obj.transform.SetParent(chess.transform);
-        Chessman cm = obj.GetComponent<Chessman>();
+    //    RotationBoard.playerBlack = playerBlack;
+    //    //setting position(non-empty)
+    //    for (int i = 0; i < playerBlack.Length; i++)
+    //    {
+    //        SetPosition(playerBlack[i]);
+    //        SetPosition(playerWhite[i]);
+    //    }
+    //}
+    //// Function creating chess piece based on parameters' value
+    //public Chessman Creat(string name, int x, int y)
+    //{
+    //    GameObject obj = Instantiate(chesspiece, new Vector3(0, 0, -1), Quaternion.identity);
+    //    obj.transform.SetParent(chess.transform);
+    //    Chessman cm = obj.GetComponent<Chessman>();
 
-        cm.name = name;
-        cm.SetXBoard(x);
-        cm.SetYBoard(y);
-        cm.Activate();
+    //    cm.name = name;
+    //    cm.SetXBoard(x);
+    //    cm.SetYBoard(y);
+    //    //cm.Activate();
+    //    cm.SetCoords();
 
-        return cm;
-    }
+    //    return cm;
+    //}
     private void Update()
     {
         InputCheatKey();
@@ -161,11 +162,11 @@ public class GameManager : MonoBehaviour
     }
     // Function setting obj's position
     // (to set the position non-empty)
-    public void SetPosition(Chessman obj)
-    {
-        if (obj == null) return;
-        position[obj.GetXBoard(), obj.GetYBoard()] = obj;
-    }
+    //public void SetPosition(Chessman obj)
+    //{
+    //    if (obj == null) return;
+    //    position[obj.GetXBoard(), obj.GetYBoard()] = obj;
+    //}
     // Function setting obj's position to parameters' position(x, y)
     public void SetChessPiecePosition(int x, int y, Chessman obj)
     {
