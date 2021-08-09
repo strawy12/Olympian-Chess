@@ -627,16 +627,33 @@ public class Chessman : MonoBehaviour
     //    return false;
     //}
 
-    private bool CheckSkillList(List<SkillBase> skillList, string player)
+    public SkillBase CheckSkillList(string name)
     {
-        for (int i = 0; i < skillList.Count; i++)
+        for (int i = 0; i < chosenSkill.Count; i++)
         {
-            if (SkillManager.Inst.CheckSkillList(skillList[i], player))
+            if (chosenSkill[i].gameObject.name == name)
             {
-                return true;
+                return chosenSkill[i];
             }
         }
-        return false;
+        return null;
+    }
+
+    public List<SkillBase> GetSkillList(string name)
+    {
+        List<SkillBase> _skillList = new List<SkillBase>();
+        SkillBase skill;
+        string[] names = name.Split(',');
+        for (int i = 0; i < names.Length; i++)
+        {
+            skill = CheckSkillList(names[i]);
+            if (skill != null)
+            {
+                _skillList.Add(skill);
+            }
+               
+        }
+        return _skillList;
     }
 
     public bool CheckIsMine()

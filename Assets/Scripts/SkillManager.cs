@@ -126,21 +126,19 @@ public class SkillManager : MonoBehaviour
         sb.SetPosX(mp.GetPosX());
         sb.SetPosY(mp.GetPosY());
         sb.StandardSkill();
-        GameManager.Inst.SetUsingSkill(false);
-        GameManager.Inst.SetMoving(true);
     }
     public void AttackUsingSkill(MovePlate mp)
     {
-        string player = GameManager.Inst.GetCurrentPlayer() == "white" ? "black" : "white";
-        List<SkillBase> _skillList = GetSkillList("출산,아테나의 방패,에로스의 사랑,길동무", player);
+        Chessman cp = GameManager.Inst.GetPosition(mp.GetPosX(), mp.GetPosY());
+        List<SkillBase> _skillList = cp.GetSkillList("출산,아테나의 방패,에로스의 사랑,길동무");
+        Debug.Log(_skillList.Count);
         for (int i = 0; i < _skillList.Count; i++)
         {
+            Debug.Log(_skillList[i].name);
             _skillList[i].SetPosX(mp.GetPosX());
             _skillList[i].SetPosY(mp.GetPosY());
             _skillList[i].StandardSkill();
         }
-        GameManager.Inst.SetUsingSkill(false);
-        GameManager.Inst.SetMoving(true);
     }
 
     // Function spawning skill prefab

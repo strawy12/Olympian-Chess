@@ -236,6 +236,9 @@ public class TurnManager : MonoBehaviour
         for (int i = 0; i < attack.Count; i++)
             attack[i].attackCount++;
 
+        GameManager.Inst.SetUsingSkill(false);
+        GameManager.Inst.SetMoving(true);
+
         StartCoroutine(StartTurnCo());
         WinOrLose();
     }

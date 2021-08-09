@@ -36,6 +36,8 @@ public class GroundOfDeath : SkillBase
         sp.sortingOrder -= 10;
         GameManager.Inst.RemoveMovePlateList(god_Mp);
         GameManager.Inst.DestroyMovePlates();
+        GameManager.Inst.SetUsingSkill(false);
+        GameManager.Inst.SetMoving(true);
     }
 
     private IEnumerator GOD_SkillEffect()

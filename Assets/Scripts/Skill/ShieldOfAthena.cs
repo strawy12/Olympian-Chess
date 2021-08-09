@@ -36,8 +36,11 @@ public class ShieldOfAthena : SkillBase
     private void CheckSOA()
     {
         isAttack = true;
+        GameManager.Inst.SetUsingSkill(false);
+        GameManager.Inst.SetMoving(false);
         GameManager.Inst.DestroyMovePlates();
         TurnManager.Instance.ButtonColor();
+        SOA_ResetSkill();
     }
 
     public void SOA_ResetSkill()

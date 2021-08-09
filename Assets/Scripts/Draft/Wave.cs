@@ -18,6 +18,8 @@ public class Wave : SkillBase
     {
         TurnManager.Instance.ButtonColor();
         SkillManager.Inst.RemoveSkillList(this);
+        GameManager.Inst.SetUsingSkill(false);
+        GameManager.Inst.SetMoving(true);
         if (CardManager.Inst.GetSelectCard() != null)
         {
             var targetCards = CardManager.Inst.GetMyCards();

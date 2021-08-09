@@ -12,10 +12,10 @@ public class MovePlate : MonoBehaviour
     // false: movement, true: attacking
     [Header("속성")]
     public bool attack = false;
-    public bool isOD = false;
+    public bool isStop = false;
 
     private bool isSelected = false;
-    enum ECardState { Moving, Skill, MovingAndSkill }
+    enum ECardState { Moving, Skill, MovingAndSkill, Stop }
 
     Chessman reference = null;
 
@@ -90,7 +90,7 @@ public class MovePlate : MonoBehaviour
         TurnManager.Instance.ButtonColor();
         yield return MovingCard();
     }
-   
+
     #region isAttack일때
     //private void War()
     //{
@@ -215,10 +215,23 @@ public class MovePlate : MonoBehaviour
 
         if (cp.GetAttackSelecting())
         {
-            Debug.Log("냠");
             SkillManager.Inst.AttackUsingSkill(this);
+        }
+
+        SetECardState();
+
+        if (eCardState == ECardState.Stop)
+        {
             return;
         }
+
+        Destroy(cp.gameObject);
+        GameManager.Inst.SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
+        GameManager.Inst.UpdateArr(cp);
+
+
+
+
 
         //Skill athen = SkillManager.Inst.GetSkillList("아테나의 방패", GetCurrentPlayer(false));
 
@@ -257,9 +270,7 @@ public class MovePlate : MonoBehaviour
         //    PilSalGi.Inst.attackCntPlus();
         //}
 
-        Destroy(cp.gameObject);
-        GameManager.Inst.SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
-        GameManager.Inst.UpdateArr(cp);
+
     }
     #endregion
 
@@ -303,24 +314,15 @@ public class MovePlate : MonoBehaviour
         Chessman cp = GameManager.Inst.GetPosition(matrixX, matrixY);
 
         // set card state
-        SetECardState();
 
         // card attack 
         if (attack)
         {
-
             Card();
-            //if (reference.isAttacking)
-            //{
-            //    GameManager.Inst.attackings.Remove(reference);
-            //    reference.attackCount = 0;
-            //}
-
-            //GameManager.Inst.attackings.Add(reference);
-            //GameManager.Inst.CheckDeadSkillPiece(cp);
-            //reference.isAttacking = true;
         }
-       
+
+        SetECardState();
+
         if (eCardState == ECardState.Moving)
         {
             StartCoroutine(ReturnMovingCard());
@@ -332,14 +334,19 @@ public class MovePlate : MonoBehaviour
             SkillManager.Inst.UsingSkill(this);
         }
 
-        if (eCardState == ECardState.MovingAndSkill)
+        else if (eCardState == ECardState.MovingAndSkill)
         {
             StartCoroutine(ReturnMovingCard());
             SkillManager.Inst.UsingSkill(this);
         }
+
+        else
+        {
+            return;
+        }
     }
 
-  
+
     public void OnMouseUp()
     {
         if (TurnManager.Instance.isLoading) return;
@@ -350,7 +357,7 @@ public class MovePlate : MonoBehaviour
         //    PilSalGi.Inst.SetselectPiece(GameManager.Inst.GetPosition(matrixX, matrixY));
         //    return;
         //}
-        
+
         // change to coroutine for moving animation
         OnMouseUpEvent();
     }
@@ -362,16 +369,20 @@ public class MovePlate : MonoBehaviour
         {
             eCardState = ECardState.MovingAndSkill;
         }
-            
+
         // If not, change the current state to moving
-        else if(GameManager.Inst.GetMoving() && !GameManager.Inst.GetUsingSkill())
+        else if (GameManager.Inst.GetMoving() && !GameManager.Inst.GetUsingSkill())
         {
             eCardState = ECardState.Moving;
         }
-            
+
         else if (!GameManager.Inst.GetMoving() && GameManager.Inst.GetUsingSkill())
         {
             eCardState = ECardState.Skill;
+        }
+        else
+        {
+            eCardState = ECardState.Stop;
         }
     }
 
