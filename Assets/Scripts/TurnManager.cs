@@ -60,7 +60,7 @@ public class TurnManager : MonoBehaviour
 
     // delay
     WaitForSeconds delay05 = new WaitForSeconds(0.5f);
-    WaitForSeconds delay07 = new WaitForSeconds(0.7f);
+    WaitForSeconds delay07 = new WaitForSeconds(2f);
 
     public static event Action<bool> OnTurnStarted;
 
@@ -116,7 +116,7 @@ public class TurnManager : MonoBehaviour
     // Start a new turn & Win, lose decision
     public IEnumerator StartTurnCo()
     {
-        // [turn division
+        // turn division
         isLoading = true;
         if (myTurn)
             Debug.Log("³ªÀÇ ÅÏ");
@@ -206,24 +206,24 @@ public class TurnManager : MonoBehaviour
         if (!isActive) return;
 
         List<Chessman> attack = GameManager.Inst.attackings;
-        Skill sk = SkillManager.Inst.GetSkillList("´Þºû", GameManager.Inst.GetCurrentPlayer());
+        //Skill sk = SkillManager.Inst.GetSkillList("´Þºû", GameManager.Inst.GetCurrentPlayer());
 
         if (GameManager.Inst.gameOver) return;
 
-        if (CardManager.Inst.selectCard != null)
+        if (CardManager.Inst.GetSelectCard() != null)
         {
-            var targetCards = CardManager.Inst.myCards;
-            CardManager.Inst.DestroyCard(CardManager.Inst.selectCard, targetCards);
+            var targetCards = CardManager.Inst.GetMyCards();
+            CardManager.Inst.DestroyCard(CardManager.Inst.GetSelectCard(), targetCards);
         }
         CardManager.Inst.UpdateCard();
         myTurn = !myTurn;
 
-        GameManager.Inst.FasleIsMoving();
+        GameManager.Inst.FalseIsMoving();
         ChangeButtonTransform();
         ButtonInactive();
 
         CardManager.Inst.ChangeIsUse(false);
-        SkillManager.Inst.SetTurnTime();
+        SkillManager.Inst.SkillListCntPlus();
         GameManager.Inst.NextTurn();
 
         for (int i = 0; i < attack.Count; i++)
