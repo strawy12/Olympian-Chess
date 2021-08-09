@@ -26,9 +26,9 @@ public class Traveler : SkillBase
             GameManager.Inst.SetPositionEmpty(selectPiece.GetXBoard(), selectPiece.GetYBoard());
             selectPiece.SetXBoard(randomX);
             selectPiece.SetYBoard(randomY);
-            selectPiece.SetCoords();
+            //selectPiece.SetCoords();
 
-            GameManager.Inst.SetPosition(selectPiece);
+            //GameManager.Inst.SetPosition(selectPiece);
         }
 
         //if the pieces are not pawns, use of card is canceled

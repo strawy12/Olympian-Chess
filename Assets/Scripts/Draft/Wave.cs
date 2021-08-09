@@ -107,7 +107,7 @@ public class Wave : SkillBase
 
         for (int i = 0; i < cmList.Count; i++)
         {
-            GameManager.Inst.SetPosition(cmList[i]);
+            //GameManager.Inst.SetPosition(cmList[i]);
         }
 
     }
@@ -124,7 +124,7 @@ public class Wave : SkillBase
             else
                 cm.SetXBoard(i - 1);
 
-            cm.SetCoords();
+            //cm.SetCoords();
             cm.DestroyMovePlates();
             cm.PlusMoveCnt();
             return cm;
@@ -140,7 +140,7 @@ public class Wave : SkillBase
             else
                 cm.SetYBoard(i - 1);
 
-            cm.SetCoords();
+            //cm.SetCoords();
             cm.PlusMoveCnt();
             return cm;
         }

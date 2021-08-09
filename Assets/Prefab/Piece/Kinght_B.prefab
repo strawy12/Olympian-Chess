@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3909148313311468858}
   - component: {fileID: 1399387032060936246}
   - component: {fileID: 6024791892739034506}
+  - component: {fileID: -895341803943474326}
   m_Layer: 0
   m_Name: Kinght_B
   m_TagString: Untagged
@@ -96,3 +97,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9d67fb049fb8ca408a7723a4dc30565, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: black
+--- !u!61 &-895341803943474326
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8521106812641234907}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.22, y: 0.27}
+    newSize: {x: 0.22, y: 0.27}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.22, y: 0.27}
+  m_EdgeRadius: 0

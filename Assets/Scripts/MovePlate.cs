@@ -17,7 +17,7 @@ public class MovePlate : MonoBehaviour
     private bool isSelected = false;
     enum ECardState { Moving, Skill, MovingAndSkill }
 
-    Chessman reference = null;
+    ChessBase reference = null;
 
     #endregion
 
@@ -44,10 +44,10 @@ public class MovePlate : MonoBehaviour
 
         //reference.SetCoords(); --> change to anmiation
 
-        yield return reference.SetCoordsAnimation();
-        reference.DestroyMovePlates();
-        GameManager.Inst.SetPosition(reference);
-
+        //yield return reference.SetCoordsAnimation();
+        //reference.DestroyMovePlates();
+        //GameManager.Inst.SetPosition(reference);
+        yield return null;
         //if (SkillManager.Inst.CheckSkillList("¿¸¿Ô±§", GetCurrentPlayer(true)) || SkillManager.Inst.CheckSkillList("¿¸¿Ô±§", GetCurrentPlayer(false)))
         //{
         //    SkillController sc = SkillManager.Inst.GetSkillList("¿¸¿Ô±§", GetCurrentPlayer(true));
@@ -82,7 +82,7 @@ public class MovePlate : MonoBehaviour
         //    sk.SetIsMLMoved(true);
         //}
 
-        reference.isMoving = true;
+        //reference.isMoving = true;
         TurnManager.Instance.ButtonColor();
     }
 
@@ -390,12 +390,12 @@ public class MovePlate : MonoBehaviour
         return matrixY;
     }
 
-    public void Setreference(Chessman obj)
+    public void Setreference(ChessBase obj)
     {
         reference = obj;
     }
 
-    public Chessman Getreference()
+    public ChessBase Getreference()
     {
         return reference;
     }

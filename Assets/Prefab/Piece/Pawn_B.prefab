@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4493817716163016923}
   - component: {fileID: 792285257948649922}
   - component: {fileID: 5133939454065497255}
+  - component: {fileID: 6424510015350035457}
   m_Layer: 0
   m_Name: Pawn_B
   m_TagString: Untagged
@@ -95,3 +96,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80e73d049b4c4d643b183f124149ae40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: black
+--- !u!61 &6424510015350035457
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8288061585287684370}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.18, y: 0.29}
+    newSize: {x: 0.18, y: 0.29}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.18, y: 0.29}
+  m_EdgeRadius: 0
