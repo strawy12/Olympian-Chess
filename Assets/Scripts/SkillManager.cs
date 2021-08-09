@@ -120,6 +120,25 @@ public class SkillManager : MonoBehaviour
         dontClickPiece.Remove(cp);
     }
 
+    public bool MoveControl(Chessman cp)
+    {
+        List<SkillBase> _skillList = cp.GetSkillList("Áú¼­");
+        int i = 0;
+           
+        for (i = 0; i < _skillList.Count; i++)
+        {
+            _skillList[i].StandardSkill();
+        }
+        if(i != 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     public void UsingSkill(MovePlate mp)
     {
         SkillBase sb = skillList[skillList.Count - 1];
@@ -127,6 +146,7 @@ public class SkillManager : MonoBehaviour
         sb.SetPosY(mp.GetPosY());
         sb.StandardSkill();
     }
+
     public void AttackUsingSkill(MovePlate mp)
     {
         Chessman cp = GameManager.Inst.GetPosition(mp.GetPosX(), mp.GetPosY());
@@ -216,9 +236,9 @@ public class SkillManager : MonoBehaviour
             case "¼öÁß°¨¿Á":
                 obj.AddComponent<OceanJail>();
                 break;
-            //case "Áú¼­":
-            //    Order(chessPiece);
-            //    break;
+            case "Áú¼­":
+                obj.AddComponent<Law>();
+                break;
             case "Á×À½ÀÇ ¶¥":
                 obj.AddComponent<GroundOfDeath>();
                 break;

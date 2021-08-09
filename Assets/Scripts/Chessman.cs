@@ -131,15 +131,19 @@ public class Chessman : MonoBehaviour
         List<Chessman> attack = GameManager.Inst.attackings;
         if (TurnManager.Instance.GetIsActive()) return;
         if (SkillManager.Inst.CheckDontClickPiece(this)) return;
-        //if (WarbuffCheck()) return;
-        //if (CheckSkillList("정의구현", GetCurrentPlayer(false)) && attackCount != 0 && attackCount < 3) return;
 
-        //SkillManager.Inst.SetIsUsingCard(false);
         //SkillManager.Inst.CheckSkillCancel();
 
         if (!GameManager.Inst.IsGameOver() && GameManager.Inst.GetCurrentPlayer() == player)
         {
             GameManager.Inst.DestroyMovePlates(); // Destroy
+
+            if (SkillManager.Inst.MoveControl(this))
+            {
+                Debug.Log("응애");
+                return;
+            }
+
             InitiateMovePlates(); // Instatiate
         }
     }
@@ -220,7 +224,7 @@ public class Chessman : MonoBehaviour
 
     public void InitiateMovePlates()
     {
-        switch (this.name)
+        switch (name)
         {
             case "black_queen":
             case "white_queen":
