@@ -29,7 +29,7 @@ public class Chessman : MonoBehaviour
     private bool isAttackSelecting = false;
     private bool isMySkill = false;
 
-    List<SkillBase> skillList = new List<SkillBase>();
+    List<SkillBase> chosenSkill = new List<SkillBase>();
 
     private void Start()
     {
@@ -100,6 +100,7 @@ public class Chessman : MonoBehaviour
 
         while (t < 1f)
         {
+            if (transform.position == null) yield break;
             t += Time.deltaTime / distance * 10f;
             transform.position = Vector3.Lerp(startPos, endPos, t);
             yield return null;
@@ -136,38 +137,45 @@ public class Chessman : MonoBehaviour
         if (!GameManager.Inst.IsGameOver() && GameManager.Inst.GetCurrentPlayer() == player)
         {
             DestroyMovePlates(); // Destroy
-            if(GameManager.Inst.isBacchrs)
+            if (SkillManager.Inst.MoveControl(this))
             {
-                SkillBase sb = SkillManager.Inst.GetSkillList("¹ÙÄ«½º", "white");
-                if(sb==null) sb = SkillManager.Inst.GetSkillList("¹ÙÄ«½º", "black");
-
-                sb.SetSelectPiece(this);
-                sb.StandardSkill();
+                Debug.Log("ÀÀ¾Ö");
                 return;
             }
+
             InitiateMovePlates(); // Instatiate
         }
     }
-    private string GetCurrentPlayer(bool reverse)
+    public List<SkillBase> GetSkillList(string name)
     {
-        if (!reverse)
+        List<SkillBase> _skillList = new List<SkillBase>();
+        SkillBase skill;
+        string[] names = name.Split(',');
+        for (int i = 0; i < names.Length; i++)
         {
-            if (GameManager.Inst.GetCurrentPlayer() == "white")
+            skill = CheckSkillList(names[i]);
+            if (skill != null)
             {
-                return "black";
+                _skillList.Add(skill);
             }
-            else if (GameManager.Inst.GetCurrentPlayer() == "black")
-            {
-                return "white";
-            }
-        }
-        else
-        {
-            return GameManager.Inst.GetCurrentPlayer();
-        }
 
-        return GameManager.Inst.GetCurrentPlayer();
+        }
+        return _skillList;
     }
+
+    public SkillBase CheckSkillList(string name)
+    {
+        for (int i = 0; i < chosenSkill.Count; i++)
+        {
+            if (chosenSkill[i].gameObject.name == name)
+            {
+                return chosenSkill[i];
+            }
+        }
+        return null;
+    }
+
+
     //private bool WarbuffCheck()
     //{
     //    if (SkillManager.Inst.CheckSkillList("ÀüÀï±¤", GetCurrentPlayer(true)) || SkillManager.Inst.CheckSkillList("ÀüÀï±¤", GetCurrentPlayer(false)))
@@ -542,13 +550,18 @@ public class Chessman : MonoBehaviour
         isAttackSelecting = _isAttackSelecting;
     }
 
+    public bool GetAttackSelecting()
+    {
+        return isAttackSelecting;
+    }
+
     public void AddChosenSkill(SkillBase skill)
     {
-        skillList.Add(skill);
+        chosenSkill.Add(skill);
     }
 
     public void RemoveChosenSkill(SkillBase skill)
     {
-        skillList.Remove(skill);
+        chosenSkill.Remove(skill);
     }
 }

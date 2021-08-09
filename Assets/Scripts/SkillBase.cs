@@ -8,6 +8,7 @@ public class SkillBase : MonoBehaviour
     public Chessman selectPieceTo { get; protected set; }
     protected int posX;
     protected int posY;
+    protected MovePlate movePlate;
     protected int turnCnt = 0;
     protected string player = "white";
 
@@ -53,5 +54,10 @@ public class SkillBase : MonoBehaviour
     public void TurnCntPlus()
     {
         turnCnt++;
+    }
+
+    public void SetMovePlate(MovePlate movePlate)
+    {
+        this.movePlate = movePlate;
     }
 }

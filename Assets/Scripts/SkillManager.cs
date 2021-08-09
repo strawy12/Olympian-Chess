@@ -55,6 +55,22 @@ public class SkillManager : MonoBehaviour
     #endregion
 
     #region Script Access 
+    public void AttackUsingSkill(MovePlate mp)
+    {
+        Chessman cp = GameManager.Inst.GetPosition(mp.GetPosX(), mp.GetPosY());
+        List<SkillBase> _skillList = cp.GetSkillList("출산,아테나의 방패,에로스의 사랑,길동무");
+        Debug.Log(_skillList.Count);
+        for (int i = 0; i < _skillList.Count; i++)
+        {
+            Debug.Log(_skillList[i].name);
+            _skillList[i].SetPosX(mp.Getreference().GetXBoard());
+            _skillList[i].SetPosY(mp.Getreference().GetYBoard());
+            _skillList[i].SetMovePlate(mp);
+            _skillList[i].StandardSkill();
+        }
+    }
+
+
     // Function returning isUsingCard value
     public bool GetUsingCard()
     {
@@ -77,6 +93,30 @@ public class SkillManager : MonoBehaviour
         }
         return null;
     }
+
+    public bool MoveControl(Chessman cp)
+    {
+        List<SkillBase> _skillList = cp.GetSkillList("질서,바카스");
+        int i = 0;
+           
+        for (i = 0; i < _skillList.Count; i++)
+        {
+            if(GameManager.Inst.isBacchrs)
+            {
+                skillList[i].SetSelectPiece(cp);
+            }
+            _skillList[i].StandardSkill();
+        }
+        if(i != 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
 
     #endregion
 
@@ -114,11 +154,6 @@ public class SkillManager : MonoBehaviour
         skillList.Remove(sb);
     }
 
-    public List<SkillBase> GetSkillList()
-    {
-        return skillList;
-    }
-
     // Function adding the cp to dontClickPiece list
     public void AddDontClickPiece(Chessman cp)
     {
@@ -129,6 +164,14 @@ public class SkillManager : MonoBehaviour
     public void RemoveDontClickPiece(Chessman cp)
     {
         dontClickPiece.Remove(cp);
+    }
+
+    public void UsingSkill(MovePlate mp)
+    {
+        SkillBase sb = skillList[skillList.Count - 1];
+        sb.SetPosX(mp.GetPosX());
+        sb.SetPosY(mp.GetPosY());
+        sb.StandardSkill();
     }
 
     // Function spawning skill prefab
@@ -169,9 +212,9 @@ public class SkillManager : MonoBehaviour
             case "여행자":
                 obj.AddComponent<Traveler>();
                 break;
-            //case "길동무":
-            //    StreetFriend(chessPiece);
-            //    break;
+            case "길동무":
+                obj.AddComponent<StreetFriend>();
+                break;
             case "바카스":
                 obj.AddComponent<Bacchrs>();
                 break;

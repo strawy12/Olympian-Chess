@@ -47,6 +47,8 @@ public class GameManager : MonoBehaviour
 
     public bool gameOver = false;
     public bool isBacchrs = false;
+    private bool usingSkill = false;
+    private bool moving = true;
 
     [Multiline(10)]
     [SerializeField] string cheatInfo;
@@ -189,6 +191,26 @@ public class GameManager : MonoBehaviour
         else
             return false;
     }
+
+    public bool GetUsingSkill()
+    {
+        return usingSkill;
+    }
+    public bool GetMoving()
+    {
+        return moving;
+    }
+
+    public void SetUsingSkill(bool usingSkill)
+    {
+        this.usingSkill = usingSkill;
+    }
+
+    public void SetMoving(bool moving)
+    {
+        this.moving = moving;
+    }
+
 
     // if cp that is same as sks's selected piece is dead,
     // destroy the skill from skill list
