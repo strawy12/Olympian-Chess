@@ -200,23 +200,6 @@ public class GameManager : MonoBehaviour
             return false;
     }
 
-    // if cp that is same as sks's selected piece is dead,
-    // destroy the skill from skill list
-    public void CheckDeadSkillPiece(Chessman cp)
-    {
-        SkillBase[] sbs = FindObjectsOfType<SkillBase>();
-
-        for (int i = 0; i < sbs.Length; i++)
-        {
-            if (sbs[i].GetSelectPiece() == cp || sbs[i].GetSelectPieceTo() == cp)
-            {
-                SkillManager.Inst.RemoveSkillList(sbs[i]);
-                cp.spriteRenderer.material.SetColor("_Color", new Color(0, 0, 0, 0));
-                Destroy(sbs[i].gameObject);
-                return;
-            }
-        }
-    }
     // Function spawning move plates on each non-empty space
     // that exist parameter value(black or white) color
     public void AllMovePlateSpawn(Chessman cm, bool isMine)

@@ -279,24 +279,6 @@ public class Chessman : MonoBehaviour
                 break;
         }
     }
-    public List<Chessman> CheckOnMovePlate()
-    {
-        MovePlate[] movePlates = null;
-        //GameManager.Inst.DestroyMovePlates();
-        if (movePlates == null)
-        {
-            InitiateMovePlates();
-            movePlates = FindObjectsOfType<MovePlate>();
-        }
-        List<Chessman> cps = new List<Chessman>();
-        for (int i = 0; i < movePlates.Length; i++)
-        {
-            cps.Add(movePlates[i].GetChessPiece());
-        }
-
-        Debug.Log("览局 唱 眉农场车寸");
-        return cps;
-    }
     public void LineMovePlate(int xIncrement, int yIncrement)
     {
 
