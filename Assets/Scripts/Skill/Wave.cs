@@ -20,10 +20,10 @@ public class Wave : SkillBase
         SkillManager.Inst.RemoveSkillList(this);
         GameManager.Inst.SetUsingSkill(false);
         GameManager.Inst.SetMoving(true);
-        if (CardManager.Inst.GetSelectCard() != null)
+
+        if (selectPiece != null)
         {
-            var targetCards = CardManager.Inst.GetMyCards();
-            CardManager.Inst.DestroyCard(CardManager.Inst.GetSelectCard(), targetCards);
+            selectPiece.RemoveChosenSkill(this);
         }
         Destroy(gameObject);
         
@@ -39,6 +39,7 @@ public class Wave : SkillBase
 
     private void WV_MovePlate(Chessman chessPiece, int x, int y)
     {
+
         if (CheckNull(true, true, y) > 0 && x != 7) //right
             GameManager.Inst.MovePlateSpawn(x + 1, y, selectPiece);
 
@@ -54,6 +55,7 @@ public class Wave : SkillBase
 
     private void WaveCheck()
     {
+        CardManager.Inst.NotAmolang();
         if (posX == selectPiece.GetXBoard() + 1)
             WaveMove(true, true);
         else if (posX == selectPiece.GetXBoard() - 1)

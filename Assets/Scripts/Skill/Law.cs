@@ -23,6 +23,10 @@ public class Law : SkillBase
         {
             selectPiece.spriteRenderer.material.SetColor("_Color", new Color32(0, 0, 0, 0));
             selectPiece.SetNoneAttack(false);
+            if(selectPiece != null)
+            {
+                selectPiece.RemoveChosenSkill(this);
+            }
             SkillManager.Inst.RemoveSkillList(this);
             Destroy(gameObject);
         }
@@ -40,8 +44,6 @@ public class Law : SkillBase
 
     private void Law_InitiateMovePlates()
     {
-        Debug.Log("¿¿2æ÷");
-        Debug.Log(selectPiece.name);
         switch (selectPiece.name)
         {
             case "black_queen":

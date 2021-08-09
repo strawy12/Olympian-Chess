@@ -35,6 +35,10 @@ public class OceanJail : SkillBase
         GameManager.Inst.SetChessPiecePosition(posX, posY, selectPiece);
         selectPiece.spriteRenderer.material.SetColor("_Color", new Color32(0, 0, 0, 0));
         SkillManager.Inst.RemoveSkillList(this);
+        if (selectPiece != null)
+        {
+            selectPiece.RemoveChosenSkill(this);
+        }
         Destroy(gameObject);
     }
 }

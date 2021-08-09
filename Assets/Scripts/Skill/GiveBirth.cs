@@ -6,8 +6,7 @@ public class GiveBirth : SkillBase
 {
     public override void UsingSkill()
     {
-        selectPiece.SetIsAttackSelecting(true);
-        selectPiece.AddChosenSkill(this);
+        selectPiece.SetAttackSelecting(true);
         selectPiece.spriteRenderer.material.color = new Color32(71, 200, 62, 225);
     }
 
@@ -47,11 +46,15 @@ public class GiveBirth : SkillBase
         GameManager.Inst.SetPosition(baby);
         GameManager.Inst.AddArr(baby);
 
-        selectPiece.SetIsAttackSelecting(false);
-        selectPiece.RemoveChosenSkill(this);
+        if (selectPiece != null)
+        {
+            selectPiece.RemoveChosenSkill(this);
+        }
+
+        selectPiece.SetAttackSelecting(false);
+        SkillManager.Inst.RemoveSkillList(this);
 
         Destroy(gameObject);
-        SkillManager.Inst.RemoveSkillList(this);
     }
 
 }

@@ -240,15 +240,4 @@ public class TurnManager : MonoBehaviour
         WinOrLose();
     }
 
-<<<<<<< HEAD
-
-=======
-    //private bool CheckSkillList(string name, string player)
-    //{
-    //    if (SkillManager.Inst.CheckSkillList(name, player))
-    //        return true;
-    //    else
-    //        return false;
-    //}
->>>>>>> minyoung
 }

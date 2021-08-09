@@ -54,8 +54,11 @@ public class Rush : SkillBase
         selectPiece.SetXBoard(posX);
         selectPiece.SetCoords();
         GameManager.Inst.SetPosition(selectPiece);
-
-        Destroy(gameObject);
+        if (selectPiece != null)
+        {
+            selectPiece.RemoveChosenSkill(this);
+        }
         SkillManager.Inst.RemoveSkillList(this);
+        Destroy(gameObject);
     }
 }

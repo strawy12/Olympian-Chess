@@ -28,9 +28,13 @@ public class Justice : SkillBase
                 justiceCP[i].spriteRenderer.material.color = new Color32(0, 0, 0, 0);
                 SkillManager.Inst.RemoveDontClickPiece(justiceCP[i]);
             }
+            if (selectPiece != null)
+            {
+                selectPiece.RemoveChosenSkill(this);
+            }
 
-            Destroy(gameObject);
             SkillManager.Inst.RemoveSkillList(this);
+            Destroy(gameObject);
         }
     }
 }

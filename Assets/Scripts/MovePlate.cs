@@ -15,11 +15,7 @@ public class MovePlate : MonoBehaviour
     public bool isStop = false;
 
     private bool isSelected = false;
-<<<<<<< HEAD
     enum EChessState { Moving, Skill, MovingAndSkill, Stop }
-=======
-    enum ECardState { Moving, Skill, MovingAndSkill, Stop }
->>>>>>> minyoung
 
     Chessman reference = null;
 
@@ -40,16 +36,12 @@ public class MovePlate : MonoBehaviour
     }
 
     private IEnumerator MovingCard()
-    { 
+    {
         GameManager.Inst.SetPositionEmpty(reference.GetXBoard(), reference.GetYBoard());
         reference.SetXBoard(matrixX);
         reference.SetYBoard(matrixY);
-<<<<<<< HEAD
         reference.PlusMoveCnt();
 
-=======
-        reference.SetIsMoved(true);
->>>>>>> minyoung
         //reference.SetCoords(); --> change to anmiation
 
         yield return reference.SetCoordsAnimation();
@@ -64,56 +56,7 @@ public class MovePlate : MonoBehaviour
         TurnManager.Instance.ButtonColor();
         yield return MovingCard();
     }
-<<<<<<< HEAD
 
-    #region isAttack¿œ∂ß
-    //private void War()
-    //{
-    //    Chessman cp = GameManager.Inst.GetPosition(matrixX, matrixY);
-
-    //    Skill war = SkillManager.Inst.GetSkillList("¿¸¿Ô±§", GetCurrentPlayer(true));
-
-    //    if (war == null)
-    //    {
-    //        war = SkillManager.Inst.GetSkillList("¿¸¿Ô±§", GetCurrentPlayer(false));
-    //    }
-    //    if (war.cnt != 0)
-    //    {
-    //        if (cp.name == "black_king" || cp.name == "white_king") return;
-    //    }
-    //}
-    //private void Athen()
-    //{
-    //    Chessman cp = GameManager.Inst.GetPosition(matrixX, matrixY);
-    //    Skill athen = SkillManager.Inst.GetSkillList("æ∆≈◊≥™¿« πÊ∆–", GetCurrentPlayer(false));
-
-    //    athen.IsAttack(true);
-    //    athen.CheckAS();
-    //    cp.DestroyMovePlates();
-    //    TurnManager.Instance.ButtonColor();
-    //}
-
-    //private void Born()
-    //{
-    //    Chessman cp = GameManager.Inst.GetPosition(matrixX, matrixY);
-    //    Skill born = SkillManager.Inst.GetSkillList("√‚ªÍ", GetCurrentPlayer(false));
-
-    //    Chessman cm;
-    //    GameManager.Inst.SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
-
-    //    if (cp.player == "white")
-    //    {
-    //        cm = GameManager.Inst.Creat("white_pawn", cp.GetXBoard(), cp.GetYBoard());
-    //        cm.transform.Rotate(0f, 0f, 180f);
-    //        GameManager.Inst.SetPosition(cm);
-    //    }
-    //    else
-    //    {
-    //        cm = GameManager.Inst.Creat("black_pawn", cp.GetXBoard(), cp.GetYBoard());
-    //        GameManager.Inst.SetPosition(cm);
-    //    }
-=======
->>>>>>> minyoung
 
     #region isAttack¿œ∂ß
 
@@ -150,7 +93,6 @@ public class MovePlate : MonoBehaviour
     {
         Chessman cp = GameManager.Inst.GetPosition(matrixX, matrixY);
 
-<<<<<<< HEAD
         if (cp.GetAttackSelecting())
         {
             SkillManager.Inst.AttackUsingSkill(this);
@@ -164,60 +106,6 @@ public class MovePlate : MonoBehaviour
         Destroy(cp.gameObject);
         GameManager.Inst.SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
         GameManager.Inst.UpdateArr(cp);
-
-
-
-
-
-        //Skill athen = SkillManager.Inst.GetSkillList("æ∆≈◊≥™¿« πÊ∆–", GetCurrentPlayer(false));
-
-        //if (SkillManager.Inst.CheckSkillList("¿¸¿Ô±§", GetCurrentPlayer(true)) || SkillManager.Inst.CheckSkillList("¿¸¿Ô±§", GetCurrentPlayer(false)))
-        //{
-        //    War();
-        //}
-
-        //if (SkillManager.Inst.CheckSkillList("¥ﬁ∫˚", GetCurrentPlayer(true)))
-        //{
-        //    if (cp.name == "black_king" || cp.name == "white_king")
-        //        return;
-        //}
-
-        //if (CheckSkillList("æ∆≈◊≥™¿« πÊ∆–", GetCurrentPlayer(false)) && cp == athen.GetSelectPiece())
-        //{
-        //    Athen();
-        //}
-
-        //if (CheckSkillList("√‚ªÍ", GetCurrentPlayer(false)))
-        //{
-        //    Born();
-        //}
-
-        //if (CheckSkillList("ø°∑ŒΩ∫¿« ªÁ∂˚", GetCurrentPlayer(false)))
-        //{
-        //    Eros();
-        //}
-=======
-        if(cp.GetAttackSelecting())
-        {
-            SkillManager.Inst.AttackUsingSkill(this);
-        }
->>>>>>> minyoung
-
-        SetECardState();
-
-<<<<<<< HEAD
-
-=======
-        if(eCardState == ECardState.Stop)
-        {
-            return;
-        }
-        
-        Destroy(cp.gameObject);
-        SkillManager.Inst.SkillListStandard(cp);
-        GameManager.Inst.SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
-        GameManager.Inst.UpdateArr(cp);
->>>>>>> minyoung
     }
 
 
@@ -266,9 +154,16 @@ public class MovePlate : MonoBehaviour
         if (attack)
         {
             Card();
+            if (reference.isAttacking)
+            {
+                GameManager.Inst.attackings.Remove(reference);
+                reference.attackCount = 0;
+            }
+
+            GameManager.Inst.attackings.Add(reference);
+            reference.isAttacking = true;
         }
 
-<<<<<<< HEAD
         SetEChessState();
 
         if (eChessState == EChessState.Moving)
@@ -282,40 +177,6 @@ public class MovePlate : MonoBehaviour
         }
 
         else if (eChessState == EChessState.MovingAndSkill)
-=======
-            if (reference.isAttacking)
-            {
-                GameManager.Inst.attackings.Remove(reference);
-                reference.attackCount = 0;
-            }
-
-            GameManager.Inst.attackings.Add(reference);
-            //GameManager.Inst.CheckDeadSkillPiece(cp);
-            reference.isAttacking = true;
-        }
-
-        if (eCardState == ECardState.Moving)
->>>>>>> minyoung
-        {
-            StartCoroutine(ReturnMovingCard());
-            SkillManager.Inst.UsingSkill(this);
-        }
-
-<<<<<<< HEAD
-        else
-        {
-            return;
-        }
-    }
-
-
-=======
-        else if (eCardState == ECardState.Skill)
-        {
-            SkillManager.Inst.UsingSkill(this);
-        }
-
-        else if (eCardState == ECardState.MovingAndSkill)
         {
             StartCoroutine(ReturnMovingCard());
             SkillManager.Inst.UsingSkill(this);
@@ -325,13 +186,12 @@ public class MovePlate : MonoBehaviour
         {
             return;
         }
+        
     }
-  
->>>>>>> minyoung
+
     public void OnMouseUp()
     {
         if (TurnManager.Instance.isLoading) return;
-        //if (TurnManager.Instance.GetIsActive()) return;
         if (isSelected) return;
         //if(PilSalGi.Inst.GetisUsePilSalGi())
         //{
@@ -348,17 +208,11 @@ public class MovePlate : MonoBehaviour
         // Change current state to usingCard if card was used
         if (GameManager.Inst.GetMoving() && GameManager.Inst.GetUsingSkill())
         {
-<<<<<<< HEAD
             eChessState = EChessState.MovingAndSkill;
-=======
-            eCardState = ECardState.MovingAndSkill;
->>>>>>> minyoung
         }
-
         // If not, change the current state to moving
         else if (GameManager.Inst.GetMoving() && !GameManager.Inst.GetUsingSkill())
         {
-<<<<<<< HEAD
             eChessState = EChessState.Moving;
         }
 
@@ -371,23 +225,6 @@ public class MovePlate : MonoBehaviour
             eChessState = EChessState.Stop;
         }
     }
-
-
-
-=======
-            eCardState = ECardState.Moving;
-        }
-
-        else if (!GameManager.Inst.GetMoving() && GameManager.Inst.GetUsingSkill())
-        {
-            eCardState = ECardState.Skill;
-        }
-        else
-        {
-            eCardState = ECardState.Stop;
-        }
-    }
->>>>>>> minyoung
 
 
     public void SetIsSelected(bool isSelected)
@@ -423,16 +260,6 @@ public class MovePlate : MonoBehaviour
     public Chessman GetChessPiece()
     {
         return GameManager.Inst.GetPosition(matrixX, matrixY);
-    }
-
-    public int GetPosX()
-    {
-        return matrixX;
-    }
-
-    public int GetPosY()
-    {
-        return matrixY;
     }
 
 }

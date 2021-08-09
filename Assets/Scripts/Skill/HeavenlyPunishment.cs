@@ -52,6 +52,12 @@ public class HeavenlyPunishment : SkillBase
 
         SkillManager.Inst.RemoveSkillList(this);
         SkillManager.Inst.RemoveDontClickPiece(selectPiece);
+
+        if (selectPiece != null)
+        {
+            selectPiece.RemoveChosenSkill(this);
+        }
+
         Destroy(gameObject); 
     }
 }

@@ -35,6 +35,7 @@ public class LoveOfEros : SkillBase
     }
     private void LOE_Setting()
     {
+        CardManager.Inst.NotAmolang();
         isSetting = true;
         attacked = false;
         selectPieceTo = GameManager.Inst.GetPosition(posX, posY);
@@ -68,6 +69,14 @@ public class LoveOfEros : SkillBase
         GameManager.Inst.SetPosition(selectPieceTo);
         GameManager.Inst.UpdateArr(selectPiece);
         SkillManager.Inst.RemoveSkillList(this);
+        if (selectPiece != null)
+        {
+            if(selectPieceTo != null)
+            {
+                selectPieceTo.RemoveChosenSkill(this);
+            }
+            selectPiece.RemoveChosenSkill(this);
+        }
         Destroy(selectPiece.gameObject);
         Destroy(gameObject);
     }

@@ -74,6 +74,11 @@ public class WarBuff : SkillBase
         GameManager.Inst.UpdateArr(selectPiece);
         Destroy(selectPiece.gameObject);
         SkillManager.Inst.RemoveSkillList(this);
+        if (selectPiece != null)
+        {
+            selectPiece.RemoveChosenSkill(this);
+
+        }
         Destroy(gameObject);
     }
 

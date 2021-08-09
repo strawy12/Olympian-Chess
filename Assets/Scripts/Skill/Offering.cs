@@ -21,7 +21,11 @@ public class Offering : SkillBase
         int rand;
         rand = Random.Range(0, CardManager.Inst.GetOtherCards().Count);
         CardManager.Inst.RemoveCard(rand);
-        Destroy(selectPiece.gameObject);
+        if (selectPiece != null)
+        {
+            selectPiece.RemoveChosenSkill(this);
+        }
         SkillManager.Inst.RemoveSkillList(this);
+        Destroy(selectPiece.gameObject);
     }
 }

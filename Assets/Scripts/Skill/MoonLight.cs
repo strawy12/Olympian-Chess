@@ -28,8 +28,7 @@ public class MoonLight : SkillBase
         {
             if(selectPiece == null)
             {
-                SkillManager.Inst.RemoveSkillList(this);
-                Destroy(gameObject);
+                DestroySkill();
                 return;
             }
 
@@ -55,8 +54,17 @@ public class MoonLight : SkillBase
             selectPiece.spriteRenderer.enabled = true;
             selectPiece.spriteRenderer.material.color = new Color(0f, 0f, 0f, 0f);
             selectPiece.SetIsSelecting(false);
-            Destroy(gameObject);
-            SkillManager.Inst.RemoveSkillList(this);
+            DestroySkill();
         }
+    }
+
+    private void DestroySkill()
+    {
+        SkillManager.Inst.RemoveSkillList(this);
+        if (selectPiece != null)
+        {
+            selectPiece.RemoveChosenSkill(this);
+        }
+        Destroy(gameObject);
     }
 }

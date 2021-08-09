@@ -14,6 +14,12 @@ public class Bacchrs : SkillBase
         if (turnCnt > 1)
         {
             GameManager.Inst.isBacchrs = false;
+            if (selectPiece != null)
+            {
+                selectPiece.RemoveChosenSkill(this);
+            }
+            SkillManager.Inst.RemoveSkillList(this);
+            Destroy(gameObject);
         }
     }
 
@@ -52,11 +58,11 @@ public class Bacchrs : SkillBase
                 break;
 
             case "black_pawn":
-                selectPiece.MovePlateSpawn(selectPiece.GetXBoard(), selectPiece.GetYBoard() - 1);
+                GameManager.Inst.MovePlateSpawn(selectPiece.GetXBoard(), selectPiece.GetYBoard() - 1, selectPiece);
                 break;
 
             case "white_pawn":
-                selectPiece.MovePlateSpawn(selectPiece.GetXBoard(), selectPiece.GetYBoard() + 1);
+                GameManager.Inst.MovePlateSpawn(selectPiece.GetXBoard(), selectPiece.GetYBoard() + 1, selectPiece);
                 break;
         }
     }

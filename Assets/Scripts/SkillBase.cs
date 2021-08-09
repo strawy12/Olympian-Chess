@@ -45,11 +45,6 @@ public class SkillBase : MonoBehaviour
     {
         this.player = player;
     }
-    public void SetPosX(int posX)
-    {
-        this.posX = posX;
-    }
-<<<<<<< HEAD
     public int GetPosX()
     {
         return posX;
@@ -59,8 +54,11 @@ public class SkillBase : MonoBehaviour
     {
         return posY;
     }
-=======
->>>>>>> minyoung
+
+    public void SetPosX(int posX)
+    {
+        this.posX = posX;
+    }
 
     public void SetPosY(int posY)
     {

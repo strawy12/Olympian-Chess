@@ -54,7 +54,10 @@ public class Music : SkillBase
         // remove this from skill list and destroy this game object
         SkillManager.Inst.RemoveSkillList(this);
         SkillManager.Inst.RemoveDontClickPiece(selectPiece);
-        selectPiece = null;
+        if (selectPiece != null)
+        {
+            selectPiece.RemoveChosenSkill(this);
+        }
         Destroy(gameObject);
     }
 

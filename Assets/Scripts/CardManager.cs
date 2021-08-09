@@ -78,13 +78,13 @@ public class CardManager : MonoBehaviour
     public bool isMyCardDrag { get; private set; }
     public bool onMyCardArea { get; private set; }
     private bool isTargeting = false;
-    private bool isMine = false;
-    private bool isBreak = false;
-    private bool isStop = false;
-    private bool isUse = false;
+    [SerializeField] private bool isMine = false;
+    [SerializeField] private bool isBreak = false;
+    [SerializeField] private bool isStop = false;
+    [SerializeField] private bool isUse = false;
 
     int myPutCount;
-    private bool isUsed;
+    [SerializeField] private bool isUsed;
 
     enum ECardState { Nothing, CanMouseDrag }
     #endregion
@@ -256,7 +256,7 @@ public class CardManager : MonoBehaviour
     private bool CheckCardname(string name) // Check if a specific card and a select card are the same
     {
         string[] names = name.Split(',');
-        if(selectCard == null) return false;
+        if (selectCard == null) return false;
         for (int i = 0; i < names.Length; i++)
         {
             if (names[i] == selectCard.carditem.name)
@@ -267,17 +267,6 @@ public class CardManager : MonoBehaviour
         return false;
     }
 
-<<<<<<< HEAD
-    
-=======
-    //private bool CheckSkillList(string name, string player) // Check if a specific skill is being used
-    //{
-    //    if (SkillManager.Inst.CheckSkillList(name, player))
-    //        return true;
-    //    else
-    //        return false;
-    //}
->>>>>>> minyoung
 
     private bool CheckPlayer(string name) // CurrentPlayer Check
     {
@@ -419,6 +408,16 @@ public class CardManager : MonoBehaviour
             otherCards.Add(card);
             SetOriginOrder(isMine);
             CardAlignment(isMine);
+        }
+    }
+
+    public void NotAmolang()
+    {
+        if (selectCard != null)
+        {
+            var targetCards = GetMyCards();
+            DestroyCard(selectCard, targetCards);
+            isUse = true;
         }
     }
 
@@ -705,53 +704,24 @@ public class CardManager : MonoBehaviour
             SkillManager.Inst.SpawnSkillPrefab(card, chessPiece);
             if (isBreak)
             {
-                //Destroy(sk);
+                isBreak = false;
                 return false;
             }
-<<<<<<< HEAD
-            //if (CheckSkillList("파도", GameManager.Inst.GetCurrentPlayer())) return true;
-            //if (CheckSkillList("수면", GameManager.Inst.GetCurrentPlayer())) return true;
-            //if (CheckSkillList("에로스의 사랑", GameManager.Inst.GetCurrentPlayer())) return true;
-=======
+            if(CheckCardname("에로스의 사랑,수면,죽음의 땅,파도")) return true;
+            DestroyCard(card, targetCards);
+            isUse = true;
 
->>>>>>> minyoung
-
-            DestroyCard(card, targetCards); // 사용한 카드는 삭제
-            isUse = true; // 사용중을 표시함
-
-            if (isMine) // 내 카드를 사용한거라면
+            if (isMine)
             {
-                if (selectCard.carditem.name == "전쟁광" || selectCard.carditem.name == "달빛") // Later delete Code
-                    targetPicker.SetActive(false);
-                else
-                {
-                    selectCard = null;
-                    targetPicker.SetActive(false);
-                }
+                selectCard = null;
+                targetPicker.SetActive(false);
             }
 
-            CardAlignment(isMine); // 카드가 하나 사라졌기에 카드를 다시 정렬한다
-<<<<<<< HEAD
-            //if (CheckSkillList("제물", GameManager.Inst.GetCurrentPlayer())) return true; // Later delete Code
-            //if (selectCard != null)
-                //if (selectCard.carditem.name == "전쟁광" || selectCard.carditem.name == "달빛") // Later delete Code
-                    //  return true;
-=======
-            if (selectCard != null)
-                if (selectCard.carditem.name == "전쟁광" || selectCard.carditem.name == "달빛") // Later delete Code
-                    return true;
->>>>>>> minyoung
+            CardAlignment(isMine);
 
-            //TurnManager.Inst.EndTurn();
             return true;
         }
-        else // Later delete Code
-        {
-            targetCards.ForEach(x => x.GetComponent<Order>().SetMostFrontOrder(false));
-            CardAlignment(isMine);
-            return false;
-        }
-
+        return false;
     }
 
     private void EnlargeCard(bool isEnlarge, Card card) // Card enlarged when clicked
@@ -790,86 +760,12 @@ public class CardManager : MonoBehaviour
         CardAlignment(true);
     }
 
-<<<<<<< HEAD
-=======
-    private void NameColor(Text text, string name) // Later CardItemSO Add and this code delete
-    {
-        switch (name)
-        {
-            case "천벌":
-                text.color = new Color32(214, 161, 28, 255);
-                break;
-
-            case "죽음의 땅":
-            case "제물":
-                text.color = new Color32(205, 217, 194, 255);
-                break;
-
-            case "수중감옥":
-            case "파도":
-                text.color = new Color32(173, 180, 255, 255);
-                break;
-
-            case "수면":
-                text.color = new Color32(255, 188, 166, 255);
-                break;
-
-            case "달빛":
-                text.color = new Color32(236, 245, 247, 255);
-                break;
-
-            case "전쟁광":
-                text.color = new Color32(230, 78, 109, 255);
-                break;
-
-            case "정의구현":
-            case "아테나의 방패":
-                text.color = new Color32(255, 245, 160, 255);
-                break;
-
-            case "질서":
-                text.color = new Color32(98, 235, 173, 255);
-                break;
-
-            case "바카스":
-                text.color = new Color32(30, 50, 230, 255);
-                break;
-
-            case "에로스의 사랑":
-            case "출산":
-            case "음악":
-                text.color = new Color32(231, 163, 233, 255);
-                break;
-
-            case "길동무":
-                text.color = new Color32(165, 148, 209, 255);
-                break;
-
-            case "돌진":
-                text.color = new Color32(212, 109, 91, 255);
-                break;
-
-            case "서풍":
-                text.color = new Color32(141, 187, 235, 255);
-                break;
-
-            case "여행자":
-                text.color = new Color32(214, 184, 155, 255);
-                break;
-
-            case "시간왜곡":
-                text.color = new Color32(43, 66, 71, 255);
-                break;
-        }
-    }
-
     public void RemoveCard(int rand)
     {
         Destroy(otherCards[rand].gameObject);
         otherCards.RemoveAt(rand);
         CardAlignment(!isMine);
     }
->>>>>>> minyoung
     #endregion
 
     #region Card Control
@@ -894,7 +790,7 @@ public class CardManager : MonoBehaviour
 
         DestroyMovePlates();
         SkillManager.Inst.SetUsingCard(false);
-        //SkillManager.Inst.CheckSkillCancel();
+        SkillManager.Inst.CheckSkillCancel("에로스의 사랑,수면,죽음의 땅,파도");
         isMyCardDrag = true;
         selectCard = card;
         EnlargeCard(true, card);
@@ -912,15 +808,14 @@ public class CardManager : MonoBehaviour
         if (eCardState != ECardState.CanMouseDrag || eCardState == ECardState.Nothing)
             return;
         EnlargeCard(false, card);
-        if(CheckCardname("죽음의 땅") && !onMyCardArea)
+        if (CheckCardname("죽음의 땅,시간왜곡,바카스") && !onMyCardArea)
         {
             isUsed = true;
         }
-        if (!TryPutCard(true, isUsed))
+        if(!TryPutCard(true, isUsed))
         {
             selectCard = null;
         }
-
     }
 
     public void CardClick(Card card)

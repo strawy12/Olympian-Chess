@@ -26,10 +26,16 @@ public class GroundOfDeath : SkillBase
         GameManager.Inst.SetUsingSkill(true);
         GameManager.Inst.SetMoving(false);
         GameManager.Inst.RealAllMovePlateSpawn();
+        if(selectPiece != null)
+        {
+            selectPiece.RemoveChosenSkill(this);
+            selectPiece = null;
+        }
     }
 
     private void GOD_StandardSkill()
     {
+        CardManager.Inst.NotAmolang();
         god_Mp = GameManager.Inst.MovePlateSpawn(posX, posY, null);
         SpriteRenderer sp = god_Mp.GetComponent<SpriteRenderer>();
         sp.material.SetColor("_Color", new Color32(95, 0, 255, 255));
@@ -64,16 +70,4 @@ public class GroundOfDeath : SkillBase
             god_Mp.SetActive(false);
         }
     }
-
-    //public GameObject GOD_MovePlateSpawn(int matrixX, int matrixY)
-    //{
-    //   // selectPiece.
-
-    //    GameObject mp = Instantiate("MovePlate", new Vector3(x, y, -2.0f), Quaternion.identity);
-    //    mp.GetComponent<SpriteRenderer>().material.SetColor("_Color", new Color32(95, 0, 255, 255));
-    //    mp.tag = "Area";
-    //    Destroy(mp.GetComponent<MovePlate>());
-    //    mp.GetComponent<Collider2D>().enabled = false;
-    //    return mp;
-    //}
 }

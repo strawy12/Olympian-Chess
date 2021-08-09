@@ -6,8 +6,7 @@ public class StreetFriend : SkillBase
 {
     public override void UsingSkill()
     {
-        selectPiece.SetIsAttackSelecting(true);
-        selectPiece.AddChosenSkill(this);
+        selectPiece.SetAttackSelecting(true);
         selectPiece.spriteRenderer.material.SetColor("_Color", new Color32(129, 0, 1, 0));
     }
 
@@ -22,11 +21,14 @@ public class StreetFriend : SkillBase
 
         GameManager.Inst.UpdateArr(attacker);
         GameManager.Inst.UpdateArr(selectPiece);
-        attacker.DestroyMovePlates();
+        GameManager.Inst.DestroyMovePlates();
 
-        Destroy(gameObject);
+        if (selectPiece != null)
+        {
+            selectPiece.RemoveChosenSkill(this);
+        }
         SkillManager.Inst.RemoveSkillList(this);
-        selectPiece.RemoveChosenSkill(this);
-        selectPiece.SetIsAttackSelecting(false);
+        selectPiece.SetAttackSelecting(false);
+        Destroy(gameObject);
     }
 }
