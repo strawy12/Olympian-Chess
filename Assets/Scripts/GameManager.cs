@@ -268,10 +268,12 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+    
+
     public GameObject MovePlateSpawn(int matrixX, int matrixY, Chessman cp)
     {
-        //if (CheckReturnMovePlate(matrixX, matrixY, "¼­Ç³"))
-        //    return;
+        if (SkillManager.Inst.CheckReturnMovePlate(matrixX, matrixY, "¼­Ç³"))
+            return null;
 
         float x = matrixX;
         float y = matrixY;

@@ -69,14 +69,14 @@ public class SkillManager : MonoBehaviour
     }
 
     // Function returning skill if there is a skill from skillList that is the same as name
-    public List<SkillBase> GetSkillList(string name, string player)
+    public List<SkillBase> GetSkillList(string name)
     {
         List<SkillBase> _skillList = new List<SkillBase>();
 
         string[] names = name.Split(',');
         for (int i = 0; i < skillList.Count; i++)
         {
-            if (skillList[i].gameObject.name == name && skillList[i].GetPlayer() == player)
+            if (skillList[i].gameObject.name == name)
                 _skillList.Add(skillList[i]);
         }
         return _skillList;
@@ -119,10 +119,27 @@ public class SkillManager : MonoBehaviour
     {
         dontClickPiece.Remove(cp);
     }
+    public bool CheckReturnMovePlate(int x, int y, string name)
+    {
+        List<SkillBase> skillList = GetSkillList(name);
+
+        for (int i = 0; i < skillList.Count; i++)
+        {
+            if (skillList[i] != null)
+            {
+                if (skillList[i].GetPosX() == x && skillList[i].GetPosY() == y)
+                {
+                    return true;
+                }
+
+            }
+        }
+        return false;
+    }
 
     public bool MoveControl(Chessman cp)
     {
-        List<SkillBase> _skillList = cp.GetSkillList("질서");
+        List<SkillBase> _skillList = cp.GetSkillList("질서,바카스");
         int i = 0;
            
         for (i = 0; i < _skillList.Count; i++)
@@ -155,8 +172,8 @@ public class SkillManager : MonoBehaviour
         for (int i = 0; i < _skillList.Count; i++)
         {
             Debug.Log(_skillList[i].name);
-            _skillList[i].SetPosX(mp.GetPosX());
-            _skillList[i].SetPosY(mp.GetPosY());
+            _skillList[i].SetPosX(mp.Getreference().GetXBoard());
+            _skillList[i].SetPosY(mp.Getreference().GetYBoard());
             _skillList[i].StandardSkill();
         }
     }
@@ -230,9 +247,9 @@ public class SkillManager : MonoBehaviour
             case "파도":
                 obj.AddComponent<Wave>();
                 break;
-            //case "서풍":
-            //    WestWind(chessPiece);
-            //    break;
+            case "서풍":
+                obj.AddComponent<WestWind>();
+                break;
             case "수중감옥":
                 obj.AddComponent<OceanJail>();
                 break;

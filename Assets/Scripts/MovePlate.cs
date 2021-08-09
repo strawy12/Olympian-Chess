@@ -330,7 +330,6 @@ public class MovePlate : MonoBehaviour
 
         else if (eCardState == ECardState.Skill)
         {
-            Debug.Log("말 이동 성공");
             SkillManager.Inst.UsingSkill(this);
         }
 

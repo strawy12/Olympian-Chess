@@ -140,6 +140,7 @@ public class Chessman : MonoBehaviour
 
             if (SkillManager.Inst.MoveControl(this))
             {
+
                 Debug.Log("¿¿æ÷");
                 return;
             }
@@ -612,6 +613,7 @@ public class Chessman : MonoBehaviour
 
     //    return false;
     //}
+
 
     public SkillBase CheckSkillList(string name)
     {

@@ -21,6 +21,10 @@ public class SkillBase : MonoBehaviour
     {
         selectPiece = cp;
     }
+    public void SetSelectPieceTo(Chessman cp) 
+    {
+        selectPieceTo = cp;
+    }
 
     public Chessman GetSelectPieceTo() 
     {
@@ -43,6 +47,15 @@ public class SkillBase : MonoBehaviour
     public void SetPosX(int posX)
     {
         this.posX = posX;
+    }
+    public int GetPosX()
+    {
+        return posX;
+    }
+
+    public int GetPosY()
+    {
+        return posY;
     }
 
     public void SetPosY(int posY)
