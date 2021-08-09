@@ -57,6 +57,7 @@ public class GameManager : MonoBehaviour
 
     private bool usingSkill = false;
     private bool moving = true;
+    private bool isStop = false;
 
     Chessman cm;
 
@@ -416,6 +417,16 @@ public class GameManager : MonoBehaviour
         //cameraEffect.SetGrayScale(true);
     }
     #region
+
+    public void SetIsStop(bool isStop)
+    {
+        this.isStop = isStop;
+    }
+
+    public bool GetIsStop()
+    {
+        return isStop;
+    }
 
     // Set empty position for set position
     public void SetPositionEmpty(int x, int y)

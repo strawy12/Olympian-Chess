@@ -130,7 +130,7 @@ public class SkillManager : MonoBehaviour
                 if (skillList[i].GetPosX() == x && skillList[i].GetPosY() == y)
                 {
                     return true;
-                }
+                }   
 
             }
         }
@@ -205,9 +205,11 @@ public class SkillManager : MonoBehaviour
             case "Ãµ¹ú":
                 obj.AddComponent<HeavenlyPunishment>();
                 break;
-            //case "¿¡·Î½ºÀÇ »ç¶û":
-            //    LoveOfEros(chessPiece);
-            //    break;
+
+            case "¿¡·Î½ºÀÇ »ç¶û":
+                obj.AddComponent<LoveOfEros>();
+                break;
+
             case "¼ö¸é":
                 obj.AddComponent<Sleep>();
                 break;
@@ -220,6 +222,7 @@ public class SkillManager : MonoBehaviour
             case "¿©ÇàÀÚ":
                 obj.AddComponent<Traveler>();
                 break;
+
             //case "±æµ¿¹«":
             //    StreetFriend(chessPiece);
             //    break;
@@ -241,24 +244,30 @@ public class SkillManager : MonoBehaviour
             case "¾ÆÅ×³ªÀÇ ¹æÆÐ":
                 obj.AddComponent<ShieldOfAthena>();
                 break;
+
             //case "´Þºû":
             //    MoonLight(chessPiece);
             //    break;
             case "ÆÄµµ":
                 obj.AddComponent<Wave>();
                 break;
+
             case "¼­Ç³":
                 obj.AddComponent<WestWind>();
                 break;
+
             case "¼öÁß°¨¿Á":
                 obj.AddComponent<OceanJail>();
                 break;
+
             case "Áú¼­":
                 obj.AddComponent<Law>();
                 break;
+
             case "Á×À½ÀÇ ¶¥":
                 obj.AddComponent<GroundOfDeath>();
                 break;
+
             case "ÀüÀï±¤":
                 obj.AddComponent<WarBuff>();
                 break;

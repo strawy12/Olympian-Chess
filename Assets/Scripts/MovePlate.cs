@@ -5,7 +5,7 @@ using UnityEngine;
 public class MovePlate : MonoBehaviour
 {
     #region º¯¼ö
-    [SerializeField] ECardState eCardState;
+    [SerializeField] EChessState eChessState;
     // Board positions(not wolrd Positions) 
     int matrixX;
     int matrixY;
@@ -15,7 +15,7 @@ public class MovePlate : MonoBehaviour
     public bool isStop = false;
 
     private bool isSelected = false;
-    enum ECardState { Moving, Skill, MovingAndSkill, Stop }
+    enum EChessState { Moving, Skill, MovingAndSkill, Stop }
 
     Chessman reference = null;
 
@@ -218,9 +218,7 @@ public class MovePlate : MonoBehaviour
             SkillManager.Inst.AttackUsingSkill(this);
         }
 
-        SetECardState();
-
-        if (eCardState == ECardState.Stop)
+        if (GameManager.Inst.GetIsStop())
         {
             return;
         }
@@ -321,19 +319,19 @@ public class MovePlate : MonoBehaviour
             Card();
         }
 
-        SetECardState();
+        SetEChessState();
 
-        if (eCardState == ECardState.Moving)
+        if (eChessState == EChessState.Moving)
         {
             StartCoroutine(ReturnMovingCard());
         }
 
-        else if (eCardState == ECardState.Skill)
+        else if (eChessState == EChessState.Skill)
         {
             SkillManager.Inst.UsingSkill(this);
         }
 
-        else if (eCardState == ECardState.MovingAndSkill)
+        else if (eChessState == EChessState.MovingAndSkill)
         {
             StartCoroutine(ReturnMovingCard());
             SkillManager.Inst.UsingSkill(this);
@@ -349,7 +347,7 @@ public class MovePlate : MonoBehaviour
     public void OnMouseUp()
     {
         if (TurnManager.Instance.isLoading) return;
-        if (TurnManager.Instance.GetIsActive()) return;
+        //if (TurnManager.Instance.GetIsActive()) return;
         if (isSelected) return;
         //if(PilSalGi.Inst.GetisUsePilSalGi())
         //{
@@ -361,27 +359,27 @@ public class MovePlate : MonoBehaviour
         OnMouseUpEvent();
     }
 
-    void SetECardState()
+    void SetEChessState()
     {
         // Change current state to usingCard if card was used
         if (GameManager.Inst.GetMoving() && GameManager.Inst.GetUsingSkill())
         {
-            eCardState = ECardState.MovingAndSkill;
+            eChessState = EChessState.MovingAndSkill;
         }
 
         // If not, change the current state to moving
         else if (GameManager.Inst.GetMoving() && !GameManager.Inst.GetUsingSkill())
         {
-            eCardState = ECardState.Moving;
+            eChessState = EChessState.Moving;
         }
 
         else if (!GameManager.Inst.GetMoving() && GameManager.Inst.GetUsingSkill())
         {
-            eCardState = ECardState.Skill;
+            eChessState = EChessState.Skill;
         }
         else
         {
-            eCardState = ECardState.Stop;
+            eChessState = EChessState.Stop;
         }
     }
 

@@ -238,6 +238,8 @@ public class TurnManager : MonoBehaviour
 
         GameManager.Inst.SetUsingSkill(false);
         GameManager.Inst.SetMoving(true);
+        GameManager.Inst.SetIsStop(false);
+
 
         StartCoroutine(StartTurnCo());
         WinOrLose();
