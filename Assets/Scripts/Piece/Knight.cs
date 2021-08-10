@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Knight : ChessBase
 {
-    public override void Move()
+    public override void MovePlate()
     {
         Kn_MovePlate();
     }

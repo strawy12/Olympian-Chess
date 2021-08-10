@@ -359,7 +359,7 @@ public class Chessman : MonoBehaviour
 
         if (GameManager.Inst.PositionOnBoard(x, y) && GameManager.Inst.GetPosition(x, y).player != player)
         {
-            MovePlateAttackSpawn(x, y);
+            ChessManager.Inst.MovePlateAttackSpawn(x, y);
         }
 
     }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Pawn : ChessBase
 {
-    public override void Move()
+    public override void MovePlate()
     {
         P_MovePlate();
     }

@@ -173,16 +173,16 @@ public class GameManager : MonoBehaviour
         position[x, y] = obj;
     }
     // Function destroying move plates that not are used
-    public void DestroyMovePlates()
-    {
-        //find all move plates that exist on chess board
-        MovePlate[] movePlates = FindObjectsOfType<MovePlate>();
+    //public void DestroyMovePlates()
+    //{
+    //    //find all move plates that exist on chess board
+    //    MovePlate[] movePlates = FindObjectsOfType<MovePlate>();
 
-        for (int i = 0; i < movePlates.Length; i++) //무브플레이트 모두 살피고 제거
-        {
-            Destroy(movePlates[i].gameObject);
-        }
-    }
+    //    for (int i = 0; i < movePlates.Length; i++) //무브플레이트 모두 살피고 제거
+    //    {
+    //        Destroy(movePlates[i].gameObject);
+    //    }
+    //}
     // Functions checking if the parameter is equal to current player
     public bool CheckPlayer(string player)
     {

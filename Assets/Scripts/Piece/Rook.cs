@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Rook : ChessBase
 {
-    public override void Move()
+    public override void MovePlate()
     {
         R_MovePlate();
     }

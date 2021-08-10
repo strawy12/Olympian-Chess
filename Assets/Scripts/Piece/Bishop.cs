@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Bishop : ChessBase
 {
-    public override void Move()
+    public override void MovePlate()
     {
         B_MovePlate();
     }
@@ -18,7 +18,6 @@ public class Bishop : ChessBase
     }
     public void LineMovePlate(int xIncrement, int yIncrement)
     {
-
         int x = xBoard + xIncrement;
         int y = yBoard + yIncrement;
 

@@ -11,7 +11,9 @@ public class ChessBase : MonoBehaviour
 
     public string player;
 
-    public virtual void Move() { }
+    public virtual void MovePlate() { }
+
+    public virtual void MovePosition() { }
 
     public int GetXBoard()
     {
@@ -46,7 +48,7 @@ public class ChessBase : MonoBehaviour
         //if (TurnManager.Instance.GetIsActive()) return;
 
         ChessManager.Inst.DestroyMovePlates();
-        Move();
+        MovePlate();
 
         //if (!GameManager.Inst.IsGameOver() && GameManager.Inst.GetCurrentPlayer() == player)
         //{

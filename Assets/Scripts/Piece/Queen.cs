@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Queen : ChessBase
 {
-    public override void Move()
+    public override void MovePlate()
     {
         Q_MovePlate();
     }
