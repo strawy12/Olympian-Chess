@@ -21,9 +21,9 @@ public class Traveler : SkillBase
             {
                 randomX = Random.Range(0, 8);
                 randomY = Random.Range(0, 8);
-            } while (GameManager.Inst.GetPosition(randomX, randomY) != null);
+            } while (ChessManager.Inst.GetPosition(randomX, randomY) != null);
 
-            GameManager.Inst.SetPositionEmpty(selectPiece.GetXBoard(), selectPiece.GetYBoard());
+            ChessManager.Inst.SetPositionEmpty(selectPiece.GetXBoard(), selectPiece.GetYBoard());
             selectPiece.SetXBoard(randomX);
             selectPiece.SetYBoard(randomY);
             //selectPiece.SetCoords();

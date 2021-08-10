@@ -17,7 +17,7 @@ public class OceanJail : SkillBase
         posY = selectPiece.GetYBoard();
         selectPiece.spriteRenderer.sortingOrder = -2;
         selectPiece.gameObject.GetComponent<Collider2D>().enabled = false;
-        GameManager.Inst.SetPositionEmpty(posX, posY);
+        ChessManager.Inst.SetPositionEmpty(posX, posY);
         CardManager.Inst.SetisBreak(false);
         turn = turnCnt + 2;
     }
@@ -27,12 +27,12 @@ public class OceanJail : SkillBase
         if (turn > turnCnt) return;
         selectPiece.spriteRenderer.sortingOrder = 0;
         selectPiece.gameObject.GetComponent<Collider2D>().enabled = true;
-        if (GameManager.Inst.GetPosition(posX, posY) != null)
+        if (ChessManager.Inst.GetPosition(posX, posY) != null)
         {
-            Destroy(GameManager.Inst.GetPosition(posX, posY).gameObject);
-            GameManager.Inst.SetPositionEmpty(posX, posY);
+            Destroy(ChessManager.Inst.GetPosition(posX, posY).gameObject);
+            ChessManager.Inst.SetPositionEmpty(posX, posY);
         }
-        GameManager.Inst.SetChessPiecePosition(posX, posY, selectPiece);
+        //ChessManager.Inst.SetChessPiecePosition(posX, posY, selectPiece);
         selectPiece.spriteRenderer.material.SetColor("_Color", new Color32(0, 0, 0, 0));
         SkillManager.Inst.RemoveSkillList(this);
         Destroy(gameObject);

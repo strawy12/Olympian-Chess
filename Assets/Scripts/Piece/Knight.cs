@@ -23,16 +23,16 @@ public class Knight : ChessBase
     public void PointMovePlate(int x, int y)
     {
 
-        if (GameManager.Inst.PositionOnBoard(x, y))
+        if (ChessManager.Inst.PositionOnBoard(x, y))
         {
-            Chessman cp = GameManager.Inst.GetPosition(x, y);
+            ChessBase cb = ChessManager.Inst.GetPosition(x, y);
 
-            if (cp == null)
+            if (cb == null)
             {
                 ChessManager.Inst.MovePlateSpawn(this,x, y);
             }
 
-            else if (cp.player != player)
+            else if (cb.player != player)
             {
                 ChessManager.Inst.MovePlateAttackSpawn(x, y);
             }

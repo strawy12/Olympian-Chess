@@ -39,8 +39,8 @@ public class WarBuff : SkillBase
             else
             {
                 TurnManager.Instance.ButtonColor();
-                GameManager.Inst.SetPositionEmpty(selectPiece.GetXBoard(), selectPiece.GetYBoard());
-                GameManager.Inst.UpdateArr(selectPiece);
+                ChessManager.Inst.SetPositionEmpty(selectPiece.GetXBoard(), selectPiece.GetYBoard());
+                //ChessManager.Inst.UpdateArr(selectPiece);
                 Destroy(selectPiece.gameObject);
                 WB_ResetSkill();
             }

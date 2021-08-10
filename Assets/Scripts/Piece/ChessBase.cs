@@ -9,6 +9,7 @@ public class ChessBase : MonoBehaviour
     protected int xBoard = -1;
     protected int yBoard = -1;
 
+    public bool attack = false;
     public string player;
 
     public virtual void MovePlate() { }

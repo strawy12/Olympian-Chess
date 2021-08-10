@@ -30,6 +30,8 @@ public class ChessManager : MonoBehaviour
 
     #endregion
 
+    int matrixX, matrixY;
+
     public GameObject white_Bishop, white_King, white_Knight, white_Pawn, white_Queen, white_Rook;
     public GameObject black_Bishop, black_King, black_Knight, black_Pawn, black_Queen, black_Rook;
 
@@ -104,12 +106,6 @@ public class ChessManager : MonoBehaviour
         obj.transform.position = new Vector3(x, y, -1.0f);
     }
 
-    public void SetPosition(ChessBase obj)
-    {
-        if (obj == null) return;
-        position[obj.GetXBoard(), obj.GetYBoard()] = obj;
-    }
-
     public GameObject MovePlateSpawn(ChessBase cp, int matrixX, int matrixY)
     {
         //if (CheckReturnMovePlate(matrixX, matrixY, "¼­Ç³"))
@@ -158,5 +154,58 @@ public class ChessManager : MonoBehaviour
         {
             Destroy(movePlates[i]);
         }
+    }
+
+    public void UpdateArr(ChessBase chessPiece)
+    {
+        for (int i = 0; i < playerWhite.Length; i++)
+        {
+            if (playerBlack[i] == null) continue;
+            if (playerWhite[i] == chessPiece)
+                playerWhite[i] = null;
+        }
+        for (int i = 0; i < playerBlack.Length; i++)
+        {
+            if (playerBlack[i] == null) continue;
+            if (playerBlack[i] == chessPiece)
+                playerBlack[i] = null;
+        }
+    }
+
+    #region Position
+    public void SetPositionEmpty(int x, int y)
+    {
+        position[x, y] = null;
+    }
+    //return positions
+    public ChessBase GetPosition(int x, int y)
+    {
+        return position[x, y];
+    }
+    // Function checking if any chesspiece exists on parameters' value on board
+    // exist => true
+    public bool PositionOnBoard(int x, int y)
+    {
+        if (x < 0 || y < 0 || x >= position.GetLength(0) || y >= position.GetLength(1)) return false;
+        return true;
+    }
+    public void SetChessPiecePosition(int x, int y, ChessBase obj)
+    {
+        position[x, y] = obj;
+    }
+
+    public void SetPosition(ChessBase obj)
+    {
+        if (obj == null) return;
+        position[obj.GetXBoard(), obj.GetYBoard()] = obj;
+    }
+    #endregion
+
+    public void Card()
+    {
+        ChessBase cp = GetPosition(matrixX, matrixY);
+        Destroy(cp.gameObject);
+        SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
+        Inst.UpdateArr(cp);
     }
 }

@@ -37,7 +37,7 @@ public class MovePlate : MonoBehaviour
 
     private IEnumerator MovingCard()
     {
-        GameManager.Inst.SetPositionEmpty(reference.GetXBoard(), reference.GetYBoard());
+        ChessManager.Inst.SetPositionEmpty(reference.GetXBoard(), reference.GetYBoard());
         reference.SetXBoard(matrixX);
         reference.SetYBoard(matrixY);
         reference.PlusMoveCnt();
@@ -209,9 +209,9 @@ public class MovePlate : MonoBehaviour
 
     //}
 
-    private void Card()
-    {
-        Chessman cp = GameManager.Inst.GetPosition(matrixX, matrixY);
+    //private void Card()
+    //{
+    //    ChessBase cp = ChessManager.Inst.GetPosition(matrixX, matrixY);
 
         //Skill athen = SkillManager.Inst.GetSkillList("아테나의 방패", GetCurrentPlayer(false));
 
@@ -250,10 +250,10 @@ public class MovePlate : MonoBehaviour
         //    PilSalGi.Inst.attackCntPlus();
         //}
 
-        Destroy(cp.gameObject);
-        GameManager.Inst.SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
-        GameManager.Inst.UpdateArr(cp);
-    }
+    //    Destroy(cp.gameObject);
+    //    GameManager.Inst.SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
+    //    ChessManager.Inst.UpdateArr(cp);
+    //}
     #endregion
 
     #region 현재상태에따라서
@@ -293,7 +293,7 @@ public class MovePlate : MonoBehaviour
     #endregion
     private void OnMouseUpEvent()
     {
-        Chessman cp = GameManager.Inst.GetPosition(matrixX, matrixY);
+        ChessBase cp = ChessManager.Inst.GetPosition(matrixX, matrixY);
 
         // set card state
         SetECardState();
@@ -301,7 +301,7 @@ public class MovePlate : MonoBehaviour
         // card attack 
         if (attack)
         {
-            Card();
+            ChessManager.Inst.Card();
 
             //if (reference.isAttacking)
             //{
@@ -399,8 +399,8 @@ public class MovePlate : MonoBehaviour
     {
         return reference;
     }
-    public Chessman GetChessPiece()
+    public ChessBase GetChessPiece()
     {
-        return GameManager.Inst.GetPosition(matrixX, matrixY);
+        return ChessManager.Inst.GetPosition(matrixX, matrixY);
     }
 }

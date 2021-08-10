@@ -137,7 +137,7 @@ public class GameManager : MonoBehaviour
         //A => Deleting Pawn
         if (Input.GetKeyDown(KeyCode.A))
         {
-            DeletePawn();
+            //DeletePawn();
         }
         //gameOver && click => reloading game
         if (gameOver == true && Input.GetMouseButtonDown(0))
@@ -168,10 +168,10 @@ public class GameManager : MonoBehaviour
     //    position[obj.GetXBoard(), obj.GetYBoard()] = obj;
     //}
     // Function setting obj's position to parameters' position(x, y)
-    public void SetChessPiecePosition(int x, int y, Chessman obj)
-    {
-        position[x, y] = obj;
-    }
+    //public void SetChessPiecePosition(int x, int y, Chessman obj)
+    //{
+    //    position[x, y] = obj;
+    //}
     // Function destroying move plates that not are used
     //public void DestroyMovePlates()
     //{
@@ -264,24 +264,24 @@ public class GameManager : MonoBehaviour
     }
     
     // Function removing every pawn
-    private void DeletePawn()
-    {
-        for (int i = 0; i < playerWhite.Length; i++)
-        {
-            if (playerWhite[i] == null) continue;
-            if (playerWhite[i].gameObject.name == "white_pawn")
-            {
-                Destroy(playerWhite[i].gameObject);
-                UpdateArr(playerWhite[i]);
-            }
-            if (playerBlack[i] == null) continue;
-            if (playerBlack[i].gameObject.name == "black_pawn")
-            {
-                Destroy(playerBlack[i].gameObject);
-                UpdateArr(playerBlack[i]);
-            }
-        }
-    }
+    //private void DeletePawn()
+    //{
+    //    for (int i = 0; i < playerWhite.Length; i++)
+    //    {
+    //        if (playerWhite[i] == null) continue;
+    //        if (playerWhite[i].gameObject.name == "white_pawn")
+    //        {
+    //            Destroy(playerWhite[i].gameObject);
+    //            ChessManager.Inst.UpdateArr(playerWhite[i]);
+    //        }
+    //        if (playerBlack[i] == null) continue;
+    //        if (playerBlack[i].gameObject.name == "black_pawn")
+    //        {
+    //            Destroy(playerBlack[i].gameObject);
+    //            ChessManager.Inst.UpdateArr(playerBlack[i]);
+    //        }
+    //    }
+    //}
     // Function checking if playerWhite of playerBlack includes name
     // include => true
     public bool CheckArr(bool isPlayer, string name)
@@ -312,24 +312,24 @@ public class GameManager : MonoBehaviour
 
     }
     // Function changing parameter's value to null in playerWhite or playerBlack
-    public void UpdateArr(Chessman chessPiece)
-    {
-        for (int i = 0; i < playerWhite.Length; i++)
-        {
-            if (playerBlack[i] == null) continue;
-            if (playerWhite[i] == chessPiece)
-                playerWhite[i] = null;
-        }
-        for (int i = 0; i < playerBlack.Length; i++)
-        {
-            if (playerBlack[i] == null) continue;
-            if (playerBlack[i] == chessPiece)
-                playerBlack[i] = null;
-        }
-        RotationBoard.playerWhite = playerWhite;
-        RotationBoard.playerBlack = playerBlack;
+    //public void UpdateArr(Chessman chessPiece)
+    //{
+    //    for (int i = 0; i < playerWhite.Length; i++)
+    //    {
+    //        if (playerBlack[i] == null) continue;
+    //        if (playerWhite[i] == chessPiece)
+    //            playerWhite[i] = null;
+    //    }
+    //    for (int i = 0; i < playerBlack.Length; i++)
+    //    {
+    //        if (playerBlack[i] == null) continue;
+    //        if (playerBlack[i] == chessPiece)
+    //            playerBlack[i] = null;
+    //    }
+    //    RotationBoard.playerWhite = playerWhite;
+    //    RotationBoard.playerBlack = playerBlack;
 
-    }
+    //}
     // Function adding parameter's value from playerWhite or playerBlack
     public void AddArr(Chessman chessPiece)
     {
@@ -367,22 +367,22 @@ public class GameManager : MonoBehaviour
     #region
 
     // Set empty position for set position
-    public void SetPositionEmpty(int x, int y)
-    {
-        position[x, y] = null;
-    }
-    //return positions
-    public Chessman GetPosition(int x, int y)
-    {
-        return position[x, y];
-    }
-    // Function checking if any chesspiece exists on parameters' value on board
-    // exist => true
-    public bool PositionOnBoard(int x, int y)
-    {
-        if (x < 0 || y < 0 || x >= position.GetLength(0) || y >= position.GetLength(1)) return false;
-        return true;
-    }
+    //public void SetPositionEmpty(int x, int y)
+    //{
+    //    position[x, y] = null;
+    //}
+    ////return positions
+    //public Chessman GetPosition(int x, int y)
+    //{
+    //    return position[x, y];
+    //}
+    //// Function checking if any chesspiece exists on parameters' value on board
+    //// exist => true
+    //public bool PositionOnBoard(int x, int y)
+    //{
+    //    if (x < 0 || y < 0 || x >= position.GetLength(0) || y >= position.GetLength(1)) return false;
+    //    return true;
+    //}
     // Function returning current player
     public string GetCurrentPlayer()
     {

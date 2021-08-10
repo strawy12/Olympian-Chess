@@ -22,14 +22,14 @@ public class Rook : ChessBase
         int x = xBoard + xIncrement;
         int y = yBoard + yIncrement;
 
-        while (GameManager.Inst.PositionOnBoard(x, y) && GameManager.Inst.GetPosition(x, y) == null)
+        while (ChessManager.Inst.PositionOnBoard(x, y) && ChessManager.Inst.GetPosition(x, y) == null)
         {
             ChessManager.Inst.MovePlateSpawn(this, x, y);
             x += xIncrement;
             y += yIncrement;
         }
 
-        if (GameManager.Inst.PositionOnBoard(x, y) && GameManager.Inst.GetPosition(x, y).player != player)
+        if (ChessManager.Inst.PositionOnBoard(x, y) && ChessManager.Inst.GetPosition(x, y).player != player)
         {
             ChessManager.Inst.MovePlateAttackSpawn(x, y);
         }

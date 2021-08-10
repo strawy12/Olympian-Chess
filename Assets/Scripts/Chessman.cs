@@ -265,24 +265,25 @@ public class Chessman : MonoBehaviour
                 break;
         }
     }
-    public List<Chessman> CheckOnMovePlate()
-    {
-        MovePlate[] movePlates = null;
-        //GameManager.Inst.DestroyMovePlates();
-        if (movePlates == null)
-        {
-            InitiateMovePlates();
-            movePlates = FindObjectsOfType<MovePlate>();
-        }
-            List<Chessman> cps = new List<Chessman>();
-        for (int i = 0; i < movePlates.Length; i++)
-        {
-            cps.Add(movePlates[i].GetChessPiece());
-        }
+    // ----------------not------------------
+    //public List<Chessman> CheckOnMovePlate()
+    //{
+    //    MovePlate[] movePlates = null;
+    //    //GameManager.Inst.DestroyMovePlates();
+    //    if (movePlates == null)
+    //    {
+    //        InitiateMovePlates();
+    //        movePlates = FindObjectsOfType<MovePlate>();
+    //    }
+    //        List<Chessman> cps = new List<Chessman>();
+    //    for (int i = 0; i < movePlates.Length; i++)
+    //    {
+    //        cps.Add(movePlates[i].GetChessPiece());
+    //    }
         
-        Debug.Log("응애 나 체크끝났당");
-        return cps;
-    }
+    //    Debug.Log("응애 나 체크끝났당");
+    //    return cps;
+    //}
     public void LineMovePlate(int xIncrement, int yIncrement)
     {
 
@@ -350,14 +351,14 @@ public class Chessman : MonoBehaviour
         //    }
         //    return;
         //}
-        while (GameManager.Inst.PositionOnBoard(x, y) && GameManager.Inst.GetPosition(x, y) == null)
+        while (ChessManager.Inst.PositionOnBoard(x, y) && ChessManager.Inst.GetPosition(x, y) == null)
         {
             MovePlateSpawn(x, y);
             x += xIncrement;
             y += yIncrement;
         }
 
-        if (GameManager.Inst.PositionOnBoard(x, y) && GameManager.Inst.GetPosition(x, y).player != player)
+        if (ChessManager.Inst.PositionOnBoard(x, y) && ChessManager.Inst.GetPosition(x, y).player != player)
         {
             ChessManager.Inst.MovePlateAttackSpawn(x, y);
         }
@@ -393,9 +394,9 @@ public class Chessman : MonoBehaviour
     public void PointMovePlate(int x, int y)
     {
         
-        if (GameManager.Inst.PositionOnBoard(x, y))
+        if (ChessManager.Inst.PositionOnBoard(x, y))
         {
-            Chessman cp = GameManager.Inst.GetPosition(x, y);
+            ChessBase cp = ChessManager.Inst.GetPosition(x, y);
 
             //if (PilSalGi.Inst.GetisUsePilSalGi())
             //{
@@ -471,7 +472,7 @@ public class Chessman : MonoBehaviour
         //    return;
 
 
-        if (GameManager.Inst.PositionOnBoard(x, y))
+        if (ChessManager.Inst.PositionOnBoard(x, y))
         {
             //if (PilSalGi.Inst.GetisUsePilSalGi())
             //{
@@ -495,7 +496,7 @@ public class Chessman : MonoBehaviour
             //    return;
             //}
 
-            if (GameManager.Inst.GetPosition(x, y) == null)
+            if (ChessManager.Inst.GetPosition(x, y) == null)
             {
                 if (moveCnt != 0)
                     MovePlateSpawn(x, y);
@@ -506,7 +507,7 @@ public class Chessman : MonoBehaviour
                     {
                         MovePlateSpawn(x, y);
                         //if (CheckSkillList("바카스", GetCurrentPlayer(false))) return;
-                        if (GameManager.Inst.GetPosition(x, y + 1) == null)
+                        if (ChessManager.Inst.GetPosition(x, y + 1) == null)
                             MovePlateSpawn(x, y + 1);
                     }
 
@@ -514,20 +515,20 @@ public class Chessman : MonoBehaviour
                     {
                         MovePlateSpawn(x, y);
                         //if (CheckSkillList("바카스", GetCurrentPlayer(false))) return;
-                        if (GameManager.Inst.GetPosition(x, y - 1) == null)
+                        if (ChessManager.Inst.GetPosition(x, y - 1) == null)
                             MovePlateSpawn(x, y - 1);
                     }
                 }
             }
 
-            if (GameManager.Inst.PositionOnBoard(x + 1, y) && GameManager.Inst.GetPosition(x + 1, y) != null &&
-               GameManager.Inst.GetPosition(x + 1, y).GetComponent<Chessman>().player != player)
+            if (ChessManager.Inst.PositionOnBoard(x + 1, y) && ChessManager.Inst.GetPosition(x + 1, y) != null &&
+               ChessManager.Inst.GetPosition(x + 1, y).GetComponent<ChessBase>().player != player)
             {
                 MovePlateAttackSpawn(x + 1, y);
             }
 
-            if (GameManager.Inst.PositionOnBoard(x - 1, y) && GameManager.Inst.GetPosition(x - 1, y) != null &&
-                GameManager.Inst.GetPosition(x - 1, y).GetComponent<Chessman>().player != player)
+            if (ChessManager.Inst.PositionOnBoard(x - 1, y) && ChessManager.Inst.GetPosition(x - 1, y) != null &&
+                ChessManager.Inst.GetPosition(x - 1, y).GetComponent<ChessBase>().player != player)
             {
                 MovePlateAttackSpawn(x - 1, y);
             }

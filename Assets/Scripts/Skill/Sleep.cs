@@ -35,7 +35,7 @@ public class Sleep : SkillBase
 
     private void SleepSetting()
     {
-        selectPieceTo = GameManager.Inst.GetPosition(posX, posY);
+        //selectPieceTo = GameManager.Inst.GetPosition(posX, posY);
         moveCnt = selectPiece.GetMoveCnt();
         moveCnt2 = selectPieceTo.GetMoveCnt();
         selectPiece.DestroyMovePlates();
