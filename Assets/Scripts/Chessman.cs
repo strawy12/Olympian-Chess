@@ -32,48 +32,48 @@ public class Chessman : MonoBehaviour
 
     private void Start()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        //spriteRenderer = GetComponent<SpriteRenderer>();
         particle.SetActive(false);
     }
-    public void Activate()
-    {
+    //public void Activate()
+    //{
 
-        // take the instantiated location and adjust the transform
-        SetCoords();
+    //    // take the instantiated location and adjust the transform
+    //    SetCoords();
 
-        switch (this.gameObject.name)
-        {
-            //what to fix(heavy)
-            case "black_queen": this.GetComponent<SpriteRenderer>().sprite = black_queen; player = "black"; break;
-            case "black_knight": this.GetComponent<SpriteRenderer>().sprite = black_knight; player = "black"; break;
-            case "black_bishop": this.GetComponent<SpriteRenderer>().sprite = black_bishop; player = "black"; break;
-            case "black_king": this.GetComponent<SpriteRenderer>().sprite = black_king; player = "black"; break;
-            case "black_rook": this.GetComponent<SpriteRenderer>().sprite = black_rook; player = "black"; break;
-            case "black_pawn": this.GetComponent<SpriteRenderer>().sprite = black_pawn; player = "black"; break;
+    //    switch (this.gameObject.name)
+    //    {
+    //        //what to fix(heavy)
+    //        case "black_queen": this.GetComponent<SpriteRenderer>().sprite = black_queen; player = "black"; break;
+    //        case "black_knight": this.GetComponent<SpriteRenderer>().sprite = black_knight; player = "black"; break;
+    //        case "black_bishop": this.GetComponent<SpriteRenderer>().sprite = black_bishop; player = "black"; break;
+    //        case "black_king": this.GetComponent<SpriteRenderer>().sprite = black_king; player = "black"; break;
+    //        case "black_rook": this.GetComponent<SpriteRenderer>().sprite = black_rook; player = "black"; break;
+    //        case "black_pawn": this.GetComponent<SpriteRenderer>().sprite = black_pawn; player = "black"; break;
 
-            case "white_queen": this.GetComponent<SpriteRenderer>().sprite = white_queen; player = "white"; break;
-            case "white_knight": this.GetComponent<SpriteRenderer>().sprite = white_knight; player = "white"; break;
-            case "white_bishop": this.GetComponent<SpriteRenderer>().sprite = white_bishop; player = "white"; break;
-            case "white_king": this.GetComponent<SpriteRenderer>().sprite = white_king; player = "white"; break;
-            case "white_rook": this.GetComponent<SpriteRenderer>().sprite = white_rook; player = "white"; break;
-            case "white_pawn": this.GetComponent<SpriteRenderer>().sprite = white_pawn; player = "white"; break;
-        }
-    }
+    //        case "white_queen": this.GetComponent<SpriteRenderer>().sprite = white_queen; player = "white"; break;
+    //        case "white_knight": this.GetComponent<SpriteRenderer>().sprite = white_knight; player = "white"; break;
+    //        case "white_bishop": this.GetComponent<SpriteRenderer>().sprite = white_bishop; player = "white"; break;
+    //        case "white_king": this.GetComponent<SpriteRenderer>().sprite = white_king; player = "white"; break;
+    //        case "white_rook": this.GetComponent<SpriteRenderer>().sprite = white_rook; player = "white"; break;
+    //        case "white_pawn": this.GetComponent<SpriteRenderer>().sprite = white_pawn; player = "white"; break;
+    //    }
+    //}
 
-    public void SetCoords()
-    {
-        float x = xBoard;
-        float y = yBoard;
+    //public void SetCoords()
+    //{
+    //    float x = xBoard;
+    //    float y = yBoard;
 
-        x *= 0.684f;
-        y *= 0.684f;
+    //    x *= 0.684f;
+    //    y *= 0.684f;
 
-        x += -2.4f;
-        y += -2.4f;
+    //    x += -2.4f;
+    //    y += -2.4f;
 
-        // Aligns according the board
-        this.transform.position = new Vector3(x, y, -1.0f);
-    }
+    //    // Aligns according the board
+    //    this.transform.position = new Vector3(x, y, -1.0f);
+    //}
 
     public IEnumerator SetCoordsAnimation()
     {
@@ -120,8 +120,6 @@ public class Chessman : MonoBehaviour
     public void SetYBoard(int y)
     {
         yBoard = y;
-
-
     }
 
     private void OnMouseUp()
@@ -130,8 +128,12 @@ public class Chessman : MonoBehaviour
         List<Chessman> attack = GameManager.Inst.attackings;
         if (TurnManager.Instance.GetIsActive()) return;
         if (SkillManager.Inst.CheckDontClickPiece(this)) return;
+<<<<<<< HEAD
 
 
+=======
+        //SkillManager.Inst.CheckSkillCancel();
+>>>>>>> suan
 
         if (!GameManager.Inst.IsGameOver() && GameManager.Inst.GetCurrentPlayer() == player)
         {
@@ -231,7 +233,29 @@ public class Chessman : MonoBehaviour
                 break;
         }
     }
+<<<<<<< HEAD
 
+=======
+    // ----------------not------------------
+    //public List<Chessman> CheckOnMovePlate()
+    //{
+    //    MovePlate[] movePlates = null;
+    //    //GameManager.Inst.DestroyMovePlates();
+    //    if (movePlates == null)
+    //    {
+    //        InitiateMovePlates();
+    //        movePlates = FindObjectsOfType<MovePlate>();
+    //    }
+    //        List<Chessman> cps = new List<Chessman>();
+    //    for (int i = 0; i < movePlates.Length; i++)
+    //    {
+    //        cps.Add(movePlates[i].GetChessPiece());
+    //    }
+        
+    //    Debug.Log("응애 나 체크끝났당");
+    //    return cps;
+    //}
+>>>>>>> suan
     public void LineMovePlate(int xIncrement, int yIncrement)
     {
         int x = xBoard + xIncrement;
@@ -247,17 +271,25 @@ public class Chessman : MonoBehaviour
         //    }
         //    return;
         //}
+<<<<<<< HEAD
 
         while (GameManager.Inst.PositionOnBoard(x, y) && GameManager.Inst.GetPosition(x, y) == null)
+=======
+        while (ChessManager.Inst.PositionOnBoard(x, y) && ChessManager.Inst.GetPosition(x, y) == null)
+>>>>>>> suan
         {
             GameManager.Inst.MovePlateSpawn(x, y, this);
             x += xIncrement;
             y += yIncrement;
         }
 
-        if (GameManager.Inst.PositionOnBoard(x, y) && GameManager.Inst.GetPosition(x, y).player != player)
+        if (ChessManager.Inst.PositionOnBoard(x, y) && ChessManager.Inst.GetPosition(x, y).player != player)
         {
+<<<<<<< HEAD
             GameManager.Inst.MovePlateAttackSpawn(x, y, this);
+=======
+            //ChessManager.Inst.MovePlateAttackSpawn(this, x, y);
+>>>>>>> suan
         }
     }
 
@@ -287,9 +319,14 @@ public class Chessman : MonoBehaviour
 
     public void PointMovePlate(int x, int y)
     {
+<<<<<<< HEAD
         if (GameManager.Inst.PositionOnBoard(x, y))
+=======
+        
+        if (ChessManager.Inst.PositionOnBoard(x, y))
+>>>>>>> suan
         {
-            Chessman cp = GameManager.Inst.GetPosition(x, y);
+            ChessBase cp = ChessManager.Inst.GetPosition(x, y);
 
             //if (PilSalGi.Inst.GetisUsePilSalGi())
             //{
@@ -313,7 +350,7 @@ public class Chessman : MonoBehaviour
         
 
 
-        if (GameManager.Inst.PositionOnBoard(x, y))
+        if (ChessManager.Inst.PositionOnBoard(x, y))
         {
             //if (PilSalGi.Inst.GetisUsePilSalGi())
             //{
@@ -337,7 +374,7 @@ public class Chessman : MonoBehaviour
             //    return;
             //}
 
-            if (GameManager.Inst.GetPosition(x, y) == null)
+            if (ChessManager.Inst.GetPosition(x, y) == null)
             {
                 if (moveCnt != 0)
                     GameManager.Inst.MovePlateSpawn(x, y, this);
@@ -346,28 +383,42 @@ public class Chessman : MonoBehaviour
                 {
                     if (player == "white")
                     {
+<<<<<<< HEAD
                         GameManager.Inst.MovePlateSpawn(x, y, this);
                         if (GameManager.Inst.GetPosition(x, y + 1) == null)
                             GameManager.Inst.MovePlateSpawn(x, y + 1, this);
+=======
+                        MovePlateSpawn(x, y);
+                        //if (CheckSkillList("바카스", GetCurrentPlayer(false))) return;
+                        if (ChessManager.Inst.GetPosition(x, y + 1) == null)
+                            MovePlateSpawn(x, y + 1);
+>>>>>>> suan
                     }
 
                     else if (player == "black")
                     {
+<<<<<<< HEAD
                         GameManager.Inst.MovePlateSpawn(x, y, this);
                         if (GameManager.Inst.GetPosition(x, y - 1) == null)
                             GameManager.Inst.MovePlateSpawn(x, y - 1, this);
+=======
+                        MovePlateSpawn(x, y);
+                        //if (CheckSkillList("바카스", GetCurrentPlayer(false))) return;
+                        if (ChessManager.Inst.GetPosition(x, y - 1) == null)
+                            MovePlateSpawn(x, y - 1);
+>>>>>>> suan
                     }
                 }
             }
 
-            if (GameManager.Inst.PositionOnBoard(x + 1, y) && GameManager.Inst.GetPosition(x + 1, y) != null &&
-               GameManager.Inst.GetPosition(x + 1, y).GetComponent<Chessman>().player != player)
+            if (ChessManager.Inst.PositionOnBoard(x + 1, y) && ChessManager.Inst.GetPosition(x + 1, y) != null &&
+               ChessManager.Inst.GetPosition(x + 1, y).GetComponent<ChessBase>().player != player)
             {
                 GameManager.Inst.MovePlateAttackSpawn(x + 1, y, this);
             }
 
-            if (GameManager.Inst.PositionOnBoard(x - 1, y) && GameManager.Inst.GetPosition(x - 1, y) != null &&
-                GameManager.Inst.GetPosition(x - 1, y).GetComponent<Chessman>().player != player)
+            if (ChessManager.Inst.PositionOnBoard(x - 1, y) && ChessManager.Inst.GetPosition(x - 1, y) != null &&
+                ChessManager.Inst.GetPosition(x - 1, y).GetComponent<ChessBase>().player != player)
             {
                 GameManager.Inst.MovePlateAttackSpawn(x - 1, y, this);
             }
@@ -375,6 +426,7 @@ public class Chessman : MonoBehaviour
     }
     public SkillBase CheckSkillList(string name)
     {
+<<<<<<< HEAD
         for (int i = 0; i < chosenSkill.Count; i++)
         {
             if (chosenSkill[i].gameObject.name == name)
@@ -383,6 +435,43 @@ public class Chessman : MonoBehaviour
             }
         }
         return null;
+=======
+        //if (CheckReturnMovePlate(matrixX, matrixY, "서풍"))
+        //    return;
+
+        float x = matrixX;
+        float y = matrixY;
+
+        x *= 0.684f;
+        y *= 0.684f;
+
+        x += -2.4f;
+        y += -2.4f;
+
+        GameObject mp = Instantiate(movePlate, new Vector3(x, y, -3.0f), Quaternion.identity);
+        MovePlate mpScript = mp.GetComponent<MovePlate>();
+        //mpScript.Setreference(this);
+        mpScript.SetCoords(matrixX, matrixY);
+        return mp;
+
+        //if (isMySkill)
+        //{
+        //    mp.GetComponent<SpriteRenderer>().material.SetColor("_Color", movePlateColor);
+        //    mp.GetComponent<MovePlate>().SetIsSelected(true);
+        //    MovePlate mpScript = mp.GetComponent<MovePlate>();
+        //    mpScript.Setreference(this);
+        //    mpScript.SetCoords(matrixX, matrixY);
+
+        //    return;
+        //}
+        //else
+        //{
+        //    mp.GetComponent<SpriteRenderer>().material.SetColor("_Color", movePlateColor);
+        //    MovePlate mpScript = mp.GetComponent<MovePlate>();
+        //    mpScript.Setreference(this);
+        //    mpScript.SetCoords(matrixX, matrixY);
+        //}
+>>>>>>> suan
     }
 
     public List<SkillBase> GetSkillList(string name)
@@ -426,6 +515,13 @@ public class Chessman : MonoBehaviour
         isSelecting = _isHidden;
     }
 
+<<<<<<< HEAD
+=======
+        MovePlate mpScript = mp.GetComponent<MovePlate>();
+        mpScript.attack = true;
+        //mpScript.Setreference(this);
+        mpScript.SetCoords(matrixX, matrixY);
+>>>>>>> suan
 
 }
 

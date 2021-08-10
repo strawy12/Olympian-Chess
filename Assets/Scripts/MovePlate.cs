@@ -17,7 +17,7 @@ public class MovePlate : MonoBehaviour
     private bool isSelected = false;
     enum EChessState { Moving, Skill, MovingAndSkill, Stop }
 
-    Chessman reference = null;
+    ChessBase reference = null;
 
     #endregion
 
@@ -35,6 +35,7 @@ public class MovePlate : MonoBehaviour
         }
     }
 
+<<<<<<< HEAD
     private IEnumerator MovingCard()
     {
         GameManager.Inst.SetPositionEmpty(reference.GetXBoard(), reference.GetYBoard());
@@ -144,15 +145,18 @@ public class MovePlate : MonoBehaviour
     //    }
     //} 
     #endregion
+=======
+
+>>>>>>> suan
     private void OnMouseUpEvent()
     {
-        Chessman cp = GameManager.Inst.GetPosition(matrixX, matrixY);
 
         // set card state
 
         // card attack 
         if (attack)
         {
+<<<<<<< HEAD
             Card();
             if (reference.isAttacking)
             {
@@ -163,12 +167,15 @@ public class MovePlate : MonoBehaviour
             GameManager.Inst.attackings.Add(reference);
             reference.isAttacking = true;
         }
+=======
+            ChessManager.Inst.AttackChessPiece(matrixX, matrixY);
+>>>>>>> suan
 
         SetEChessState();
 
         if (eChessState == EChessState.Moving)
         {
-            StartCoroutine(ReturnMovingCard());
+            ChessManager.Inst.MoveChessPiece(reference, matrixX, matrixY);
         }
 
         else if (eChessState == EChessState.Skill)
@@ -198,7 +205,10 @@ public class MovePlate : MonoBehaviour
         //    PilSalGi.Inst.SetselectPiece(GameManager.Inst.GetPosition(matrixX, matrixY));
         //    return;
         //}
+<<<<<<< HEAD
 
+=======
+>>>>>>> suan
         // change to coroutine for moving animation
         OnMouseUpEvent();
     }
@@ -248,18 +258,18 @@ public class MovePlate : MonoBehaviour
         return matrixY;
     }
 
-    public void Setreference(Chessman obj)
+    public void Setreference(ChessBase obj)
     {
         reference = obj;
     }
 
-    public Chessman Getreference()
+    public ChessBase Getreference()
     {
         return reference;
     }
-    public Chessman GetChessPiece()
+    public ChessBase GetChessPiece()
     {
-        return GameManager.Inst.GetPosition(matrixX, matrixY);
+        return ChessManager.Inst.GetPosition(matrixX, matrixY);
     }
 
 }

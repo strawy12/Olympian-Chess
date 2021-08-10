@@ -389,6 +389,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 54943784}
   m_CullTransparentMesh: 1
+--- !u!1 &95835600
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 95835601}
+  m_Layer: 0
+  m_Name: ---ChessPiece---
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &95835601
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 95835600}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 20
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &166013285
 GameObject:
   m_ObjectHideFlags: 0
@@ -435,7 +465,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &179555842
 Transform:
   m_ObjectHideFlags: 0
@@ -464,7 +494,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chesspiece: {fileID: 8321829468027225240, guid: 5de593b50fd18294aac7b37acccb1136,
     type: 3}
-  chess: {fileID: 1758563410}
+  chess: {fileID: 0}
   playerBlack:
   - {fileID: 0}
   - {fileID: 0}
@@ -586,7 +616,7 @@ Transform:
   m_LocalScale: {x: 0.6712, y: 0.6712, z: 0.6712}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
 --- !u!1 &211085599
 GameObject:
@@ -704,6 +734,110 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &408448063
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 408448064}
+  - component: {fileID: 408448065}
+  m_Layer: 0
+  m_Name: ChessManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &408448064
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 408448063}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 19
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &408448065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 408448063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 595192abe2772c44ba631827e8974c6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  white_Bishop: {fileID: 6213998246572972233, guid: e44f53c4ca06eda43be11068ce1679c7,
+    type: 3}
+  white_King: {fileID: 4331796312800384489, guid: 07e1da52755a1fb4bb68629cb59906fc,
+    type: 3}
+  white_Knight: {fileID: 2046745913273926700, guid: ee2b51d3a562a4c4dbc8f49a0a38f625,
+    type: 3}
+  white_Pawn: {fileID: 1694443268936800969, guid: 0ae1538c7e1fbaa4ea2ff3c68e746ad0,
+    type: 3}
+  white_Queen: {fileID: 8060372482412411547, guid: daf327d5c9a27084885b4068c096ece4,
+    type: 3}
+  white_Rook: {fileID: 8063844346605798433, guid: a7f51ced99f54bc4093745fd46331a03,
+    type: 3}
+  black_Bishop: {fileID: 8829162914448363504, guid: 85d3a97ba309543468cea2ebd6b6f281,
+    type: 3}
+  black_King: {fileID: 7991800296292048930, guid: 490d2d441a9255a4596c20ec98d3071c,
+    type: 3}
+  black_Knight: {fileID: 8521106812641234907, guid: 676fcb5492f8dc8418430cabb05b2c2a,
+    type: 3}
+  black_Pawn: {fileID: 8288061585287684370, guid: 5bbd4d06552903c49a1a1681783be20e,
+    type: 3}
+  black_Queen: {fileID: 6479057492079610592, guid: 66ab04ba483ddc54bba4420bd2812d4a,
+    type: 3}
+  black_Rook: {fileID: 7539689336631404475, guid: 1cfd86257b2a80d48bf46f7231f73fa4,
+    type: 3}
+  playerBlack:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  playerWhite:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  cccccp: {fileID: 95835600}
+  movePlate: {fileID: 6973519945779689939, guid: dbf8c7ff280b91d4f97cc833b0eb3166,
+    type: 3}
 --- !u!1 &417723382
 GameObject:
   m_ObjectHideFlags: 0
@@ -908,7 +1042,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 19
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &443159217
 GameObject:
@@ -1140,7 +1274,7 @@ Transform:
   m_LocalScale: {x: 3.9194999, y: 3.9194999, z: 3.9194999}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
 --- !u!1 &666164918
 GameObject:
@@ -1492,7 +1626,7 @@ Transform:
   m_LocalScale: {x: 0.6712, y: 0.6712, z: 0.6712}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &891267665
 MonoBehaviour:
@@ -1586,7 +1720,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &983496011
 GameObject:
@@ -1698,7 +1832,7 @@ Transform:
   m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1226214064
 GameObject:
@@ -1780,7 +1914,7 @@ Transform:
   m_LocalScale: {x: 2.14, y: 2.14, z: 2.14}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1255073934
 GameObject:
@@ -2194,7 +2328,7 @@ RectTransform:
   m_Children:
   - {fileID: 2116978885}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2299,7 +2433,7 @@ RectTransform:
   - {fileID: 808238689}
   - {fileID: 1512220577}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2511,37 +2645,7 @@ Transform:
   - {fileID: 166013286}
   - {fileID: 983496012}
   m_Father: {fileID: 0}
-  m_RootOrder: 14
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1758563410
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1758563411}
-  m_Layer: 0
-  m_Name: Chesses
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1758563411
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1758563410}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1862974115
 GameObject:
@@ -2653,7 +2757,7 @@ Transform:
   m_LocalScale: {x: 3.9194999, y: 3.9194999, z: 3.9194999}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2116978884
 GameObject:

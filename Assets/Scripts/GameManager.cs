@@ -77,59 +77,60 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         pool = FindObjectOfType<PoolManager>();
-        TurnManager.Instance.StartGame();
-        SettingGame();
+        TurnManager.Instance.StartGame(); 
+        //SettingGame();
     }
     // Function setting game at first
-    private void SettingGame()
-    {
-        RotationBoard.camera = Camera.main;
+    //private void SettingGame()
+    //{
+    //    RotationBoard.camera = Camera.main;
 
-        //spawn chess pieces
-        playerWhite = new Chessman[]
-        {
-           Creat("white_pawn", 1,1), Creat("white_pawn", 2,1), Creat("white_pawn", 3,1),
-           Creat("white_pawn", 4,1), Creat("white_pawn", 5,1), Creat("white_pawn", 6,1),
-           Creat("white_pawn", 7,1), Creat("white_pawn", 0,1), Creat("white_rook", 0,0),
-           Creat("white_knight", 1,0), Creat("white_bishop", 2,0), Creat("white_queen", 3,0),
-           Creat("white_king", 4,0), Creat("white_bishop", 5,0), Creat("white_knight", 6,0),
-           Creat("white_rook", 7,0)
-        };
+    //    //spawn chess pieces
+    //    playerWhite = new Chessman[]
+    //    {
+    //       Creat("white_pawn", 1,1), Creat("white_pawn", 2,1), Creat("white_pawn", 3,1),
+    //       Creat("white_pawn", 4,1), Creat("white_pawn", 5,1), Creat("white_pawn", 6,1),
+    //       Creat("white_pawn", 7,1), Creat("white_pawn", 0,1), Creat("white_rook", 0,0),
+    //       Creat("white_knight", 1,0), Creat("white_bishop", 2,0), Creat("white_queen", 3,0),
+    //       Creat("white_king", 4,0), Creat("white_bishop", 5,0), Creat("white_knight", 6,0),
+    //       Creat("white_rook", 7,0)
+    //    };
 
-        RotationBoard.playerWhite = playerWhite;
+    //    RotationBoard.playerWhite = playerWhite;
 
-        playerBlack = new Chessman[]
-        {
-           Creat("black_pawn", 0,6), Creat("black_pawn", 1,6), Creat("black_pawn", 2,6),
-           Creat("black_pawn", 3,6), Creat("black_pawn", 4,6), Creat("black_pawn", 5,6),
-           Creat("black_pawn", 6,6), Creat("black_pawn", 7,6), Creat("black_rook", 0,7),
-           Creat("black_knight", 1,7), Creat("black_bishop", 2,7), Creat("black_queen", 3,7),
-           Creat("black_king", 4,7), Creat("black_bishop", 5,7),
-           Creat("black_rook", 7,7), Creat("black_knight", 6,7)
-        };
+    //    playerBlack = new Chessman[]
+    //    {
+    //       Creat("black_pawn", 0,6), Creat("black_pawn", 1,6), Creat("black_pawn", 2,6),
+    //       Creat("black_pawn", 3,6), Creat("black_pawn", 4,6), Creat("black_pawn", 5,6),
+    //       Creat("black_pawn", 6,6), Creat("black_pawn", 7,6), Creat("black_rook", 0,7),
+    //       Creat("black_knight", 1,7), Creat("black_bishop", 2,7), Creat("black_queen", 3,7),
+    //       Creat("black_king", 4,7), Creat("black_bishop", 5,7),
+    //       Creat("black_rook", 7,7), Creat("black_knight", 6,7)
+    //    };
 
-        RotationBoard.playerBlack = playerBlack;
-        //setting position(non-empty)
-        for (int i = 0; i < playerBlack.Length; i++)
-        {
-            SetPosition(playerBlack[i]);
-            SetPosition(playerWhite[i]);
-        }
-    }
-    // Function creating chess piece based on parameters' value
-    public Chessman Creat(string name, int x, int y)
-    {
-        GameObject obj = Instantiate(chesspiece, new Vector3(0, 0, -1), Quaternion.identity);
-        obj.transform.SetParent(chess.transform);
-        Chessman cm = obj.GetComponent<Chessman>();
+    //    RotationBoard.playerBlack = playerBlack;
+    //    //setting position(non-empty)
+    //    for (int i = 0; i < playerBlack.Length; i++)
+    //    {
+    //        SetPosition(playerBlack[i]);
+    //        SetPosition(playerWhite[i]);
+    //    }
+    //}
+    //// Function creating chess piece based on parameters' value
+    //public Chessman Creat(string name, int x, int y)
+    //{
+    //    GameObject obj = Instantiate(chesspiece, new Vector3(0, 0, -1), Quaternion.identity);
+    //    obj.transform.SetParent(chess.transform);
+    //    Chessman cm = obj.GetComponent<Chessman>();
 
-        cm.name = name;
-        cm.SetXBoard(x);
-        cm.SetYBoard(y);
-        cm.Activate();
+    //    cm.name = name;
+    //    cm.SetXBoard(x);
+    //    cm.SetYBoard(y);
+    //    //cm.Activate();
+    //    cm.SetCoords();
 
-        return cm;
-    }
+    //    return cm;
+    //}
     private void Update()
     {
         InputCheatKey();
@@ -145,11 +146,15 @@ public class GameManager : MonoBehaviour
         //A => Deleting Pawn
         if (Input.GetKeyDown(KeyCode.A))
         {
+<<<<<<< HEAD
             RealAllMovePlateSpawn();
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
             DestroyMovePlates();
+=======
+            //DeletePawn();
+>>>>>>> suan
         }
         //gameOver && click => reloading game
         if (gameOver == true && Input.GetMouseButtonDown(0))
@@ -174,17 +179,18 @@ public class GameManager : MonoBehaviour
     }
     // Function setting obj's position
     // (to set the position non-empty)
-    public void SetPosition(Chessman obj)
-    {
-        if (obj == null) return;
-        position[obj.GetXBoard(), obj.GetYBoard()] = obj;
-    }
+    //public void SetPosition(Chessman obj)
+    //{
+    //    if (obj == null) return;
+    //    position[obj.GetXBoard(), obj.GetYBoard()] = obj;
+    //}
     // Function setting obj's position to parameters' position(x, y)
-    public void SetChessPiecePosition(int x, int y, Chessman obj)
-    {
-        position[x, y] = obj;
-    }
+    //public void SetChessPiecePosition(int x, int y, Chessman obj)
+    //{
+    //    position[x, y] = obj;
+    //}
     // Function destroying move plates that not are used
+<<<<<<< HEAD
     public void DestroyMovePlates()
     {
         int cnt = movePlateList.Count;
@@ -196,6 +202,20 @@ public class GameManager : MonoBehaviour
     }
         // Functions checking if the parameter is equal to current player
         public bool CheckPlayer(string player)
+=======
+    //public void DestroyMovePlates()
+    //{
+    //    //find all move plates that exist on chess board
+    //    MovePlate[] movePlates = FindObjectsOfType<MovePlate>();
+
+    //    for (int i = 0; i < movePlates.Length; i++) //무브플레이트 모두 살피고 제거
+    //    {
+    //        Destroy(movePlates[i].gameObject);
+    //    }
+    //}
+    // Functions checking if the parameter is equal to current player
+    public bool CheckPlayer(string player)
+>>>>>>> suan
     {
         if (GetCurrentPlayer() == player)
             return true;
@@ -337,24 +357,24 @@ public class GameManager : MonoBehaviour
 
     }
     // Function removing every pawn
-    private void DeletePawn()
-    {
-        for (int i = 0; i < playerWhite.Length; i++)
-        {
-            if (playerWhite[i] == null) continue;
-            if (playerWhite[i].gameObject.name == "white_pawn")
-            {
-                Destroy(playerWhite[i].gameObject);
-                UpdateArr(playerWhite[i]);
-            }
-            if (playerBlack[i] == null) continue;
-            if (playerBlack[i].gameObject.name == "black_pawn")
-            {
-                Destroy(playerBlack[i].gameObject);
-                UpdateArr(playerBlack[i]);
-            }
-        }
-    }
+    //private void DeletePawn()
+    //{
+    //    for (int i = 0; i < playerWhite.Length; i++)
+    //    {
+    //        if (playerWhite[i] == null) continue;
+    //        if (playerWhite[i].gameObject.name == "white_pawn")
+    //        {
+    //            Destroy(playerWhite[i].gameObject);
+    //            ChessManager.Inst.UpdateArr(playerWhite[i]);
+    //        }
+    //        if (playerBlack[i] == null) continue;
+    //        if (playerBlack[i].gameObject.name == "black_pawn")
+    //        {
+    //            Destroy(playerBlack[i].gameObject);
+    //            ChessManager.Inst.UpdateArr(playerBlack[i]);
+    //        }
+    //    }
+    //}
     // Function checking if playerWhite of playerBlack includes name
     // include => true
     public bool CheckArr(bool isPlayer, string name)
@@ -385,24 +405,24 @@ public class GameManager : MonoBehaviour
 
     }
     // Function changing parameter's value to null in playerWhite or playerBlack
-    public void UpdateArr(Chessman chessPiece)
-    {
-        for (int i = 0; i < playerWhite.Length; i++)
-        {
-            if (playerBlack[i] == null) continue;
-            if (playerWhite[i] == chessPiece)
-                playerWhite[i] = null;
-        }
-        for (int i = 0; i < playerBlack.Length; i++)
-        {
-            if (playerBlack[i] == null) continue;
-            if (playerBlack[i] == chessPiece)
-                playerBlack[i] = null;
-        }
-        RotationBoard.playerWhite = playerWhite;
-        RotationBoard.playerBlack = playerBlack;
+    //public void UpdateArr(Chessman chessPiece)
+    //{
+    //    for (int i = 0; i < playerWhite.Length; i++)
+    //    {
+    //        if (playerBlack[i] == null) continue;
+    //        if (playerWhite[i] == chessPiece)
+    //            playerWhite[i] = null;
+    //    }
+    //    for (int i = 0; i < playerBlack.Length; i++)
+    //    {
+    //        if (playerBlack[i] == null) continue;
+    //        if (playerBlack[i] == chessPiece)
+    //            playerBlack[i] = null;
+    //    }
+    //    RotationBoard.playerWhite = playerWhite;
+    //    RotationBoard.playerBlack = playerBlack;
 
-    }
+    //}
     // Function adding parameter's value from playerWhite or playerBlack
     public void AddArr(Chessman chessPiece)
     {
@@ -450,6 +470,7 @@ public class GameManager : MonoBehaviour
     }
 
     // Set empty position for set position
+<<<<<<< HEAD
     public void SetPositionEmpty(int x, int y)
     {
         position[x, y] = null;
@@ -478,6 +499,24 @@ public class GameManager : MonoBehaviour
 
     }
 
+=======
+    //public void SetPositionEmpty(int x, int y)
+    //{
+    //    position[x, y] = null;
+    //}
+    ////return positions
+    //public Chessman GetPosition(int x, int y)
+    //{
+    //    return position[x, y];
+    //}
+    //// Function checking if any chesspiece exists on parameters' value on board
+    //// exist => true
+    //public bool PositionOnBoard(int x, int y)
+    //{
+    //    if (x < 0 || y < 0 || x >= position.GetLength(0) || y >= position.GetLength(1)) return false;
+    //    return true;
+    //}
+>>>>>>> suan
     // Function returning current player
     public string GetCurrentPlayer()
     {
