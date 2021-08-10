@@ -74,7 +74,7 @@ public class Wave : SkillBase
 
         List<Chessman> cmList = new List<Chessman>();
         int cnt = 0;
-        cnt = CheckNull(isXY, isPlma, isXY ? posX : posY);
+        cnt = CheckNull(isXY, isPlma, isXY ? posY : posX);
 
 
         if (isXY && isPlma)
@@ -130,6 +130,7 @@ public class Wave : SkillBase
 
             cm.SetCoords();
             cm.PlusMoveCnt();
+
             return cm;
         }
         else
