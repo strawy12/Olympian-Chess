@@ -6,7 +6,7 @@ public class Traveler : SkillBase
 {
     public override void UsingSkill()
     {
-        TV_UsingSkill();
+        TV_UsingSkill();  
     }
 
     private void TV_UsingSkill()
