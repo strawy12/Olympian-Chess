@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] ECardState eCardState;
     [SerializeField] GameObject movePlate;
-
+    
     enum ECardState { Moving, Skill, MovingAndSkill }
 
     //List including attacking chesspiece

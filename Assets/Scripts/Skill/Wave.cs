@@ -76,7 +76,7 @@ public class Wave : SkillBase
 
         List<ChessBase> cmList = new List<ChessBase>();
         int cnt = 0;
-        cnt = CheckNull(isXY, isPlma, isXY ? posX : posY);
+        cnt = CheckNull(isXY, isPlma, isXY ? posY : posX);
 
 
         if (isXY && isPlma)
@@ -119,33 +119,51 @@ public class Wave : SkillBase
     }
     ChessBase WV_Move(bool isXY, int i, bool isPlma)
     {
+        ChessBase cb;
+        int x;
+        int y;
+
         if (isXY)
         {
-            ChessBase cb = ChessManager.Inst.GetPosition(i, posY);
+            cb = ChessManager.Inst.GetPosition(i, posY);
+
             if (cb == null) return null;
-            ChessManager.Inst.SetPositionEmpty(i, posY);
+
+            x = cb.GetXBoard();
+            y = cb.GetYBoard();
+
+            ChessManager.Inst.SetPositionEmpty(x, y);
 
             if (isPlma)
-                ChessManager.Inst.MoveChessPiece(cb, i + 1, posY);
+                cb.SetXBoard(i + 1);
             else
-                ChessManager.Inst.MoveChessPiece(cb, i - 1, posY);
+                cb.SetXBoard(i - 1);
+
+            ChessManager.Inst.SetCoords(cb.gameObject, cb.GetXBoard(), y);
+            cb.PlusMoveCnt();
 
             return cb;
         }
         else
         {
-            ChessBase cb = ChessManager.Inst.GetPosition(posX, i);
+            cb = ChessManager.Inst.GetPosition(posX, i);
+
             if (cb == null) return cb;
-            ChessManager.Inst.SetPositionEmpty(posX, i);
+
+            x = cb.GetXBoard();
+            y = cb.GetYBoard();
+
+            ChessManager.Inst.SetPositionEmpty(x, y);
 
             if (isPlma)
-                ChessManager.Inst.MoveChessPiece(cb, posX, i + 1);
+                cb.SetYBoard(i + 1);
             else
-                ChessManager.Inst.MoveChessPiece(cb, posX, i - 1);
+                cb.SetYBoard(i - 1);
 
+            ChessManager.Inst.SetCoords(cb.gameObject, x, cb.GetYBoard());
+            cb.PlusMoveCnt();
             return cb;
         }
-
     }
 
     // Function checking whether pos is empty or not empty
@@ -178,7 +196,6 @@ public class Wave : SkillBase
                     cnt = i + 1;
                     return cnt;
                 }
-
             }
         }
 
@@ -209,6 +226,4 @@ public class Wave : SkillBase
         }
         return 0;
     }
-
-
 }

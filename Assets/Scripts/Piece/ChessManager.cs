@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ChessManager : MonoBehaviour
 {
-
+    //black_pawn
     #region SingleTon
 
     private static ChessManager inst;
@@ -82,6 +82,8 @@ public class ChessManager : MonoBehaviour
     public ChessBase Creat(GameObject chessPiece, int x, int y)
     {
         GameObject obj = Instantiate(chessPiece, new Vector3(0, 0, -1), Quaternion.identity);
+        obj.name = chessPiece.name;
+
         obj.transform.SetParent(cccccp.transform);
 
         ChessBase cb = obj.GetComponent<ChessBase>();

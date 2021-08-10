@@ -15,7 +15,6 @@ public class SkillManager : MonoBehaviour
     //List of skills currently in use
     [SerializeField] private List<SkillBase> skillList = new List<SkillBase>();
     [SerializeField] private GameObject skillPrefab;
-
     #endregion
 
     #region Var List
@@ -23,8 +22,6 @@ public class SkillManager : MonoBehaviour
     public List<ChessBase> dontClickPiece = new List<ChessBase>();
     private SkillBase selectingSkill;
     private bool isUsingCard = false;
-    
-
     #endregion
 
     #region System Check
@@ -84,8 +81,6 @@ public class SkillManager : MonoBehaviour
         }
         return _skillList;
     }
-
-
     #endregion
 
     #region System
@@ -136,7 +131,6 @@ public class SkillManager : MonoBehaviour
                 SkillBase sb = GetSkillList(names[i])[0];
                 skillList.Remove(sb);
                 Destroy(sb.gameObject);
-
             }
         }
     }
@@ -194,10 +188,13 @@ public class SkillManager : MonoBehaviour
 
     public void UsingSkill(MovePlate mp)
     {
+        //if (skillList.Count < 1) return;
         SkillBase sb = skillList[skillList.Count - 1];
         sb.SetPosX(mp.GetPosX());
         sb.SetPosY(mp.GetPosY());
         sb.StandardSkill();
+
+        CardManager.Inst.SetSelectCard(null);
     }
 
     // Function spawning skill prefab
