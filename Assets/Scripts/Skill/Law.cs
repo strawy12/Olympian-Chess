@@ -99,7 +99,7 @@ public class Law : SkillBase
     {
         if (selectPiece.GetMoveCnt() != 0)
         {
-            if (GameManager.Inst.GetPosition(x, y) != null)
+            if (ChessManager.Inst.GetPosition(x, y) != null)
             {
                 GameManager.Inst.MovePlateSpawn(x, y + 1, selectPiece);
             }
@@ -116,12 +116,12 @@ public class Law : SkillBase
             if (selectPiece.player == "white")
             {
                 GameManager.Inst.MovePlateSpawn(x, y, selectPiece);
-                if (GameManager.Inst.GetPosition(x, y + 1) == null)
+                if (ChessManager.Inst.GetPosition(x, y + 1) == null)
                 {
                     GameManager.Inst.MovePlateSpawn(x, y + 1, selectPiece);
                 }
 
-                else if (GameManager.Inst.GetPosition(x, y + 1) != null && GameManager.Inst.GetPosition(x, y + 2) == null)
+                else if (ChessManager.Inst.GetPosition(x, y + 1) != null && ChessManager.Inst.GetPosition(x, y + 2) == null)
                 {
                     GameManager.Inst.MovePlateSpawn(x, y + 2, selectPiece);
                 }
@@ -131,26 +131,26 @@ public class Law : SkillBase
             else if (player == "black")
             {
                 GameManager.Inst.MovePlateSpawn(x, y, selectPiece);
-                if (GameManager.Inst.GetPosition(x, y - 1) == null)
+                if (ChessManager.Inst.GetPosition(x, y - 1) == null)
                 {
                     GameManager.Inst.MovePlateSpawn(x, y - 1, selectPiece);
                 }
 
-                else if (GameManager.Inst.GetPosition(x, y - 1) != null && GameManager.Inst.GetPosition(x, y - 2) == null)
+                else if (ChessManager.Inst.GetPosition(x, y - 1) != null && ChessManager.Inst.GetPosition(x, y - 2) == null)
                 {
                     GameManager.Inst.MovePlateSpawn(x, y - 2, selectPiece);
                 }
             }
         }
 
-        if (GameManager.Inst.PositionOnBoard(x + 1, y) && GameManager.Inst.GetPosition(x + 1, y) != null &&
-           GameManager.Inst.GetPosition(x + 1, y).GetComponent<Chessman>().player != selectPiece.player)
+        if (ChessManager.Inst.PositionOnBoard(x + 1, y) && ChessManager.Inst.GetPosition(x + 1, y) != null &&
+           ChessManager.Inst.GetPosition(x + 1, y).GetComponent<ChessBase>().player != selectPiece.player)
         {
             GameManager.Inst.MovePlateAttackSpawn(x + 1, y, selectPiece);
         }
 
-        if (GameManager.Inst.PositionOnBoard(x - 1, y) && GameManager.Inst.GetPosition(x - 1, y) != null &&
-            GameManager.Inst.GetPosition(x - 1, y).GetComponent<Chessman>().player != selectPiece.player)
+        if (ChessManager.Inst.PositionOnBoard(x - 1, y) && ChessManager.Inst.GetPosition(x - 1, y) != null &&
+            ChessManager.Inst.GetPosition(x - 1, y).GetComponent<ChessBase>().player != selectPiece.player)
         {
             GameManager.Inst.MovePlateAttackSpawn(x - 1, y, selectPiece);
         }
@@ -163,20 +163,20 @@ public class Law : SkillBase
         int x = selectPiece.GetXBoard() + xIncrement;
         int y = selectPiece.GetYBoard() + yIncrement;
 
-        while (GameManager.Inst.PositionOnBoard(x, y))
+        while (ChessManager.Inst.PositionOnBoard(x, y))
         {
 
-            if (GameManager.Inst.GetPosition(x, y) != null && cnt != 0)
+            if (ChessManager.Inst.GetPosition(x, y) != null && cnt != 0)
             {
                 cnt = 0;
                 break;
             }
 
-            else if (GameManager.Inst.GetPosition(x, y) != null && cnt == 0)
+            else if (ChessManager.Inst.GetPosition(x, y) != null && cnt == 0)
             {
                 cnt++;
 
-                if (GameManager.Inst.PositionOnBoard(x, y) && GameManager.Inst.GetPosition(x, y).player != selectPiece.player)
+                if (ChessManager.Inst.PositionOnBoard(x, y) && ChessManager.Inst.GetPosition(x, y).player != selectPiece.player)
                 {
                     GameManager.Inst.MovePlateAttackSpawn(x, y, selectPiece);
                 }
@@ -190,7 +190,7 @@ public class Law : SkillBase
             y += yIncrement;
         }
 
-        if (GameManager.Inst.PositionOnBoard(x, y) && GameManager.Inst.GetPosition(x, y).player != selectPiece.player)
+        if (ChessManager.Inst.PositionOnBoard(x, y) && ChessManager.Inst.GetPosition(x, y).player != selectPiece.player)
         {
             GameManager.Inst.MovePlateAttackSpawn(x, y, selectPiece);
         }
@@ -211,23 +211,23 @@ public class Law : SkillBase
 
     public void LMovePlate()
     {
-        selectPiece.PointMovePlate(posX + 1, posY + 2);
-        selectPiece.PointMovePlate(posX - 1, posY + 2);
-        selectPiece.PointMovePlate(posX + 2, posY + 1);
-        selectPiece.PointMovePlate(posX + 2, posY - 1);
-        selectPiece.PointMovePlate(posX + 1, posY - 2);
-        selectPiece.PointMovePlate(posX - 1, posY - 2);
-        selectPiece.PointMovePlate(posX - 2, posY + 1);
-        selectPiece.PointMovePlate(posX - 2, posY - 1);
+        ChessManager.Inst.PointMovePlate(posX + 1, posY + 2, selectPiece);
+        ChessManager.Inst.PointMovePlate(posX - 1, posY + 2, selectPiece);
+        ChessManager.Inst.PointMovePlate(posX + 2, posY + 1, selectPiece);
+        ChessManager.Inst.PointMovePlate(posX + 2, posY - 1, selectPiece);
+        ChessManager.Inst.PointMovePlate(posX + 1, posY - 2, selectPiece);
+        ChessManager.Inst.PointMovePlate(posX - 1, posY - 2, selectPiece);
+        ChessManager.Inst.PointMovePlate(posX - 2, posY + 1, selectPiece);
+        ChessManager.Inst.PointMovePlate(posX - 2, posY - 1, selectPiece);
 
     }
 
     private void Law_PointMovePlate(int x, int y)
     {
 
-        if (GameManager.Inst.PositionOnBoard(x, y))
+        if (ChessManager.Inst.PositionOnBoard(x, y))
         {
-            Chessman cp = GameManager.Inst.GetPosition(x, y);
+            ChessBase cp = ChessManager.Inst.GetPosition(x, y);
 
             if (cp == null)
             {

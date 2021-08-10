@@ -24,14 +24,14 @@ public class Rook : ChessBase
 
         while (ChessManager.Inst.PositionOnBoard(x, y) && ChessManager.Inst.GetPosition(x, y) == null)
         {
-            ChessManager.Inst.MovePlateSpawn(this, x, y);
+            GameManager.Inst.MovePlateSpawn(x, y, this);
             x += xIncrement;
             y += yIncrement;
         }
 
         if (ChessManager.Inst.PositionOnBoard(x, y) && ChessManager.Inst.GetPosition(x, y).player != player)
         {
-            ChessManager.Inst.MovePlateAttackSpawn(this, x, y);
+            GameManager.Inst.MovePlateAttackSpawn(x, y, this);
         }
     }
 }

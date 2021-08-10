@@ -70,7 +70,7 @@ public class CardManager : MonoBehaviour
     public List<Carditem> usedCards = new List<Carditem>();
 
     private Vector3 localPosition = Vector3.zero;
-    private Chessman chessPiece;
+    private ChessBase chessPiece;
     private Card selectCard;
     [SerializeField] private GameObject cards;
     private CardbufferManager cardbufferManager;
@@ -123,7 +123,7 @@ public class CardManager : MonoBehaviour
 
             if (hit.collider.CompareTag("ChessPiece"))
             {
-                chessPiece = hit.collider.gameObject.GetComponent<Chessman>();
+                chessPiece = hit.collider.gameObject.GetComponent<ChessBase>();
                 isMine = chessPiece.CheckIsMine();
                 isTargeting = true;
                 localPosition = hit.collider.transform.position;
@@ -290,7 +290,7 @@ public class CardManager : MonoBehaviour
 
     #region Script Access 
 
-    public Chessman GetChessPiece()
+    public ChessBase GetChessPiece()
     {
         return chessPiece;
     }
@@ -486,11 +486,11 @@ public class CardManager : MonoBehaviour
         SetOriginOrder(true);
     }
 
-    public void UpdateCard() // After EndTurn, Error Check and CardBuffer Update
-    {
-        RotationBoard.ohtercards = otherCards;
-        RotationBoard.mycards = myCards;
-    }
+    //public void UpdateCard() // After EndTurn, Error Check and CardBuffer Update
+    //{
+    //    RotationBoard.ohtercards = otherCards;
+    //    RotationBoard.mycards = myCards;
+    //}
 
     #endregion
 

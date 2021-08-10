@@ -145,13 +145,13 @@ public class TurnManager : MonoBehaviour
     private void WinOrLose()
     {
         // When these conditions are met, the search is the winner and the game is over.
-        if (!GameManager.Inst.CheckArr(true, "white_king"))
+        if (!ChessManager.Inst.CheckArr(true, "white_king"))
         {
             GameManager.Inst.Winner("black");
             GameManager.Inst.GameOver();
         }
         // When these conditions are met, White is the winner and the game is over.
-        else if (!GameManager.Inst.CheckArr(false, "black_king"))
+        else if (!ChessManager.Inst.CheckArr(false, "black_king"))
         {
             GameManager.Inst.Winner("white");
             GameManager.Inst.GameOver();
@@ -219,10 +219,10 @@ public class TurnManager : MonoBehaviour
             var targetCards = CardManager.Inst.GetMyCards();
             CardManager.Inst.DestroyCard(CardManager.Inst.GetSelectCard(), targetCards);
         }
-        CardManager.Inst.UpdateCard();
+        //,,..CardManager.Inst.UpdateCard();
         myTurn = !myTurn;
 
-        GameManager.Inst.FalseIsMoving();
+        ChessManager.Inst.FalseIsMoving();
         ChangeButtonTransform();
         ButtonInactive();
 

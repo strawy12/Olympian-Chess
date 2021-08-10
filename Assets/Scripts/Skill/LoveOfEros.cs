@@ -38,7 +38,7 @@ public class LoveOfEros : SkillBase
         CardManager.Inst.NotAmolang();
         isSetting = true;
         attacked = false;
-        selectPieceTo = GameManager.Inst.GetPosition(posX, posY);
+        selectPieceTo = ChessManager.Inst.GetPosition(posX, posY);
         selectPieceTo.SetAttackSelecting(true);
         selectPieceTo.AddChosenSkill(this);
         StartCoroutine(LOE_SkillEffect());
@@ -65,9 +65,9 @@ public class LoveOfEros : SkillBase
         selectPieceTo.spriteRenderer.material.color = new Color32(0, 0, 0, 0);
         selectPieceTo.SetXBoard(selectPiece.GetXBoard());
         selectPieceTo.SetYBoard(selectPiece.GetYBoard());
-        selectPieceTo.SetCoords();
-        GameManager.Inst.SetPosition(selectPieceTo);
-        GameManager.Inst.UpdateArr(selectPiece);
+        ChessManager.Inst.SetCoords(selectPiece.gameObject, selectPiece.GetYBoard(), selectPiece.GetXBoard());
+        ChessManager.Inst.SetPosition(selectPieceTo);
+        ChessManager.Inst.UpdateArr(selectPiece);
         SkillManager.Inst.RemoveSkillList(this);
         if (selectPiece != null)
         {

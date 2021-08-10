@@ -20,7 +20,7 @@ public class SkillManager : MonoBehaviour
 
     #region Var List
     // List of non-clickable chess pieces
-    public List<Chessman> dontClickPiece = new List<Chessman>();
+    public List<ChessBase> dontClickPiece = new List<ChessBase>();
     private SkillBase selectingSkill;
     private bool isUsingCard = false;
     
@@ -32,7 +32,7 @@ public class SkillManager : MonoBehaviour
     // Function returning whether the cp is in the dontClickPiece list.
     // if there is return true
 
-    public bool CheckDontClickPiece(Chessman cp)
+    public bool CheckDontClickPiece(ChessBase cp)
     {
         for (int i = 0; i < dontClickPiece.Count; i++)
         {
@@ -113,13 +113,13 @@ public class SkillManager : MonoBehaviour
     }
 
     // Function adding the cp to dontClickPiece list
-    public void AddDontClickPiece(Chessman cp)
+    public void AddDontClickPiece(ChessBase cp)
     {
         dontClickPiece.Add(cp);
     }
 
     // Function removing cp from dontClickPiece list
-    public void RemoveDontClickPiece(Chessman cp)
+    public void RemoveDontClickPiece(ChessBase cp)
     {
         dontClickPiece.Remove(cp);
     }
@@ -159,7 +159,7 @@ public class SkillManager : MonoBehaviour
         return false;
     }
 
-    public bool MoveControl(Chessman cp)
+    public bool MoveControl(ChessBase cp)
     {
         List<SkillBase> _skillList = cp.GetSkillList("질서,바카스");
         int i = 0;
@@ -180,7 +180,7 @@ public class SkillManager : MonoBehaviour
 
     public void AttackUsingSkill(MovePlate mp)
     {
-        Chessman cp = GameManager.Inst.GetPosition(mp.GetPosX(), mp.GetPosY());
+        ChessBase cp = ChessManager.Inst.GetPosition(mp.GetPosX(), mp.GetPosY());
         List<SkillBase> _skillList = cp.GetSkillList("출산,아테나의 방패,에로스의 사랑,길동무");
         Debug.Log(_skillList.Count);
         for (int i = 0; i < _skillList.Count; i++)
@@ -201,7 +201,7 @@ public class SkillManager : MonoBehaviour
     }
 
     // Function spawning skill prefab
-    public SkillBase SpawnSkillPrefab(Card card, Chessman chessPiece)
+    public SkillBase SpawnSkillPrefab(Card card, ChessBase chessPiece)
     {
         SkillBase sb = CheckSkill(card).GetComponent<SkillBase>();
         if (sb == null) return null;

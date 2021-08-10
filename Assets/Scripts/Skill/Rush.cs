@@ -21,7 +21,7 @@ public class Rush : SkillBase
         //selected piece moves up one space
         if (selectPiece.player == "white")
         {
-            if (GameManager.Inst.GetPosition(posX, posY + 1) == null)
+            if (ChessManager.Inst.GetPosition(posX, posY + 1) == null)
             {
                 selectPiece.SetYBoard(posY + 1);
             }
@@ -37,7 +37,7 @@ public class Rush : SkillBase
         {
             //if color of selected piece is black,
             //selected piece moves down one space
-            if (GameManager.Inst.GetPosition(posX, posY - 1) == null)
+            if (ChessManager.Inst.GetPosition(posX, posY - 1) == null)
             {
                 selectPiece.SetYBoard(posY - 1);
             }
@@ -50,10 +50,10 @@ public class Rush : SkillBase
             }
         }
 
-        GameManager.Inst.SetPositionEmpty(posX, posY);
+        ChessManager.Inst.SetPositionEmpty(posX, posY);
         selectPiece.SetXBoard(posX);
-        selectPiece.SetCoords();
-        GameManager.Inst.SetPosition(selectPiece);
+        ChessManager.Inst.SetCoords(selectPiece.gameObject, posX, posY);
+        ChessManager.Inst.SetPosition(selectPiece);
         if (selectPiece != null)
         {
             selectPiece.RemoveChosenSkill(this);

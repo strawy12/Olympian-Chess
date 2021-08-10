@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class SkillBase : MonoBehaviour
 {
-    public Chessman selectPiece { get; protected set; }
-    public Chessman selectPieceTo { get; protected set; }
+    public ChessBase selectPiece { get; protected set; }
+    public ChessBase selectPieceTo { get; protected set; }
     protected int posX;
     protected int posY;
     protected MovePlate movePlate;
@@ -18,21 +18,21 @@ public class SkillBase : MonoBehaviour
 
     public virtual void ResetSkill() { }
 
-    public void SetSelectPiece(Chessman cp)
+    public void SetSelectPiece(ChessBase cp)
     {
         selectPiece = cp;
     }
-    public void SetSelectPieceTo(Chessman cp) 
+    public void SetSelectPieceTo(ChessBase cp) 
     {
         selectPieceTo = cp;
     }
 
-    public Chessman GetSelectPieceTo()
+    public ChessBase GetSelectPieceTo()
     {
         return selectPieceTo;
     }
 
-    public Chessman GetSelectPiece()
+    public ChessBase GetSelectPiece()
     {
         return selectPiece;
     }

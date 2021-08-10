@@ -70,8 +70,8 @@ public class WarBuff : SkillBase
             yield return new WaitForSeconds(0.1f);
 
         }
-        GameManager.Inst.SetPositionEmpty(selectPiece.GetXBoard(), selectPiece.GetYBoard());
-        GameManager.Inst.UpdateArr(selectPiece);
+        ChessManager.Inst.SetPositionEmpty(selectPiece.GetXBoard(), selectPiece.GetYBoard());
+        ChessManager.Inst.UpdateArr(selectPiece);
         Destroy(selectPiece.gameObject);
         SkillManager.Inst.RemoveSkillList(this);
         if (selectPiece != null)

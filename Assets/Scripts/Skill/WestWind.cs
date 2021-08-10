@@ -21,7 +21,7 @@ public class WestWind : SkillBase
         posY = selectPiece.GetYBoard();
         selectPiece.spriteRenderer.sortingOrder = -2;
         selectPiece.gameObject.GetComponent<Collider2D>().enabled = false;
-        GameManager.Inst.SetPositionEmpty(posX, posY);
+        ChessManager.Inst.SetPositionEmpty(posX, posY);
         turn = turnCnt + 2;
     }
     public void WW_ResetSkill()
@@ -29,7 +29,7 @@ public class WestWind : SkillBase
         if (turn > turnCnt) return;
         selectPiece.spriteRenderer.sortingOrder = 0;
         selectPiece.gameObject.GetComponent<Collider2D>().enabled = true;
-        GameManager.Inst.SetChessPiecePosition(posX, posY, selectPiece);
+        ChessManager.Inst.SetChessPiecePosition(posX, posY, selectPiece);
         selectPiece.spriteRenderer.material.SetColor("_Color", new Color32(0, 0, 0, 0));
         SkillManager.Inst.RemoveSkillList(this);
         if (selectPiece != null)

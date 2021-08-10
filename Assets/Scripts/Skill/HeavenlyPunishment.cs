@@ -25,9 +25,9 @@ public class HeavenlyPunishment : SkillBase
         if (selectPiece.name == "black_queen" || selectPiece.name == "white_queen")
         {
             if (GameManager.Inst.CheckPlayer("white"))
-                isBreak = GameManager.Inst.CheckArr(false, "black_rook");
+                isBreak = ChessManager.Inst.CheckArr(false, "black_rook");
             else
-                isBreak = GameManager.Inst.CheckArr(true, "white_rook");
+                isBreak = ChessManager.Inst.CheckArr(true, "white_rook");
 
             CardManager.Inst.SetisBreak(isBreak);
             return;

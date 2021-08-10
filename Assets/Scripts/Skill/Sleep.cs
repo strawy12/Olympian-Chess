@@ -37,7 +37,7 @@ public class Sleep : SkillBase
     private void SleepSetting()
     {
         CardManager.Inst.NotAmolang();
-        selectPieceTo = GameManager.Inst.GetPosition(posX, posY);
+        selectPieceTo = ChessManager.Inst.GetPosition(posX, posY);
         moveCnt = selectPiece.GetMoveCnt();
         moveCnt2 = selectPieceTo.GetMoveCnt();
         StartCoroutine(SP_SkillEffect());

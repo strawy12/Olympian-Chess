@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Justice : SkillBase
 {
-    List<Chessman> attacking = GameManager.Inst.attackings;
-    List<Chessman> justiceCP = new List<Chessman>();
+    List<ChessBase> attacking = GameManager.Inst.GetAttackings();
+    List<ChessBase> justiceCP = new List<ChessBase>();
 
     public override void UsingSkill()
     {

@@ -35,141 +35,14 @@ public class MovePlate : MonoBehaviour
         }
     }
 
-<<<<<<< HEAD
-    private IEnumerator MovingCard()
-    {
-        GameManager.Inst.SetPositionEmpty(reference.GetXBoard(), reference.GetYBoard());
-        reference.SetXBoard(matrixX);
-        reference.SetYBoard(matrixY);
-        reference.PlusMoveCnt();
-
-        //reference.SetCoords(); --> change to anmiation
-
-        yield return reference.SetCoordsAnimation();
-        GameManager.Inst.DestroyMovePlates();
-        GameManager.Inst.SetPosition(reference);
-
-        reference.isMoving = true;
-    }
-
-    private IEnumerator ReturnMovingCard()
-    {
-        TurnManager.Instance.ButtonColor();
-        yield return MovingCard();
-    }
-
-
-    #region isAttack일때
-
-    //private void Eros()
-    //{
-    //    Chessman cp = GameManager.Inst.GetPosition(matrixX, matrixY);
-    //    Skill erosLove = SkillManager.Inst.GetSkillList("에로스의 사랑", GetCurrentPlayer(false));
-
-    //    if (erosLove == null)
-    //    {
-    //        return;
-    //    }
-    //    if (cp != erosLove.GetSelectPieceTo())
-    //    {
-    //        return;
-    //    }
-
-    //    else
-    //    {
-    //        erosLove.GetSelectPieceTo().SetXBoard(erosLove.GetSelectPiece().GetXBoard());
-    //        erosLove.GetSelectPieceTo().SetYBoard(erosLove.GetSelectPiece().GetYBoard());
-    //        erosLove.GetSelectPieceTo().SetCoords();
-    //        Destroy(erosLove.GetSelectPiece().gameObject);
-    //        GameManager.Inst.SetPosition(erosLove.GetSelectPieceTo());
-    //        GameManager.Inst.UpdateArr(erosLove.GetSelectPiece());
-    //        erosLove.SetIsUsingCard(false);
-    //        reference.DestroyMovePlates();
-    //        TurnManager.Instance.ButtonColor();
-    //    }
-    //}
-
-    #endregion
-    private void Card()
-    {
-        Chessman cp = GameManager.Inst.GetPosition(matrixX, matrixY);
-
-        if (cp.GetAttackSelecting())
-        {
-            SkillManager.Inst.AttackUsingSkill(this);
-        }
-
-        if (GameManager.Inst.GetIsStop())
-        {
-            return;
-        }
-
-        Destroy(cp.gameObject);
-        GameManager.Inst.SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
-        GameManager.Inst.UpdateArr(cp);
-    }
-
-
-    #region 현재상태에따라서
-    //private void Eros2()
-    //{
-    //    Skill erosLove = SkillManager.Inst.GetSkillList("에로스의 사랑", GetCurrentPlayer(true));
-    //    if (erosLove == null) return;
-
-    //    erosLove.SetSelectPieceTo(GameManager.Inst.GetPosition(reference.GetXBoard(), reference.GetYBoard()));
-    //    reference.DestroyMovePlates();
-    //    erosLove.StartLOE_Effect();
-    //    CardManager.Inst.ChangeIsUse(true);
-
-    //    //TurnManager.Inst.EndTurn();
-    //    SkillManager.Inst.SetIsUsingCard(false);
-    //}
-
-
-
-
-    //private void Card2()
-    //{
-    //    if (CheckSkillList("에로스의 사랑", GetCurrentPlayer(true)))
-    //    {
-    //        Eros2();
-    //    }
-
-    //    if (CheckSkillList("파도", GetCurrentPlayer(true)))
-    //    {
-    //        Wave();
-    //    }
-    //    if (CheckSkillList("수면", GetCurrentPlayer(true)))
-    //    {
-    //        Sleep();
-    //    }
-    //} 
-    #endregion
-=======
-
->>>>>>> suan
     private void OnMouseUpEvent()
     {
-
-        // set card state
 
         // card attack 
         if (attack)
         {
-<<<<<<< HEAD
-            Card();
-            if (reference.isAttacking)
-            {
-                GameManager.Inst.attackings.Remove(reference);
-                reference.attackCount = 0;
-            }
-
-            GameManager.Inst.attackings.Add(reference);
-            reference.isAttacking = true;
+            ChessManager.Inst.AttackChessPiece(this);
         }
-=======
-            ChessManager.Inst.AttackChessPiece(matrixX, matrixY);
->>>>>>> suan
 
         SetEChessState();
 
@@ -185,7 +58,7 @@ public class MovePlate : MonoBehaviour
 
         else if (eChessState == EChessState.MovingAndSkill)
         {
-            StartCoroutine(ReturnMovingCard());
+            ChessManager.Inst.MoveChessPiece(reference, matrixX, matrixY);
             SkillManager.Inst.UsingSkill(this);
         }
 
@@ -205,10 +78,6 @@ public class MovePlate : MonoBehaviour
         //    PilSalGi.Inst.SetselectPiece(GameManager.Inst.GetPosition(matrixX, matrixY));
         //    return;
         //}
-<<<<<<< HEAD
-
-=======
->>>>>>> suan
         // change to coroutine for moving animation
         OnMouseUpEvent();
     }
@@ -235,7 +104,6 @@ public class MovePlate : MonoBehaviour
             eChessState = EChessState.Stop;
         }
     }
-
 
     public void SetIsSelected(bool isSelected)
     {
@@ -267,9 +135,9 @@ public class MovePlate : MonoBehaviour
     {
         return reference;
     }
+
     public ChessBase GetChessPiece()
     {
         return ChessManager.Inst.GetPosition(matrixX, matrixY);
     }
-
 }
