@@ -30,7 +30,7 @@ public class Bishop : ChessBase
 
         if (ChessManager.Inst.PositionOnBoard(x, y) && ChessManager.Inst.GetPosition(x, y).player != player)
         {
-            ChessManager.Inst.MovePlateAttackSpawn(x, y);
+            ChessManager.Inst.MovePlateAttackSpawn(this, x, y);
         }
     }
 }

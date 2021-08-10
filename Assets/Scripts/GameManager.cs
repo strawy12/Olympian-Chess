@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         pool = FindObjectOfType<PoolManager>();
-        TurnManager.Instance.StartGame();
+        TurnManager.Instance.StartGame(); 
         //SettingGame();
     }
     // Function setting game at first

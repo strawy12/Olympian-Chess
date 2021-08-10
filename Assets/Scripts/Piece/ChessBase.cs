@@ -45,8 +45,8 @@ public class ChessBase : MonoBehaviour
     }
     public void OnMouseUp()
     {
-        List<Chessman> attack = GameManager.Inst.attackings;
-        //if (TurnManager.Instance.GetIsActive()) return;
+        //List<Chessman> attack = GameManager.Inst.attackings;
+        if (TurnManager.Instance.GetIsActive()) return;
 
         ChessManager.Inst.DestroyMovePlates();
         MovePlate();
@@ -56,4 +56,5 @@ public class ChessBase : MonoBehaviour
 
         //}
     }
+
 }

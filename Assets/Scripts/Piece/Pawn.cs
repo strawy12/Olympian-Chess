@@ -48,15 +48,15 @@ public class Pawn : ChessBase
             }
 
             if (ChessManager.Inst.PositionOnBoard(x + 1, y) && ChessManager.Inst.GetPosition(x + 1, y) != null &&
-               ChessManager.Inst.GetPosition(x + 1, y).GetComponent<Chessman>().player != player)
+               ChessManager.Inst.GetPosition(x + 1, y).GetComponent<ChessBase>().player != player)
             {
-                ChessManager.Inst.MovePlateAttackSpawn(x + 1, y);
+                ChessManager.Inst.MovePlateAttackSpawn(this, x + 1, y);
             }
 
             if (ChessManager.Inst.PositionOnBoard(x - 1, y) && ChessManager.Inst.GetPosition(x - 1, y) != null &&
                 ChessManager.Inst.GetPosition(x - 1, y).GetComponent<ChessBase>().player != player)
             {
-                ChessManager.Inst.MovePlateAttackSpawn(x - 1, y);
+                ChessManager.Inst.MovePlateAttackSpawn(this, x - 1, y);
             }
         }
     }

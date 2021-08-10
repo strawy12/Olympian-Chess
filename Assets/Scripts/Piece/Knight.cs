@@ -34,7 +34,7 @@ public class Knight : ChessBase
 
             else if (cb.player != player)
             {
-                ChessManager.Inst.MovePlateAttackSpawn(x, y);
+                ChessManager.Inst.MovePlateAttackSpawn(this, x, y);
             }
 
         }

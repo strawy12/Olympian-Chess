@@ -35,265 +35,9 @@ public class MovePlate : MonoBehaviour
         }
     }
 
-    private IEnumerator MovingCard()
-    {
-        ChessManager.Inst.SetPositionEmpty(reference.GetXBoard(), reference.GetYBoard());
-        reference.SetXBoard(matrixX);
-        reference.SetYBoard(matrixY);
-        reference.PlusMoveCnt();
 
-        //reference.SetCoords(); --> change to anmiation
-
-        //yield return reference.SetCoordsAnimation();
-        //reference.DestroyMovePlates();
-        //GameManager.Inst.SetPosition(reference);
-        yield return null;
-        //if (SkillManager.Inst.CheckSkillList("ÀüÀï±¤", GetCurrentPlayer(true)) || SkillManager.Inst.CheckSkillList("ÀüÀï±¤", GetCurrentPlayer(false)))
-        //{
-        //    SkillController sc = SkillManager.Inst.GetSkillList("ÀüÀï±¤", GetCurrentPlayer(true));
-
-        //    if (sc == null)
-        //    {
-        //        sc = SkillManager.Inst.GetSkillList("ÀüÀï±¤", GetCurrentPlayer(false));
-        //    }
-
-        //    if (sc.cnt == 0 && !sc.GetSelectPiece().isMoving)
-        //    {
-        //        sc.PlusCnt();
-        //        yield return 0;
-        //    }
-
-        //    else
-        //    {
-        //        Chessman cp = sk.GetSelectPiece();
-        //        GameManager.Inst.SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
-        //        GameManager.Inst.UpdateArr(cp);
-        //        Destroy(cp.gameObject);
-        //        sk.DestroyObject();
-        //    }
-
-        //}
-
-        //if (CheckSkillList("´Þºû", GetCurrentPlayer(true)))
-        //{
-        //    Skill sk = SkillManager.Inst.GetSkillList("´Þºû", GetCurrentPlayer(true));
-
-        //    sk.GetSelectPiece().spriteRenderer.material.color = new Color(0.5f, 0.5f, 0.5f, 0f);
-        //    sk.SetIsMLMoved(true);
-        //}
-
-        //reference.isMoving = true;
-        TurnManager.Instance.ButtonColor();
-    }
-
-    private IEnumerator ReturnMovingCard()
-    {
-        yield return MovingCard();
-    }
-   
-    #region isAttackÀÏ¶§
-    //private void War()
-    //{
-    //    Chessman cp = GameManager.Inst.GetPosition(matrixX, matrixY);
-
-    //    Skill war = SkillManager.Inst.GetSkillList("ÀüÀï±¤", GetCurrentPlayer(true));
-
-    //    if (war == null)
-    //    {
-    //        war = SkillManager.Inst.GetSkillList("ÀüÀï±¤", GetCurrentPlayer(false));
-    //    }
-    //    if (war.cnt != 0)
-    //    {
-    //        if (cp.name == "black_king" || cp.name == "white_king") return;
-    //    }
-    //}
-    //private void Athen()
-    //{
-    //    Chessman cp = GameManager.Inst.GetPosition(matrixX, matrixY);
-    //    Skill athen = SkillManager.Inst.GetSkillList("¾ÆÅ×³ªÀÇ ¹æÆÐ", GetCurrentPlayer(false));
-
-    //    athen.IsAttack(true);
-    //    athen.CheckAS();
-    //    cp.DestroyMovePlates();
-    //    TurnManager.Instance.ButtonColor();
-    //}
-
-    //private void Born()
-    //{
-    //    Chessman cp = GameManager.Inst.GetPosition(matrixX, matrixY);
-    //    Skill born = SkillManager.Inst.GetSkillList("Ãâ»ê", GetCurrentPlayer(false));
-
-    //    Chessman cm;
-    //    GameManager.Inst.SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
-
-    //    if (cp.player == "white")
-    //    {
-    //        cm = GameManager.Inst.Creat("white_pawn", cp.GetXBoard(), cp.GetYBoard());
-    //        cm.transform.Rotate(0f, 0f, 180f);
-    //        GameManager.Inst.SetPosition(cm);
-    //    }
-    //    else
-    //    {
-    //        cm = GameManager.Inst.Creat("black_pawn", cp.GetXBoard(), cp.GetYBoard());
-    //        GameManager.Inst.SetPosition(cm);
-    //    }
-
-    //    reference.SetCoords();
-    //    GameManager.Inst.SetPosition(reference);
-    //    reference.DestroyMovePlates();
-    //    reference.SetIsMoved(true);
-    //    Destroy(cp.gameObject);
-    //    born.SelectPieceNull();
-    //    SkillManager.Inst.DeleteSkillList(born);
-    //    //sk.
-    //    Destroy(born.gameObject);
-    //    GameManager.Inst.UpdateArr(cp);
-    //    GameManager.Inst.AddArr(cm);
-    //    TurnManager.Instance.ButtonColor();
-    //}
-
-    //private void Eros()
-    //{
-    //    Chessman cp = GameManager.Inst.GetPosition(matrixX, matrixY);
-    //    Skill erosLove = SkillManager.Inst.GetSkillList("¿¡·Î½ºÀÇ »ç¶û", GetCurrentPlayer(false));
-
-    //    if (erosLove == null)
-    //    {
-    //        return;
-    //    }
-    //    if (cp != erosLove.GetSelectPieceTo())
-    //    {
-    //        return;
-    //    }
-
-    //    else
-    //    {
-    //        erosLove.GetSelectPieceTo().SetXBoard(erosLove.GetSelectPiece().GetXBoard());
-    //        erosLove.GetSelectPieceTo().SetYBoard(erosLove.GetSelectPiece().GetYBoard());
-    //        erosLove.GetSelectPieceTo().SetCoords();
-    //        Destroy(erosLove.GetSelectPiece().gameObject);
-    //        GameManager.Inst.SetPosition(erosLove.GetSelectPieceTo());
-    //        GameManager.Inst.UpdateArr(erosLove.GetSelectPiece());
-    //        erosLove.SetIsUsingCard(false);
-    //        reference.DestroyMovePlates();
-    //        TurnManager.Instance.ButtonColor();
-    //    }
-    //}
-
-    //private void GillDongMu()
-    //{
-    //    Chessman cp = GameManager.Inst.GetPosition(matrixX, matrixY);
-    //    Skill gillDongMu = SkillManager.Inst.GetSkillList("±æµ¿¹«", GetCurrentPlayer(false));
-
-    //    if (gillDongMu == null) return;
-
-    //    if (reference.name == "black_king" || reference.name == "white_king")
-    //    {
-    //        Debug.Log("¿Õ¿Õ¿Õ");
-    //    }
-
-    //    else
-    //    {
-    //        reference.DestroyMovePlates();
-    //        Destroy(reference.gameObject);
-    //        Destroy(cp.gameObject);
-    //        GameManager.Inst.SetPositionEmpty(reference.GetXBoard(), reference.GetYBoard());
-    //        GameManager.Inst.SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
-    //        GameManager.Inst.UpdateArr(reference);
-    //        GameManager.Inst.UpdateArr(cp);
-    //    }
-
-    //    TurnManager.Instance.ButtonColor();
-    //    gillDongMu.ReloadStreetFriend();
-    //    gillDongMu.SetIsUsingCard(false);
-
-    //}
-
-    //private void Card()
-    //{
-    //    ChessBase cp = ChessManager.Inst.GetPosition(matrixX, matrixY);
-
-        //Skill athen = SkillManager.Inst.GetSkillList("¾ÆÅ×³ªÀÇ ¹æÆÐ", GetCurrentPlayer(false));
-
-        //if (SkillManager.Inst.CheckSkillList("ÀüÀï±¤", GetCurrentPlayer(true)) || SkillManager.Inst.CheckSkillList("ÀüÀï±¤", GetCurrentPlayer(false)))
-        //{
-        //    War();
-        //}
-
-        //if (SkillManager.Inst.CheckSkillList("´Þºû", GetCurrentPlayer(true)))
-        //{
-        //    if (cp.name == "black_king" || cp.name == "white_king")
-        //        return;
-        //}
-
-        //if (CheckSkillList("¾ÆÅ×³ªÀÇ ¹æÆÐ", GetCurrentPlayer(false)) && cp == athen.GetSelectPiece())
-        //{
-        //    Athen();
-        //}
-
-        //if (CheckSkillList("Ãâ»ê", GetCurrentPlayer(false)))
-        //{
-        //    Born();
-        //}
-
-        //if (CheckSkillList("¿¡·Î½ºÀÇ »ç¶û", GetCurrentPlayer(false)))
-        //{
-        //    Eros();
-        //}
-
-        //if (CheckSkillList("±æµ¿¹«", GetCurrentPlayer(false)))
-        //{
-        //    GillDongMu();
-        //}
-        //if (GetCurrentPlayer(false) == cp.player)
-        //{
-        //    PilSalGi.Inst.attackCntPlus();
-        //}
-
-    //    Destroy(cp.gameObject);
-    //    GameManager.Inst.SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
-    //    ChessManager.Inst.UpdateArr(cp);
-    //}
-    #endregion
-
-    #region ÇöÀç»óÅÂ¿¡µû¶ó¼­
-    //private void Eros2()
-    //{
-    //    Skill erosLove = SkillManager.Inst.GetSkillList("¿¡·Î½ºÀÇ »ç¶û", GetCurrentPlayer(true));
-    //    if (erosLove == null) return;
-
-    //    erosLove.SetSelectPieceTo(GameManager.Inst.GetPosition(reference.GetXBoard(), reference.GetYBoard()));
-    //    reference.DestroyMovePlates();
-    //    erosLove.StartLOE_Effect();
-    //    CardManager.Inst.ChangeIsUse(true);
-
-    //    //TurnManager.Inst.EndTurn();
-    //    SkillManager.Inst.SetIsUsingCard(false);
-    //}
-
-
-
-
-    //private void Card2()
-    //{
-    //    if (CheckSkillList("¿¡·Î½ºÀÇ »ç¶û", GetCurrentPlayer(true)))
-    //    {
-    //        Eros2();
-    //    }
-
-    //    if (CheckSkillList("ÆÄµµ", GetCurrentPlayer(true)))
-    //    {
-    //        Wave();
-    //    }
-    //    if (CheckSkillList("¼ö¸é", GetCurrentPlayer(true)))
-    //    {
-    //        Sleep();
-    //    }
-    //} 
-    #endregion
     private void OnMouseUpEvent()
     {
-        ChessBase cp = ChessManager.Inst.GetPosition(matrixX, matrixY);
 
         // set card state
         SetECardState();
@@ -301,7 +45,7 @@ public class MovePlate : MonoBehaviour
         // card attack 
         if (attack)
         {
-            ChessManager.Inst.Card();
+            ChessManager.Inst.AttackChessPiece(matrixX, matrixY);
 
             //if (reference.isAttacking)
             //{
@@ -316,7 +60,7 @@ public class MovePlate : MonoBehaviour
        
         if (eCardState == ECardState.Moving)
         {
-            StartCoroutine(ReturnMovingCard());
+            ChessManager.Inst.MoveChessPiece(reference, matrixX, matrixY);
         }
 
         else if (eCardState == ECardState.Skill)
@@ -340,7 +84,6 @@ public class MovePlate : MonoBehaviour
         //    PilSalGi.Inst.SetselectPiece(GameManager.Inst.GetPosition(matrixX, matrixY));
         //    return;
         //}
-        Debug.Log("¸» ÀÌµ¿ ¼º°ø");
         // change to coroutine for moving animation
         OnMouseUpEvent();
     }

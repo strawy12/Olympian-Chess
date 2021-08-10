@@ -226,8 +226,8 @@ public class TurnManager : MonoBehaviour
         SkillManager.Inst.SkillListCntPlus();
         GameManager.Inst.NextTurn();
 
-        for (int i = 0; i < attack.Count; i++)
-            attack[i].attackCount++;
+        //for (int i = 0; i < attack.Count; i++)
+        //    attack[i].attackCount++;
 
         StartCoroutine(StartTurnCo());
         WinOrLose();

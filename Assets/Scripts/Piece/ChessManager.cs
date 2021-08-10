@@ -127,7 +127,7 @@ public class ChessManager : MonoBehaviour
         return mp;
     }
 
-    public void MovePlateAttackSpawn(int matrixX, int matrixY)
+    public void MovePlateAttackSpawn(ChessBase cp, int matrixX, int matrixY)
     {
         float x = matrixX;
         float y = matrixY;
@@ -142,7 +142,7 @@ public class ChessManager : MonoBehaviour
 
         MovePlate mpScript = mp.GetComponent<MovePlate>();
         mpScript.attack = true;
-        //mpScript.Setreference(this);
+        mpScript.Setreference(cp);
         mpScript.SetCoords(matrixX, matrixY);
 
     }
@@ -201,11 +201,53 @@ public class ChessManager : MonoBehaviour
     }
     #endregion
 
-    public void Card()
+    public void AttackChessPiece(int matrixX, int matrixY)
     {
         ChessBase cp = GetPosition(matrixX, matrixY);
-        Destroy(cp.gameObject);
         SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
-        Inst.UpdateArr(cp);
+        UpdateArr(cp);
+        Destroy(cp.gameObject);
+    }
+
+    public void MoveChessPiece(ChessBase cp, int matrixX, int matrixY)
+    {
+        SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
+        cp.SetXBoard(matrixX);
+        cp.SetYBoard(matrixY);
+        cp.PlusMoveCnt();
+        SetPosition(cp);
+        StartCoroutine(SetCoordsAnimation(cp));
+        TurnManager.Instance.ButtonColor();
+        DestroyMovePlates();
+    }
+    public IEnumerator SetCoordsAnimation(ChessBase cp)
+    {
+        
+        // start position if (this == null) gameObject.SetActive(false);
+        Vector3 startPos = cp.transform.position;
+
+        float x = cp.GetXBoard();
+        float y = cp.GetYBoard();
+
+        x *= 0.684f;
+        y *= 0.684f;
+
+        x += -2.4f;
+        y += -2.4f;
+
+        // end position
+        Vector3 endPos = new Vector3(x, y, -1.0f);
+        // calculate distance for move speed
+        float distance = (endPos - startPos).magnitude;
+
+        float t = 0f;
+
+        while (t < 1f)
+        {
+            t += Time.deltaTime / distance * 10f;
+            cp.transform.position = Vector3.Lerp(startPos, endPos, t);
+            yield return null;
+        }
+
     }
 }

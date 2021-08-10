@@ -127,10 +127,6 @@ public class Chessman : MonoBehaviour
         List<Chessman> attack = GameManager.Inst.attackings;
         if (TurnManager.Instance.GetIsActive()) return;
         if (SkillManager.Inst.CheckDontClickPiece(this)) return;
-        //if (WarbuffCheck()) return;
-        //if (CheckSkillList("정의구현", GetCurrentPlayer(false)) && attackCount != 0 && attackCount < 3) return;
-
-        //SkillManager.Inst.SetIsUsingCard(false);
         //SkillManager.Inst.CheckSkillCancel();
 
         if (!GameManager.Inst.IsGameOver() && GameManager.Inst.GetCurrentPlayer() == player)
@@ -360,7 +356,7 @@ public class Chessman : MonoBehaviour
 
         if (ChessManager.Inst.PositionOnBoard(x, y) && ChessManager.Inst.GetPosition(x, y).player != player)
         {
-            ChessManager.Inst.MovePlateAttackSpawn(x, y);
+            //ChessManager.Inst.MovePlateAttackSpawn(this, x, y);
         }
 
     }
