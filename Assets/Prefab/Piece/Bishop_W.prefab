@@ -27,8 +27,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6213998246572972233}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.2493992, y: 0.1446423, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.6, y: 1.6, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -97,6 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38fb97dcf5801264d89d6eef7647ac4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attack: 0
   player: white
 --- !u!61 &2671092311636253381
 BoxCollider2D:
