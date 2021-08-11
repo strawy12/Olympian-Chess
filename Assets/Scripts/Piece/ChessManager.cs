@@ -97,7 +97,6 @@ public class ChessManager : MonoBehaviour
 
     public void SetCoords(GameObject obj, int xBoard, int yBoard)
     {
-
         float x = xBoard;
         float y = yBoard;
 

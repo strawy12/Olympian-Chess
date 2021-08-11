@@ -37,7 +37,6 @@ public class MovePlate : MonoBehaviour
 
     private void OnMouseUpEvent()
     {
-
         // card attack 
         if (attack)
         {
@@ -101,6 +100,8 @@ public class MovePlate : MonoBehaviour
         }
         else
         {
+            Debug.Log("sdf");
+
             eChessState = EChessState.Stop;
         }
     }

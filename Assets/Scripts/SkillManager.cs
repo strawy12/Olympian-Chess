@@ -131,6 +131,8 @@ public class SkillManager : MonoBehaviour
                 SkillBase sb = GetSkillList(names[i])[0];
                 skillList.Remove(sb);
                 Destroy(sb.gameObject);
+                GameManager.Inst.SetUsingSkill(false);
+                GameManager.Inst.SetMoving(true);
             }
         }
     }
@@ -156,10 +158,15 @@ public class SkillManager : MonoBehaviour
     public bool MoveControl(ChessBase cp)
     {
         List<SkillBase> _skillList = cp.GetSkillList("질서,바카스");
-        int i = 0;
+        int i;
            
         for (i = 0; i < _skillList.Count; i++)
         {
+            if (GameManager.Inst.isBacchrs && skillList[i].name == "바카스")
+            {
+                skillList[i].SetSelectPiece(cp);
+            }
+
             _skillList[i].StandardSkill();
         }
         if(i != 0)
@@ -188,11 +195,13 @@ public class SkillManager : MonoBehaviour
 
     public void UsingSkill(MovePlate mp)
     {
-        //if (skillList.Count < 1) return;
+        if (skillList.Count < 1) return;
+
         SkillBase sb = skillList[skillList.Count - 1];
         sb.SetPosX(mp.GetPosX());
         sb.SetPosY(mp.GetPosY());
         sb.StandardSkill();
+        sb.SetMovePlate(mp);
 
         CardManager.Inst.SetSelectCard(null);
     }

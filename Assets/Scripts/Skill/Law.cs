@@ -27,6 +27,7 @@ public class Law : SkillBase
             {
                 selectPiece.RemoveChosenSkill(this);
             }
+            GameManager.Inst.isBacchrs = false;
             SkillManager.Inst.RemoveSkillList(this);
             Destroy(gameObject);
         }
@@ -40,7 +41,6 @@ public class Law : SkillBase
         posX = selectPiece.GetXBoard();
         posY = selectPiece.GetYBoard();
     }
-
 
     private void Law_InitiateMovePlates()
     {
@@ -86,12 +86,10 @@ public class Law : SkillBase
 
             case "black_pawn":
                 Law_PawnMovePlate(posX, posY - 1);
-
                 break;
 
             case "white_pawn":
                 Law_PawnMovePlate(posX, posY + 1);
-
                 break;
         }
     }
@@ -108,7 +106,6 @@ public class Law : SkillBase
             {
                 GameManager.Inst.MovePlateSpawn(x, y, selectPiece);
             }
-
         }
 
         else
@@ -125,7 +122,6 @@ public class Law : SkillBase
                 {
                     GameManager.Inst.MovePlateSpawn(x, y + 2, selectPiece);
                 }
-
             }
 
             else if (player == "black")
@@ -154,8 +150,6 @@ public class Law : SkillBase
         {
             GameManager.Inst.MovePlateAttackSpawn(x - 1, y, selectPiece);
         }
-
-
     }
 
     private void Law_LineMovePlate(int xIncrement, int yIncrement)
@@ -206,7 +200,6 @@ public class Law : SkillBase
         Law_PointMovePlate(xBoard + 1, yBoard - 1);
         Law_PointMovePlate(xBoard + 1, yBoard - 0);
         Law_PointMovePlate(xBoard + 1, yBoard + 1);
-
     }
 
     public void LMovePlate()
@@ -219,12 +212,10 @@ public class Law : SkillBase
         ChessManager.Inst.PointMovePlate(posX - 1, posY - 2, selectPiece);
         ChessManager.Inst.PointMovePlate(posX - 2, posY + 1, selectPiece);
         ChessManager.Inst.PointMovePlate(posX - 2, posY - 1, selectPiece);
-
     }
 
     private void Law_PointMovePlate(int x, int y)
     {
-
         if (ChessManager.Inst.PositionOnBoard(x, y))
         {
             ChessBase cp = ChessManager.Inst.GetPosition(x, y);
@@ -238,8 +229,6 @@ public class Law : SkillBase
             {
                 GameManager.Inst.MovePlateAttackSpawn(x, y, selectPiece);
             }
-
         }
     }
 }
-

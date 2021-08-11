@@ -76,7 +76,6 @@ public class ChessBase : MonoBehaviour
     }
     public SkillBase CheckSkillList(string name)
     {
-
         for (int i = 0; i < chosenSkill.Count; i++)
         {
             if (chosenSkill[i].gameObject.name == name)
@@ -92,6 +91,7 @@ public class ChessBase : MonoBehaviour
         List<SkillBase> _skillList = new List<SkillBase>();
         SkillBase skill;
         string[] names = name.Split(',');
+
         for (int i = 0; i < names.Length; i++)
         {
             skill = CheckSkillList(names[i]);
@@ -99,8 +99,8 @@ public class ChessBase : MonoBehaviour
             {
                 _skillList.Add(skill);
             }
-
         }
+
         return _skillList;
     }
 

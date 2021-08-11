@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] ECardState eCardState;
     [SerializeField] GameObject movePlate;
-    
+
     enum ECardState { Moving, Skill, MovingAndSkill }
 
     //List including attacking chesspiece
@@ -71,12 +71,12 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         pool = FindObjectOfType<PoolManager>();
-        TurnManager.Instance.StartGame(); 
+        TurnManager.Instance.StartGame();
         //SettingGame();
     }
     private void Update()
     {
-        //InputCheatKey();
+        InputCheatKey();
     }
     // Functions including cheatkey
     void InputCheatKey()
@@ -86,10 +86,14 @@ public class GameManager : MonoBehaviour
         {
             Application.Quit();
         }
-        //A => Deleting Pawn
+        //A => All Moveplate Spawn
         if (Input.GetKeyDown(KeyCode.A))
         {
             RealAllMovePlateSpawn();
+        }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            DeletePawn();
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
@@ -103,9 +107,31 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene("Game");
         }
     }
-    // Function setting isMoving to false
+    private void DeletePawn()
+    {
+        ChessBase[] white = ChessManager.Inst.GetPlayerWhite();
+        ChessBase[] black = ChessManager.Inst.GetPlayerBlack();
 
+        for (int i = 0; i < white.Length; i++)
+        {
+            if (white[i] == null) continue;
+            if (white[i].gameObject.name == "white_pawn")
+            {
+                Destroy(white[i].gameObject);
+                ChessManager.Inst.UpdateArr(white[i]);
+            }
+        }
 
+        for(int i = 0; i < black.Length; i++)
+        { 
+            if (black[i] == null) continue;
+            if (black[i].gameObject.name == "black_pawn")
+            {
+                Destroy(black[i].gameObject);
+                ChessManager.Inst.UpdateArr(black[i]);
+            }
+        }
+    }
     public void DestroyMovePlates()
     {
         int cnt = movePlateList.Count;
@@ -115,7 +141,7 @@ public class GameManager : MonoBehaviour
             RemoveMovePlateList(movePlateList[0]);
         }
     }
-     // Functions checking if the parameter is equal to current player
+    // Functions checking if the parameter is equal to current player
     public bool CheckPlayer(string player)
     {
         if (GetCurrentPlayer() == player)
@@ -200,7 +226,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            
+
             if (currentPlayer != "white")
             {
                 for (int i = 0; i < playerWhite.Length; i++)
@@ -293,7 +319,7 @@ public class GameManager : MonoBehaviour
     {
         return moving;
     }
-    
+
     public void SetUsingSkill(bool usingSkill)
     {
         this.usingSkill = usingSkill;
@@ -344,20 +370,20 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         gameOver = true;
-    } 
+    }
 
     public void PlusAttackCnt()
     {
         for (int i = 0; i < attackings.Count; i++)
         {
-            if(attackings[i]==null)
+            if (attackings[i] == null)
             {
                 attackings.RemoveAt(i);
             }
 
             attackings[i].attackCount++;
 
-            if(attackings[i].attackCount > 2)
+            if (attackings[i].attackCount > 2)
             {
                 attackings.RemoveAt(i);
             }
@@ -372,7 +398,7 @@ public class GameManager : MonoBehaviour
     {
         attackings.Add(chessBase);
         chessBase.isAttacking = true;
-    }    
+    }
     public void RemoveAttackings(ChessBase chessBase)
     {
         attackings.Remove(chessBase);
