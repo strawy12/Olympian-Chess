@@ -32,7 +32,6 @@ public class ChessManager : MonoBehaviour
 
     #endregion
 
-    #region º¯¼ö
     int matrixX, matrixY;
 
     int pawn = 0, bishop = 1, knight = 2, rook = 3, queen = 4, king = 5;
@@ -45,15 +44,13 @@ public class ChessManager : MonoBehaviour
     [SerializeField] private ChessBase[] playerBlack = new ChessBase[16];
     [SerializeField] private ChessBase[] playerWhite = new ChessBase[16];
 
-    [SerializeField] private GameObject cccccp; 
-    #endregion
+    [SerializeField] private GameObject cccccp;
 
     void Start()
     {
         SettingGame();
     }
 
-    #region Create ChessPiece
     private void SettingGame()
     {
         playerWhite = new ChessBase[]
@@ -72,7 +69,7 @@ public class ChessManager : MonoBehaviour
            Creat(black[pawn], 3,6), Creat(black[pawn], 4,6), Creat(black[pawn], 5,6),
            Creat(black[pawn], 6,6), Creat(black[pawn], 7,6), Creat(black[rook], 0,7),
            Creat(black[knight], 1,7), Creat(black[bishop], 2,7), Creat(black[queen], 3,7),
-           Creat(black[king], 4,7), Creat(black[bishop], 5,7), Creat(black[rook], 7,7),
+           Creat(black[king], 4,7), Creat(black[bishop], 5,7), Creat(black[rook], 7,7), 
            Creat(black[knight], 6,7)
         };
 
@@ -95,9 +92,22 @@ public class ChessManager : MonoBehaviour
 
         return cb;
     }
-    #endregion
 
-    #region Moving Fuction
+    public void SetCoords(GameObject obj, int xBoard, int yBoard)
+    {
+
+        float x = xBoard;
+        float y = yBoard;
+
+        x *= 0.684f;
+        y *= 0.684f;
+
+        x += -2.4f;
+        y += -2.4f;
+
+        // Aligns according the board
+        obj.transform.position = new Vector3(x, y, -1.0f);
+    }
     public void PointMovePlate(int x, int y, ChessBase cp)
     {
 
@@ -130,52 +140,19 @@ public class ChessManager : MonoBehaviour
         }
     }
 
-    public void SetCoords(GameObject obj, int xBoard, int yBoard)
+    public void FalsIsMoving()
     {
-
-        float x = xBoard;
-        float y = yBoard;
-
-        x *= 0.684f;
-        y *= 0.684f;
-
-        x += -2.4f;
-        y += -2.4f;
-
-        // Aligns according the board
-        obj.transform.position = new Vector3(x, y, -1.0f);
-    }
-    public IEnumerator SetCoordsAnimation(ChessBase cp)
-    {
-
-        Vector3 startPos = cp.transform.position;
-
-        float x = cp.GetXBoard();
-        float y = cp.GetYBoard();
-
-        x *= 0.684f;
-        y *= 0.684f;
-
-        x += -2.4f;
-        y += -2.4f;
-
-        // end position
-        Vector3 endPos = new Vector3(x, y, -1.0f);
-        // calculate distance for move speed
-        float distance = (endPos - startPos).magnitude;
-
-        float t = 0f;
-
-        while (t < 1f)
+        for (int i = 0; i < playerWhite.Length; i++)
         {
-            t += Time.deltaTime / distance * 10f;
-            cp.transform.position = Vector3.Lerp(startPos, endPos, t);
-            yield return null;
+            if (playerWhite[i] == null)
+                continue;
+            playerWhite[i].isMoving = false;
+            if (playerBlack[i] == null)
+                continue;
+            playerBlack[i].isMoving = false;
         }
-    } 
-    #endregion
+    }
 
-    #region Arr(Update,Add,Check)
     public void UpdateArr(ChessBase chessPiece)
     {
         for (int i = 0; i < playerWhite.Length; i++)
@@ -240,8 +217,7 @@ public class ChessManager : MonoBehaviour
             return false;
         }
 
-    } 
-    #endregion
+    }
 
     #region Position
     public void SetPositionEmpty(int x, int y)
@@ -272,7 +248,6 @@ public class ChessManager : MonoBehaviour
     }
     #endregion
 
-    #region ChessPiece
     public void AttackChessPiece(MovePlate mp)
     {
         ChessBase cp = GetPosition(mp.GetPosX(), mp.GetPosY());
@@ -311,11 +286,35 @@ public class ChessManager : MonoBehaviour
         TurnManager.Instance.ButtonColor();
         GameManager.Inst.DestroyMovePlates();
     }
-    #endregion
+    public IEnumerator SetCoordsAnimation(ChessBase cp)
+    {
+        
+        Vector3 startPos = cp.transform.position;
 
-    
+        float x = cp.GetXBoard();
+        float y = cp.GetYBoard();
 
-    #region GetValues
+        x *= 0.684f;
+        y *= 0.684f;
+
+        x += -2.4f;
+        y += -2.4f;
+
+        // end position
+        Vector3 endPos = new Vector3(x, y, -1.0f);
+        // calculate distance for move speed
+        float distance = (endPos - startPos).magnitude;
+
+        float t = 0f;
+
+        while (t < 1f)
+        {
+            t += Time.deltaTime / distance * 10f;
+            cp.transform.position = Vector3.Lerp(startPos, endPos, t);
+            yield return null;
+        }
+    }
+
     public ChessBase[] GetPlayerBlack()
     {
         return playerBlack;
@@ -334,6 +333,5 @@ public class ChessManager : MonoBehaviour
     public GameObject[] GetBlackObject()
     {
         return black;
-    } 
-    #endregion
+    }
 }

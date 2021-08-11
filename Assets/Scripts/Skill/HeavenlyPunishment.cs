@@ -25,9 +25,9 @@ public class HeavenlyPunishment : SkillBase
         if (selectPiece.name == "black_queen" || selectPiece.name == "white_queen")
         {
             if (GameManager.Inst.CheckPlayer("white"))
-                isBreak = GameManager.Inst.CheckArr(false, "black_rook");
+                isBreak = ChessManager.Inst.CheckArr(false, "black_rook");
             else
-                isBreak = GameManager.Inst.CheckArr(true, "white_rook");
+                isBreak = ChessManager.Inst.CheckArr(true, "white_rook");
 
             CardManager.Inst.SetisBreak(isBreak);
             return;
@@ -49,9 +49,15 @@ public class HeavenlyPunishment : SkillBase
             yield return new WaitForSeconds(0.2f);
         }
         // When card time is over, selected pieces turn to original color
-        selectPiece = null;
+
         SkillManager.Inst.RemoveSkillList(this);
         SkillManager.Inst.RemoveDontClickPiece(selectPiece);
+
+        if (selectPiece != null)
+        {
+            selectPiece.RemoveChosenSkill(this);
+        }
+
         Destroy(gameObject); 
     }
 }

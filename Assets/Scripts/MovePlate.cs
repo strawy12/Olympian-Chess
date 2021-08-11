@@ -5,17 +5,17 @@ using UnityEngine;
 public class MovePlate : MonoBehaviour
 {
     #region 변수
-    [SerializeField] ECardState eCardState;
+    [SerializeField] EChessState eChessState;
     // Board positions(not wolrd Positions) 
     int matrixX;
     int matrixY;
     // false: movement, true: attacking
     [Header("속성")]
     public bool attack = false;
-    public bool isOD = false;
+    public bool isStop = false;
 
     private bool isSelected = false;
-    enum ECardState { Moving, Skill, MovingAndSkill }
+    enum EChessState { Moving, Skill, MovingAndSkill, Stop }
 
     ChessBase reference = null;
 
@@ -24,8 +24,8 @@ public class MovePlate : MonoBehaviour
     public void Start()
     {
         AttackChess();
-
     }
+
     private void AttackChess()
     {
         if (attack)
@@ -35,46 +35,40 @@ public class MovePlate : MonoBehaviour
         }
     }
 
-
     private void OnMouseUpEvent()
     {
-
-        // set card state
-        SetECardState();
 
         // card attack 
         if (attack)
         {
-            ChessManager.Inst.AttackChessPiece(matrixX, matrixY);
-
-            //if (reference.isAttacking)
-            //{
-            //    GameManager.Inst.attackings.Remove(reference);
-            //    reference.attackCount = 0;
-            //}
-
-            //GameManager.Inst.attackings.Add(reference);
-            //GameManager.Inst.CheckDeadSkillPiece(cp);
-            //reference.isAttacking = true;
+            ChessManager.Inst.AttackChessPiece(this);
         }
-       
-        if (eCardState == ECardState.Moving)
+
+        SetEChessState();
+
+        if (eChessState == EChessState.Moving)
         {
             ChessManager.Inst.MoveChessPiece(reference, matrixX, matrixY);
         }
 
-        else if (eCardState == ECardState.Skill)
+        else if (eChessState == EChessState.Skill)
         {
             SkillManager.Inst.UsingSkill(this);
         }
-        else if(eCardState == ECardState.MovingAndSkill)
-        {
 
+        else if (eChessState == EChessState.MovingAndSkill)
+        {
+            ChessManager.Inst.MoveChessPiece(reference, matrixX, matrixY);
+            SkillManager.Inst.UsingSkill(this);
+        }
+
+        else
+        {
+            return;
         }
         
     }
 
-  
     public void OnMouseUp()
     {
         if (TurnManager.Instance.isLoading) return;
@@ -88,29 +82,28 @@ public class MovePlate : MonoBehaviour
         OnMouseUpEvent();
     }
 
-    void SetECardState()
+    void SetEChessState()
     {
         // Change current state to usingCard if card was used
         if (GameManager.Inst.GetMoving() && GameManager.Inst.GetUsingSkill())
         {
-            eCardState = ECardState.MovingAndSkill;
+            eChessState = EChessState.MovingAndSkill;
         }
-            
         // If not, change the current state to moving
-        else if(GameManager.Inst.GetMoving() && !GameManager.Inst.GetUsingSkill())
+        else if (GameManager.Inst.GetMoving() && !GameManager.Inst.GetUsingSkill())
         {
-            eCardState = ECardState.Moving;
+            eChessState = EChessState.Moving;
         }
-            
+
         else if (!GameManager.Inst.GetMoving() && GameManager.Inst.GetUsingSkill())
         {
-            eCardState = ECardState.Skill;
+            eChessState = EChessState.Skill;
+        }
+        else
+        {
+            eChessState = EChessState.Stop;
         }
     }
-
-
-
-
 
     public void SetIsSelected(bool isSelected)
     {
@@ -142,6 +135,7 @@ public class MovePlate : MonoBehaviour
     {
         return reference;
     }
+
     public ChessBase GetChessPiece()
     {
         return ChessManager.Inst.GetPosition(matrixX, matrixY);

@@ -4,30 +4,35 @@ using UnityEngine;
 
 public class SkillBase : MonoBehaviour
 {
-    public Chessman selectPiece { get; protected set; }
-    public Chessman selectPieceTo { get; protected set; }
+    public ChessBase selectPiece { get; protected set; }
+    public ChessBase selectPieceTo { get; protected set; }
     protected int posX;
     protected int posY;
+    protected MovePlate movePlate;
     protected int turnCnt = 0;
     protected string player = "white";
 
-    public virtual void UsingSkill() {}
+    public virtual void UsingSkill() { }
 
-    public virtual void StandardSkill() {}
+    public virtual void StandardSkill() { }
 
-    public virtual void ResetSkill() {}
+    public virtual void ResetSkill() { }
 
-    public void SetSelectPiece(Chessman cp) 
+    public void SetSelectPiece(ChessBase cp)
     {
         selectPiece = cp;
     }
+    public void SetSelectPieceTo(ChessBase cp) 
+    {
+        selectPieceTo = cp;
+    }
 
-    public Chessman GetSelectPieceTo() 
+    public ChessBase GetSelectPieceTo()
     {
         return selectPieceTo;
     }
 
-    public Chessman GetSelectPiece()
+    public ChessBase GetSelectPiece()
     {
         return selectPiece;
     }
@@ -40,6 +45,16 @@ public class SkillBase : MonoBehaviour
     {
         this.player = player;
     }
+    public int GetPosX()
+    {
+        return posX;
+    }
+
+    public int GetPosY()
+    {
+        return posY;
+    }
+
     public void SetPosX(int posX)
     {
         this.posX = posX;
@@ -53,5 +68,10 @@ public class SkillBase : MonoBehaviour
     public void TurnCntPlus()
     {
         turnCnt++;
+    }
+
+    public void SetMovePlate(MovePlate movePlate)
+    {
+        this.movePlate = movePlate;
     }
 }

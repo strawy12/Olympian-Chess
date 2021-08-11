@@ -52,9 +52,6 @@ public class CardManager : MonoBehaviour
     [SerializeField] List<Card> myCards;
     [SerializeField] List<Card> otherCards;
 
-    [SerializeField] Sprite cardFornt;
-    [SerializeField] Sprite cardBack;
-
     [SerializeField] ECardState eCardState; // now Game system state
 
     [SerializeField] Text infoText;
@@ -70,10 +67,10 @@ public class CardManager : MonoBehaviour
     private List<Carditem> myCardBuffer; //white Card Buffer
     private List<Carditem> otherCardBuffer; //Balck Card Buffer
 
-    private List<Carditem> usedCards = new List<Carditem>();
+    public List<Carditem> usedCards = new List<Carditem>();
 
     private Vector3 localPosition = Vector3.zero;
-    private Chessman chessPiece;
+    private ChessBase chessPiece;
     private Card selectCard;
     [SerializeField] private GameObject cards;
     private CardbufferManager cardbufferManager;
@@ -81,12 +78,13 @@ public class CardManager : MonoBehaviour
     public bool isMyCardDrag { get; private set; }
     public bool onMyCardArea { get; private set; }
     private bool isTargeting = false;
-    private bool isMine = false;
-    private bool isBreak = false;
-    private bool isStop = false;
-    private bool isUse = false;
+    [SerializeField] private bool isMine = false;
+    [SerializeField] private bool isBreak = false;
+    [SerializeField] private bool isStop = false;
+    [SerializeField] private bool isUse = false;
 
     int myPutCount;
+    [SerializeField] private bool isUsed;
 
     enum ECardState { Nothing, CanMouseDrag }
     #endregion
@@ -125,12 +123,12 @@ public class CardManager : MonoBehaviour
 
             if (hit.collider.CompareTag("ChessPiece"))
             {
-                chessPiece = hit.collider.gameObject.GetComponent<Chessman>();
+                chessPiece = hit.collider.gameObject.GetComponent<ChessBase>();
                 isMine = chessPiece.CheckIsMine();
                 isTargeting = true;
                 localPosition = hit.collider.transform.position;
 
-                if (CheckCardname(new List<string> { "여행자", "죽음의 땅" }) || (CheckCardname(new List<string> { "전쟁광" }) && !CheckPlayer(hit.collider.name))) // Only Pawn Targeting
+                if (CheckCardname("여행자") || (CheckCardname("전쟁광") && !CheckPlayer(hit.collider.name))) // Only Pawn Targeting
                 {
                     if (CheckPawn(hit.collider.name))
                     {
@@ -144,7 +142,7 @@ public class CardManager : MonoBehaviour
                     }
                 }
 
-                else if (CheckCardname(new List<string> { "제물" })) // Pawn not Targeting
+                else if (CheckCardname("제물")) // Pawn not Targeting
                 {
                     if (CheckPawn(hit.collider.name))
                     {
@@ -174,7 +172,7 @@ public class CardManager : MonoBehaviour
         targetPicker.transform.position = localPosition;
         if (isMine)
         {
-            if (CheckCardname(new List<string> { "음악", "천벌", "수면", "서풍", "수중감옥" })) // Can not be used for my ChessPiece
+            if (CheckCardname("음악,천벌,수면,서풍,수중감옥")) // Can not be used for my ChessPiece
             {
                 isStop = true;
                 return;
@@ -187,7 +185,8 @@ public class CardManager : MonoBehaviour
         }
         else
         {
-            if (CheckCardname(new List<string> { "여행자", "에로스의 사랑", "질서", "달빛", "제물", "아테나의 방패", "돌진", "길동무" })) //Can not be used for other ChessPiece
+            if (CheckCardname("여행자,에로스의 사랑,질서,달빛,제물,아테나의 방패,돌진,길동무")) //Can not be used for other ChessPiece
+
             {
                 isStop = true;
                 return;
@@ -254,10 +253,11 @@ public class CardManager : MonoBehaviour
         }
         return false;
     }
-
-    private bool CheckCardname(List<string> names) // Check if a specific card and a select card are the same
+    private bool CheckCardname(string name) // Check if a specific card and a select card are the same
     {
-        for (int i = 0; i < names.Count; i++)
+        string[] names = name.Split(',');
+        if (selectCard == null) return false;
+        for (int i = 0; i < names.Length; i++)
         {
             if (names[i] == selectCard.carditem.name)
             {
@@ -267,13 +267,6 @@ public class CardManager : MonoBehaviour
         return false;
     }
 
-    private bool CheckSkillList(string name, string player) // Check if a specific skill is being used
-    {
-        if (SkillManager.Inst.CheckSkillList(name, player))
-            return true;
-        else
-            return false;
-    }
 
     private bool CheckPlayer(string name) // CurrentPlayer Check
     {
@@ -297,7 +290,7 @@ public class CardManager : MonoBehaviour
 
     #region Script Access 
 
-    public Chessman GetChessPiece()
+    public ChessBase GetChessPiece()
     {
         return chessPiece;
     }
@@ -418,8 +411,20 @@ public class CardManager : MonoBehaviour
         }
     }
 
+    public void NotAmolang()
+    {
+        if (selectCard != null)
+        {
+            var targetCards = GetMyCards();
+            DestroyCard(selectCard, targetCards);
+            isUse = true;
+        }
+    }
+
     public void DestroyCard(Card card, List<Card> targetCards) // Using Card Destroy
     {
+        bool isSame = false;
+
         if (card == null) return;
 
         targetCards.Remove(card);
@@ -427,7 +432,15 @@ public class CardManager : MonoBehaviour
         card.transform.SetParent(GameManager.Inst.pool.transform);
         card.gameObject.SetActive(false);
         CardAlignment(true);
-        usedCards.Add(card.carditem);
+
+        for (int i = 0; i < usedCards.Count; i++)
+        {
+            if (card.carditem.name == usedCards[i].name)
+                isSame = true;
+        }
+
+        if (!isSame)
+            usedCards.Add(card.carditem);
     }
 
     public void DestroyCards() // All Cards Destroy
@@ -473,11 +486,11 @@ public class CardManager : MonoBehaviour
         SetOriginOrder(true);
     }
 
-    public void UpdateCard() // After EndTurn, Error Check and CardBuffer Update
-    {
-        RotationBoard.ohtercards = otherCards;
-        RotationBoard.mycards = myCards;
-    }
+    //public void UpdateCard() // After EndTurn, Error Check and CardBuffer Update
+    //{
+    //    RotationBoard.ohtercards = otherCards;
+    //    RotationBoard.mycards = myCards;
+    //}
 
     #endregion
 
@@ -687,46 +700,28 @@ public class CardManager : MonoBehaviour
         {
 
             isTargeting = false;
+
             SkillManager.Inst.SpawnSkillPrefab(card, chessPiece);
             if (isBreak)
             {
-                //Destroy(sk);
+                isBreak = false;
                 return false;
             }
-            if (CheckSkillList("파도", GameManager.Inst.GetCurrentPlayer())) return true;
-            if (CheckSkillList("수면", GameManager.Inst.GetCurrentPlayer())) return true;
-            if (CheckSkillList("에로스의 사랑", GameManager.Inst.GetCurrentPlayer())) return true;
+            if(CheckCardname("에로스의 사랑,수면,죽음의 땅,파도")) return true;
+            DestroyCard(card, targetCards);
+            isUse = true;
 
-            DestroyCard(card, targetCards); // 사용한 카드는 삭제
-            isUse = true; // 사용중을 표시함
-
-            if (isMine) // 내 카드를 사용한거라면
+            if (isMine)
             {
-                if (selectCard.carditem.name == "전쟁광" || selectCard.carditem.name == "달빛") // Later delete Code
-                    targetPicker.SetActive(false);
-                else
-                {
-                    selectCard = null;
-                    targetPicker.SetActive(false);
-                }
+                selectCard = null;
+                targetPicker.SetActive(false);
             }
 
-            CardAlignment(isMine); // 카드가 하나 사라졌기에 카드를 다시 정렬한다
-            if (CheckSkillList("제물", GameManager.Inst.GetCurrentPlayer())) return true; // Later delete Code
-            if (selectCard != null)
-                if (selectCard.carditem.name == "전쟁광" || selectCard.carditem.name == "달빛") // Later delete Code
-                    return true;
+            CardAlignment(isMine);
 
-            //TurnManager.Inst.EndTurn();
             return true;
         }
-        else // Later delete Code
-        {
-            targetCards.ForEach(x => x.GetComponent<Order>().SetMostFrontOrder(false));
-            CardAlignment(isMine);
-            return false;
-        }
-
+        return false;
     }
 
     private void EnlargeCard(bool isEnlarge, Card card) // Card enlarged when clicked
@@ -765,6 +760,12 @@ public class CardManager : MonoBehaviour
         CardAlignment(true);
     }
 
+    public void RemoveCard(int rand)
+    {
+        Destroy(otherCards[rand].gameObject);
+        otherCards.RemoveAt(rand);
+        CardAlignment(!isMine);
+    }
     #endregion
 
     #region Card Control
@@ -789,7 +790,7 @@ public class CardManager : MonoBehaviour
 
         DestroyMovePlates();
         SkillManager.Inst.SetUsingCard(false);
-        //SkillManager.Inst.CheckSkillCancel();
+        SkillManager.Inst.CheckSkillCancel("에로스의 사랑,수면,죽음의 땅,파도");
         isMyCardDrag = true;
         selectCard = card;
         EnlargeCard(true, card);
@@ -801,16 +802,20 @@ public class CardManager : MonoBehaviour
     {
         if (isUse) return;
         isMyCardDrag = false;
+        isUsed = isTargeting;
         targetPicker.SetActive(false);
         cardInfo.SetActive(false);
         if (eCardState != ECardState.CanMouseDrag || eCardState == ECardState.Nothing)
             return;
         EnlargeCard(false, card);
-        if (!TryPutCard(true, isTargeting))
+        if (CheckCardname("죽음의 땅,시간왜곡,바카스") && !onMyCardArea)
+        {
+            isUsed = true;
+        }
+        if(!TryPutCard(true, isUsed))
         {
             selectCard = null;
         }
-
     }
 
     public void CardClick(Card card)
@@ -820,12 +825,6 @@ public class CardManager : MonoBehaviour
             otherCards.Remove(card);
             Destroy(card.gameObject);
             CardAlignment(false);
-            //TurnManager.Inst.EndTurn();
-
-            //if (CheckSkillList("제물", GameManager.Inst.GetCurrentPlayer()))
-            //{
-            //    SkillManager.Inst.DeleteSkillList(SkillManager.Inst.GetSkillList("제물", GameManager.Inst.GetCurrentPlayer()));
-            //}
         }
         else
         {

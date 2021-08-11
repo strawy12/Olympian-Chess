@@ -80,7 +80,7 @@
 //            posY = 0;
 //            selectPiece.spriteRenderer.material.SetColor("_Color", new Color(0, 0, 0, 0));
 //            selectPiece = null;
-//            DeleteSkill();
+//            1();
 //        }
 //    }
 
