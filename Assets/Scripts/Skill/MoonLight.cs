@@ -19,7 +19,7 @@ public class MoonLight : SkillBase
         originY = selectPiece.GetYBoard();
 
         selectPiece.spriteRenderer.material.color = new Color(0.5f, 0.5f, 0.5f, 0f);
-        selectPiece.SetIsSelecting(true);
+        selectPiece.SetNoneAttack(true);
     }
 
     public override void ResetSkill()
@@ -62,9 +62,8 @@ public class MoonLight : SkillBase
     {
         SkillManager.Inst.RemoveSkillList(this);
         if (selectPiece != null)
-        {
             selectPiece.RemoveChosenSkill(this);
-        }
+
         Destroy(gameObject);
     }
 }

@@ -11,9 +11,6 @@ public class Rush : SkillBase
 
     private void RS_UsingSkill()
     {
-        int posX;
-        int posY;
-
         posX = selectPiece.GetXBoard();
         posY = selectPiece.GetYBoard();
 
@@ -23,13 +20,14 @@ public class Rush : SkillBase
         {
             if (ChessManager.Inst.GetPosition(posX, posY + 1) == null)
             {
-                selectPiece.SetYBoard(posY + 1);
+                ChessManager.Inst.MoveChessPiece(selectPiece, posX, posY + 1);
             }
 
             // if the space to go is not empty, Use of the card is canceled.
             else
             {
                 CardManager.Inst.SetisBreak(true);
+                RemoveSkill();
                 return;
             }
         }
@@ -39,21 +37,23 @@ public class Rush : SkillBase
             //selected piece moves down one space
             if (ChessManager.Inst.GetPosition(posX, posY - 1) == null)
             {
-                selectPiece.SetYBoard(posY - 1);
+                ChessManager.Inst.MoveChessPiece(selectPiece, posX, posY - 1);
             }
 
             // if the space to go is not empty, Use of the card is canceled.
             else
             {
                 CardManager.Inst.SetisBreak(true);
+                RemoveSkill();
                 return;
             }
         }
 
-        ChessManager.Inst.SetPositionEmpty(posX, posY);
-        selectPiece.SetXBoard(posX);
-        ChessManager.Inst.SetCoords(selectPiece.gameObject, posX, posY);
-        ChessManager.Inst.SetPosition(selectPiece);
+        RemoveSkill();
+    }
+
+    private void RemoveSkill()
+    {
         if (selectPiece != null)
         {
             selectPiece.RemoveChosenSkill(this);

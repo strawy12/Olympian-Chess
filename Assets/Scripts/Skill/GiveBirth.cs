@@ -56,5 +56,4 @@ public class GiveBirth : SkillBase
 
         Destroy(gameObject);
     }
-
 }

@@ -60,6 +60,7 @@ public class ChessBase : MonoBehaviour
     public void OnMouseUp()
     {
         if (TurnManager.Instance.GetIsActive()) return;
+        if (SkillManager.Inst.CheckDontClickPiece(this)) return;
         if (!GameManager.Inst.IsGameOver() && GameManager.Inst.GetCurrentPlayer() == player)
         {
             SkillManager.Inst.CheckSkillCancel("¿¡·Î½ºÀÇ »ç¶û,¼ö¸é,Á×À½ÀÇ ¶¥,ÆÄµµ");
@@ -72,12 +73,9 @@ public class ChessBase : MonoBehaviour
 
             MovePlate(); // Instatiate
         }
-
-        
     }
     public SkillBase CheckSkillList(string name)
     {
-
         for (int i = 0; i < chosenSkill.Count; i++)
         {
             if (chosenSkill[i].gameObject.name == name)
@@ -93,6 +91,7 @@ public class ChessBase : MonoBehaviour
         List<SkillBase> _skillList = new List<SkillBase>();
         SkillBase skill;
         string[] names = name.Split(',');
+
         for (int i = 0; i < names.Length; i++)
         {
             skill = CheckSkillList(names[i]);
@@ -100,8 +99,8 @@ public class ChessBase : MonoBehaviour
             {
                 _skillList.Add(skill);
             }
-
         }
+
         return _skillList;
     }
 

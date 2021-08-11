@@ -172,7 +172,7 @@ public class CardManager : MonoBehaviour
         targetPicker.transform.position = localPosition;
         if (isMine)
         {
-            if (CheckCardname("음악,천벌,수면,서풍,수중감옥")) // Can not be used for my ChessPiece
+            if (CheckCardname("음악,천벌,수면,서풍")) // Can not be used for my ChessPiece
             {
                 isStop = true;
                 return;
@@ -779,7 +779,6 @@ public class CardManager : MonoBehaviour
         if (card.carditem.name != selectCard.carditem.name) return;
         if (isMyCardDrag && !onMyCardArea)
             card.cardPrame.sprite = null;
-
     }
 
     public void CardMouseDown(Card card)

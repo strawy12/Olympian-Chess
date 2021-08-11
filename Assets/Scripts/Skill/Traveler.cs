@@ -23,19 +23,25 @@ public class Traveler : SkillBase
                 randomY = Random.Range(0, 8);
             } while (ChessManager.Inst.GetPosition(randomX, randomY) != null);
 
-            ChessManager.Inst.SetPositionEmpty(selectPiece.GetXBoard(), selectPiece.GetYBoard());
-            selectPiece.SetXBoard(randomX);
-            selectPiece.SetYBoard(randomY);
-            //selectPiece.SetCoords();
-
-            //GameManager.Inst.SetPosition(selectPiece);
+            ChessManager.Inst.MoveChessPiece(selectPiece, randomX, randomY);
         }
 
         //if the pieces are not pawns, use of card is canceled
         else
         {
             CardManager.Inst.SetisBreak(true);
+            RemoveSkill();
             return;
+        }
+
+        RemoveSkill();
+    }
+
+    private void RemoveSkill()
+    {
+        if (selectPiece != null)
+        {
+            selectPiece.RemoveChosenSkill(this);
         }
         SkillManager.Inst.RemoveSkillList(this);
         Destroy(gameObject);

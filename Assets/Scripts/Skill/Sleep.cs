@@ -21,7 +21,7 @@ public class Sleep : SkillBase
     }
     public override void ResetSkill()
     {
-        CheckParticle();
+        CheckSleep();
     }
 
     private void SP_UsingSkill()
@@ -55,13 +55,13 @@ public class Sleep : SkillBase
             selectPiece.spriteRenderer.material.color = new Color32(0, 216, 255, 0);
             selectPieceTo.spriteRenderer.material.color = new Color32(0, 216, 255, 0);
             yield return new WaitForSeconds(0.5f);
-            selectPiece.spriteRenderer.material.color = new Color32(0, 0, 0, 0);
-            selectPieceTo.spriteRenderer.material.color = new Color32(0, 0, 0, 0);
+            selectPiece.spriteRenderer.material.color = Color.clear;
+            selectPieceTo.spriteRenderer.material.color = Color.clear;
             yield return new WaitForSeconds(0.5f);
         }
-        selectPiece.spriteRenderer.material.color = new Color32(0, 0, 0, 0);
-        selectPieceTo.spriteRenderer.material.color = new Color32(0, 0, 0, 0);
-        checkSPChessPiece();
+        selectPiece.spriteRenderer.material.color = Color.clear;
+        selectPieceTo.spriteRenderer.material.color = Color.clear;
+        CheckSPChessPiece();
         turnCnt = 0;
         turn = 2;
     }
@@ -75,15 +75,17 @@ public class Sleep : SkillBase
         return true;
     }
 
-    public void checkSPChessPiece()
+    public void CheckSPChessPiece()
     {
         cp_Player = selectPiece.player;
         if (CheckMoveCnt(moveCnt, selectPiece.GetMoveCnt()) && CheckMoveCnt(moveCnt2, selectPieceTo.GetMoveCnt()))
         {
-            particle = selectPiece.gameObject.transform.GetChild(0).gameObject;
-            particle.SetActive(true);
-            particle2 = selectPieceTo.gameObject.transform.GetChild(0).gameObject;
-            particle2.SetActive(true);
+            //particle = selectPiece.gameObject.transform.GetChild(0).gameObject;
+            //particle.SetActive(true);
+            //particle2 = selectPieceTo.gameObject.transform.GetChild(0).gameObject;
+            //particle2.SetActive(true);
+            selectPiece.spriteRenderer.material.SetColor("_Color", Color.cyan);
+            selectPieceTo.spriteRenderer.material.SetColor("_Color", Color.cyan);
             SkillManager.Inst.AddDontClickPiece(selectPiece);
             SkillManager.Inst.AddDontClickPiece(selectPieceTo);
             return;
@@ -91,9 +93,11 @@ public class Sleep : SkillBase
         else if (CheckMoveCnt(moveCnt, selectPiece.GetMoveCnt()) && !CheckMoveCnt(moveCnt2, selectPieceTo.GetMoveCnt()))
         {
             selectPieceTo = null;
-            particle = selectPiece.gameObject.transform.GetChild(0).gameObject;
-            
-            particle.SetActive(true);
+            //particle = selectPiece.gameObject.transform.GetChild(0).gameObject;
+            //particle.SetActive(true);
+
+            selectPiece.spriteRenderer.material.SetColor("_Color", Color.cyan);
+
             SkillManager.Inst.AddDontClickPiece(selectPiece); ;
             return;
         }
@@ -101,8 +105,11 @@ public class Sleep : SkillBase
         else if (!CheckMoveCnt(moveCnt, selectPiece.GetMoveCnt()) && CheckMoveCnt(moveCnt2, selectPieceTo.GetMoveCnt()))
         {
             selectPiece = null;
-            particle2 = selectPieceTo.gameObject.transform.GetChild(0).gameObject;
-            particle2.SetActive(true);
+            //particle2 = selectPieceTo.gameObject.transform.GetChild(0).gameObject;
+            //particle2.SetActive(true);
+
+            selectPieceTo.spriteRenderer.material.SetColor("_Color", Color.cyan);
+
             SkillManager.Inst.AddDontClickPiece(selectPieceTo);
             return;
         }
@@ -172,6 +179,42 @@ public class Sleep : SkillBase
         else if (selectPieceTo != null)
         {
             particle2.SetActive(false);
+            SkillManager.Inst.RemoveDontClickPiece(selectPieceTo);
+
+        }
+        SkillManager.Inst.RemoveSkillList(this);
+        if (selectPiece != null)
+        {
+            selectPiece.RemoveChosenSkill(this);
+        }
+        Destroy(gameObject);
+    }
+
+    private void CheckSleep()
+    {
+        if (turn > turnCnt)
+        {
+            return;
+        }
+
+        if (selectPiece != null && selectPieceTo != null)
+        {
+            selectPiece.spriteRenderer.material.SetColor("_Color", Color.clear);
+            selectPieceTo.spriteRenderer.material.SetColor("_Color", Color.clear);
+
+            SkillManager.Inst.RemoveDontClickPiece(selectPiece);
+            SkillManager.Inst.RemoveDontClickPiece(selectPieceTo);
+        }
+        else if (selectPiece != null)
+        {
+            selectPiece.spriteRenderer.material.SetColor("_Color", Color.clear);
+            SkillManager.Inst.RemoveDontClickPiece(selectPiece);
+
+        }
+
+        else if (selectPieceTo != null)
+        {
+            selectPieceTo.spriteRenderer.material.SetColor("_Color", Color.clear);
             SkillManager.Inst.RemoveDontClickPiece(selectPieceTo);
 
         }

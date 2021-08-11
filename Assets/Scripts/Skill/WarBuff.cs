@@ -24,6 +24,7 @@ public class WarBuff : SkillBase
         GameManager.Inst.SetMoving(true);
         GameManager.Inst.SetUsingSkill(true);
         selectPiece.SetNoneAttack(true);
+
         if (selectPiece.isMoving)
         {
             TurnManager.Instance.ButtonInactive();
@@ -34,12 +35,14 @@ public class WarBuff : SkillBase
     {
         if (cnt == 0 && !selectPiece.isMoving)
         {
+            Debug.Log("sdf");
             cnt++;
             TurnManager.Instance.ButtonInactive();
             return;
         }
         else
         {
+            Debug.Log("sdf");
             TurnManager.Instance.ButtonColor();
         }
     }
@@ -47,7 +50,6 @@ public class WarBuff : SkillBase
     private void WB_ResetSkill()
     {
         StartCoroutine(WB_SkillEffect());
-        
     }
 
     private IEnumerator WB_SkillEffect()
@@ -70,18 +72,17 @@ public class WarBuff : SkillBase
             yield return new WaitForSeconds(0.1f);
 
         }
+
         ChessManager.Inst.SetPositionEmpty(selectPiece.GetXBoard(), selectPiece.GetYBoard());
         ChessManager.Inst.UpdateArr(selectPiece);
         Destroy(selectPiece.gameObject);
         SkillManager.Inst.RemoveSkillList(this);
+
         if (selectPiece != null)
         {
             selectPiece.RemoveChosenSkill(this);
-
         }
+
         Destroy(gameObject);
     }
-
-
-
 }

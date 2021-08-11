@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ChessManager : MonoBehaviour
 {
-
+    //black_pawn
     #region SingleTon
 
     private static ChessManager inst;
@@ -82,6 +82,8 @@ public class ChessManager : MonoBehaviour
     public ChessBase Creat(GameObject chessPiece, int x, int y)
     {
         GameObject obj = Instantiate(chessPiece, new Vector3(0, 0, -1), Quaternion.identity);
+        obj.name = chessPiece.name;
+
         obj.transform.SetParent(cccccp.transform);
 
         ChessBase cb = obj.GetComponent<ChessBase>();
@@ -95,7 +97,6 @@ public class ChessManager : MonoBehaviour
 
     public void SetCoords(GameObject obj, int xBoard, int yBoard)
     {
-
         float x = xBoard;
         float y = yBoard;
 
@@ -288,7 +289,6 @@ public class ChessManager : MonoBehaviour
     }
     public IEnumerator SetCoordsAnimation(ChessBase cp)
     {
-        
         Vector3 startPos = cp.transform.position;
 
         float x = cp.GetXBoard();
@@ -309,6 +309,7 @@ public class ChessManager : MonoBehaviour
 
         while (t < 1f)
         {
+            if (cp == null) yield break;
             t += Time.deltaTime / distance * 10f;
             cp.transform.position = Vector3.Lerp(startPos, endPos, t);
             yield return null;

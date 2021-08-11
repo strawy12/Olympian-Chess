@@ -37,7 +37,6 @@ public class MovePlate : MonoBehaviour
 
     private void OnMouseUpEvent()
     {
-
         // card attack 
         if (attack)
         {

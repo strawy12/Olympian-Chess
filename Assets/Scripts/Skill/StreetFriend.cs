@@ -14,7 +14,11 @@ public class StreetFriend : SkillBase
     {
         ChessBase attacker = ChessManager.Inst.GetPosition(posX, posY);
 
-        if (attacker.name.Contains("king")) return;
+        if (attacker.name.Contains("king"))
+        {
+            RemoveSkill();
+            return;
+        }
 
         Destroy(attacker.gameObject);
         ChessManager.Inst.SetPositionEmpty(posX, posY);
@@ -23,12 +27,17 @@ public class StreetFriend : SkillBase
         ChessManager.Inst.UpdateArr(selectPiece);
         GameManager.Inst.DestroyMovePlates();
 
+        RemoveSkill();
+    }
+
+    private void RemoveSkill()
+    {
         if (selectPiece != null)
         {
             selectPiece.RemoveChosenSkill(this);
+            selectPiece.SetAttackSelecting(false);
         }
         SkillManager.Inst.RemoveSkillList(this);
-        selectPiece.SetAttackSelecting(false);
         Destroy(gameObject);
     }
 }
