@@ -379,13 +379,17 @@ public class GameManager : MonoBehaviour
             if (attackings[i] == null)
             {
                 attackings.RemoveAt(i);
+                continue;
             }
 
-            attackings[i].attackCount++;
-
-            if (attackings[i].attackCount > 2)
+            else
             {
-                attackings.RemoveAt(i);
+                attackings[i].attackCount++;
+
+                if (attackings[i].attackCount > 2)
+                {
+                    attackings.RemoveAt(i);
+                }
             }
         }
     }

@@ -100,8 +100,6 @@ public class MovePlate : MonoBehaviour
         }
         else
         {
-            Debug.Log("sdf");
-
             eChessState = EChessState.Stop;
         }
     }

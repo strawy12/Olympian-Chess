@@ -289,7 +289,6 @@ public class ChessManager : MonoBehaviour
     }
     public IEnumerator SetCoordsAnimation(ChessBase cp)
     {
-        
         Vector3 startPos = cp.transform.position;
 
         float x = cp.GetXBoard();
@@ -310,6 +309,7 @@ public class ChessManager : MonoBehaviour
 
         while (t < 1f)
         {
+            if (cp == null) yield break;
             t += Time.deltaTime / distance * 10f;
             cp.transform.position = Vector3.Lerp(startPos, endPos, t);
             yield return null;
