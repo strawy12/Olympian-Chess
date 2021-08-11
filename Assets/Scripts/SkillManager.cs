@@ -20,7 +20,7 @@ public class SkillManager : MonoBehaviour
 
     #region Var List
     // List of non-clickable chess pieces
-    public List<Chessman> dontClickPiece = new List<Chessman>();
+    public List<ChessBase> dontClickPiece = new List<ChessBase>();
     private SkillBase selectingSkill;
     private bool isUsingCard = false;
     
@@ -32,7 +32,7 @@ public class SkillManager : MonoBehaviour
     // Function returning whether the cp is in the dontClickPiece list.
     // if there is return true
 
-    public bool CheckDontClickPiece(Chessman cp)
+    public bool CheckDontClickPiece(ChessBase cp)
     {
         for (int i = 0; i < dontClickPiece.Count; i++)
         {
@@ -53,9 +53,12 @@ public class SkillManager : MonoBehaviour
         return false;
     }
 
+
     #endregion
 
     #region Script Access 
+
+
     // Function returning isUsingCard value
     public bool GetUsingCard()
     {
@@ -81,6 +84,7 @@ public class SkillManager : MonoBehaviour
         }
         return _skillList;
     }
+
 
     #endregion
 
@@ -109,16 +113,34 @@ public class SkillManager : MonoBehaviour
     }
 
     // Function adding the cp to dontClickPiece list
-    public void AddDontClickPiece(Chessman cp)
+    public void AddDontClickPiece(ChessBase cp)
     {
         dontClickPiece.Add(cp);
     }
 
     // Function removing cp from dontClickPiece list
-    public void RemoveDontClickPiece(Chessman cp)
+    public void RemoveDontClickPiece(ChessBase cp)
     {
         dontClickPiece.Remove(cp);
     }
+
+    public void CheckSkillCancel(string name)
+    {
+        if (CardManager.Inst.GetSelectCard() == null) return;
+        string[] names = name.Split(',');
+
+        for (int i = 0; i < names.Length; i++)
+        {
+            if (CardManager.Inst.GetSelectCard().name == names[i])
+            {
+                SkillBase sb = GetSkillList(names[i])[0];
+                skillList.Remove(sb);
+                Destroy(sb.gameObject);
+
+            }
+        }
+    }
+
     public bool CheckReturnMovePlate(int x, int y, string name)
     {
         List<SkillBase> skillList = GetSkillList(name);
@@ -137,7 +159,7 @@ public class SkillManager : MonoBehaviour
         return false;
     }
 
-    public bool MoveControl(Chessman cp)
+    public bool MoveControl(ChessBase cp)
     {
         List<SkillBase> _skillList = cp.GetSkillList("질서,바카스");
         int i = 0;
@@ -156,17 +178,9 @@ public class SkillManager : MonoBehaviour
         }
     }
 
-    public void UsingSkill(MovePlate mp)
-    {
-        SkillBase sb = skillList[skillList.Count - 1];
-        sb.SetPosX(mp.GetPosX());
-        sb.SetPosY(mp.GetPosY());
-        sb.StandardSkill();
-    }
-
     public void AttackUsingSkill(MovePlate mp)
     {
-        Chessman cp = GameManager.Inst.GetPosition(mp.GetPosX(), mp.GetPosY());
+        ChessBase cp = ChessManager.Inst.GetPosition(mp.GetPosX(), mp.GetPosY());
         List<SkillBase> _skillList = cp.GetSkillList("출산,아테나의 방패,에로스의 사랑,길동무");
         Debug.Log(_skillList.Count);
         for (int i = 0; i < _skillList.Count; i++)
@@ -178,8 +192,16 @@ public class SkillManager : MonoBehaviour
         }
     }
 
+    public void UsingSkill(MovePlate mp)
+    {
+        SkillBase sb = skillList[skillList.Count - 1];
+        sb.SetPosX(mp.GetPosX());
+        sb.SetPosY(mp.GetPosY());
+        sb.StandardSkill();
+    }
+
     // Function spawning skill prefab
-    public SkillBase SpawnSkillPrefab(Card card, Chessman chessPiece)
+    public SkillBase SpawnSkillPrefab(Card card, ChessBase chessPiece)
     {
         SkillBase sb = CheckSkill(card).GetComponent<SkillBase>();
         if (sb == null) return null;
@@ -213,41 +235,11 @@ public class SkillManager : MonoBehaviour
             case "수면":
                 obj.AddComponent<Sleep>();
                 break;
-            //case "음악":
-            //    Music(chessPiece);
-            //    break;
-            //case "돌진":
-            //    Rush(chessPiece);
-            //    break;
-            case "여행자":
-                obj.AddComponent<Traveler>();
-                break;
 
-            //case "길동무":
-            //    StreetFriend(chessPiece);
-            //    break;
-            //case "바카스":
-            //    Bacchrs();
-            //    break;
-            //case "시간왜곡":
-            //    TimeWarp();
-            //    break;
-            //case "제물":
-            //    Offering(chessPiece);
-            //    break;
-            //case "정의구현":
-            //    Justice();
-            //    break;
-            //case "출산":
-            //    GiveBirth(chessPiece);
-            //    break;
             case "아테나의 방패":
                 obj.AddComponent<ShieldOfAthena>();
                 break;
 
-            //case "달빛":
-            //    MoonLight(chessPiece);
-            //    break;
             case "파도":
                 obj.AddComponent<Wave>();
                 break;
@@ -270,6 +262,46 @@ public class SkillManager : MonoBehaviour
 
             case "전쟁광":
                 obj.AddComponent<WarBuff>();
+                break;
+
+            case "음악":
+                obj.AddComponent<Music>();
+                break;
+
+            case "돌진":
+                obj.AddComponent<Rush>();
+                break;
+
+            case "여행자":
+                obj.AddComponent<Traveler>();
+                break;
+
+            case "길동무":
+                obj.AddComponent<StreetFriend>();
+                break;
+
+            case "바카스":
+                obj.AddComponent<Bacchrs>();
+                break;
+
+            case "시간왜곡":
+                obj.AddComponent<TimeWarp>();
+                break;
+
+            case "제물":
+                obj.AddComponent<Offering>();
+                break;
+
+            case "정의구현":
+                obj.AddComponent<Justice>();
+                break;
+
+            case "출산":
+                obj.AddComponent<GiveBirth>();
+                break;
+
+            case "달빛":
+                obj.AddComponent<MoonLight>();
                 break;
         }
         return obj;

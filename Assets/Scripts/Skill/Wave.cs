@@ -20,10 +20,10 @@ public class Wave : SkillBase
         SkillManager.Inst.RemoveSkillList(this);
         GameManager.Inst.SetUsingSkill(false);
         GameManager.Inst.SetMoving(true);
-        if (CardManager.Inst.GetSelectCard() != null)
+
+        if (selectPiece != null)
         {
-            var targetCards = CardManager.Inst.GetMyCards();
-            CardManager.Inst.DestroyCard(CardManager.Inst.GetSelectCard(), targetCards);
+            selectPiece.RemoveChosenSkill(this);
         }
         Destroy(gameObject);
         
@@ -37,8 +37,9 @@ public class Wave : SkillBase
         WV_MovePlate(selectPiece, selectPiece.GetXBoard(), selectPiece.GetYBoard());
     }
 
-    private void WV_MovePlate(Chessman chessPiece, int x, int y)
+    private void WV_MovePlate(ChessBase chessPiece, int x, int y)
     {
+
         if (CheckNull(true, true, y) > 0 && x != 7) //right
             GameManager.Inst.MovePlateSpawn(x + 1, y, selectPiece);
 
@@ -54,6 +55,7 @@ public class Wave : SkillBase
 
     private void WaveCheck()
     {
+        CardManager.Inst.NotAmolang();
         if (posX == selectPiece.GetXBoard() + 1)
             WaveMove(true, true);
         else if (posX == selectPiece.GetXBoard() - 1)
@@ -72,7 +74,7 @@ public class Wave : SkillBase
         Debug.Log(isXY);
         Debug.Log(isPlma);
 
-        List<Chessman> cmList = new List<Chessman>();
+        List<ChessBase> cmList = new List<ChessBase>();
         int cnt = 0;
         cnt = CheckNull(isXY, isPlma, isXY ? posY : posX);
 
@@ -111,42 +113,44 @@ public class Wave : SkillBase
 
         for (int i = 0; i < cmList.Count; i++)
         {
-            GameManager.Inst.SetPosition(cmList[i]);
+            ChessManager.Inst.SetPosition(cmList[i]);
         }
 
     }
-    Chessman WV_Move(bool isXY, int i, bool isPlma)
+    ChessBase WV_Move(bool isXY, int i, bool isPlma)
     {
         if (isXY)
         {
-            Chessman cm = GameManager.Inst.GetPosition(i, posY);
-            if (cm == null) return cm;
-            GameManager.Inst.SetPositionEmpty(cm.GetXBoard(), cm.GetYBoard());
+            ChessBase cb = ChessManager.Inst.GetPosition(i, posY);
+            if (cb == null) return null;
+            ChessManager.Inst.SetPositionEmpty(i, posY);
 
             if (isPlma)
-                cm.SetXBoard(i + 1);
+                ChessManager.Inst.MoveChessPiece(cb, i + 1, posY);
             else
-                cm.SetXBoard(i - 1);
+                ChessManager.Inst.MoveChessPiece(cb, i - 1, posY);
 
+<<<<<<< HEAD
             cm.SetCoords();
             cm.PlusMoveCnt();
 
             return cm;
+=======
+            return cb;
+>>>>>>> main
         }
         else
         {
-            Chessman cm = GameManager.Inst.GetPosition(posX, i);
-            if (cm == null) return cm;
-            GameManager.Inst.SetPositionEmpty(cm.GetXBoard(), cm.GetYBoard());
+            ChessBase cb = ChessManager.Inst.GetPosition(posX, i);
+            if (cb == null) return cb;
+            ChessManager.Inst.SetPositionEmpty(posX, i);
 
             if (isPlma)
-                cm.SetYBoard(i + 1);
+                ChessManager.Inst.MoveChessPiece(cb, posX, i + 1);
             else
-                cm.SetYBoard(i - 1);
+                ChessManager.Inst.MoveChessPiece(cb, posX, i - 1);
 
-            cm.SetCoords();
-            cm.PlusMoveCnt();
-            return cm;
+            return cb;
         }
 
     }
@@ -163,7 +167,7 @@ public class Wave : SkillBase
         {
             for (int i = 7; i >= 0; i--)
             {
-                if (GameManager.Inst.GetPosition(i, pos) == null)
+                if (ChessManager.Inst.GetPosition(i, pos) == null)
                 {
                     cnt = i + 1;
                     return cnt;
@@ -176,7 +180,7 @@ public class Wave : SkillBase
         {
             for (int i = 0; i < 8; i++)
             {
-                if (GameManager.Inst.GetPosition(i, pos) == null)
+                if (ChessManager.Inst.GetPosition(i, pos) == null)
                 {
                     cnt = i + 1;
                     return cnt;
@@ -190,7 +194,7 @@ public class Wave : SkillBase
         {
             for (int i = 7; i >= 0; i--)
             {
-                if (GameManager.Inst.GetPosition(pos, i) == null)
+                if (ChessManager.Inst.GetPosition(pos, i) == null)
                 {
                     cnt = i + 1;
                     return cnt;
@@ -203,7 +207,7 @@ public class Wave : SkillBase
         {
             for (int i = 0; i < 8; i++)
             {
-                if (GameManager.Inst.GetPosition(pos, i) == null)
+                if (ChessManager.Inst.GetPosition(pos, i) == null)
                 {
                     cnt = i + 1;
                     return cnt;

@@ -52,6 +52,10 @@ public class ShieldOfAthena : SkillBase
             SkillManager.Inst.RemoveSkillList(this);
             selectPiece.SetAttackSelecting(false);
             SkillManager.Inst.RemoveDontClickPiece(selectPiece);
+            if (selectPiece != null)
+            {
+                selectPiece.RemoveChosenSkill(this);
+            }
             Destroy(gameObject);
         }
     }

@@ -30,12 +30,14 @@ public class Sleep : SkillBase
         GameManager.Inst.SetMoving(false);
         GameObject mp = GameManager.Inst.MovePlateSpawn(selectPiece.GetXBoard(), selectPiece.GetYBoard(), selectPiece);
         mp.GetComponent<SpriteRenderer>().material.SetColor("_Color", new Color32(95, 0, 255, 255));
+        mp.GetComponent<Collider2D>().enabled = false;
         GameManager.Inst.AllMovePlateSpawn(selectPiece, false);
     }
 
     private void SleepSetting()
     {
-        selectPieceTo = GameManager.Inst.GetPosition(posX, posY);
+        CardManager.Inst.NotAmolang();
+        selectPieceTo = ChessManager.Inst.GetPosition(posX, posY);
         moveCnt = selectPiece.GetMoveCnt();
         moveCnt2 = selectPieceTo.GetMoveCnt();
         StartCoroutine(SP_SkillEffect());
@@ -174,6 +176,10 @@ public class Sleep : SkillBase
 
         }
         SkillManager.Inst.RemoveSkillList(this);
+        if (selectPiece != null)
+        {
+            selectPiece.RemoveChosenSkill(this);
+        }
         Destroy(gameObject);
     }
 }
