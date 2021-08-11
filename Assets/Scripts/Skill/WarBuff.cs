@@ -5,8 +5,11 @@ using UnityEngine;
 public class WarBuff : SkillBase
 {
     private int cnt = 0;
+    private List<ChessBase> chessPieces = new List<ChessBase>();
+
     public override void UsingSkill()
     {
+        
         WB_UsingSkill();
     }
 
@@ -24,37 +27,42 @@ public class WarBuff : SkillBase
         GameManager.Inst.SetMoving(true);
         GameManager.Inst.SetUsingSkill(true);
         selectPiece.SetNoneAttack(true);
+        GetOtherPieces();
+        DontMoveOthercp(true);
+
+        selectPiece.spriteRenderer.material.SetColor("_Color", new Color(1, 0, 0, 0));
 
         if (selectPiece.isMoving)
         {
+            cnt++;
             TurnManager.Instance.ButtonInactive();
         }
     }
 
     private void WB_Standard()
     {
-        if (cnt == 0 && !selectPiece.isMoving)
+        if (cnt == 0)
         {
-            Debug.Log("sdf");
             cnt++;
             TurnManager.Instance.ButtonInactive();
             return;
         }
         else
         {
-            Debug.Log("sdf");
             TurnManager.Instance.ButtonColor();
         }
     }
 
     private void WB_ResetSkill()
     {
+        DontMoveOthercp(false);
+        selectPiece.spriteRenderer.material.SetColor("_Color", Color.clear);
         StartCoroutine(WB_SkillEffect());
     }
 
     private IEnumerator WB_SkillEffect()
     {
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 7; i++)
         {
             selectPiece.spriteRenderer.material.SetColor("_Color", new Color(255, 0, 0, 0));
             yield return new WaitForSeconds(0.1f);
@@ -84,5 +92,45 @@ public class WarBuff : SkillBase
         }
 
         Destroy(gameObject);
+    }
+
+    private void DontMoveOthercp(bool isAdd)
+    {
+        for(int i = 0; i< chessPieces.Count; i++)
+        {
+            if(isAdd)
+            {
+                SkillManager.Inst.AddDontClickPiece(chessPieces[i]);
+            }
+
+            if(!isAdd)
+            {
+                SkillManager.Inst.RemoveDontClickPiece(chessPieces[i]);
+            }
+        }
+    }
+
+    private void GetOtherPieces()
+    {
+        ChessBase[] white = ChessManager.Inst.GetPlayerWhite();
+        ChessBase[] black = ChessManager.Inst.GetPlayerBlack();
+
+        for (int i = 0; i< white.Length; i++)
+        {
+            if(!SkillManager.Inst.dontClickPiece.Contains(white[i]) && white[i] != selectPiece)
+            {
+                if (white[i] == null) continue;
+                chessPieces.Add(white[i]);
+            }
+        }
+
+        for (int i = 0; i < black.Length; i++)
+        {
+            if (!SkillManager.Inst.dontClickPiece.Contains(black[i]) && black[i] != selectPiece)
+            {
+                if (black[i] == null) continue;
+                chessPieces.Add(black[i]);
+            }
+        }
     }
 }

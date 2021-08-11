@@ -24,6 +24,7 @@ public class MovePlate : MonoBehaviour
     public void Start()
     {
         AttackChess();
+        SetEChessState();
     }
 
     private void AttackChess()
@@ -63,6 +64,7 @@ public class MovePlate : MonoBehaviour
 
         else
         {
+            Debug.Log("STOP");
             return;
         }
         

@@ -13,33 +13,24 @@ public class GiveBirth : SkillBase
     public override void StandardSkill()
     {
         ChessBase baby;
+        ChessBase attacker = ChessManager.Inst.GetPosition(posX, posY);
 
         if (selectPiece.player == "white")
         {
-            if (ChessManager.Inst.GetPosition(selectPiece.GetXBoard(), selectPiece.GetYBoard() + 1) == null)
-            {
-                movePlate.SetCoords(selectPiece.GetXBoard(), selectPiece.GetYBoard() + 1);
-            }
-            else
-            {
-                movePlate.SetCoords(posX, posY);
-            }
+            GameManager.Inst.SetMoving(false);
+            GameManager.Inst.SetUsingSkill(false);
+
+            AttackerPosition(attacker);
 
             baby = ChessManager.Inst.Creat(ChessManager.Inst.GetWhiteObject()[0], selectPiece.GetXBoard(), selectPiece.GetYBoard());
             baby.transform.Rotate(0f, 0f, 180f);
         }
         else
         {
-            if (ChessManager.Inst.GetPosition(selectPiece.GetXBoard(), selectPiece.GetYBoard() - 1) == null)
-            {
-                movePlate.SetCoords(selectPiece.GetXBoard(), selectPiece.GetYBoard() - 1);
-            }
-            else
-            {
-                Debug.Log("sdf");
-                movePlate.SetCoords(posX, posY);
-            }
+            GameManager.Inst.SetMoving(false);
+            GameManager.Inst.SetUsingSkill(false);
 
+            AttackerPosition(attacker);
             baby = ChessManager.Inst.Creat(ChessManager.Inst.GetBlackObject()[0], selectPiece.GetXBoard(), selectPiece.GetYBoard());
         }
 
@@ -53,7 +44,66 @@ public class GiveBirth : SkillBase
 
         selectPiece.SetAttackSelecting(false);
         SkillManager.Inst.RemoveSkillList(this);
-
         Destroy(gameObject);
+    }
+
+    private void AttackerPosition(ChessBase attacker)
+    {
+        int x = selectPiece.GetXBoard();
+        int y = selectPiece.GetYBoard();
+
+        if (posX == x)
+        {
+            if (posY < y)
+            {
+                ChessManager.Inst.MoveChessPiece(attacker, x, y - 1);
+            }
+
+            else if (posY > y)
+            {
+                ChessManager.Inst.MoveChessPiece(attacker, x, y + 1);
+            }
+        }
+
+        else if (posY == y)
+        {
+            if (posX < x)
+            {
+                ChessManager.Inst.MoveChessPiece(attacker, x - 1, y);
+            }
+
+            else if (posX > x)
+            {
+                ChessManager.Inst.MoveChessPiece(attacker, x + 1, y);
+            }
+        }
+
+        else if (Mathf.Abs(posX - x) == Mathf.Abs(posY - y))
+        {
+            if (posX > x && posY > y)
+            {
+                ChessManager.Inst.MoveChessPiece(attacker, x + 1, y + 1);
+            }
+
+            else if (posX > x && posY < y)
+            {
+                ChessManager.Inst.MoveChessPiece(attacker, x + 1, y - 1);
+            }
+
+            else if (posX < x && posY < y)
+            {
+                ChessManager.Inst.MoveChessPiece(attacker, x - 1, y - 1);
+            }
+
+            else if (posX < x && posY > y)
+            {
+                ChessManager.Inst.MoveChessPiece(attacker, x - 1, y + 1);
+            }
+        }
+
+        else
+        {
+            ChessManager.Inst.MoveChessPiece(attacker, posX, posY);
+        }
     }
 }

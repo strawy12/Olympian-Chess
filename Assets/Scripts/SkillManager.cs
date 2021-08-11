@@ -201,7 +201,6 @@ public class SkillManager : MonoBehaviour
         sb.SetPosX(mp.GetPosX());
         sb.SetPosY(mp.GetPosY());
         sb.StandardSkill();
-        sb.SetMovePlate(mp);
 
         CardManager.Inst.SetSelectCard(null);
     }

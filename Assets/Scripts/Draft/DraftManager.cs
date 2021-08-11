@@ -53,7 +53,6 @@ public class DraftManager : MonoBehaviour
     [SerializeField] GameObject timeBarobj;
 
     private int setTime = 15;
-    private float countTime = 0f;
     int rand;
 
     public List<Carditem> myCardBuffer;

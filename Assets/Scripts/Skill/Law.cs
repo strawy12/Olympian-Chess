@@ -19,6 +19,14 @@ public class Law : SkillBase
 
     public override void ResetSkill()
     {
+        if(selectPiece == null)
+        {
+            GameManager.Inst.isBacchrs = false;
+            SkillManager.Inst.RemoveSkillList(this);
+            Destroy(gameObject);
+            return;
+        }
+
         if (turn <= turnCnt)
         {
             selectPiece.spriteRenderer.material.SetColor("_Color", new Color32(0, 0, 0, 0));
@@ -36,7 +44,7 @@ public class Law : SkillBase
     private void Law_UsingSkill()
     {
         selectPiece.SetNoneAttack(true);
-        turn = turnCnt + 2;
+        turn = turnCnt + 1;
         selectPiece.spriteRenderer.material.SetColor("_Color", new Color32(0, 0, 0, 144));
         posX = selectPiece.GetXBoard();
         posY = selectPiece.GetYBoard();
