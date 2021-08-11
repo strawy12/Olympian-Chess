@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class ChessManager : MonoBehaviour
 {
+
     #region SingleTon
 
     private static ChessManager inst;
@@ -30,44 +32,48 @@ public class ChessManager : MonoBehaviour
 
     #endregion
 
+    #region 변수
     int matrixX, matrixY;
 
-    public GameObject white_Bishop, white_King, white_Knight, white_Pawn, white_Queen, white_Rook;
-    public GameObject black_Bishop, black_King, black_Knight, black_Pawn, black_Queen, black_Rook;
+    int pawn = 0, bishop = 1, knight = 2, rook = 3, queen = 4, king = 5;
+
+    [SerializeField] private GameObject[] white; // { white_Pawn, white_Bishop, white_Knight, white_Rook, white_Queen  ,white_King }
+    [SerializeField] private GameObject[] black; // black_Bishop, black_King, black_Knight, black_Pawn, black_Queen, black_Rook;
 
     [SerializeField] private ChessBase[,] position = new ChessBase[8, 8];
 
     [SerializeField] private ChessBase[] playerBlack = new ChessBase[16];
     [SerializeField] private ChessBase[] playerWhite = new ChessBase[16];
 
-    [SerializeField] private GameObject cccccp;
+    [SerializeField] private GameObject cccccp; 
+    #endregion
 
-    [SerializeField] private GameObject movePlate;
     void Start()
     {
         SettingGame();
     }
 
+    #region Create ChessPiece
     private void SettingGame()
     {
         playerWhite = new ChessBase[]
        {
-           Creat(white_Pawn, 1,1), Creat(white_Pawn, 2,1), Creat(white_Pawn, 3,1),
-           Creat(white_Pawn, 4,1), Creat(white_Pawn, 5,1), Creat(white_Pawn, 6,1),
-           Creat(white_Pawn, 7,1), Creat(white_Pawn, 0,1), Creat(white_Rook, 0,0),
-           Creat(white_Knight, 1,0), Creat(white_Bishop, 2,0), Creat(white_Queen, 3,0),
-           Creat(white_King, 4,0), Creat(white_Bishop, 5,0), Creat(white_Knight, 6,0),
-           Creat(white_Rook, 7,0)
+           Creat(white[pawn], 1,1), Creat(white[pawn], 2,1), Creat(white[pawn], 3,1),
+           Creat(white[pawn], 4,1), Creat(white[pawn], 5,1), Creat(white[pawn], 6,1),
+           Creat(white[pawn], 7,1), Creat(white[pawn], 0,1), Creat(white[rook], 0,0),
+           Creat(white[knight], 1,0), Creat(white[bishop], 2,0), Creat(white[queen], 3,0),
+           Creat(white[king], 4,0), Creat(white[bishop], 5,0), Creat(white[knight], 6,0),
+           Creat(white[rook], 7,0)
        };
 
         playerBlack = new ChessBase[]
         {
-           Creat(black_Pawn, 0,6), Creat(black_Pawn, 1,6), Creat(black_Pawn, 2,6),
-           Creat(black_Pawn, 3,6), Creat(black_Pawn, 4,6), Creat(black_Pawn, 5,6),
-           Creat(black_Pawn, 6,6), Creat(black_Pawn, 7,6), Creat(black_Rook, 0,7),
-           Creat(black_Knight, 1,7), Creat(black_Bishop, 2,7), Creat(black_Queen, 3,7),
-           Creat(black_King, 4,7), Creat(black_Bishop, 5,7),
-           Creat(black_Rook, 7,7), Creat(black_Knight, 6,7)
+           Creat(black[pawn], 0,6), Creat(black[pawn], 1,6), Creat(black[pawn], 2,6),
+           Creat(black[pawn], 3,6), Creat(black[pawn], 4,6), Creat(black[pawn], 5,6),
+           Creat(black[pawn], 6,6), Creat(black[pawn], 7,6), Creat(black[rook], 0,7),
+           Creat(black[knight], 1,7), Creat(black[bishop], 2,7), Creat(black[queen], 3,7),
+           Creat(black[king], 4,7), Creat(black[bishop], 5,7), Creat(black[rook], 7,7),
+           Creat(black[knight], 6,7)
         };
 
         for (int i = 0; i < playerBlack.Length; i++)
@@ -89,6 +95,40 @@ public class ChessManager : MonoBehaviour
 
         return cb;
     }
+    #endregion
+
+    #region Moving Fuction
+    public void PointMovePlate(int x, int y, ChessBase cp)
+    {
+
+        if (PositionOnBoard(x, y))
+        {
+            ChessBase cb = GetPosition(x, y);
+
+            if (cb == null)
+            {
+                GameManager.Inst.MovePlateSpawn(x, y, cp);
+            }
+
+            else if (cb.player != cp.player)
+            {
+                GameManager.Inst.MovePlateAttackSpawn(x, y, cp);
+            }
+
+        }
+    }
+    public void FalseIsMoving()
+    {
+        for (int i = 0; i < playerWhite.Length; i++)
+        {
+            if (playerWhite[i] == null)
+                continue;
+            playerWhite[i].isMoving = false;
+            if (playerBlack[i] == null)
+                continue;
+            playerBlack[i].isMoving = false;
+        }
+    }
 
     public void SetCoords(GameObject obj, int xBoard, int yBoard)
     {
@@ -105,14 +145,13 @@ public class ChessManager : MonoBehaviour
         // Aligns according the board
         obj.transform.position = new Vector3(x, y, -1.0f);
     }
-
-    public GameObject MovePlateSpawn(ChessBase cp, int matrixX, int matrixY)
+    public IEnumerator SetCoordsAnimation(ChessBase cp)
     {
-        //if (CheckReturnMovePlate(matrixX, matrixY, "서풍"))
-        //    return;
 
-        float x = matrixX;
-        float y = matrixY;
+        Vector3 startPos = cp.transform.position;
+
+        float x = cp.GetXBoard();
+        float y = cp.GetYBoard();
 
         x *= 0.684f;
         y *= 0.684f;
@@ -120,42 +159,23 @@ public class ChessManager : MonoBehaviour
         x += -2.4f;
         y += -2.4f;
 
-        GameObject mp = Instantiate(movePlate, new Vector3(x, y, -3.0f), Quaternion.identity);
-        MovePlate mpScript = mp.GetComponent<MovePlate>();
-        mpScript.Setreference(cp);
-        mpScript.SetCoords(matrixX, matrixY);
-        return mp;
-    }
+        // end position
+        Vector3 endPos = new Vector3(x, y, -1.0f);
+        // calculate distance for move speed
+        float distance = (endPos - startPos).magnitude;
 
-    public void MovePlateAttackSpawn(ChessBase cp, int matrixX, int matrixY)
-    {
-        float x = matrixX;
-        float y = matrixY;
+        float t = 0f;
 
-        x *= 0.684f;
-        y *= 0.684f;
-
-        x += -2.4f;
-        y += -2.4f;
-
-        GameObject mp = Instantiate(movePlate, new Vector3(x, y, -3.0f), Quaternion.identity);
-
-        MovePlate mpScript = mp.GetComponent<MovePlate>();
-        mpScript.attack = true;
-        mpScript.Setreference(cp);
-        mpScript.SetCoords(matrixX, matrixY);
-
-    }
-    public void DestroyMovePlates()
-    {
-        GameObject[] movePlates = GameObject.FindGameObjectsWithTag("MovePlate");
-
-        for (int i = 0; i < movePlates.Length; i++) //무브플레이트 모두 살피고 제거
+        while (t < 1f)
         {
-            Destroy(movePlates[i]);
+            t += Time.deltaTime / distance * 10f;
+            cp.transform.position = Vector3.Lerp(startPos, endPos, t);
+            yield return null;
         }
-    }
+    } 
+    #endregion
 
+    #region Arr(Update,Add,Check)
     public void UpdateArr(ChessBase chessPiece)
     {
         for (int i = 0; i < playerWhite.Length; i++)
@@ -171,6 +191,57 @@ public class ChessManager : MonoBehaviour
                 playerBlack[i] = null;
         }
     }
+
+    public void AddArr(ChessBase chessPiece)
+    {
+        if (chessPiece.player == "white")
+        {
+            for (int i = 0; i < playerWhite.Length; i++)
+            {
+                if (playerWhite[i] == null)
+                    playerWhite[i] = chessPiece;
+            }
+        }
+        else
+        {
+            for (int i = 0; i < playerBlack.Length; i++)
+            {
+                if (playerBlack[i] == null)
+                    playerBlack[i] = chessPiece;
+            }
+        }
+
+        //RotationBoard.playerWhite = playerWhite;
+        //RotationBoard.playerBlack = playerBlack;
+    }
+    public bool CheckArr(bool isPlayer, string name)
+    {
+        if (isPlayer)
+        {
+            for (int i = 0; i < playerWhite.Length; i++)
+            {
+                if (playerWhite[i] == null)
+                    continue;
+                if (playerWhite[i].gameObject.name == name)
+                    return true;
+
+            }
+            return false;
+        }
+        else
+        {
+            for (int i = 0; i < playerBlack.Length; i++)
+            {
+                if (playerBlack[i] == null)
+                    continue;
+                if (playerBlack[i].gameObject.name == name)
+                    return true;
+            }
+            return false;
+        }
+
+    } 
+    #endregion
 
     #region Position
     public void SetPositionEmpty(int x, int y)
@@ -201,12 +272,31 @@ public class ChessManager : MonoBehaviour
     }
     #endregion
 
-    public void AttackChessPiece(int matrixX, int matrixY)
+    #region ChessPiece
+    public void AttackChessPiece(MovePlate mp)
     {
-        ChessBase cp = GetPosition(matrixX, matrixY);
+        ChessBase cp = GetPosition(mp.GetPosX(), mp.GetPosY());
+
+        if (cp.GetAttackSelecting())
+        {
+            SkillManager.Inst.AttackUsingSkill(mp);
+        }
+
+        if (GameManager.Inst.GetIsStop())
+        {
+            return;
+        }
+
         SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
         UpdateArr(cp);
         Destroy(cp.gameObject);
+
+        if (mp.Getreference().isAttacking)
+        {
+            GameManager.Inst.RemoveAttackings(mp.Getreference());
+        }
+
+        GameManager.Inst.AddAttackings(mp.Getreference());
     }
 
     public void MoveChessPiece(ChessBase cp, int matrixX, int matrixY)
@@ -216,38 +306,34 @@ public class ChessManager : MonoBehaviour
         cp.SetYBoard(matrixY);
         cp.PlusMoveCnt();
         SetPosition(cp);
+        cp.isMoving = true;
         StartCoroutine(SetCoordsAnimation(cp));
         TurnManager.Instance.ButtonColor();
-        DestroyMovePlates();
+        GameManager.Inst.DestroyMovePlates();
     }
-    public IEnumerator SetCoordsAnimation(ChessBase cp)
+    #endregion
+
+    
+
+    #region GetValues
+    public ChessBase[] GetPlayerBlack()
     {
-        
-        // start position if (this == null) gameObject.SetActive(false);
-        Vector3 startPos = cp.transform.position;
-
-        float x = cp.GetXBoard();
-        float y = cp.GetYBoard();
-
-        x *= 0.684f;
-        y *= 0.684f;
-
-        x += -2.4f;
-        y += -2.4f;
-
-        // end position
-        Vector3 endPos = new Vector3(x, y, -1.0f);
-        // calculate distance for move speed
-        float distance = (endPos - startPos).magnitude;
-
-        float t = 0f;
-
-        while (t < 1f)
-        {
-            t += Time.deltaTime / distance * 10f;
-            cp.transform.position = Vector3.Lerp(startPos, endPos, t);
-            yield return null;
-        }
-
+        return playerBlack;
     }
+
+    public ChessBase[] GetPlayerWhite()
+    {
+        return playerWhite;
+    }
+
+    public GameObject[] GetWhiteObject()
+    {
+        return white;
+    }
+
+    public GameObject[] GetBlackObject()
+    {
+        return black;
+    } 
+    #endregion
 }

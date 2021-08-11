@@ -166,10 +166,19 @@ public class TurnManager : MonoBehaviour
     public void ButtonColor()
     {
         if (myTurn)
+        {
+            Debug.Log("qweqeqwe");
+            ParticleManager.Instance.AddParticle(ParticleManager.ParticleType.button, new Vector3(-2.45f,-3.15f,-1f));
             buttonWhite.image.sprite = buttonActive;
+        }
 
         else if(!myTurn)
+        {
+            Debug.Log("qqqqqqqqqqqqweqeqwe");
+
+            ParticleManager.Instance.AddParticle(ParticleManager.ParticleType.button, new Vector3(-2.45f, -3.15f, -1f));
             buttonBlack.image.sprite = buttonActive;
+        }
 
         isActive = true;
     }
