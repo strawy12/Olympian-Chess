@@ -129,6 +129,7 @@ public class SkillManager : MonoBehaviour
             if (CardManager.Inst.GetSelectCard().name == names[i])
             {
                 SkillBase sb = GetSkillList(names[i])[0];
+                if (sb == null) return;
                 skillList.Remove(sb);
                 Destroy(sb.gameObject);
                 GameManager.Inst.SetUsingSkill(false);
@@ -189,6 +190,12 @@ public class SkillManager : MonoBehaviour
             Debug.Log(_skillList[i].name);
             _skillList[i].SetPosX(mp.Getreference().GetXBoard());
             _skillList[i].SetPosY(mp.Getreference().GetYBoard());
+
+            if(_skillList[i].name == "에로스의 사랑")
+            {
+                _skillList[i].SetPosX(mp.GetChessPiece().GetXBoard());
+                _skillList[i].SetPosY(mp.GetChessPiece().GetYBoard());
+            }
             _skillList[i].StandardSkill();
         }
     }

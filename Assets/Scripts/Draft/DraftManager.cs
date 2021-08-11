@@ -764,8 +764,6 @@ public class DraftManager : MonoBehaviour
 
     private IEnumerator CountTime()
     {
-        
-
         setTime = 30;
 
         while (setTime >= 0)

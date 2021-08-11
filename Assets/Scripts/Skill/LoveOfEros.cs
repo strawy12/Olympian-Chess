@@ -21,7 +21,6 @@ public class LoveOfEros : SkillBase
         {
             LOE_StandardSkill();
         }
-        
     }
 
     private void LOE_UsingSkill()
@@ -39,8 +38,13 @@ public class LoveOfEros : SkillBase
         isSetting = true;
         attacked = false;
         selectPieceTo = ChessManager.Inst.GetPosition(posX, posY);
+
         selectPieceTo.SetAttackSelecting(true);
+        selectPiece.SetAttackSelecting(true);
+
         selectPieceTo.AddChosenSkill(this);
+        selectPiece.AddChosenSkill(this);
+
         StartCoroutine(LOE_SkillEffect());
         GameManager.Inst.DestroyMovePlates();
         GameManager.Inst.SetUsingSkill(false);
@@ -56,19 +60,38 @@ public class LoveOfEros : SkillBase
     {
         while (!attacked)
         {
-            if (selectPieceTo == null) yield break;
+            if (selectPieceTo == null || selectPiece == null) yield break;
+
             selectPieceTo.spriteRenderer.material.color = new Color32(255, 0, 127, 0);
+            selectPiece.spriteRenderer.material.color = Color.clear;
             yield return new WaitForSeconds(0.5f);
             selectPieceTo.spriteRenderer.material.color = new Color32(0, 0, 0, 0);
+            selectPiece.spriteRenderer.material.color = new Color32(255, 0, 127, 0);
             yield return new WaitForSeconds(0.5f);
         }
-        selectPieceTo.spriteRenderer.material.color = new Color32(0, 0, 0, 0);
-        selectPieceTo.SetXBoard(selectPiece.GetXBoard());
-        selectPieceTo.SetYBoard(selectPiece.GetYBoard());
-        ChessManager.Inst.SetCoords(selectPiece.gameObject, selectPiece.GetYBoard(), selectPiece.GetXBoard());
-        ChessManager.Inst.SetPosition(selectPieceTo);
-        ChessManager.Inst.UpdateArr(selectPiece);
+
+        if(posX == selectPiece.GetXBoard() && posY == selectPiece.GetYBoard())
+        {
+            ChessManager.Inst.MoveChessPiece(selectPiece, selectPieceTo.GetXBoard(), selectPieceTo.GetYBoard());
+            ChessManager.Inst.SetPositionEmpty(selectPieceTo.GetXBoard(), selectPieceTo.GetYBoard());
+            ChessManager.Inst.UpdateArr(selectPieceTo);
+            Destroy(selectPieceTo.gameObject);
+            selectPiece.spriteRenderer.material.color = new Color32(0, 0, 0, 0);
+            selectPiece.RemoveChosenSkill(this);
+        }
+
+        else if (posX == selectPieceTo.GetXBoard() && posY == selectPieceTo.GetYBoard())
+        {
+            ChessManager.Inst.MoveChessPiece(selectPieceTo, selectPiece.GetXBoard(), selectPiece.GetYBoard());
+            ChessManager.Inst.SetPositionEmpty(selectPiece.GetXBoard(), selectPiece.GetYBoard());
+            ChessManager.Inst.UpdateArr(selectPiece);
+            Destroy(selectPiece.gameObject);
+            selectPieceTo.spriteRenderer.material.color = new Color32(0, 0, 0, 0);
+            selectPieceTo.RemoveChosenSkill(this);
+        }
+
         SkillManager.Inst.RemoveSkillList(this);
+
         if (selectPiece != null)
         {
             if(selectPieceTo != null)
@@ -77,7 +100,7 @@ public class LoveOfEros : SkillBase
             }
             selectPiece.RemoveChosenSkill(this);
         }
-        Destroy(selectPiece.gameObject);
+
         Destroy(gameObject);
     }
 }
