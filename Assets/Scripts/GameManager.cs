@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,6 +30,22 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    #region Scene
+    private const string LOGIN = "Login";
+    private const string LOBBY = "MatchLobby";
+    private const string READY = "LoadRoom";
+    private const string INGAME = "InGame";
+    #endregion
+
+    #region Action
+    public static event Action OnGameReady = delegate { };
+    public static event Action InGame = delegate { };
+    public static event Action AfterInGame = delegate { };
+    public static event Action OnGameOver = delegate { };
+    public static event Action OnGameResult = delegate { };
+    public static event Action OnGameReconnect = delegate { };
+    #endregion
+
     public GameObject chesspiece;
     [SerializeField] private GameObject chess = null;
     public PoolManager pool { get; private set; }
@@ -52,31 +69,40 @@ public class GameManager : MonoBehaviour
     private bool moving = true;
     private bool isStop = false;
 
-
     [Multiline(10)]
     [SerializeField] string cheatInfo;
     [SerializeField] private List<GameObject> movePlateList = new List<GameObject>();
 
+    private string asyncSceneName = string.Empty;
+
+    private IEnumerator InGameUpdateCoroutine;
+
+    public enum GameState { MatchLobby, Ready, Start, InGame, Over, Result, Reconnect };
+    private GameState gameState;
+
+
     WaitForSeconds delay2 = new WaitForSeconds(2);
     private void Awake()
     {
-        // remove another gamemanager object if it exists
-        var objs = FindObjectsOfType<GameManager>();
-        if (objs.Length != 1)
-        {
-            Destroy(gameObject);
-            return;
-        }
+        DontDestroyOnLoad(gameObject);
+
+        Application.targetFrameRate = 60;
+
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
+
+        InGameUpdateCoroutine = InGameUpdate();
+
+        
     }
     private void Start()
     {
         pool = FindObjectOfType<PoolManager>();
-        TurnManager.Instance.StartGame();
+        //TurnManager.Instance.StartGame();
         //SettingGame();
     }
     private void Update()
     {
-        InputCheatKey();
+        //InputCheatKey();
     }
     // Functions including cheatkey
     void InputCheatKey()
@@ -270,13 +296,12 @@ public class GameManager : MonoBehaviour
     public IEnumerator GameOver(bool isMyWin)
     {
         yield return delay2;
-
+        OnGameOver();
         TurnManager.Instance.isLoading = true;
         //endTurnButton.SetActive(false);
         //resultPanal.Show(isMyWin ? "승리" : "패배");
         //cameraEffect.SetGrayScale(true);
     }
-    #region
 
     public void SetIsStop(bool isStop)
     {
@@ -409,5 +434,156 @@ public class GameManager : MonoBehaviour
         chessBase.attackCount = 0;
     }
 
-    #endregion
+    private void MatchLobby(Action<bool> func)
+    {
+        if (func != null)
+        {
+            ChangeSceneAsync(LOBBY, func);
+        }
+        else
+        {
+            ChangeScene(LOBBY);
+        }
+    }
+
+    private void GameReady()
+    {
+        Debug.Log("게임 레디 상태 돌입");
+        ChangeScene(READY);
+        OnGameReady();
+    }
+
+    private void GameStart()
+    {
+        //delegate 초기화
+        InGame = delegate { };
+        AfterInGame = delegate { };
+        OnGameOver = delegate { };
+        OnGameResult = delegate { };
+
+        //OnGameStart();
+        // 게임씬이 로드되면 Start에서 OnGameStart 호출
+        ChangeScene(INGAME);
+    }
+
+    private void GameResult()
+    {
+        OnGameResult();
+    }
+
+    private void GameReconnect()
+    {
+        //delegate 초기화
+        InGame = delegate { };
+        AfterInGame = delegate { };
+        OnGameOver = delegate { };
+        OnGameResult = delegate { };
+
+        OnGameReconnect();
+        ChangeScene(INGAME);
+        ChangeState(GameManager.GameState.InGame);
+    }
+
+
+    public GameState GetGameState()
+    {
+        return gameState;
+    }
+
+    public void ChangeState(GameState state, Action<bool> func = null)
+    {
+        gameState = state;
+        switch (gameState)
+        {   
+            case GameState.MatchLobby:
+                MatchLobby(func);
+                break;
+            case GameState.Ready:
+                GameReady();
+                break;
+            case GameState.Start:
+                GameStart();
+                break;
+            case GameState.Over:
+                GameOver();
+                break;
+            case GameState.Result:
+                GameResult();
+                break;
+            case GameState.InGame:
+                // 코루틴 시작
+                StartCoroutine(InGameUpdateCoroutine);
+                break;
+            case GameState.Reconnect:
+                GameReconnect();
+                break;
+            default:
+                Debug.Log("알수없는 스테이트입니다. 확인해주세요.");
+                break;
+        }
+    }
+
+    public bool IsLobbyScene()
+    {
+        return SceneManager.GetActiveScene().name == LOBBY;
+    }
+
+    private void ChangeScene(string scene)
+    {
+        if (scene != LOGIN && scene != INGAME && scene != LOBBY && scene != READY)
+        {
+            Debug.Log("알수없는 씬 입니다.");
+            return;
+        }
+
+        SceneManager.LoadScene(scene);
+    }
+
+    private void ChangeSceneAsync(string scene, Action<bool> func)
+    {
+        asyncSceneName = string.Empty;
+        if (scene != LOGIN && scene != INGAME && scene != LOBBY && scene != READY)
+        {
+            Debug.Log("알수없는 씬 입니다.");
+            return;
+        }
+        asyncSceneName = scene;
+
+        StartCoroutine(LoadScene(func));
+    }
+    private IEnumerator LoadScene(Action<bool> func)
+    {
+        var asyncScene = SceneManager.LoadSceneAsync(asyncSceneName);
+        asyncScene.allowSceneActivation = true;
+
+        bool isCallFunc = false;
+        while (asyncScene.isDone == false)
+        {
+            if (asyncScene.progress <= 0.9f)
+            {
+                func(false);
+            }
+            else if (isCallFunc == false)
+            {
+                isCallFunc = true;
+                func(true);
+            }
+            yield return null;
+        }
+    }
+
+    IEnumerator InGameUpdate()
+    {
+        while (true)
+        {
+            if (gameState != GameState.InGame)
+            {
+                StopCoroutine(InGameUpdateCoroutine);
+                yield return null;
+            }
+            InGame();
+            AfterInGame();
+            yield return new WaitForSeconds(.1f); //1초 단위
+        }
+    }
 }
