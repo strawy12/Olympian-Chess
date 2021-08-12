@@ -172,10 +172,12 @@ public class TurnManager : MonoBehaviour
     // Change my button or someone else's button to the active button image depending on context
     public void ButtonColor()
     {
+        Vector3 P = new Vector3(-2.45f, -3.15f, 0f);
+
         if (myTurn)
         {
             Debug.Log("qweqeqwe");
-            ParticleManager.Instance.AddParticle(ParticleManager.ParticleType.button, new Vector3(-2.45f,-3.15f,-1f));
+            ParticleManager.Instance.AddParticle(ParticleManager.ParticleType.button, P);
             buttonWhite.image.sprite = buttonActive;
         }
 
@@ -183,7 +185,7 @@ public class TurnManager : MonoBehaviour
         {
             Debug.Log("qqqqqqqqqqqqweqeqwe");
 
-            ParticleManager.Instance.AddParticle(ParticleManager.ParticleType.button, new Vector3(-2.45f, -3.15f, -1f));
+            ParticleManager.Instance.AddParticle(ParticleManager.ParticleType.button, P);
             buttonBlack.image.sprite = buttonActive;
         }
 

@@ -40,7 +40,7 @@ public class ParticleManager : MonoBehaviour
             case ParticleType.button:
                 if(false==particleDic.ContainsKey(pt))
                 {
-                    particleDic[pt] = Resources.Load<GameObject>("P_button");
+                    particleDic[pt] = Resources.Load<GameObject>("Particle/P_button");
                 }
                 break;
         }
