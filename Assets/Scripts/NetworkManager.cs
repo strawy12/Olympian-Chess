@@ -5,12 +5,14 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
 
     [SerializeField] private Text statusText = null;
     [SerializeField] private Text playerText = null;
+    [SerializeField] private Text nicknameText = null;
     [SerializeField] private InputField roomInput, nicknameInput;
     [SerializeField] private GameObject nicknamePanal = null;
     [SerializeField] private GameObject friendlyMatchPanal = null;
@@ -18,7 +20,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     private string roomname;
     private string user_ID;
     private string nickname;
-    private string player = "white";
+    private string player;
 
 
     private static NetworkManager inst;
@@ -48,12 +50,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.SendRate = 60;
         PhotonNetwork.SerializationRate = 30;
+        DontDestroyOnLoad(gameObject);
     }
 
-    private void Start()
-    {
-        DontDestroyOnLoad(this);
-    }
 
     private void Update()
     {
@@ -90,10 +89,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void SetNickname()
     {
-        if (nicknameInput.text == null) return;
+        if (nicknameInput.text == "") return;
 
         nickname = nicknameInput.text;
         PhotonNetwork.LocalPlayer.NickName = nickname;
+        
         nicknamePanal.SetActive(false);
     }
 
@@ -163,8 +163,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                 photonView.RPC("Rename", RpcTarget.Others);
                 return;
             }
-            int i = Random.Range(0, 2);
-            photonView.RPC("SettingPlayer", RpcTarget.All, i);
+
+            int i;
+            i = Random.Range(0, 2); 
+            Debug.Log(i);
+            photonView.RPC("SetPlayer", RpcTarget.All, i);
+
         }
     }
 
@@ -186,6 +190,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         return player;
     }
+    public void Click()
+    {
+        SceneManager.LoadScene("Game");
+    }
 
     public bool CheckSameNickname()
     {
@@ -201,10 +209,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         return false;
     }
 
-    public void StartEndTurn()
-    {
-        photonView.RPC("EndTurn", RpcTarget.All);
-    }
+
 
     public GameObject SpawnChessPiece(GameObject chessPiece/*, string player*/)
     {
@@ -215,22 +220,24 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         return obj;
     }
 
-    [PunRPC]
-    
 
-    private void SettingPlayer(int i)
+    [PunRPC]
+    private void SetPlayer(int i)
     {
+        nicknameText.text = PhotonNetwork.PlayerList[0].NickName;
+
         if (PhotonNetwork.PlayerList[i].NickName == nickname)
         {
             player = "white";
         }
-        else if (PhotonNetwork.PlayerList[i].NickName != nickname)
+        else
         {
             player = "black";
         }
         playerText.text = player;
         SceneManager.LoadScene("Game");
     }
+
     [PunRPC]
     private void Rename()
     {
@@ -239,11 +246,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         nicknamePanal.SetActive(true);
     }
 
-    [PunRPC]
-    private void EndTurn()
-    {
-        TurnManager.Instance.EndTurn();
-    }
+
 }
     
 

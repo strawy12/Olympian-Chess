@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 2484191845472093514}
   - component: {fileID: -4722776812497538056}
   - component: {fileID: 3743070300535461238}
+  - component: {fileID: 6821989263578404756}
+  - component: {fileID: 4136471076908658239}
   m_Layer: 0
   m_Name: Card
   m_TagString: Card
@@ -154,8 +156,10 @@ MonoBehaviour:
   cardPrame: {fileID: 1306375242828518994}
   carditem:
     name: 
-    sprite: {fileID: 0}
+    className: 
     god: 
+    sprite: {fileID: 0}
+    color: {r: 0, g: 0, b: 0, a: 0}
     info: 
   isSelected: 0
 --- !u!114 &3743070300535461238
@@ -180,12 +184,54 @@ MonoBehaviour:
   cardPrame: {fileID: 1306375242828518994}
   card: {fileID: 5359609414508250856}
   isFront: 0
+  isSelected: 0
   carditem:
     name: 
-    sprite: {fileID: 0}
+    className: 
     god: 
+    sprite: {fileID: 0}
+    color: {r: 0, g: 0, b: 0, a: 0}
     info: 
-  isSelected: 0
+--- !u!114 &6821989263578404756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 533931229646251596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 0
+  ObservedComponents:
+  - {fileID: 4136471076908658239}
+  - {fileID: 0}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &4136471076908658239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 533931229646251596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!1 &1038366284917602505
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.UI;
+using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 {
     //GameManager Singleton
     private static GameManager inst;
@@ -57,6 +59,8 @@ public class GameManager : MonoBehaviour
     [Multiline(10)]
     [SerializeField] string cheatInfo;
     [SerializeField] private List<GameObject> movePlateList = new List<GameObject>();
+    [SerializeField] private Text currentPlayerText;
+    [SerializeField] private Text networkPlayerText;
 
     WaitForSeconds delay2 = new WaitForSeconds(2);
     private void Awake()
@@ -68,6 +72,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+        DontDestroyOnLoad(gameObject);
     }
     private void Start()
     {
@@ -78,6 +83,8 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         InputCheatKey();
+        currentPlayerText.text = currentPlayer;
+        
     }
     // Functions including cheatkey
     void InputCheatKey()
@@ -288,10 +295,7 @@ public class GameManager : MonoBehaviour
         }
         return false;
     }
-    public void StartEndTurn()
-    {
-        NetworkManager.Inst.StartEndTurn();
-    }
+
 
     public void SetIsStop(bool isStop)
     {
@@ -422,6 +426,17 @@ public class GameManager : MonoBehaviour
     {
         attackings.Remove(chessBase);
         chessBase.attackCount = 0;
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting) stream.SendNext(currentPlayer);
+        else currentPlayer = (string)stream.ReceiveNext();
+    }
+
+    public void StartEndTurn()
+    {
+        TurnManager.Instance.EndTurn();
     }
 
     #endregion
