@@ -69,7 +69,7 @@ public class ChessManager : MonoBehaviour
            Creat(black[pawn], 3,6), Creat(black[pawn], 4,6), Creat(black[pawn], 5,6),
            Creat(black[pawn], 6,6), Creat(black[pawn], 7,6), Creat(black[rook], 0,7),
            Creat(black[knight], 1,7), Creat(black[bishop], 2,7), Creat(black[queen], 3,7),
-           Creat(black[king], 4,7), Creat(black[bishop], 5,7), Creat(black[rook], 7,7), 
+           Creat(black[king], 4,7), Creat(black[bishop], 5,7), Creat(black[rook], 7,7),
            Creat(black[knight], 6,7)
         };
 
@@ -111,7 +111,6 @@ public class ChessManager : MonoBehaviour
     }
     public void PointMovePlate(int x, int y, ChessBase cp)
     {
-
         if (PositionOnBoard(x, y))
         {
             ChessBase cb = GetPosition(x, y);
@@ -141,19 +140,6 @@ public class ChessManager : MonoBehaviour
         }
     }
 
-    public void FalsIsMoving()
-    {
-        for (int i = 0; i < playerWhite.Length; i++)
-        {
-            if (playerWhite[i] == null)
-                continue;
-            playerWhite[i].isMoving = false;
-            if (playerBlack[i] == null)
-                continue;
-            playerBlack[i].isMoving = false;
-        }
-    }
-
     public void UpdateArr(ChessBase chessPiece)
     {
         for (int i = 0; i < playerWhite.Length; i++)
@@ -162,6 +148,7 @@ public class ChessManager : MonoBehaviour
             if (playerWhite[i] == chessPiece)
                 playerWhite[i] = null;
         }
+
         for (int i = 0; i < playerBlack.Length; i++)
         {
             if (playerBlack[i] == null) continue;
@@ -202,7 +189,6 @@ public class ChessManager : MonoBehaviour
                     continue;
                 if (playerWhite[i].gameObject.name == name)
                     return true;
-
             }
             return false;
         }
@@ -217,7 +203,6 @@ public class ChessManager : MonoBehaviour
             }
             return false;
         }
-
     }
 
     #region Position

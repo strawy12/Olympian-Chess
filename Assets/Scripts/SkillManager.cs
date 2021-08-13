@@ -130,9 +130,11 @@ public class SkillManager : MonoBehaviour
             {
                 SkillBase sb = GetSkillList(names[i])[0];
                 if (sb == null) return;
+                if (sb.selectPiece == null) return;
+
                 skillList.Remove(sb);
-                Destroy(sb.gameObject);
                 sb.selectPiece.RemoveChosenSkill(sb);
+                Destroy(sb.gameObject);
                 GameManager.Inst.SetUsingSkill(false);
                 GameManager.Inst.SetMoving(true);
             }
@@ -319,6 +321,10 @@ public class SkillManager : MonoBehaviour
 
             case "후진":
                 obj.AddComponent<Back>();
+                break;
+
+            case "부활":
+                obj.AddComponent<Resurrection>();
                 break;
         }
         return obj;
