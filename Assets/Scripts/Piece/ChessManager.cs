@@ -265,6 +265,7 @@ public class ChessManager : MonoBehaviour
 
         SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
         UpdateArr(cp);
+        GameManager.Inst.RemoveAttackings(cp);
         Destroy(cp.gameObject);
 
         if (mp.Getreference().isAttacking)

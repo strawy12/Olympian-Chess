@@ -379,7 +379,6 @@ public class GameManager : MonoBehaviour
             if (attackings[i] == null)
             {
                 attackings.RemoveAt(i);
-                continue;
             }
 
             else
@@ -388,7 +387,7 @@ public class GameManager : MonoBehaviour
 
                 if (attackings[i].attackCount > 2)
                 {
-                    attackings.RemoveAt(i);
+                    RemoveAttackings(attackings[i]);
                 }
             }
         }
@@ -398,16 +397,22 @@ public class GameManager : MonoBehaviour
     {
         return attackings;
     }
-    public void AddAttackings(ChessBase chessBase)
+    public void AddAttackings(ChessBase cp)
     {
-        attackings.Add(chessBase);
-        chessBase.isAttacking = true;
+        attackings.Add(cp);
+        cp.isAttacking = true;
     }
-    public void RemoveAttackings(ChessBase chessBase)
+    public void RemoveAttackings(ChessBase cp)
     {
-        attackings.Remove(chessBase);
-        chessBase.attackCount = 0;
-    }
+        if(attackings.Contains(cp))
+        {
+            attackings.Remove(cp);
 
+            if(cp != null)
+            {
+                cp.attackCount = 0;
+            }
+        }
+    }
     #endregion
 }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CardItemSO
   m_EditorClassIdentifier: 
   cardItems:
-  - name: "\uC5D0\uB85C\uC2A4\uC758 \uC0AC\uB791"
+  - name: "\uD6C4\uC9C4"
     className: HeavenlyPunishment
     god: "\uC81C\uC6B0\uC2A4"
     sprite: {fileID: -533655650184955271, guid: 4454062fe2a78614587b7e6f430aaafe,
@@ -188,3 +188,47 @@ MonoBehaviour:
     color: {r: 0.16862746, g: 0.25882354, b: 0.2784314, a: 1}
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC0C1\uB300  \uC9C0\uC18D\uC2DC\uAC04: 2\uD134\n\uACFC\uAC70\uB85C
       \uAC00\uC11C \uCE74\uB4DC\uB97C \uB4E4\uACE0 \uC635\uB2C8\uB2E4."
+  - name: "\uD154\uB808\uD30C\uC2DC"
+    className: Telepathy
+    god: "\uD06C\uB85C\uB178\uC2A4"
+    sprite: {fileID: -7837417378511994517, guid: 4454062fe2a78614587b7e6f430aaafe,
+      type: 3}
+    color: {r: 0.16862746, g: 0.25882354, b: 0.2784314, a: 1}
+    info: "\uB0B4 \uC544\uAD70\uC744 \uC801\uC774 \uB530\uB77C\uD558\uAC70\uB098
+      \uC801\uC744 \uC544\uAD70\uC774 \uB530\uB77C\uD569\uB2C8\uB2E4."
+  - name: "\uC720\uCCB4 \uC774\uD0C8"
+    className: OutOfBody
+    god: "\uD06C\uB85C\uB178\uC2A4"
+    sprite: {fileID: -7837417378511994517, guid: 4454062fe2a78614587b7e6f430aaafe,
+      type: 3}
+    color: {r: 0.16862746, g: 0.25882354, b: 0.2784314, a: 1}
+    info: "\uC0C1\uB300\uBC29\uC758 \uBAB8\uC73C\uB85C \uB4E4\uC5B4\uAC11\uB2C8\uB2E4."
+  - name: "\uD6C4\uC9C4"
+    className: Back
+    god: "\uD06C\uB85C\uB178\uC2A4"
+    sprite: {fileID: -7837417378511994517, guid: 4454062fe2a78614587b7e6f430aaafe,
+      type: 3}
+    color: {r: 0.16862746, g: 0.25882354, b: 0.2784314, a: 1}
+    info: "\uB4A4\uB85C \uD55C\uCE78 \uD6C4\uC9C4\uD569\uB2C8\uB2E4."
+  - name: "\uC8FC\uC0AC\uC704"
+    className: Dice
+    god: "\uD06C\uB85C\uB178\uC2A4"
+    sprite: {fileID: -7837417378511994517, guid: 4454062fe2a78614587b7e6f430aaafe,
+      type: 3}
+    color: {r: 0.16862746, g: 0.25882354, b: 0.2784314, a: 1}
+    info: "\uC0C1\uB300\uAC00 50%\uC758 \uD655\uB960\uB85C \uC9DD\uC218, 50%\uC758
+      \uD655\uB960\uB85C \uD640\uC218\uCE78\uB9CC \uC774\uB3D9 \uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
+  - name: "\uBD80\uD65C"
+    className: Resurrection
+    god: "\uD06C\uB85C\uB178\uC2A4"
+    sprite: {fileID: -7837417378511994517, guid: 4454062fe2a78614587b7e6f430aaafe,
+      type: 3}
+    color: {r: 0.16862746, g: 0.25882354, b: 0.2784314, a: 1}
+    info: "\uC8FD\uC740 \uD3F0\uC744 \uBD80\uD65C\uC2DC\uD0B5\uB2C8\uB2E4."
+  - name: "\uB9CC\uCDE8"
+    className: Drunkenness
+    god: "\uD06C\uB85C\uB178\uC2A4"
+    sprite: {fileID: -7837417378511994517, guid: 4454062fe2a78614587b7e6f430aaafe,
+      type: 3}
+    color: {r: 0.16862746, g: 0.25882354, b: 0.2784314, a: 1}
+    info: "\uC0C1\uB300\uBC29\uC744 \uCDE8\uD558\uAC8C \uB9CC\uB4ED\uB2C8\uB2E4."

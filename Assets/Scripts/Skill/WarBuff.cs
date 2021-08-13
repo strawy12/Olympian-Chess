@@ -62,7 +62,7 @@ public class WarBuff : SkillBase
 
     private IEnumerator WB_SkillEffect()
     {
-        for (int i = 0; i < 7; i++)
+        for (int i = 0; i < 3; i++)
         {
             selectPiece.spriteRenderer.material.SetColor("_Color", new Color(255, 0, 0, 0));
             yield return new WaitForSeconds(0.1f);

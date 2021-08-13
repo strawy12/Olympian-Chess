@@ -132,6 +132,7 @@ public class SkillManager : MonoBehaviour
                 if (sb == null) return;
                 skillList.Remove(sb);
                 Destroy(sb.gameObject);
+                sb.selectPiece.RemoveChosenSkill(sb);
                 GameManager.Inst.SetUsingSkill(false);
                 GameManager.Inst.SetMoving(true);
             }
@@ -314,6 +315,10 @@ public class SkillManager : MonoBehaviour
 
             case "´Þºû":
                 obj.AddComponent<MoonLight>();
+                break;
+
+            case "ÈÄÁø":
+                obj.AddComponent<Back>();
                 break;
         }
         return obj;

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class HeavenlyPunishment : SkillBase
 {
-
     private bool isBreak = false;
 
     public override void UsingSkill()
@@ -14,23 +13,34 @@ public class HeavenlyPunishment : SkillBase
 
     private void HP_UsingSkill()
     {
-        if (selectPiece.name == "black_king" || selectPiece.name == "white_king")
+        if (selectPiece.name.Contains("king"))
         {
             CardManager.Inst.SetisBreak(true);
+            RemoveSkill();
             return;
         }
 
         // if the opposing team has a rook or rooks,
         //Preventing Queen from being the target of HeavenlyPunishment
-        if (selectPiece.name == "black_queen" || selectPiece.name == "white_queen")
+        if (selectPiece.name.Contains("queen"))
         {
-            if (GameManager.Inst.CheckPlayer("white"))
+            if (GameManager.Inst.CheckPlayer("black"))
+            {
                 isBreak = ChessManager.Inst.CheckArr(false, "black_rook");
+            }
             else
+            {
                 isBreak = ChessManager.Inst.CheckArr(true, "white_rook");
+            }
 
+            Debug.Log(isBreak);
             CardManager.Inst.SetisBreak(isBreak);
-            return;
+
+            if(isBreak)
+            {
+                RemoveSkill();
+                return;
+            }
         }
         StartCoroutine(HP_SkillEffect());
         CardManager.Inst.SetisBreak(false);
@@ -50,14 +60,19 @@ public class HeavenlyPunishment : SkillBase
         }
         // When card time is over, selected pieces turn to original color
 
-        SkillManager.Inst.RemoveSkillList(this);
         SkillManager.Inst.RemoveDontClickPiece(selectPiece);
+        RemoveSkill();
+    }
 
+    private void RemoveSkill()
+    {
+        SkillManager.Inst.RemoveSkillList(this);
         if (selectPiece != null)
         {
             selectPiece.RemoveChosenSkill(this);
         }
 
-        Destroy(gameObject); 
+        Destroy(gameObject);
+
     }
 }

@@ -185,7 +185,7 @@ public class CardManager : MonoBehaviour
         }
         else
         {
-            if (CheckCardname("여행자,에로스의 사랑,질서,달빛,제물,아테나의 방패,돌진,길동무")) //Can not be used for other ChessPiece
+            if (CheckCardname("여행자,에로스의 사랑,질서,달빛,제물,아테나의 방패,돌진,길동무,후진")) //Can not be used for other ChessPiece
 
             {
                 isStop = true;
@@ -807,7 +807,7 @@ public class CardManager : MonoBehaviour
         if (eCardState != ECardState.CanMouseDrag || eCardState == ECardState.Nothing)
             return;
         EnlargeCard(false, card);
-        if (CheckCardname("죽음의 땅,시간왜곡,바카스") && !onMyCardArea)
+        if (CheckCardname("죽음의 땅,시간왜곡,바카스,정의구현") && !onMyCardArea)
         {
             isUsed = true;
         }
