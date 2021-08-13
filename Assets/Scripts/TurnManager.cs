@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using System;
 using Random = UnityEngine.Random;
 
+
 public class TurnManager : MonoBehaviour
 {
     #region SingleTon
@@ -207,6 +208,8 @@ public class TurnManager : MonoBehaviour
         }
     }
 
+
+
     // There are so many functions referenced elsewhere here that it is impossible to interpret
     public void EndTurn()
     {
@@ -237,7 +240,7 @@ public class TurnManager : MonoBehaviour
 
 
         StartCoroutine(StartTurnCo());
-        WinOrLose();
+        //WinOrLose();
     }
 
 }

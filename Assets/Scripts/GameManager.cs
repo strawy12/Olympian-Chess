@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -277,6 +278,20 @@ public class GameManager : MonoBehaviour
         //cameraEffect.SetGrayScale(true);
     }
     #region
+
+    public bool PlayerCheck(string player)
+    {
+        if(NetworkManager.Inst.GetPlayer() == currentPlayer)
+        {
+            if (NetworkManager.Inst.GetPlayer() == player)
+                return true;
+        }
+        return false;
+    }
+    public void StartEndTurn()
+    {
+        NetworkManager.Inst.StartEndTurn();
+    }
 
     public void SetIsStop(bool isStop)
     {

@@ -142,14 +142,8 @@ public class Wave : SkillBase
             ChessManager.Inst.SetCoords(cb.gameObject, cb.GetXBoard(), y);
             cb.PlusMoveCnt();
 
-<<<<<<< HEAD
-            cm.SetCoords();
-            cm.PlusMoveCnt();
-
-            return cm;
-=======
             return cb;
->>>>>>> main
+
         }
         else
         {

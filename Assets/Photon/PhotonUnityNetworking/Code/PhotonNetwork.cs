@@ -388,6 +388,7 @@ namespace Photon.Pun
         {
             get
             {
+
                 Room room = CurrentRoom;
                 if (room != null)
                 {

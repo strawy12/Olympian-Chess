@@ -14,6 +14,8 @@ public class Order : MonoBehaviour
         SetOrder(originOrder);
     }
 
+
+
     public void SetMostFrontOrder(bool isMostFront)
     {
         SetOrder(isMostFront ? 100 : originOrder);

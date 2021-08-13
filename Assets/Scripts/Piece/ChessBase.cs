@@ -61,7 +61,7 @@ public class ChessBase : MonoBehaviour
     {
         if (TurnManager.Instance.GetIsActive()) return;
         if (SkillManager.Inst.CheckDontClickPiece(this)) return;
-        if (!GameManager.Inst.IsGameOver() && GameManager.Inst.GetCurrentPlayer() == player)
+        if (!GameManager.Inst.IsGameOver() && GameManager.Inst.PlayerCheck(player))
         {
             SkillManager.Inst.CheckSkillCancel("¿¡·Î½ºÀÇ »ç¶û,¼ö¸é,Á×À½ÀÇ ¶¥,ÆÄµµ");
             GameManager.Inst.DestroyMovePlates();

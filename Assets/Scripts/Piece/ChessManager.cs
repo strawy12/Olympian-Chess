@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 
 public class ChessManager : MonoBehaviour
@@ -46,32 +47,27 @@ public class ChessManager : MonoBehaviour
 
     [SerializeField] private GameObject cccccp;
 
+    [SerializeField] private WaitForSeconds delay = new WaitForSeconds(0.5f);
+
     void Start()
     {
         SettingGame();
     }
 
+
+
     private void SettingGame()
     {
-        playerWhite = new ChessBase[]
-       {
-           Creat(white[pawn], 1,1), Creat(white[pawn], 2,1), Creat(white[pawn], 3,1),
-           Creat(white[pawn], 4,1), Creat(white[pawn], 5,1), Creat(white[pawn], 6,1),
-           Creat(white[pawn], 7,1), Creat(white[pawn], 0,1), Creat(white[rook], 0,0),
-           Creat(white[knight], 1,0), Creat(white[bishop], 2,0), Creat(white[queen], 3,0),
-           Creat(white[king], 4,0), Creat(white[bishop], 5,0), Creat(white[knight], 6,0),
-           Creat(white[rook], 7,0)
-       };
-
-        playerBlack = new ChessBase[]
+        if (NetworkManager.Inst.GetPlayer() == "white")
         {
-           Creat(black[pawn], 0,6), Creat(black[pawn], 1,6), Creat(black[pawn], 2,6),
-           Creat(black[pawn], 3,6), Creat(black[pawn], 4,6), Creat(black[pawn], 5,6),
-           Creat(black[pawn], 6,6), Creat(black[pawn], 7,6), Creat(black[rook], 0,7),
-           Creat(black[knight], 1,7), Creat(black[bishop], 2,7), Creat(black[queen], 3,7),
-           Creat(black[king], 4,7), Creat(black[bishop], 5,7), Creat(black[rook], 7,7), 
-           Creat(black[knight], 6,7)
-        };
+            StartCoroutine(SpawnWhiteChessPiece());
+            //SpawnWhiteChessPiece();
+        }
+        else
+        {
+            StartCoroutine(SpawnBlackChessPiece());
+            //SpawnBlackChessPiece();
+        }
 
         for (int i = 0; i < playerBlack.Length; i++)
         {
@@ -79,24 +75,158 @@ public class ChessManager : MonoBehaviour
             SetPosition(playerWhite[i]);
         }
     }
+
+    //private void SpawnWhiteChessPiece()
+    //{
+    //    playerWhite = new ChessBase[]
+    //    {
+    //       Creat(white[pawn], 1,1), Creat(white[pawn], 2,1), Creat(white[pawn], 3,1),
+    //       Creat(white[pawn], 4,1), Creat(white[pawn], 5,1), Creat(white[pawn], 6,1),
+    //       Creat(white[pawn], 7,1), Creat(white[pawn], 0,1), Creat(white[rook], 0,0),
+    //       Creat(white[knight], 1,0), Creat(white[bishop], 2,0), Creat(white[queen], 3,0),
+    //       Creat(white[king], 4,0), Creat(white[bishop], 5,0), Creat(white[knight], 6,0),
+    //       Creat(white[rook], 7,0)
+    //    };
+
+    //}
+    //private void SpawnBlackChessPiece()
+    //{
+    //    playerBlack = new ChessBase[]
+    //    {
+    //       Creat(black[pawn], 0,6), Creat(black[pawn], 1,6), Creat(black[pawn], 2,6),
+    //       Creat(black[pawn], 3,6), Creat(black[pawn], 4,6), Creat(black[pawn], 5,6),
+    //       Creat(black[pawn], 6,6), Creat(black[pawn], 7,6), Creat(black[rook], 0,7),
+    //       Creat(black[knight], 1,7), Creat(black[bishop], 2,7), Creat(black[queen], 3,7),
+    //       Creat(black[king], 4,7), Creat(black[bishop], 5,7), Creat(black[rook], 7,7),
+    //       Creat(black[knight], 6,7)
+    //    };
+    //}
+
+
+    private IEnumerator SpawnWhiteChessPiece()
+    {
+        ChessBase cb;
+        int i = 0;
+        //cb = Creat(white[pawn], 1, 1);
+        //playerWhite.SetValue(cb, i++);
+        //yield return delay;
+        //cb = Creat(white[pawn], 2, 1);
+        //playerWhite.SetValue(cb, i++);
+        //yield return delay;
+        //cb = Creat(white[pawn], 3, 1);
+        //playerWhite.SetValue(cb, i++);
+        //yield return delay;
+        //cb = Creat(white[pawn], 4, 1);
+        //playerWhite.SetValue(cb, i++);
+        //yield return delay;
+        //cb = Creat(white[pawn], 5, 1);
+        //playerWhite.SetValue(cb, i++);
+        //yield return delay;
+        //cb = Creat(white[pawn], 6, 1);
+        //playerWhite.SetValue(cb, i++);
+        //yield return delay;
+        //cb = Creat(white[pawn], 7, 1);
+        //playerWhite.SetValue(cb, i++);
+        //yield return delay;
+        //cb = Creat(white[pawn], 0, 1);
+        //playerWhite.SetValue(cb, i++);
+        //yield return delay;
+        cb = Creat(white[rook], 0, 0);
+        playerWhite.SetValue(cb, i++);
+        yield return delay;
+        //cb = Creat(white[knight], 1, 0);
+        //playerWhite.SetValue(cb, i++);
+        //yield return delay;
+        //cb = Creat(white[bishop], 2, 0);
+        //playerWhite.SetValue(cb, i++);
+        //yield return delay;
+        cb = Creat(white[queen], 3, 0);
+        playerWhite.SetValue(cb, i++);
+        yield return delay;
+        cb = Creat(white[king], 4, 0);
+        playerWhite.SetValue(cb, i++);
+        yield return delay;
+        //cb = Creat(white[bishop], 5, 0);
+        //playerWhite.SetValue(cb, i++);
+        //yield return delay;
+        //cb = Creat(white[knight], 6, 0);
+        //playerWhite.SetValue(cb, i++);
+        //yield return delay;
+        cb = Creat(white[rook], 7, 0);
+        playerWhite.SetValue(cb, i++);
+    }
+
+    private IEnumerator SpawnBlackChessPiece()
+    {
+        ChessBase cb;
+        int i = 0;
+
+        //cb = Creat(black[pawn], 0, 6);
+        //playerBlack.SetValue(cb, i++);
+        //yield return delay;
+        //cb = Creat(black[pawn], 1, 6);
+        //playerBlack.SetValue(cb, i++);
+        //yield return delay;
+        //cb = Creat(black[pawn], 2, 6);
+        //playerBlack.SetValue(cb, i++);
+        //yield return delay;
+        //cb = Creat(black[pawn], 3, 6);
+        //playerBlack.SetValue(cb, i++);
+        //yield return delay;
+        //cb = Creat(black[pawn], 4, 6);
+        //playerBlack.SetValue(cb, i++);
+        //yield return delay;
+        //cb = Creat(black[pawn], 5, 6);
+        //playerBlack.SetValue(cb, i++);
+        //yield return delay;
+        //cb = Creat(black[pawn], 6, 6);
+        //playerBlack.SetValue(cb, i++);
+        //yield return delay;
+        //cb = Creat(black[pawn], 7, 6);
+        //playerBlack.SetValue(cb, i++);
+        //yield return delay;
+        cb = Creat(black[rook], 0, 7);
+        playerBlack.SetValue(cb, i++);
+        yield return delay;
+        //cb = Creat(black[knight], 1, 7);
+        //playerBlack.SetValue(cb, i++);
+        //yield return delay;
+        //cb = Creat(black[bishop], 2, 7);
+        //playerBlack.SetValue(cb, i++);
+        //yield return delay;
+        cb = Creat(black[queen], 3, 7);
+        playerBlack.SetValue(cb, i++);
+        yield return delay;
+        cb = Creat(black[king], 4, 7);
+        playerBlack.SetValue(cb, i++);
+        //yield return delay;
+        //cb = Creat(black[bishop], 5, 7);
+        //playerBlack.SetValue(cb, i++);
+        yield return delay;
+        cb = Creat(black[rook], 7, 7);
+        playerBlack.SetValue(cb, i++);
+        //yield return delay;
+        //cb = Creat(black[knight], 6, 7);
+        //playerBlack.SetValue(cb, i++);
+    }
+
     public ChessBase Creat(GameObject chessPiece, int x, int y)
     {
-        GameObject obj = Instantiate(chessPiece, new Vector3(0, 0, -1), Quaternion.identity);
-        obj.name = chessPiece.name;
+        GameObject obj = NetworkManager.Inst.SpawnChessPiece(chessPiece);
+        ChessBase cb = obj.GetComponent<ChessBase>();
 
         obj.transform.SetParent(cccccp.transform);
 
-        ChessBase cb = obj.GetComponent<ChessBase>();
-
         cb.SetXBoard(x);
         cb.SetYBoard(y);
-        SetCoords(obj, x, y);
+        SetCoords(cb.gameObject, x, y);
 
         return cb;
     }
 
     public void SetCoords(GameObject obj, int xBoard, int yBoard)
     {
+        Debug.Log(obj.name);
         float x = xBoard;
         float y = yBoard;
 

@@ -8,12 +8,15 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Robi.unity
     guid: e0462f0e1fbe94b4c93b73c57baafcd5
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Draft.unity
     guid: 5dc0c488ad066ef438f785d448ae2f3b
+  - enabled: 1
+    path: Assets/Scenes/OnlineServerTest.unity
+    guid: 4cf0ac201c10fa343991fa6c2d27e1a2
   - enabled: 1
     path: Assets/Scenes/Game.unity
     guid: 160ded1a43afeb4459be450fa4bf2c49
