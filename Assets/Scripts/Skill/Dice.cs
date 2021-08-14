@@ -2,38 +2,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bacchrs : SkillBase
+public class Dice : SkillBase
 {
-    ChessBase[] white;
-    ChessBase[] black;
-
+    int random;
     public override void UsingSkill()
     {
-        GameManager.Inst.isBacchrs = true;
-        ChosenSkill(true);
-    }
-
-    public override void ResetSkill()
-    {
-        if (turnCnt > 1)
-        {
-            SkillManager.Inst.RemoveSkillList(this);
-            ChosenSkill(false);
-            Destroy(gameObject);
-        }
+        random = Random.Range(0, 2);
     }
 
     public override void StandardSkill()
     {
-        InitiateMovePlates_Bacchrs();
+        if(random == 0)
+        {
+
+        }
+        InitiateMovePlates_Dice();
     }
 
-    public void InitiateMovePlates_Bacchrs()
+    public void InitiateMovePlates_Dice()
     {
+        posX = selectPiece.GetXBoard();
+        posY = selectPiece.GetYBoard();
+
+        if((posX + posY) % 2 == random)
+
         switch (selectPiece.name)
         {
             case "black_queen":
             case "white_queen":
+
+
             case "black_king":
             case "white_king":
                 SurroundMovePlate(selectPiece);
@@ -84,42 +82,9 @@ public class Bacchrs : SkillBase
 
     private void PointMovePlate(int x, int y, ChessBase cp)
     {
-        ChessManager.Inst.PointMovePlate(x, y, cp);
-    }
-
-    private void ChosenSkill(bool isAdd)
-    {
-        white = ChessManager.Inst.GetPlayerWhite();
-        black = ChessManager.Inst.GetPlayerBlack();
-
-        for (int i = 0; i < white.Length; i++)
+        if((x+y)% 2 == random)
         {
-            if (white[i] == null) continue;
-
-            if (isAdd)
-            {
-                white[i].AddChosenSkill(this);
-            }
-
-            if (!isAdd)
-            {
-                white[i].RemoveChosenSkill(this);
-            }
-        }
-
-        for (int i = 0; i < black.Length; i++)
-        {
-            if (black[i] == null) continue;
-
-            if(isAdd)
-            {
-                black[i].AddChosenSkill(this);
-            }
-
-            if (!isAdd)
-            {
-                black[i].RemoveChosenSkill(this);
-            }
+            ChessManager.Inst.PointMovePlate(x, y, cp);
         }
     }
 }

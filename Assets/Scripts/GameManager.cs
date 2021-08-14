@@ -191,10 +191,7 @@ public class GameManager : MonoBehaviour
         mpScript.Setreference(cp);
         mpScript.SetCoords(matrixX, matrixY);
         AddMovePlateList(mp);
-
-
     }
-
 
     // Function spawning move plates on each non-empty space
     // that exist parameter value(black or white) color
@@ -413,6 +410,10 @@ public class GameManager : MonoBehaviour
                 cp.attackCount = 0;
             }
         }
+    }
+    public List<GameObject> GetMovePlates()
+    {
+        return movePlateList;
     }
     #endregion
 }

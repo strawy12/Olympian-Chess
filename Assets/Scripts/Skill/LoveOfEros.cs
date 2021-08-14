@@ -72,8 +72,7 @@ public class LoveOfEros : SkillBase
 
         if(posX == selectPiece.GetXBoard() && posY == selectPiece.GetYBoard())
         {
-            ChessManager.Inst.MoveChessPiece(selectPiece, selectPieceTo.GetXBoard(), selectPieceTo.GetYBoard());
-            ChessManager.Inst.SetPositionEmpty(selectPieceTo.GetXBoard(), selectPieceTo.GetYBoard());
+            MoveChessPiece(selectPiece, selectPieceTo.GetXBoard(), selectPieceTo.GetYBoard());
             ChessManager.Inst.UpdateArr(selectPieceTo);
             Destroy(selectPieceTo.gameObject);
             selectPiece.spriteRenderer.material.color = new Color32(0, 0, 0, 0);
@@ -82,8 +81,7 @@ public class LoveOfEros : SkillBase
 
         else if (posX == selectPieceTo.GetXBoard() && posY == selectPieceTo.GetYBoard())
         {
-            ChessManager.Inst.MoveChessPiece(selectPieceTo, selectPiece.GetXBoard(), selectPiece.GetYBoard());
-            ChessManager.Inst.SetPositionEmpty(selectPiece.GetXBoard(), selectPiece.GetYBoard());
+            MoveChessPiece(selectPieceTo, selectPiece.GetXBoard(), selectPiece.GetYBoard());
             ChessManager.Inst.UpdateArr(selectPiece);
             Destroy(selectPiece.gameObject);
             selectPieceTo.spriteRenderer.material.color = new Color32(0, 0, 0, 0);
@@ -102,5 +100,16 @@ public class LoveOfEros : SkillBase
         }
 
         Destroy(gameObject);
+    }
+
+    private void MoveChessPiece(ChessBase cp, int matrixX, int matrixY)
+    {
+        ChessManager.Inst.SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
+        cp.SetXBoard(matrixX);
+        cp.SetYBoard(matrixY);
+        cp.PlusMoveCnt();
+        ChessManager.Inst.SetPosition(cp);
+        StartCoroutine(ChessManager.Inst.SetCoordsAnimation(cp));
+        GameManager.Inst.DestroyMovePlates();
     }
 }

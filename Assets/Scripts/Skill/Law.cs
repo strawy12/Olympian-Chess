@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Law : SkillBase
 {
-
     private int turn;
     private int cnt = 0;
     public override void UsingSkill()

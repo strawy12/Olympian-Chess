@@ -27,7 +27,7 @@ public class Rush : SkillBase
 
             if (ChessManager.Inst.GetPosition(posX, posY + 1) == null)
             {
-                ChessManager.Inst.MoveChessPiece(selectPiece, posX, posY + 1);
+                MoveChessPiece(selectPiece, posX, posY + 1);
             }
 
             // if the space to go is not empty, Use of the card is canceled.
@@ -50,7 +50,7 @@ public class Rush : SkillBase
             //selected piece moves down one space
             if (ChessManager.Inst.GetPosition(posX, posY - 1) == null)
             {
-                ChessManager.Inst.MoveChessPiece(selectPiece, posX, posY - 1);
+                MoveChessPiece(selectPiece, posX, posY - 1);
             }
 
             // if the space to go is not empty, Use of the card is canceled.
@@ -73,5 +73,16 @@ public class Rush : SkillBase
         }
         SkillManager.Inst.RemoveSkillList(this);
         Destroy(gameObject);
+    }
+
+    private void MoveChessPiece(ChessBase cp, int matrixX, int matrixY)
+    {
+        ChessManager.Inst.SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
+        cp.SetXBoard(matrixX);
+        cp.SetYBoard(matrixY);
+        cp.PlusMoveCnt();
+        ChessManager.Inst.SetPosition(cp);
+        StartCoroutine(ChessManager.Inst.SetCoordsAnimation(cp));
+        GameManager.Inst.DestroyMovePlates();
     }
 }

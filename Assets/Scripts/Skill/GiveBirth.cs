@@ -56,12 +56,12 @@ public class GiveBirth : SkillBase
         {
             if (posY < y)
             {
-                ChessManager.Inst.MoveChessPiece(attacker, x, y - 1);
+                MoveChessPiece(attacker, x, y - 1);
             }
 
             else if (posY > y)
             {
-                ChessManager.Inst.MoveChessPiece(attacker, x, y + 1);
+                MoveChessPiece(attacker, x, y + 1);
             }
         }
 
@@ -69,12 +69,12 @@ public class GiveBirth : SkillBase
         {
             if (posX < x)
             {
-                ChessManager.Inst.MoveChessPiece(attacker, x - 1, y);
+                MoveChessPiece(attacker, x - 1, y);
             }
 
             else if (posX > x)
             {
-                ChessManager.Inst.MoveChessPiece(attacker, x + 1, y);
+                MoveChessPiece(attacker, x + 1, y);
             }
         }
 
@@ -82,28 +82,39 @@ public class GiveBirth : SkillBase
         {
             if (posX > x && posY > y)
             {
-                ChessManager.Inst.MoveChessPiece(attacker, x + 1, y + 1);
+                MoveChessPiece(attacker, x + 1, y + 1);
             }
 
             else if (posX > x && posY < y)
             {
-                ChessManager.Inst.MoveChessPiece(attacker, x + 1, y - 1);
+                MoveChessPiece(attacker, x + 1, y - 1);
             }
 
             else if (posX < x && posY < y)
             {
-                ChessManager.Inst.MoveChessPiece(attacker, x - 1, y - 1);
+                MoveChessPiece(attacker, x - 1, y - 1);
             }
 
             else if (posX < x && posY > y)
             {
-                ChessManager.Inst.MoveChessPiece(attacker, x - 1, y + 1);
+                MoveChessPiece(attacker, x - 1, y + 1);
             }
         }
 
         else
         {
-            ChessManager.Inst.MoveChessPiece(attacker, posX, posY);
+            MoveChessPiece(attacker, posX, posY);
         }
+    }
+
+    private void MoveChessPiece(ChessBase cp, int matrixX, int matrixY)
+    {
+        ChessManager.Inst.SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
+        cp.SetXBoard(matrixX);
+        cp.SetYBoard(matrixY);
+        cp.PlusMoveCnt();
+        ChessManager.Inst.SetPosition(cp);
+        StartCoroutine(ChessManager.Inst.SetCoordsAnimation(cp));
+        GameManager.Inst.DestroyMovePlates();
     }
 }

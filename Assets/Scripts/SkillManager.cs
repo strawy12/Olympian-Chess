@@ -186,7 +186,7 @@ public class SkillManager : MonoBehaviour
     public void AttackUsingSkill(MovePlate mp)
     {
         ChessBase cp = ChessManager.Inst.GetPosition(mp.GetPosX(), mp.GetPosY());
-        List<SkillBase> _skillList = cp.GetSkillList("출산,아테나의 방패,에로스의 사랑,길동무");
+        List<SkillBase> _skillList = cp.GetSkillList("출산,아테나의 방패,에로스의 사랑,동귀어진");
         Debug.Log(_skillList.Count);
         for (int i = 0; i < _skillList.Count; i++)
         {
@@ -283,7 +283,7 @@ public class SkillManager : MonoBehaviour
                 obj.AddComponent<Music>();
                 break;
 
-            case "돌진":
+            case "대쉬":
                 obj.AddComponent<Rush>();
                 break;
 
@@ -291,7 +291,7 @@ public class SkillManager : MonoBehaviour
                 obj.AddComponent<Traveler>();
                 break;
 
-            case "길동무":
+            case "동귀어진":
                 obj.AddComponent<StreetFriend>();
                 break;
 
@@ -324,7 +324,15 @@ public class SkillManager : MonoBehaviour
                 break;
 
             case "부활":
-                obj.AddComponent<Resurrection>();
+                obj.AddComponent<Ghost>();
+                break;
+
+            case "무적":
+                obj.AddComponent<Invincibility>();
+                break;
+
+            case "만취":
+                obj.AddComponent<Drunkenness>();
                 break;
         }
         return obj;

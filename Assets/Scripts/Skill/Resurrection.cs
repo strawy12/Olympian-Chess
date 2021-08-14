@@ -2,16 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Resurrection : SkillBase
+public class Ghost : SkillBase
 {
     private bool isMake = false;
 
     public override void UsingSkill()
     {
-        Res_UsingSkill();
+        Gho_UsingSkill();
     }
 
-    private void Res_UsingSkill()
+    private void Gho_UsingSkill()
     {
         if (player == "white")
         {
