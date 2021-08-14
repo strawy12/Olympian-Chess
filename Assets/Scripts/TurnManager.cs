@@ -123,12 +123,18 @@ public class TurnManager : MonoBehaviour
     // Start a new turn & Win, lose decision
     public IEnumerator StartTurnCo()
     {
+        Vector3 P = new Vector3(-2.45f, -3.15f, 0f);
+
         // turn division
         isLoading = true;
         if (myTurn)
+        {
             Debug.Log("나의 턴");
+        }
         else
+        {
             Debug.Log("너의 턴");
+        }
 
         yield return delay07;
         isLoading = false;
@@ -176,15 +182,12 @@ public class TurnManager : MonoBehaviour
 
         if (myTurn)
         {
-            Debug.Log("qweqeqwe");
             ParticleManager.Instance.AddParticle(ParticleManager.ParticleType.button, P);
             buttonWhite.image.sprite = buttonActive;
         }
 
         else if(!myTurn)
         {
-            Debug.Log("qqqqqqqqqqqqweqeqwe");
-
             ParticleManager.Instance.AddParticle(ParticleManager.ParticleType.button, P);
             buttonBlack.image.sprite = buttonActive;
         }

@@ -23,7 +23,7 @@ public class Queen : ChessBase
 
     public void LineMovePlate(int xIncrement, int yIncrement)
     {
-
+       
         int x = xBoard + xIncrement;
         int y = yBoard + yIncrement;
 

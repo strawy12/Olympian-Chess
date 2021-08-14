@@ -20,12 +20,6 @@ public class ChessBase : MonoBehaviour
     protected bool isSelecting = false;
     protected bool attackSelecting = false;
 
-    private void Start()
-    {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-    }
-
-
     public virtual void MovePlate() { }
 
     public virtual void MovePosition() { }
@@ -59,6 +53,9 @@ public class ChessBase : MonoBehaviour
     }
     public void OnMouseUp()
     {
+        Vector3 P = new Vector3(transform.position.x, transform.position.y, 0f);
+        ParticleManager.Instance.AddParticle(ParticleManager.ParticleType.ChessPieceClick,P);
+        Debug.Log("마우스 올림");
         if (TurnManager.Instance.GetIsActive()) return;
         if (!GameManager.Inst.IsGameOver() && GameManager.Inst.GetCurrentPlayer() == player)
         {

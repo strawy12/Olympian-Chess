@@ -24,7 +24,9 @@ public class Pawn : ChessBase
             if (ChessManager.Inst.GetPosition(x, y) == null)
             {
                 if (moveCnt != 0)
+                {
                     GameManager.Inst.MovePlateSpawn(x, y, this);
+                }
 
                 else
                 {

@@ -32,7 +32,7 @@ public class ChessManager : MonoBehaviour
 
     #endregion
 
-    int matrixX, matrixY;
+    #region º¯¼ö
 
     int pawn = 0, bishop = 1, knight = 2, rook = 3, queen = 4, king = 5;
 
@@ -46,11 +46,14 @@ public class ChessManager : MonoBehaviour
 
     [SerializeField] private GameObject cccccp;
 
+    #endregion
+
     void Start()
     {
         SettingGame();
     }
 
+    #region Create
     private void SettingGame()
     {
         playerWhite = new ChessBase[]
@@ -69,7 +72,7 @@ public class ChessManager : MonoBehaviour
            Creat(black[pawn], 3,6), Creat(black[pawn], 4,6), Creat(black[pawn], 5,6),
            Creat(black[pawn], 6,6), Creat(black[pawn], 7,6), Creat(black[rook], 0,7),
            Creat(black[knight], 1,7), Creat(black[bishop], 2,7), Creat(black[queen], 3,7),
-           Creat(black[king], 4,7), Creat(black[bishop], 5,7), Creat(black[rook], 7,7), 
+           Creat(black[king], 4,7), Creat(black[bishop], 5,7), Creat(black[rook], 7,7),
            Creat(black[knight], 6,7)
         };
 
@@ -91,23 +94,10 @@ public class ChessManager : MonoBehaviour
         SetCoords(obj, x, y);
 
         return cb;
-    }
+    } 
+    #endregion
 
-    public void SetCoords(GameObject obj, int xBoard, int yBoard)
-    {
-
-        float x = xBoard;
-        float y = yBoard;
-
-        x *= 0.684f;
-        y *= 0.684f;
-
-        x += -2.4f;
-        y += -2.4f;
-
-        // Aligns according the board
-        obj.transform.position = new Vector3(x, y, -1.0f);
-    }
+   
     public void PointMovePlate(int x, int y, ChessBase cp)
     {
 
@@ -127,6 +117,8 @@ public class ChessManager : MonoBehaviour
 
         }
     }
+
+
     public void FalseIsMoving()
     {
         for (int i = 0; i < playerWhite.Length; i++)
@@ -140,19 +132,7 @@ public class ChessManager : MonoBehaviour
         }
     }
 
-    public void FalsIsMoving()
-    {
-        for (int i = 0; i < playerWhite.Length; i++)
-        {
-            if (playerWhite[i] == null)
-                continue;
-            playerWhite[i].isMoving = false;
-            if (playerBlack[i] == null)
-                continue;
-            playerBlack[i].isMoving = false;
-        }
-    }
-
+    #region Arr
     public void UpdateArr(ChessBase chessPiece)
     {
         for (int i = 0; i < playerWhite.Length; i++)
@@ -217,7 +197,8 @@ public class ChessManager : MonoBehaviour
             return false;
         }
 
-    }
+    } 
+    #endregion
 
     #region Position
     public void SetPositionEmpty(int x, int y)
@@ -248,6 +229,7 @@ public class ChessManager : MonoBehaviour
     }
     #endregion
 
+    #region ChessPiece
     public void AttackChessPiece(MovePlate mp)
     {
         ChessBase cp = GetPosition(mp.GetPosX(), mp.GetPosY());
@@ -286,9 +268,12 @@ public class ChessManager : MonoBehaviour
         TurnManager.Instance.ButtonColor();
         GameManager.Inst.DestroyMovePlates();
     }
+    #endregion
+
+    #region SetCoord
     public IEnumerator SetCoordsAnimation(ChessBase cp)
     {
-        
+
         Vector3 startPos = cp.transform.position;
 
         float x = cp.GetXBoard();
@@ -315,6 +300,24 @@ public class ChessManager : MonoBehaviour
         }
     }
 
+    public void SetCoords(GameObject obj, int xBoard, int yBoard)
+    {
+
+        float x = xBoard;
+        float y = yBoard;
+
+        x *= 0.684f;
+        y *= 0.684f;
+
+        x += -2.4f;
+        y += -2.4f;
+
+        // Aligns according the board
+        obj.transform.position = new Vector3(x, y, -1.0f);
+    } 
+    #endregion
+
+    #region Get
     public ChessBase[] GetPlayerBlack()
     {
         return playerBlack;
@@ -333,5 +336,6 @@ public class ChessManager : MonoBehaviour
     public GameObject[] GetBlackObject()
     {
         return black;
-    }
+    } 
+    #endregion
 }
