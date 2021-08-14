@@ -73,6 +73,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         }
     }
 
+
     public void Connect()
     {
         if (nickname == null)
@@ -219,6 +220,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
         return obj;
     }
+    public void NextTurn()
+    {
+        photonView.RPC("StartNextTurn", RpcTarget.All);
+    }
 
 
     [PunRPC]
@@ -246,6 +251,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         nicknamePanal.SetActive(true);
     }
 
+    [PunRPC]
+    private void StartNextTurn()
+    {
+        TurnManager.Instance.NextTurn();
+    }
 
 }
     

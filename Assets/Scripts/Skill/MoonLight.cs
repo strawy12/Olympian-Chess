@@ -39,7 +39,7 @@ public class MoonLight : SkillBase
                 moveCnt++;
             }
 
-            if (GetPlayer() == GameManager.Inst.GetCurrentPlayer())
+            if (TurnManager.Instance.CheckPlayer(player))
             {
                 selectPiece.spriteRenderer.enabled = false;
                 selectPiece.spriteRenderer.material.color = new Color(0.5f, 0.5f, 0.5f, 0f);

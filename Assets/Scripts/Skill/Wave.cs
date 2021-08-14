@@ -16,7 +16,7 @@ public class Wave : SkillBase
     }
     public override void ResetSkill()
     {
-        TurnManager.Instance.ButtonColor();
+        TurnManager.Instance.ButtonActive();
         SkillManager.Inst.RemoveSkillList(this);
         GameManager.Inst.SetUsingSkill(false);
         GameManager.Inst.SetMoving(true);

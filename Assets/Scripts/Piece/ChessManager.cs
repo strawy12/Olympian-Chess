@@ -414,7 +414,7 @@ public class ChessManager : MonoBehaviour
         SetPosition(cp);
         cp.isMoving = true;
         StartCoroutine(SetCoordsAnimation(cp));
-        TurnManager.Instance.ButtonColor();
+        TurnManager.Instance.ButtonActive();
         GameManager.Inst.DestroyMovePlates();
     }
     public IEnumerator SetCoordsAnimation(ChessBase cp)

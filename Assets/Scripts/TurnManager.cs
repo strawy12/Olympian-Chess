@@ -51,13 +51,13 @@ public class TurnManager : MonoBehaviour
 
     private bool isActive = false;
 
+    private string currentPlayer = "white";
 
     [Header("속성")]
     public bool isLoading;
-    public bool myTurn; 
     #endregion
 
-    enum EturnMode { Random, My, Other }
+    enum EturnMode { Random, White, Black }
 
     // delay
     WaitForSeconds delay05 = new WaitForSeconds(0.5f);
@@ -83,31 +83,64 @@ public class TurnManager : MonoBehaviour
         StartCoroutine(StartTurnCo());
     }
 
+    // Function calling next turn
+    public void NextTurn()
+    {
+        if (GameManager.Inst.gameOver) return;
+
+        if (currentPlayer == "white")
+        {
+            currentPlayer = "black";
+        }
+        else
+        {
+            currentPlayer = "white";
+        }
+
+        //StartCoroutine(CameraDelayRotate());
+    }
+
     void TurnSetting()
     {
         // 5 second delay in fast mode
         if (fastMode)
             delay05 = new WaitForSeconds(0.05f);
-
+        int i = Random.Range(0, 2);
         // normal turn mode
         switch (eTurnMode)
         {
             // In Random mode, choose a turn at random with your opponent
             case EturnMode.Random:
-                myTurn = Random.Range(0, 2) == 0;
+                if (i == 1) currentPlayer = "white";
+                else currentPlayer = "black";
                 break;
 
             // If it's my turn, activate my turn
-            case EturnMode.My:
-                myTurn = true;
+            case EturnMode.White:
+                currentPlayer = "white";
                 break;
 
             // If it's your opponent's turn, activate your opponent's turn.
-            case EturnMode.Other:
-                myTurn = false;
+            case EturnMode.Black:
+                currentPlayer = "black";
                 break;
         }
         isLoading = true;
+    }
+
+    public bool GetCurrentPlayerTF()
+    {
+        return currentPlayer == NetworkManager.Inst.GetPlayer();
+    }
+
+    public bool CheckPlayer(string player)
+    {
+        return currentPlayer == player;
+    }
+
+    public string GetCurrentPlayer()
+    {
+        return currentPlayer;
     }
 
     private IEnumerator CardShare()
@@ -126,15 +159,12 @@ public class TurnManager : MonoBehaviour
     {
         // turn division
         isLoading = true;
-        if (myTurn)
-            Debug.Log("나의 턴");
-        else
-            Debug.Log("너의 턴");
 
         yield return delay07;
+
         isLoading = false;
                  
-        OnTurnStarted?.Invoke(myTurn);
+        OnTurnStarted?.Invoke(GetCurrentPlayerTF());
         #region 위 문법이랑 같은 뜻
         /*if(OnTurnStarted!=null)
         {
@@ -164,6 +194,7 @@ public class TurnManager : MonoBehaviour
     {
         return isActive;
     }
+
     // Setting Active
     public void SetIsActive(bool isActive)
     {
@@ -171,12 +202,12 @@ public class TurnManager : MonoBehaviour
     }
 
     // Change my button or someone else's button to the active button image depending on context
-    public void ButtonColor()
+    public void ButtonActive()
     {
-        if (myTurn)
+        if (GetCurrentPlayerTF())
             buttonWhite.image.sprite = buttonActive;
 
-        else if(!myTurn)
+        else if(GetCurrentPlayerTF())
             buttonBlack.image.sprite = buttonActive;
 
         isActive = true;
@@ -195,7 +226,7 @@ public class TurnManager : MonoBehaviour
     private void ChangeButtonTransform()
     {
         // If the current player is white, set the position of your button and the opposing team's button
-        if (GameManager.Inst.GetCurrentPlayer() == "white")
+        if (CheckPlayer("white"))
         {
             buttonWhite.transform.position = new Vector2(posUp.position.x, posUp.position.y);
             buttonBlack.transform.position = new Vector2(posDown.position.x, posDown.position.y);
@@ -207,7 +238,6 @@ public class TurnManager : MonoBehaviour
             buttonBlack.transform.position = new Vector2(posUp.position.x, posUp.position.y);
         }
     }
-
 
 
     // There are so many functions referenced elsewhere here that it is impossible to interpret
@@ -223,15 +253,14 @@ public class TurnManager : MonoBehaviour
             CardManager.Inst.DestroyCard(CardManager.Inst.GetSelectCard(), targetCards);
         }
         //,,..CardManager.Inst.UpdateCard();
-        myTurn = !myTurn;
 
         ChessManager.Inst.FalseIsMoving();
-        ChangeButtonTransform();
+        //ChangeButtonTransform();
         ButtonInactive();
 
         CardManager.Inst.ChangeIsUse(false);
         SkillManager.Inst.SkillListCntPlus();
-        GameManager.Inst.NextTurn();
+        NetworkManager.Inst.NextTurn();
         GameManager.Inst.PlusAttackCnt();
 
         GameManager.Inst.SetUsingSkill(false);

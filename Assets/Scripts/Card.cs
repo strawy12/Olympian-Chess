@@ -63,6 +63,7 @@ public class Card : MonoBehaviour
             return;
         if (TurnManager.Instance.isLoading) return;
         if (isSelected) return; // reselection Prevention 
+        Debug.Log("¿¿æ÷");
         isSelected = true;
         if (isFront)
             CardManager.Inst.CardMouseDown(this);

@@ -122,7 +122,7 @@ public class Sleep : SkillBase
     {
         if (cp_Player == "black")
         {
-            if (GameManager.Inst.GetCurrentPlayer() == "black")
+            if (TurnManager.Instance.CheckPlayer("black"))
             {
                 particle.GetComponent<ParticleSystem>().gravityModifier = -0.01f;
                 if (particle2 != null)
@@ -137,7 +137,7 @@ public class Sleep : SkillBase
         }
         else
         {
-            if (GameManager.Inst.GetCurrentPlayer() == "black")
+            if (TurnManager.Instance.CheckPlayer("black"))
             {
                 particle.GetComponent<ParticleSystem>().gravityModifier = 0.005f;
                 if (particle2 != null)

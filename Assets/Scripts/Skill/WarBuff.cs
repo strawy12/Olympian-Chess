@@ -35,15 +35,13 @@ public class WarBuff : SkillBase
     {
         if (cnt == 0 && !selectPiece.isMoving)
         {
-            Debug.Log("sdf");
             cnt++;
             TurnManager.Instance.ButtonInactive();
             return;
         }
         else
         {
-            Debug.Log("sdf");
-            TurnManager.Instance.ButtonColor();
+            TurnManager.Instance.ButtonActive();
         }
     }
 

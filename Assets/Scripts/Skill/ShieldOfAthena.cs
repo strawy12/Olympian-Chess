@@ -40,7 +40,7 @@ public class ShieldOfAthena : SkillBase
         GameManager.Inst.SetMoving(false);
         GameManager.Inst.SetIsStop(true);
         GameManager.Inst.DestroyMovePlates();
-        TurnManager.Instance.ButtonColor();
+        TurnManager.Instance.ButtonActive();
         SOA_ResetSkill();
     }
 

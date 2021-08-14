@@ -128,7 +128,7 @@ public class CardManager : MonoBehaviour
                 isTargeting = true;
                 localPosition = hit.collider.transform.position;
 
-                if (CheckCardname("여행자") || (CheckCardname("전쟁광") && !CheckPlayer(hit.collider.name))) // Only Pawn Targeting
+                if (CheckCardname("여행자") || (CheckCardname("전쟁광") && !TurnManager.Instance.CheckPlayer(hit.collider.name))) // Only Pawn Targeting
                 {
                     if (CheckPawn(hit.collider.name))
                     {
@@ -203,6 +203,8 @@ public class CardManager : MonoBehaviour
     private void ShowInfo() // When Card MouseDown, Show CardInfo
     {
         if (selectCard == null) return;
+        Debug.Log("응앵");
+
         infoText.text = string.Format("{0}", selectCard.carditem.info);
         godText.text = string.Format("{0}", selectCard.carditem.god);
         nameText.text = string.Format("{0}", selectCard.carditem.name);
@@ -225,7 +227,7 @@ public class CardManager : MonoBehaviour
         if (TurnManager.Instance.isLoading)
             eCardState = ECardState.Nothing;
 
-        else if (TurnManager.Instance.myTurn)
+        else if (TurnManager.Instance.GetCurrentPlayerTF())
             eCardState = ECardState.CanMouseDrag;
     }
 
@@ -268,14 +270,6 @@ public class CardManager : MonoBehaviour
     }
 
 
-    private bool CheckPlayer(string name) // CurrentPlayer Check
-    {
-        if (GameManager.Inst.GetCurrentPlayer() == name)
-        {
-            return true;
-        }
-        return false;
-    }
 
     private bool CheckPawn(string name) // argument value == pawn Check
     {
@@ -500,7 +494,7 @@ public class CardManager : MonoBehaviour
         if (isMine) // my Cards
         {
             int cnt = myCards.Count;
-            if (GameManager.Inst.GetCurrentPlayer() == "white")
+            if (TurnManager.Instance.CheckPlayer("white"))
             {
                 for (int i = 0; i < cnt; i++)
                 {
@@ -522,7 +516,7 @@ public class CardManager : MonoBehaviour
         else // other Cards
         {
             int cnt = otherCards.Count;
-            if (GameManager.Inst.GetCurrentPlayer() == "black")
+            if (TurnManager.Instance.CheckPlayer("black"))
             {
                 for (int i = 0; i < cnt; i++)
                 {
@@ -551,7 +545,7 @@ public class CardManager : MonoBehaviour
 
         if (isMine)
         {
-            if (GameManager.Inst.GetCurrentPlayer() == "white")
+            if (TurnManager.Instance.CheckPlayer("white"))
             {
                 originCardPRSs = RoundAlignment(myCardLeft, myCardRight, myCards.Count, 0.5f, Vector3.one * 1.9f);
 
@@ -565,7 +559,7 @@ public class CardManager : MonoBehaviour
 
         else
         {
-            if (GameManager.Inst.GetCurrentPlayer() == "white")
+            if (TurnManager.Instance.CheckPlayer("white"))
             {
                 originCardPRSs = RoundAlignment(otherCardLeft, otherCardRight, otherCards.Count, -0.5f, Vector3.one * 1.9f);
             }
@@ -622,7 +616,7 @@ public class CardManager : MonoBehaviour
         if (isMine)
         {
             cnt = myCards.Count;
-            if (GameManager.Inst.GetCurrentPlayer() == "white")
+            if (TurnManager.Instance.CheckPlayer("white"))
             {
                 for (int i = 0; i < cnt; i++)
                 {
@@ -654,7 +648,7 @@ public class CardManager : MonoBehaviour
         else
         {
             cnt = otherCards.Count;
-            if (GameManager.Inst.GetCurrentPlayer() != "white")
+            if (!TurnManager.Instance.CheckPlayer("white"))
             {
                 for (int i = 0; i < cnt; i++)
                 {
@@ -728,7 +722,7 @@ public class CardManager : MonoBehaviour
     {
         if (isEnlarge)
         {
-            if (GameManager.Inst.GetCurrentPlayer() == "white")
+            if (TurnManager.Instance.CheckPlayer("white"))
             {
                 Vector3 enlargePos = new Vector3(card.originPRS.pos.x, -3.5f, -10f);
                 card.MoveTransform(new PRS(enlargePos, Utils.QI, Vector3.one * 2.5f), false);
@@ -836,7 +830,7 @@ public class CardManager : MonoBehaviour
         TargetingChessPiece();
         if (!onMyCardArea)
         {
-            if (GameManager.Inst.GetCurrentPlayer() == "white")
+            if (TurnManager.Instance.CheckPlayer("white"))
             {
                 selectCard.MoveTransform(new PRS(Utils.MousePos, Utils.QI, selectCard.originPRS.scale), false);
             }

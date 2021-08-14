@@ -7,7 +7,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
+public class GameManager : MonoBehaviour
 {
     //GameManager Singleton
     private static GameManager inst;
@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     //List including attacking chesspiece
     private List<ChessBase> attackings = new List<ChessBase>();
 
-    private string currentPlayer = "white";
+
 
     public bool gameOver = false;
     public bool isBacchrs = false;
@@ -83,7 +83,6 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     private void Update()
     {
         InputCheatKey();
-        currentPlayerText.text = currentPlayer;
         
     }
     // Functions including cheatkey
@@ -150,13 +149,6 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
     // Functions checking if the parameter is equal to current player
-    public bool CheckPlayer(string player)
-    {
-        if (GetCurrentPlayer() == player)
-            return true;
-        else
-            return false;
-    }
 
     public GameObject MovePlateSpawn(int matrixX, int matrixY, ChessBase cp)
     {
@@ -213,7 +205,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         ChessBase[] playerBlack = ChessManager.Inst.GetPlayerBlack();
         if (isMine)
         {
-            if (currentPlayer == "white")
+            if (NetworkManager.Inst.GetPlayer() == "white")
             {
                 for (int i = 0; i < playerWhite.Length; i++)
                 {
@@ -235,7 +227,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         else
         {
 
-            if (currentPlayer != "white")
+            if (NetworkManager.Inst.GetPlayer() != "white")
             {
                 for (int i = 0; i < playerWhite.Length; i++)
                 {
@@ -246,7 +238,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
                     mp.GetComponent<SpriteRenderer>().material.SetColor("_Color", new Color32(255, 0, 0, 255));
                 }
             }
-            else if (currentPlayer != "black")
+            else if (NetworkManager.Inst.GetPlayer() != "black")
             {
                 for (int i = 0; i < playerBlack.Length; i++)
                 {
@@ -286,16 +278,6 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     }
     #region
 
-    public bool PlayerCheck(string player)
-    {
-        if(NetworkManager.Inst.GetPlayer() == currentPlayer)
-        {
-            if (NetworkManager.Inst.GetPlayer() == player)
-                return true;
-        }
-        return false;
-    }
-
 
     public void SetIsStop(bool isStop)
     {
@@ -319,11 +301,6 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 
     }
 
-    // Function returning current player
-    public string GetCurrentPlayer()
-    {
-        return currentPlayer;
-    }
     // Function returning gameOver
     public bool IsGameOver()
     {
@@ -349,29 +326,13 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         this.moving = moving;
     }
 
-    // Function calling next turn
-    public void NextTurn()
-    {
-        if (gameOver) return;
-
-        if (currentPlayer == "white")
-        {
-            currentPlayer = "black";
-        }
-        else
-        {
-            currentPlayer = "white";
-        }
-
-        StartCoroutine(CameraDelayRotate());
-    }
     // Coroutine rotating main camera
     private IEnumerator CameraDelayRotate()
     {
         yield return new WaitForSeconds(1f);
         if (gameOver) yield break;
         //RotationBoard.Rotate();
-        CardManager.Inst.ChangeCard(GetCurrentPlayer() == "white");
+        //CardManager.Inst.ChangeCard(GetCurrentPlayer() == "white");
         CardManager.Inst.CardAlignment(true);
         CardManager.Inst.CardAlignment(false);
     }
@@ -426,12 +387,6 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         attackings.Remove(chessBase);
         chessBase.attackCount = 0;
-    }
-
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.IsWriting) stream.SendNext(currentPlayer);
-        else currentPlayer = (string)stream.ReceiveNext();
     }
 
     public void StartEndTurn()

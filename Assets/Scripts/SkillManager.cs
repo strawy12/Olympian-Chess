@@ -212,7 +212,7 @@ public class SkillManager : MonoBehaviour
         SkillBase sb = CheckSkill(card).GetComponent<SkillBase>();
         if (sb == null) return null;
         AddSkillList(sb);
-        sb.SetPalyer(GameManager.Inst.GetCurrentPlayer());
+        sb.SetPalyer(NetworkManager.Inst.GetPlayer());
         sb.SetSelectPiece(chessPiece);
         chessPiece.AddChosenSkill(sb);
         selectingSkill = sb;

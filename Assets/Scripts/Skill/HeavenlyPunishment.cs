@@ -24,7 +24,7 @@ public class HeavenlyPunishment : SkillBase
         //Preventing Queen from being the target of HeavenlyPunishment
         if (selectPiece.name == "black_queen" || selectPiece.name == "white_queen")
         {
-            if (GameManager.Inst.CheckPlayer("white"))
+            if (TurnManager.Instance.CheckPlayer("white"))
                 isBreak = ChessManager.Inst.CheckArr(false, "black_rook");
             else
                 isBreak = ChessManager.Inst.CheckArr(true, "white_rook");

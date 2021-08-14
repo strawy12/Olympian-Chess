@@ -57,23 +57,31 @@ public class ChessBase : MonoBehaviour
     {
         return moveCnt;
     }
+
+    public bool CheckClickChessPiece()
+    {
+        if (TurnManager.Instance.GetIsActive()) return true;
+        if (SkillManager.Inst.CheckDontClickPiece(this)) return true;
+        if (GameManager.Inst.IsGameOver()) return true;
+        if (!TurnManager.Instance.GetCurrentPlayerTF()) return true;
+        if (NetworkManager.Inst.GetPlayer() != player) return true;
+
+        return false;
+    }
     public void OnMouseUp()
     {
-        //if (TurnManager.Instance.GetIsActive()) return;
-        //if (SkillManager.Inst.CheckDontClickPiece(this)) return;
-        //if (!GameManager.Inst.IsGameOver() && GameManager.Inst.PlayerCheck(player))
-        //{
-        if (player != NetworkManager.Inst.GetPlayer()) return;
-            SkillManager.Inst.CheckSkillCancel("¿¡·Î½ºÀÇ »ç¶û,¼ö¸é,Á×À½ÀÇ ¶¥,ÆÄµµ");
-            GameManager.Inst.DestroyMovePlates();
+        if (CheckClickChessPiece()) return;
 
-            if (SkillManager.Inst.MoveControl(this))
-            {
-                return;
-            }
+        SkillManager.Inst.CheckSkillCancel("¿¡·Î½ºÀÇ »ç¶û,¼ö¸é,Á×À½ÀÇ ¶¥,ÆÄµµ");
+        GameManager.Inst.DestroyMovePlates();
 
-            MovePlate(); // Instatiate
-        //}
+        if (SkillManager.Inst.MoveControl(this))
+        {
+            return;
+        }
+
+        MovePlate(); // Instatiate
+
     }
     public SkillBase CheckSkillList(string name)
     {
@@ -145,7 +153,7 @@ public class ChessBase : MonoBehaviour
     }
     public bool CheckIsMine()
     {
-        if (player == GameManager.Inst.GetCurrentPlayer())
+        if (player == TurnManager.Instance.GetCurrentPlayer())
             return true;
         else
             return false;
