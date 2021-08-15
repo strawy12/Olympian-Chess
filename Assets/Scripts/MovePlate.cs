@@ -42,7 +42,6 @@ public class MovePlate : MonoBehaviour
         if (attack)
         {
             ChessManager.Inst.AttackChessPiece(this);
-            SuperSkillManager.Inst.CheckSuperSkill();
         }
 
         SetEChessState();
