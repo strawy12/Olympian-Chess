@@ -1219,7 +1219,7 @@ MonoBehaviour:
     type: 3}
   zeus: {fileID: -3115555338532431703, guid: d4d230f1f58838a48889923ecaa9c399, type: 3}
   poseidon: {fileID: 21300000, guid: 3e5b57c22ae53c64ebaee0a07a42d5e4, type: 3}
-  whiteGodsRes: Poseidon
+  whiteGodsRes: Zeus
   blackGodsRes: Poseidon
 --- !u!4 &533094387
 Transform:

@@ -258,6 +258,7 @@ public class ChessManager : MonoBehaviour
         }
 
         GameManager.Inst.AddAttackings(mp.Getreference());
+        SuperSkillManager.Inst.CheckSuperSkill();
     }
 
     public void MoveChessPiece(ChessBase cp, int matrixX, int matrixY)

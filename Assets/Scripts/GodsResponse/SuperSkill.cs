@@ -31,6 +31,7 @@ public class SuperSkill : MonoBehaviour
     public void CheckSkill()
     {
         if (isUsed) return;
+
         if (player == "white")
         {
             if (SkillActive(SuperSkillManager.Inst.whiteGodsRes))
@@ -48,13 +49,16 @@ public class SuperSkill : MonoBehaviour
                 col.enabled = true;
             }
         }
+
+        if (player != GameManager.Inst.GetCurrentPlayer())
+            col.enabled = false;
     }
 
     private bool SkillActive(string response)
     {
-
         ChessBase[] black = ChessManager.Inst.GetPlayerBlack();
         ChessBase[] white = ChessManager.Inst.GetPlayerWhite();
+
         int cnt = 0;
 
         if (response == "Zeus")

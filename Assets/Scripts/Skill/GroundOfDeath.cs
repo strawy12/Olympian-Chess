@@ -19,6 +19,7 @@ public class GroundOfDeath : SkillBase
     }
     public override void ResetSkill()
     {
+        if (turnCnt < 3) return;
         StartCoroutine(GOD_SkillEffect());
     }
     private void GOD_UsingSkill()
