@@ -334,6 +334,10 @@ public class SkillManager : MonoBehaviour
             case "만취":
                 obj.AddComponent<Drunkenness>();
                 break;
+
+            case "포세이돈":
+                obj.AddComponent<Poseidon>();
+                break;
         }
         return obj;
     }

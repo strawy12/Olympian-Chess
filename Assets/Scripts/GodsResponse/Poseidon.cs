@@ -2,20 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Wave : SkillBase
+public class Poseidon : SkillBase
 {
     public override void UsingSkill()
     {
-        WV_UsingSkill();
+        GameManager.Inst.SetUsingSkill(true);
+        GameManager.Inst.SetMoving(false);
+        GameManager.Inst.RealAllMovePlateSpawn();
     }
 
     public override void StandardSkill()
     {
-        WaveCheck();
+        PoseidonCheck();
+        SuperSkillManager.Inst.RemoveSuperList(this);
+        Destroy(gameObject);
     }
+
+    private void PoseidonCheck()
+    {
+        WaveMove(true, true);
+        WaveMove(true, false);
+        WaveMove(false, true);
+        WaveMove(false, false);
+
+        GameManager.Inst.DestroyMovePlates();
+        ResetSkill();
+    }
+
     public override void ResetSkill()
     {
-        //TurnManager.Instance.ButtonColor();
         SkillManager.Inst.RemoveSkillList(this);
         GameManager.Inst.SetUsingSkill(false);
         GameManager.Inst.SetMoving(true);
@@ -27,46 +42,6 @@ public class Wave : SkillBase
         Destroy(gameObject);
     }
 
-    private void WV_UsingSkill()
-    {
-        GameManager.Inst.SetUsingSkill(true);
-        GameManager.Inst.SetMoving(false);
-        //TurnManager.Instance.ButtonInactive();
-        WV_MovePlate(selectPiece, selectPiece.GetXBoard(), selectPiece.GetYBoard());
-    }
-
-    private void WV_MovePlate(ChessBase chessPiece, int x, int y)
-    {
-        if (CheckNull(true, true, y) > 0 && x != 7) //right
-            GameManager.Inst.MovePlateSpawn(x + 1, y, selectPiece);
-
-        if (CheckNull(true, false, y) > 0 && x != 0) //left
-            GameManager.Inst.MovePlateSpawn(x - 1, y, selectPiece);
-
-        if (CheckNull(false, true, x) > 0 && y != 7) //up
-            GameManager.Inst.MovePlateSpawn(x, y + 1, selectPiece);
-
-        if (CheckNull(false, false, x) > 0 && y != 0) //down
-            GameManager.Inst.MovePlateSpawn(x, y - 1, selectPiece);
-    }
-
-    private void WaveCheck()
-    {
-        CardManager.Inst.NotAmolang();
-
-        if (posX == selectPiece.GetXBoard() + 1)
-            WaveMove(true, true);
-        else if (posX == selectPiece.GetXBoard() - 1)
-            WaveMove(true, false);
-        else if (posY == selectPiece.GetYBoard() + 1)
-            WaveMove(false, true);
-        else if (posY == selectPiece.GetYBoard() - 1)
-            WaveMove(false, false);
-
-        GameManager.Inst.DestroyMovePlates();
-        ResetSkill();
-    }
-
     void WaveMove(bool isXY, bool isPlma)
     {
         Debug.Log(isXY);
@@ -76,33 +51,38 @@ public class Wave : SkillBase
         int cnt = 0;
         cnt = CheckNull(isXY, isPlma, isXY ? posY : posX);
 
+        Debug.Log(cnt);
+        //+X
         if (isXY && isPlma)
         {
-            for (int i = 0; i < cnt; i++)
+            for (int i = posX + 1; i < cnt; i++)
             {
                 cmList.Add(WV_Move(isXY, i, isPlma));
             }
         }
 
+        //-X
         else if (isXY && !isPlma)
         {
-            for (int i = 7; i >= cnt; i--)
+            for (int i = posX - 1; i >= cnt; i--)
             {
                 cmList.Add(WV_Move(isXY, i, isPlma));
             }
         }
 
+        //+Y
         else if (!isXY && isPlma)
         {
-            for (int i = 0; i < cnt; i++)
+            for (int i = posY + 1; i < cnt; i++)
             {
                 cmList.Add(WV_Move(isXY, i, isPlma));
             }
         }
 
+        //-Y
         else if (!isXY && !isPlma)
         {
-            for (int i = 7; i >= cnt; i--)
+            for (int i = posY - 1; i >= cnt; i--)
             {
                 cmList.Add(WV_Move(isXY, i, isPlma));
             }
@@ -173,7 +153,7 @@ public class Wave : SkillBase
         //+X
         if (isXY && isPlma)
         {
-            for (int i = 7; i >= 0; i--)
+            for (int i = 7; i > posX; i--)
             {
                 if (ChessManager.Inst.GetPosition(i, pos) == null)
                 {
@@ -186,7 +166,7 @@ public class Wave : SkillBase
         //-X
         else if (isXY && !isPlma)
         {
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < posX; i++)
             {
                 if (ChessManager.Inst.GetPosition(i, pos) == null)
                 {
@@ -199,7 +179,7 @@ public class Wave : SkillBase
         //+Y
         else if (!isXY && isPlma)
         {
-            for (int i = 7; i >= 0; i--)
+            for (int i = 7; i > posY; i--)
             {
                 if (ChessManager.Inst.GetPosition(pos, i) == null)
                 {
@@ -212,7 +192,7 @@ public class Wave : SkillBase
         //-Y
         else if (!isXY && !isPlma)
         {
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < posY; i++)
             {
                 if (ChessManager.Inst.GetPosition(pos, i) == null)
                 {

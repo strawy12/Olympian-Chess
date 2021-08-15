@@ -54,6 +54,7 @@ public class MovePlate : MonoBehaviour
         else if (eChessState == EChessState.Skill)
         {
             SkillManager.Inst.UsingSkill(this);
+            SuperSkillManager.Inst.UsingSkill(this);
         }
 
         else if (eChessState == EChessState.MovingAndSkill)

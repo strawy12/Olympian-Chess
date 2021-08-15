@@ -52,7 +52,6 @@ public class GameManager : MonoBehaviour
     private bool moving = true;
     private bool isStop = false;
 
-
     [Multiline(10)]
     [SerializeField] string cheatInfo;
     [SerializeField] private List<GameObject> movePlateList = new List<GameObject>();
@@ -415,5 +414,7 @@ public class GameManager : MonoBehaviour
     {
         return movePlateList;
     }
+
+
     #endregion
 }

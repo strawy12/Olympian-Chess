@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class ChessManager : MonoBehaviour
 {
-    //black_pawn
     #region SingleTon
 
     private static ChessManager inst;
