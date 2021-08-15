@@ -44,9 +44,6 @@ public class Poseidon : SkillBase
 
     void WaveMove(bool isXY, bool isPlma)
     {
-        Debug.Log(isXY);
-        Debug.Log(isPlma);
-
         List<ChessBase> cmList = new List<ChessBase>();
         int cnt = 0;
         cnt = CheckNull(isXY, isPlma, isXY ? posY : posX);
@@ -78,7 +75,7 @@ public class Poseidon : SkillBase
                 cmList.Add(WV_Move(isXY, i, isPlma));
             }
         }
-
+        
         //-Y
         else if (!isXY && !isPlma)
         {

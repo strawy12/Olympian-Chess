@@ -104,7 +104,14 @@ public class SuperSkillManager : MonoBehaviour
         else if (obj.name == "Poseidon")
             obj.AddComponent<Poseidon>();
     }
-
+    public void SuperListCntPlus()
+    {
+        for (int i = 0; i < superList.Count; i++)
+        {
+            superList[i].TurnCntPlus();
+            superList[i].ResetSkill();
+        }
+    }
     public void CheckSuperSkill()
     {
         whiteIcon.CheckSkill();

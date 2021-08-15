@@ -228,6 +228,7 @@ public class TurnManager : MonoBehaviour
 
         CardManager.Inst.ChangeIsUse(false);
         SkillManager.Inst.SkillListCntPlus();
+        SuperSkillManager.Inst.SuperListCntPlus();
         GameManager.Inst.NextTurn();
         GameManager.Inst.PlusAttackCnt();
         SuperSkillManager.Inst.CheckSuperSkill();
