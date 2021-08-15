@@ -14,7 +14,7 @@ public class SuperSkill : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         col = GetComponent<Collider2D>();
         spriteRenderer.color = Color.gray;
-        //col.enabled = false;
+        col.enabled = false;
     }
 
     private void OnMouseUp()
@@ -59,32 +59,31 @@ public class SuperSkill : MonoBehaviour
 
         if (response == "Zeus")
         {
-            return true;
-            //if (player == "white")
-            //{
-            //    for (int i = 0; i < black.Length; i++)
-            //    {
-            //        if (black[i] == null) continue;
-            //        if (black[i].name.Contains("knight"))
-            //            cnt++;
-            //    }
+            if (player == "white")
+            {
+                for (int i = 0; i < black.Length; i++)
+                {
+                    if (black[i] == null) continue;
+                    if (black[i].name.Contains("knight"))
+                        cnt++;
+                }
 
-            //    if (cnt > 1) return false;
-            //    else return true;
-            //}
+                if (cnt > 1) return false;
+                else return true;
+            }
 
-            //else
-            //{
-            //    for (int i = 0; i < white.Length; i++)
-            //    {
-            //        if (white[i] == null) continue;
-            //        if (white[i].name.Contains("knight"))
-            //            cnt++;
-            //    }
+            else
+            {
+                for (int i = 0; i < white.Length; i++)
+                {
+                    if (white[i] == null) continue;
+                    if (white[i].name.Contains("knight"))
+                        cnt++;
+                }
 
-            //    if (cnt > 1) return false;
-            //    else return true;
-            //}
+                if (cnt > 1) return false;
+                else return true;
+            }
         }
 
         else
