@@ -17,15 +17,17 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private Text playerText = null;
     [SerializeField] private Text nicknameText = null;
     [SerializeField] private InputField roomInput, nicknameInput;
-    [SerializeField] private InputField EmailInput;
-    [SerializeField] private InputField PasswordInput;
+    [SerializeField] private InputField emailInput;
+    [SerializeField] private InputField passwordInput;
     [SerializeField] private GameObject nicknamePanal = null;
     [SerializeField] private GameObject friendlyMatchPanal = null;
+    private PlayerLeaderboardEntry myPlayFabInfo;
 
     private string roomname;
     private string user_ID;
     private string nickname;
     private string player = "black";
+    private bool isLoaded;
 
 
     private static NetworkManager inst;
@@ -78,14 +80,87 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         }
     }
 
-
-    public void Connect()
+    public void Login()
     {
-        if (nickname == null)
+        var request = new LoginWithEmailAddressRequest { Email = emailInput.text, Password = passwordInput.text };
+        PlayFabClientAPI.LoginWithEmailAddress(request, (result) => { GetLeaderboard(result.PlayFabId); PhotonNetwork.ConnectUsingSettings(); }, (error) => print("로그인 실패"));
+    }
+
+    public void Register()
+    {
+        var request = new RegisterPlayFabUserRequest { Email = emailInput.text, Password = passwordInput.text, Username = nicknameInput.text, DisplayName = nicknameInput.text };
+        PlayFabClientAPI.RegisterPlayFabUser(request, (result) => { print("회원가입 성공"); SetStat();}, (error) => print("회원가입 실패"));
+    }
+
+
+
+    void SetStat()
+    {
+        var request = new UpdatePlayerStatisticsRequest { Statistics = new List<StatisticUpdate> { new StatisticUpdate { StatisticName = "IDInfo", Value = 0 } } };
+        PlayFabClientAPI.UpdatePlayerStatistics(request, (result) => { }, (error) => print("값 저장실패"));
+    }
+
+    void GetLeaderboard(string myID)
+    {
+        var request = new GetLeaderboardRequest
         {
-            nicknamePanal.SetActive(true);
+            StartPosition = 0,
+            StatisticName = "IDInfo",
+            MaxResultsCount = 10,
+            ProfileConstraints = new PlayerProfileViewConstraints() { ShowDisplayName = true }
+        };
+            PlayFabClientAPI.GetLeaderboard(request, (result) =>
+            {
+                if (result.Leaderboard.Count == 0) return;
+                for (int i = 0; i< result.Leaderboard.Count; i++)
+                {
+                    if (result.Leaderboard[i].PlayFabId == myID) myPlayFabInfo = result.Leaderboard[i];
+                }
+            },
+            (error) => { });
+        
+    }
+
+    void SetData(string dataName, string curData)
+    {
+        var request = new UpdateUserDataRequest()
+        {
+            Data = new Dictionary<string, string>() { { dataName, curData } },
+            Permission = UserDataPermission.Public
+        };
+        PlayFabClientAPI.UpdateUserData(request, (result) => { }, (error) => print("데이터 저장 실패"));
+    }
+
+    string GetData(string dataName, string curID)
+    {
+        string path = "";
+
+        PlayFabClientAPI.GetUserData(new GetUserDataRequest() { PlayFabId = curID }, (result) =>
+        path = curID + "\n" + result.Data[dataName].Value,
+        (error) => print("데이터 불러오기 실패"));
+
+        return path;
+    }
+    public void SaveDataToJson<T>(T data, bool isMine)
+    {
+        if(isMine)
+        {
+            string jsonData = JsonUtility.ToJson(data, true);
+            string path = Path.Combine(Application.dataPath, typeof(T).ToString() + ".Json");
+            File.WriteAllText(path, jsonData);
         }
-        PhotonNetwork.ConnectUsingSettings();
+        else
+        {
+            string jsonData = JsonUtility.ToJson(data, true);
+            SetData(typeof(T).ToString(), jsonData);
+        }
+
+    }
+
+    public T LoadDataFromJson<T>()
+    {
+        string jsonData = GetData(typeof(T).ToString(), myPlayFabInfo.PlayFabId);
+        return JsonUtility.FromJson<T>(jsonData);
     }
 
     public void ActiveFriendlyMatchPanal()
@@ -105,7 +180,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
+        PhotonNetwork.JoinLobby();
         print("서버접속완료");
+
     }
 
     public void DisConnect()
@@ -115,7 +192,29 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnDisconnected(DisconnectCause cause)
     {
+        isLoaded = false;
         print("연결끊김");
+    }
+    public override void OnJoinedLobby()
+    {
+        // 방에서 로비로 올 땐 딜레이없고, 로그인해서 로비로 올 땐 PlayFabUserList가 채워질 시간동안 1초 딜레이
+        if (isLoaded)
+        {
+
+        }
+        else
+        {
+            StartCoroutine(OnJoinedLobbyDelay());
+        }
+    }
+
+    IEnumerator OnJoinedLobbyDelay()
+    {
+        yield return new WaitForSeconds(1f);
+        isLoaded = true;
+        PhotonNetwork.LocalPlayer.NickName = myPlayFabInfo.DisplayName;
+
+        
     }
 
     public void CreateRoom()
@@ -158,6 +257,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
+  
+        PhotonNetwork.SetPlayerCustomProperties(new Hashtable() { { "PlayFabID", myPlayFabInfo.PlayFabId } });
+
         print("방 참가 완료");
     }
 
@@ -173,7 +275,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
             int i;
             i = Random.Range(0, 2); 
-            Debug.Log(i);
             photonView.RPC("SetPlayer", RpcTarget.All, i);
             
             PhotonNetwork.LoadLevel("Game");
@@ -229,87 +330,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         return obj;
     }
 
-    public void Login()
-    {
-        var request = new LoginWithEmailAddressRequest { Email = EmailInput.text, Password = PasswordInput.text };
-        PlayFabClientAPI.LoginWithEmailAddress(request, (result) => { GetLeaderboard(result.PlayFabId); PhotonNetwork.ConnectUsingSettings(); }, (error) => print("로그인 실패"));
-    }
-
-    public void Register()
-    {
-        var request = new RegisterPlayFabUserRequest { Email = EmailInput.text, Password = PasswordInput.text, Username = nicknameInput.text, DisplayName = nicknameInput.text };
-        PlayFabClientAPI.RegisterPlayFabUser(request, (result) => { print("회원가입 성공"); SetStat(); SetData("default"); }, (error) => print("회원가입 실패"));
-    }
 
 
-
-    void SetStat()
-    {
-        var request = new UpdatePlayerStatisticsRequest { Statistics = new List<StatisticUpdate> { new StatisticUpdate { StatisticName = "IDInfo", Value = 0 } } };
-        PlayFabClientAPI.UpdatePlayerStatistics(request, (result) => { }, (error) => print("값 저장실패"));
-    }
-
-    void GetLeaderboard(string myID)
-    {
-        PlayFabUserList.Clear();
-
-        for (int i = 0; i < 10; i++)
-        {
-            var request = new GetLeaderboardRequest
-            {
-                StartPosition = i * 100,
-                StatisticName = "IDInfo",
-                MaxResultsCount = 100,
-                ProfileConstraints = new PlayerProfileViewConstraints() { ShowDisplayName = true }
-            };
-            PlayFabClientAPI.GetLeaderboard(request, (result) =>
-            {
-                if (result.Leaderboard.Count == 0) return;
-                for (int j = 0; j < result.Leaderboard.Count; j++)
-                {
-                    PlayFabUserList.Add(result.Leaderboard[j]);
-                    if (result.Leaderboard[j].PlayFabId == myID) MyPlayFabInfo = result.Leaderboard[j];
-                }
-            },
-            (error) => { });
-        }
-    }
-
-
-
-    void SetData(string curData)
-    {
-        var request = new UpdateUserDataRequest()
-        {
-            Data = new Dictionary<string, string>() { { "Data", curData } },
-            Permission = UserDataPermission.Public
-        };
-        PlayFabClientAPI.UpdateUserData(request, (result) => { }, (error) => print("데이터 저장 실패"));
-    }
-
-    string GetData(string curID)
-    {
-        string path = "";
-
-        PlayFabClientAPI.GetUserData(new GetUserDataRequest() { PlayFabId = curID }, (result) =>
-        path = curID + "\n" + result.Data["Data"].Value,
-        (error) => print("데이터 불러오기 실패"));
-
-        return path;
-    }
-    public void SaveDataToJson<T>(T data)
-    {
-        string jsonData = JsonUtility.ToJson(data, true);
-        string path = Path.Combine(Application.dataPath, typeof(T).ToString() + ".Json");
-        File.WriteAllText(path, jsonData);
-    }
-
-    public T LoadDataFromJson<T>()
-    {
-        GetData();
-        string jsonData = File.ReadAllText(path);
-        return JsonUtility.FromJson<T>(jsonData);
-    }
 
     [PunRPC]
     private void SetPlayer(int i)

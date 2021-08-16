@@ -40,7 +40,7 @@ public class ChessManager : MonoBehaviour, IPunObservable
 
     [SerializeField] private GameObject[] white; // { white_Pawn, white_Bishop, white_Knight, white_Rook, white_Queen  ,white_King }
     [SerializeField] private GameObject[] black; // black_Bishop, black_King, black_Knight, black_Pawn, black_Queen, black_Rook;
-
+    
     [SerializeField] private ChessBase[,] position = new ChessBase[8, 8];
 
     [SerializeField] private ChessBase[] playerBlack = new ChessBase[16];
@@ -72,7 +72,6 @@ public class ChessManager : MonoBehaviour, IPunObservable
             SpawnBlackChessPiece();
         }
 
-        SetPlayerList();
 
         for (int i = 0; i < playerBlack.Length; i++)
         {
@@ -93,7 +92,6 @@ public class ChessManager : MonoBehaviour, IPunObservable
            Creat(white[rook], 7,0)
         };
         Debug.Log("¤¤");
-        DataManager.Inst.SaveDataToJson(new ChessData("white", playerWhite));
     }
     private void SpawnBlackChessPiece()
     {
@@ -107,22 +105,8 @@ public class ChessManager : MonoBehaviour, IPunObservable
            Creat(black[knight], 6,7)
         };
         Debug.Log("¤¤");
-        DataManager.Inst.SaveDataToJson(new ChessData("black", playerBlack));
     }
 
-    private void SetPlayerList()
-    {
-        ChessData cd = DataManager.Inst.LoadDataFromJson<ChessData>();
-        Debug.Log("¤²");
-        if(cd.player == "white")
-        {
-            playerWhite = cd.chesses;
-        }
-        else
-        {
-            playerBlack = cd.chesses;
-        }
-    }
 
     public ChessBase Creat(GameObject chessPiece, int x, int y)
     {
@@ -339,20 +323,6 @@ public class ChessManager : MonoBehaviour, IPunObservable
     public GameObject[] GetBlackObject()
     {
         return black;
-    }
-
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.IsWriting)
-        {
-            stream.SendNext(DataManager.Inst.GetDataToJson<ChessData>());
-            Debug.Log("¤§");
-        }
-        else
-        {
-            DataManager.Inst.SaveDataToJson((ChessData)stream.ReceiveNext());
-            Debug.Log("¤©");
-        }
     }
 
 
