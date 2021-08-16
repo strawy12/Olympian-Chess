@@ -31,7 +31,8 @@ public class ParticleManager : MonoBehaviour
     public enum ParticleType
     {
         button,
-        ChessPieceClick,
+        W_ChessPieceClick,
+        B_ChessPieceClick,
     }
 
     public int AddParticle(ParticleType pt, Vector3 pos)
@@ -44,10 +45,16 @@ public class ParticleManager : MonoBehaviour
                     particleDic[pt] = Resources.Load<GameObject>("Particle/P_button");
                 }
                 break;
-            case ParticleType.ChessPieceClick:
+            case ParticleType.W_ChessPieceClick:
                 if(false ==particleDic.ContainsKey(pt))
                 {
-                    particleDic[pt] = Resources.Load<GameObject>("Particle/ChessPiece");
+                    particleDic[pt] = Resources.Load<GameObject>("Particle/W_ChessPiece");
+                }
+                break;
+            case ParticleType.B_ChessPieceClick:
+                if (false == particleDic.ContainsKey(pt))
+                {
+                    particleDic[pt] = Resources.Load<GameObject>("Particle/B_ChessPiece");
                 }
                 break;
         }
