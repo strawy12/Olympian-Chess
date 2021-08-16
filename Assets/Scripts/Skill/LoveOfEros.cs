@@ -65,7 +65,8 @@ public class LoveOfEros : SkillBase
         selectPieceTo.spriteRenderer.material.color = new Color32(0, 0, 0, 0);
         selectPieceTo.SetXBoard(selectPiece.GetXBoard());
         selectPieceTo.SetYBoard(selectPiece.GetYBoard());
-        ChessManager.Inst.SetCoords(selectPiece.gameObject, selectPiece.GetYBoard(), selectPiece.GetXBoard());
+        //ChessManager.Inst.SetCoords(selectPiece.gameObject, selectPiece.GetYBoard(), selectPiece.GetXBoard());
+        selectPiece.SetCoords();
         ChessManager.Inst.SetPosition(selectPieceTo);
         ChessManager.Inst.UpdateArr(selectPiece);
         SkillManager.Inst.RemoveSkillList(this);

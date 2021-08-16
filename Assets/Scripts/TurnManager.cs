@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 using System;
 using Random = UnityEngine.Random;
 
 
-public class TurnManager : MonoBehaviour
+public class TurnManager : MonoBehaviour, IPunObservable
 {
     #region SingleTon
 
@@ -75,11 +76,6 @@ public class TurnManager : MonoBehaviour
     public void StartGame()
     {
         TurnSetting();
-        Coroutine();
-    }
-    private void Coroutine()
-    {
-        StartCoroutine(CardShare());
         StartCoroutine(StartTurnCo());
     }
 
@@ -143,16 +139,7 @@ public class TurnManager : MonoBehaviour
         return currentPlayer;
     }
 
-    private IEnumerator CardShare()
-    {
-        for (int i = 0; i < startCardCount; i++)
-        {
-            yield return delay05;
-            CardManager.Inst.AddCard(false);
-            yield return delay05;
-            CardManager.Inst.AddCard(true);
-        }
-    }
+
 
     // Start a new turn & Win, lose decision
     public IEnumerator StartTurnCo()
@@ -244,7 +231,7 @@ public class TurnManager : MonoBehaviour
     public void EndTurn()
     {
         if (!isActive) return;
-
+        if (!GetCurrentPlayerTF()) return;
         if (GameManager.Inst.gameOver) return;
 
         if (CardManager.Inst.GetSelectCard() != null)
@@ -260,7 +247,7 @@ public class TurnManager : MonoBehaviour
 
         CardManager.Inst.ChangeIsUse(false);
         SkillManager.Inst.SkillListCntPlus();
-        NetworkManager.Inst.NextTurn();
+        NextTurn();
         GameManager.Inst.PlusAttackCnt();
 
         GameManager.Inst.SetUsingSkill(false);
@@ -270,6 +257,17 @@ public class TurnManager : MonoBehaviour
 
         StartCoroutine(StartTurnCo());
         //WinOrLose();
+    }
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(currentPlayer);
+        }
+        else
+        {
+            currentPlayer = (string)stream.ReceiveNext();
+        }
     }
 
 }

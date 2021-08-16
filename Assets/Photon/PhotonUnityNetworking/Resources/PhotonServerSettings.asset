@@ -44,6 +44,9 @@ MonoBehaviour:
   - EndTurn
   - SetPlayer
   - StartNextTurn
+  - MoveTransform
+  - SetCoords
+  - SetCoordsAnimation
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

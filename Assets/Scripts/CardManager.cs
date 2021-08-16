@@ -377,16 +377,30 @@ public class CardManager : MonoBehaviour
         }
     }
 
+    public void CardShare()
+    {
+        StartCoroutine(CardShareCo());
+    }    
+
+    private IEnumerator CardShareCo()
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            yield return new WaitForSeconds(0.05f);
+            AddCard(NetworkManager.Inst.GetPlayer() == "white");
+        }
+    }
     public void AddCard(bool isMine) // CardBuffer value => GameObjectCard conversion
     {
         if (myCardBuffer.Count == 0 && otherCardBuffer.Count == 0) return;
 
         if (isMine)
         {
-            var cardObject = Instantiate(cardPrefab, cardSpawnPoint.position, Utils.QI);
+            var cardObject = NetworkManager.Inst.SpawnObject(cardPrefab);
             cardObject.transform.SetParent(cards.transform);
             var card = cardObject.GetComponent<Card>();
             card.SetUp(PopCard(isMine), isMine);
+            card.SetPlayer("white");
             card.isFront = isMine;
             myCards.Add(card);
             SetOriginOrder(isMine);
@@ -398,6 +412,7 @@ public class CardManager : MonoBehaviour
             cardObject.transform.SetParent(cards.transform);
             var card = cardObject.GetComponent<Card>();
             card.SetUp(PopCard(isMine), isMine);
+            card.SetPlayer("black");
             card.isFront = isMine;
             otherCards.Add(card);
             SetOriginOrder(isMine);
@@ -449,42 +464,7 @@ public class CardManager : MonoBehaviour
         }
     }
 
-    public void ChangeCard(bool isColor) // After EndTurn, Change the values ​​of myCards and otherCards
-    {
-        List<Card> temp = new List<Card>();
-
-        temp = myCards;
-        myCards = otherCards;
-        otherCards = temp;
-        for (int i = 0; i < otherCards.Count; i++)
-        {
-            otherCards[i].card.sprite = null;
-            otherCards[i].ChangePrime(false);
-            otherCards[i].isFront = false;
-        }
-        for (int i = 0; i < myCards.Count; i++)
-        {
-            myCards[i].card.sprite = myCards[i].carditem.sprite;
-            myCards[i].ChangePrime(true);
-            myCards[i].isFront = true;
-        }
-
-        if (isColor)
-        {
-            cardArea.transform.position = new Vector3(0f, 0f, 3f);
-        }
-        else
-        {
-            cardArea.transform.position = new Vector3(0f, 7.7f, 3f);
-        }
-        SetOriginOrder(true);
-    }
-
-    //public void UpdateCard() // After EndTurn, Error Check and CardBuffer Update
-    //{
-    //    RotationBoard.ohtercards = otherCards;
-    //    RotationBoard.mycards = myCards;
-    //}
+    
 
     #endregion
 

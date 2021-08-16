@@ -2571,7 +2571,6 @@ namespace Photon.Pun
 
             go = prefabPool.Instantiate(parameters.prefabName, parameters.position, parameters.rotation);
 
-
             if (go == null)
             {
                 Debug.LogError("Failed to network-Instantiate: " + parameters.prefabName);

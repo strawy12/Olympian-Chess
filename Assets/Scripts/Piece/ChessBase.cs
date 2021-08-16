@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class ChessBase : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class ChessBase : MonoBehaviour
 
     public string player;
 
-    private List<SkillBase> chosenSkill = new List<SkillBase>();
+    protected List<SkillBase> chosenSkill = new List<SkillBase>();
     protected int moveCnt = 0;
     public int attackCount = 0;
     protected int xBoard = -1;
@@ -20,7 +21,7 @@ public class ChessBase : MonoBehaviour
     protected bool isSelecting = false;
     protected bool attackSelecting = false;
 
-    private void Start()
+    private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
@@ -157,5 +158,50 @@ public class ChessBase : MonoBehaviour
             return true;
         else
             return false;
+    }
+    public void SetCoords()
+    {
+        float x = xBoard;
+        float y = yBoard;
+
+        x *= 0.684f;
+        y *= 0.684f;
+
+        x += -2.4f;
+        y += -2.4f;
+
+        // Aligns according the board
+        transform.position = new Vector3(x, y, -1.0f);
+    }
+    public void SetCoordsAnimation()
+    {
+        StartCoroutine(SetCoordsAnimationCo());
+    }
+    public IEnumerator SetCoordsAnimationCo()
+    {
+        Vector3 startPos = transform.position;
+
+        float x = xBoard;
+        float y = yBoard;
+
+        x *= 0.684f;
+        y *= 0.684f;
+
+        x += -2.4f;
+        y += -2.4f;
+
+        // end position
+        Vector3 endPos = new Vector3(x, y, -1.0f);
+        // calculate distance for move speed
+        float distance = (endPos - startPos).magnitude;
+
+        float t = 0f;
+
+        while (t < 1f)
+        {
+            t += Time.deltaTime / distance * 10f;
+            transform.position = Vector3.Lerp(startPos, endPos, t);
+            yield return null;
+        }
     }
 }

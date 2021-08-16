@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Photon.Pun;
 
 
-public class ChessManager : MonoBehaviour
+public class ChessManager : MonoBehaviour, IPunObservable
 {
     //black_pawn
     #region SingleTon
@@ -58,9 +59,11 @@ public class ChessManager : MonoBehaviour
 
     private void SettingGame()
     {
+        Debug.Log("¤¡");
         if (NetworkManager.Inst.GetPlayer() == "white")
         {
             //StartCoroutine(SpawnWhiteChessPiece());
+            
             SpawnWhiteChessPiece();
         }
         else
@@ -68,6 +71,8 @@ public class ChessManager : MonoBehaviour
             //StartCoroutine(SpawnBlackChessPiece());
             SpawnBlackChessPiece();
         }
+
+        SetPlayerList();
 
         for (int i = 0; i < playerBlack.Length; i++)
         {
@@ -87,7 +92,8 @@ public class ChessManager : MonoBehaviour
            Creat(white[king], 4,0), Creat(white[bishop], 5,0), Creat(white[knight], 6,0),
            Creat(white[rook], 7,0)
         };
-
+        Debug.Log("¤¤");
+        DataManager.Inst.SaveDataToJson(new ChessData("white", playerWhite));
     }
     private void SpawnBlackChessPiece()
     {
@@ -100,145 +106,40 @@ public class ChessManager : MonoBehaviour
            Creat(black[king], 4,7), Creat(black[bishop], 5,7), Creat(black[rook], 7,7),
            Creat(black[knight], 6,7)
         };
+        Debug.Log("¤¤");
+        DataManager.Inst.SaveDataToJson(new ChessData("black", playerBlack));
     }
 
-
-    //private IEnumerator SpawnWhiteChessPiece()
-    //{
-    //    ChessBase cb;
-    //    int i = 0;
-    //    //cb = Creat(white[pawn], 1, 1);
-    //    //playerWhite.SetValue(cb, i++);
-    //    //yield return delay;
-    //    //cb = Creat(white[pawn], 2, 1);
-    //    //playerWhite.SetValue(cb, i++);
-    //    //yield return delay;
-    //    //cb = Creat(white[pawn], 3, 1);
-    //    //playerWhite.SetValue(cb, i++);
-    //    //yield return delay;
-    //    //cb = Creat(white[pawn], 4, 1);
-    //    //playerWhite.SetValue(cb, i++);
-    //    //yield return delay;
-    //    //cb = Creat(white[pawn], 5, 1);
-    //    //playerWhite.SetValue(cb, i++);
-    //    //yield return delay;
-    //    //cb = Creat(white[pawn], 6, 1);
-    //    //playerWhite.SetValue(cb, i++);
-    //    //yield return delay;
-    //    //cb = Creat(white[pawn], 7, 1);
-    //    //playerWhite.SetValue(cb, i++);
-    //    //yield return delay;
-    //    //cb = Creat(white[pawn], 0, 1);
-    //    //playerWhite.SetValue(cb, i++);
-    //    //yield return delay;
-    //    cb = Creat(white[rook], 0, 0);
-    //    playerWhite.SetValue(cb, i++);
-    //    yield return delay;
-    //    //cb = Creat(white[knight], 1, 0);
-    //    //playerWhite.SetValue(cb, i++);
-    //    //yield return delay;
-    //    //cb = Creat(white[bishop], 2, 0);
-    //    //playerWhite.SetValue(cb, i++);
-    //    //yield return delay;
-    //    cb = Creat(white[queen], 3, 0);
-    //    playerWhite.SetValue(cb, i++);
-    //    yield return delay;
-    //    cb = Creat(white[king], 4, 0);
-    //    playerWhite.SetValue(cb, i++);
-    //    yield return delay;
-    //    //cb = Creat(white[bishop], 5, 0);
-    //    //playerWhite.SetValue(cb, i++);
-    //    //yield return delay;
-    //    //cb = Creat(white[knight], 6, 0);
-    //    //playerWhite.SetValue(cb, i++);
-    //    //yield return delay;
-    //    cb = Creat(white[rook], 7, 0);
-    //    playerWhite.SetValue(cb, i++);
-    //}
-
-    //private IEnumerator SpawnBlackChessPiece()
-    //{
-    //    ChessBase cb;
-    //    int i = 0;
-
-    //    //cb = Creat(black[pawn], 0, 6);
-    //    //playerBlack.SetValue(cb, i++);
-    //    //yield return delay;
-    //    //cb = Creat(black[pawn], 1, 6);
-    //    //playerBlack.SetValue(cb, i++);
-    //    //yield return delay;
-    //    //cb = Creat(black[pawn], 2, 6);
-    //    //playerBlack.SetValue(cb, i++);
-    //    //yield return delay;
-    //    //cb = Creat(black[pawn], 3, 6);
-    //    //playerBlack.SetValue(cb, i++);
-    //    //yield return delay;
-    //    //cb = Creat(black[pawn], 4, 6);
-    //    //playerBlack.SetValue(cb, i++);
-    //    //yield return delay;
-    //    //cb = Creat(black[pawn], 5, 6);
-    //    //playerBlack.SetValue(cb, i++);
-    //    //yield return delay;
-    //    //cb = Creat(black[pawn], 6, 6);
-    //    //playerBlack.SetValue(cb, i++);
-    //    //yield return delay;
-    //    //cb = Creat(black[pawn], 7, 6);
-    //    //playerBlack.SetValue(cb, i++);
-    //    //yield return delay;
-    //    cb = Creat(black[rook], 0, 7);
-    //    playerBlack.SetValue(cb, i++);
-    //    yield return delay;
-    //    //cb = Creat(black[knight], 1, 7);
-    //    //playerBlack.SetValue(cb, i++);
-    //    //yield return delay;
-    //    //cb = Creat(black[bishop], 2, 7);
-    //    //playerBlack.SetValue(cb, i++);
-    //    //yield return delay;
-    //    cb = Creat(black[queen], 3, 7);
-    //    playerBlack.SetValue(cb, i++);
-    //    yield return delay;
-    //    cb = Creat(black[king], 4, 7);
-    //    playerBlack.SetValue(cb, i++);
-    //    //yield return delay;
-    //    //cb = Creat(black[bishop], 5, 7);
-    //    //playerBlack.SetValue(cb, i++);
-    //    yield return delay;
-    //    cb = Creat(black[rook], 7, 7);
-    //    playerBlack.SetValue(cb, i++);
-    //    //yield return delay;
-    //    //cb = Creat(black[knight], 6, 7);
-    //    //playerBlack.SetValue(cb, i++);
-    //}
+    private void SetPlayerList()
+    {
+        ChessData cd = DataManager.Inst.LoadDataFromJson<ChessData>();
+        Debug.Log("¤²");
+        if(cd.player == "white")
+        {
+            playerWhite = cd.chesses;
+        }
+        else
+        {
+            playerBlack = cd.chesses;
+        }
+    }
 
     public ChessBase Creat(GameObject chessPiece, int x, int y)
     {
-        GameObject obj = NetworkManager.Inst.SpawnChessPiece(chessPiece);
+        GameObject obj = NetworkManager.Inst.SpawnObject(chessPiece);
         ChessBase cb = obj.GetComponent<ChessBase>();
-
+        obj.name = chessPiece.name;
         obj.transform.SetParent(cccccp.transform);
 
         cb.SetXBoard(x);
         cb.SetYBoard(y);
-        SetCoords(obj, x, y);
+        //SetCoords(obj, x, y);
+        cb.SetCoords();
 
         return cb;
     }
 
-    public void SetCoords(GameObject obj, int xBoard, int yBoard)
-    {
-        Debug.Log(obj.name);
-        float x = xBoard;
-        float y = yBoard;
 
-        x *= 0.684f;
-        y *= 0.684f;
-
-        x += -2.4f;
-        y += -2.4f;
-
-        // Aligns according the board
-        obj.transform.position = new Vector3(x, y, -1.0f);
-    }
     public void PointMovePlate(int x, int y, ChessBase cp)
     {
 
@@ -413,38 +314,12 @@ public class ChessManager : MonoBehaviour
         cp.PlusMoveCnt();
         SetPosition(cp);
         cp.isMoving = true;
-        StartCoroutine(SetCoordsAnimation(cp));
+        cp.SetCoordsAnimation();
+        //StartCoroutine(SetCoordsAnimation());
         TurnManager.Instance.ButtonActive();
         GameManager.Inst.DestroyMovePlates();
     }
-    public IEnumerator SetCoordsAnimation(ChessBase cp)
-    {
-        Vector3 startPos = cp.transform.position;
 
-        float x = cp.GetXBoard();
-        float y = cp.GetYBoard();
-
-        x *= 0.684f;
-        y *= 0.684f;
-
-        x += -2.4f;
-        y += -2.4f;
-
-        // end position
-        Vector3 endPos = new Vector3(x, y, -1.0f);
-        // calculate distance for move speed
-        float distance = (endPos - startPos).magnitude;
-
-        float t = 0f;
-
-        while (t < 1f)
-        {
-            if (cp == null) yield break;
-            t += Time.deltaTime / distance * 10f;
-            cp.transform.position = Vector3.Lerp(startPos, endPos, t);
-            yield return null;
-        }
-    }
 
     public ChessBase[] GetPlayerBlack()
     {
@@ -465,4 +340,63 @@ public class ChessManager : MonoBehaviour
     {
         return black;
     }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(DataManager.Inst.GetDataToJson<ChessData>());
+            Debug.Log("¤§");
+        }
+        else
+        {
+            DataManager.Inst.SaveDataToJson((ChessData)stream.ReceiveNext());
+            Debug.Log("¤©");
+        }
+    }
+
+
+    //public void SetCoords(GameObject obj, int xBoard, int yBoard)
+    //{
+    //    Debug.Log(obj.name);
+    //    float x = xBoard;
+    //    float y = yBoard;
+
+    //    x *= 0.684f;
+    //    y *= 0.684f;
+
+    //    x += -2.4f;
+    //    y += -2.4f;
+
+    //    // Aligns according the board
+    //    obj.transform.position = new Vector3(x, y, -1.0f);
+    //}
+    //public IEnumerator SetCoordsAnimation(ChessBase cp)
+    //{
+    //    Vector3 startPos = cp.transform.position;
+
+    //    float x = cp.GetXBoard();
+    //    float y = cp.GetYBoard();
+
+    //    x *= 0.684f;
+    //    y *= 0.684f;
+
+    //    x += -2.4f;
+    //    y += -2.4f;
+
+    //    // end position
+    //    Vector3 endPos = new Vector3(x, y, -1.0f);
+    //    // calculate distance for move speed
+    //    float distance = (endPos - startPos).magnitude;
+
+    //    float t = 0f;
+
+    //    while (t < 1f)
+    //    {
+    //        if (cp == null) yield break;
+    //        t += Time.deltaTime / distance * 10f;
+    //        cp.transform.position = Vector3.Lerp(startPos, endPos, t);
+    //        yield return null;
+    //    }
+    //}
 }

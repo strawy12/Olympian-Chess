@@ -41,6 +41,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] ECardState eCardState;
     [SerializeField] GameObject movePlate;
+    [SerializeField] Camera blackCamera;
+    [SerializeField] Camera whiteCamera;
 
     enum ECardState { Moving, Skill, MovingAndSkill }
 
@@ -78,7 +80,8 @@ public class GameManager : MonoBehaviour
     {
         pool = FindObjectOfType<PoolManager>();
         TurnManager.Instance.StartGame();
-        //SettingGame();
+        CardManager.Inst.CardShare();
+        SetCamera();
     }
     private void Update()
     {
@@ -113,6 +116,25 @@ public class GameManager : MonoBehaviour
             //Using UnityEngine.SceneManagement is needed here
             SceneManager.LoadScene("Game");
         }
+    }
+
+    private void SetCamera()
+    {
+        Canvas cv = FindObjectOfType<Canvas>();
+        if (NetworkManager.Inst.GetPlayer() == "white")
+        {
+            blackCamera.enabled = false;
+            whiteCamera.enabled = true;
+            cv.worldCamera = whiteCamera;
+        }
+        else
+        {
+            whiteCamera.enabled = false;
+            blackCamera.enabled = true;
+            cv.worldCamera = blackCamera;
+        }
+        
+        
     }
     private void DeletePawn()
     {

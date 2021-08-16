@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using DG.Tweening;
+using Photon.Pun;
+using UnityEngine;
 
 public class Card : MonoBehaviour
 {
@@ -17,8 +16,10 @@ public class Card : MonoBehaviour
     public SpriteRenderer cardPrame;
     public SpriteRenderer card;
     private SpriteRenderer spriteRenderer = null;
+    private PhotonView pv;
 
-    public bool isFront= false;
+    private string player;
+    public bool isFront = false;
     public bool isSelected;
 
     public Carditem carditem;
@@ -27,12 +28,13 @@ public class Card : MonoBehaviour
     #endregion
 
     #region System
-    private void Start()
+    private void Awake()
     {
         if (enabled == false) // DraftCard Script overlap Prevention 
             return;
-
         spriteRenderer = GetComponent<SpriteRenderer>();
+        pv = GetComponent<PhotonView>();
+        //pv.enabled = false;
     }
 
     private void Update()
@@ -59,11 +61,10 @@ public class Card : MonoBehaviour
     void OnMouseDown()
     {
         //if (PilSalGi.Inst.GetisUsePilSalGi()) return;
-        if (enabled == false)
-            return;
-        if (TurnManager.Instance.isLoading) return;
-        if (isSelected) return; // reselection Prevention 
-        Debug.Log("¿¿æ÷");
+
+        if (CheckClickCard()) return;
+        if (isSelected) return;
+        // reselection Prevention 
         isSelected = true;
         if (isFront)
             CardManager.Inst.CardMouseDown(this);
@@ -73,13 +74,22 @@ public class Card : MonoBehaviour
     void OnMouseUp()
     {
         // if (PilSalGi.Inst.GetisUsePilSalGi()) return;
-        if (enabled == false)
-            return;
-        if (TurnManager.Instance.isLoading) return;
+        if (CheckClickCard()) return;
+
         isSelected = false;
         if (isFront)
             CardManager.Inst.CardMouseUp(this);
 
+    }
+    public bool CheckClickCard()
+    {
+        if (enabled == false) return true;
+        if (GameManager.Inst.IsGameOver()) return true;
+        if (!TurnManager.Instance.GetCurrentPlayerTF()) return true;
+        if (NetworkManager.Inst.GetPlayer() != player) return true;
+
+
+        return false;
     }
     #endregion
 
@@ -103,9 +113,9 @@ public class Card : MonoBehaviour
             gameObject.name = carditem.name;
         }
     }
-
     public void MoveTransform(PRS prs, bool useDotween, float dotweemTime = 0) // Card Move
     {
+        //pv.enabled = true;
         if (useDotween)
         {
             transform.DOMove(prs.pos, dotweemTime);
@@ -118,6 +128,8 @@ public class Card : MonoBehaviour
             transform.rotation = prs.rot;
             transform.localScale = prs.scale;
         }
+        //pv.enabled = false;
+
     }
 
 
@@ -127,6 +139,11 @@ public class Card : MonoBehaviour
             cardPrame.sprite = cardFornt;
         else
             cardPrame.sprite = emptySprite;
+    }
+
+    public void SetPlayer(string player)
+    {
+        this.player = player;
     }
     #endregion
 

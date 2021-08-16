@@ -1,0 +1,53 @@
+{
+    "player": "white",
+    "chesses": [
+        {
+            "instanceID": -9234
+        },
+        {
+            "instanceID": -9248
+        },
+        {
+            "instanceID": -9262
+        },
+        {
+            "instanceID": -9276
+        },
+        {
+            "instanceID": -9290
+        },
+        {
+            "instanceID": -9304
+        },
+        {
+            "instanceID": -9318
+        },
+        {
+            "instanceID": -9332
+        },
+        {
+            "instanceID": -9346
+        },
+        {
+            "instanceID": -9360
+        },
+        {
+            "instanceID": -9374
+        },
+        {
+            "instanceID": -9388
+        },
+        {
+            "instanceID": -9402
+        },
+        {
+            "instanceID": -9416
+        },
+        {
+            "instanceID": -9430
+        },
+        {
+            "instanceID": -9444
+        }
+    ]
+}
