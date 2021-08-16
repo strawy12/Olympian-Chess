@@ -109,13 +109,17 @@ public class GameManager : MonoBehaviour
     public void DestroyMovePlates()
     {
         int cnt = movePlateList.Count;
+
         for (int i = 0; i < cnt; i++)
         {
             Destroy(movePlateList[0]);
             RemoveMovePlateList(movePlateList[0]);
+            Debug.Log("qweqeqweqwe");
+
         }
+
     }
-     // Functions checking if the parameter is equal to current player
+    // Functions checking if the parameter is equal to current player
     public bool CheckPlayer(string player)
     {
         if (GetCurrentPlayer() == player)

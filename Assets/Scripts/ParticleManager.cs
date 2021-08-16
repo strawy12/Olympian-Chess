@@ -36,6 +36,11 @@ public class ParticleManager : MonoBehaviour
         S,
     }
 
+    public void DeleteParticle(ParticleType pt)
+    {
+        Destroy(particleDic[pt]);
+    }
+
     public int AddParticle(ParticleType pt, Vector3 pos)
     {
         switch(pt)
