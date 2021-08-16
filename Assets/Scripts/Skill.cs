@@ -415,7 +415,7 @@
 //        {
 //            GameManager.Inst.SetPositionEmpty(posX_rush, posY_rush);
 
-//            selectPiece.SetXBoard(posX_rush);
+//            selectPiece.SetchessData.xBoard(posX_rush);
 //            selectPiece.SetYBoard(posY_rush + 1);
 //            selectPiece.SetCoords();
 
@@ -439,7 +439,7 @@
 //        {
 //            GameManager.Inst.SetPositionEmpty(posX_rush, posY_rush);
 
-//            selectPiece.SetXBoard(posX_rush);
+//            selectPiece.SetchessData.xBoard(posX_rush);
 //            selectPiece.SetYBoard(posY_rush - 1);
 //            selectPiece.SetCoords();
 
@@ -549,7 +549,7 @@
 //            randomY = Random.Range(0, 8);
 //        } while (GameManager.Inst.GetPosition(randomX, randomY) != null);
 
-//        selectPiece.SetXBoard(randomX);
+//        selectPiece.SetchessData.xBoard(randomX);
 //        selectPiece.SetYBoard(randomY);
 //        selectPiece.SetCoords();
 

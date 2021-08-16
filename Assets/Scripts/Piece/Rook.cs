@@ -19,8 +19,8 @@ public class Rook : ChessBase
     public void LineMovePlate(int xIncrement, int yIncrement)
     {
 
-        int x = xBoard + xIncrement;
-        int y = yBoard + yIncrement;
+        int x = chessData.xBoard + xIncrement;
+        int y = chessData.yBoard + yIncrement;
 
         while (ChessManager.Inst.PositionOnBoard(x, y) && ChessManager.Inst.GetPosition(x, y) == null)
         {

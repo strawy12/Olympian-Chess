@@ -47,6 +47,10 @@ MonoBehaviour:
   - MoveTransform
   - SetCoords
   - SetCoordsAnimation
+  - SetPlayerArr
+  - SetXBoard
+  - SetYBoard
+  - Creat
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

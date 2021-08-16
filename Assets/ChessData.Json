@@ -1,53 +1,53 @@
 {
-    "player": "white",
+    "player": "black",
     "chesses": [
         {
-            "instanceID": -9234
+            "instanceID": -20096
         },
         {
-            "instanceID": -9248
+            "instanceID": -20108
         },
         {
-            "instanceID": -9262
+            "instanceID": -20120
         },
         {
-            "instanceID": -9276
+            "instanceID": -20132
         },
         {
-            "instanceID": -9290
+            "instanceID": -20144
         },
         {
-            "instanceID": -9304
+            "instanceID": -20156
         },
         {
-            "instanceID": -9318
+            "instanceID": -20168
         },
         {
-            "instanceID": -9332
+            "instanceID": -20180
         },
         {
-            "instanceID": -9346
+            "instanceID": -20192
         },
         {
-            "instanceID": -9360
+            "instanceID": -20204
         },
         {
-            "instanceID": -9374
+            "instanceID": -20216
         },
         {
-            "instanceID": -9388
+            "instanceID": -20228
         },
         {
-            "instanceID": -9402
+            "instanceID": -20240
         },
         {
-            "instanceID": -9416
+            "instanceID": -20252
         },
         {
-            "instanceID": -9430
+            "instanceID": -20264
         },
         {
-            "instanceID": -9444
+            "instanceID": -20276
         }
     ]
 }

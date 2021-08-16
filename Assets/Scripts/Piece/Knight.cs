@@ -11,14 +11,14 @@ public class Knight : ChessBase
 
     private void Kn_MovePlate()
     {
-        ChessManager.Inst.PointMovePlate(xBoard + 1, yBoard + 2, this);
-        ChessManager.Inst.PointMovePlate(xBoard - 1, yBoard + 2, this);
-        ChessManager.Inst.PointMovePlate(xBoard + 2, yBoard + 1, this);
-        ChessManager.Inst.PointMovePlate(xBoard + 2, yBoard - 1, this);
-        ChessManager.Inst.PointMovePlate(xBoard + 1, yBoard - 2, this);
-        ChessManager.Inst.PointMovePlate(xBoard - 1, yBoard - 2, this);
-        ChessManager.Inst.PointMovePlate(xBoard - 2, yBoard + 1, this);
-        ChessManager.Inst.PointMovePlate(xBoard - 2, yBoard - 1, this);
+        ChessManager.Inst.PointMovePlate(chessData.xBoard + 1, chessData.yBoard + 2, this);
+        ChessManager.Inst.PointMovePlate(chessData.xBoard - 1, chessData.yBoard + 2, this);
+        ChessManager.Inst.PointMovePlate(chessData.xBoard + 2, chessData.yBoard + 1, this);
+        ChessManager.Inst.PointMovePlate(chessData.xBoard + 2, chessData.yBoard - 1, this);
+        ChessManager.Inst.PointMovePlate(chessData.xBoard + 1, chessData.yBoard - 2, this);
+        ChessManager.Inst.PointMovePlate(chessData.xBoard - 1, chessData.yBoard - 2, this);
+        ChessManager.Inst.PointMovePlate(chessData.xBoard - 2, chessData.yBoard + 1, this);
+        ChessManager.Inst.PointMovePlate(chessData.xBoard - 2, chessData.yBoard - 1, this);
     }
 
 }

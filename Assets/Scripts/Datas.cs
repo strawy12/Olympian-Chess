@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChessData
+public class ChessListData
 {
     public string player;
     public ChessBase[] chesses;
 
-    public ChessData(string player, ChessBase[] chesses)
+    public ChessListData(string player, ChessBase[] chesses)
     {
         this.player = player;
         this.chesses = chesses;

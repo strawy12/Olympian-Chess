@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7420709648095688181}
   - component: {fileID: -7377210606711140774}
   - component: {fileID: -5439109272567305513}
-  - component: {fileID: -1858999177242001967}
+  - component: {fileID: -1438751706387607576}
   m_Layer: 0
   m_Name: black_bishop
   m_TagString: ChessPiece
@@ -100,9 +100,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: black
-  attackCount: 0
-  isMoving: 0
-  isAttacking: 0
 --- !u!61 &-7377210606711140774
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -147,12 +144,11 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents:
-  - {fileID: -1858999177242001967}
+  ObservedComponents: []
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &-1858999177242001967
+--- !u!114 &-1438751706387607576
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

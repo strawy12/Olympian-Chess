@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4104685081518280871}
   - component: {fileID: 7225862072755357287}
   - component: {fileID: 3753349369523629635}
-  - component: {fileID: 848937602771193446}
+  - component: {fileID: -8004543739648095449}
   m_Layer: 0
   m_Name: black_king
   m_TagString: ChessPiece
@@ -100,9 +100,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: black
-  attackCount: 0
-  isMoving: 0
-  isAttacking: 0
 --- !u!61 &7225862072755357287
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -148,11 +145,12 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 848937602771193446}
+  - {fileID: 4104685081518280871}
+  - {fileID: -8004543739648095449}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &848937602771193446
+--- !u!114 &-8004543739648095449
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

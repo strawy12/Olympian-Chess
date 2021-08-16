@@ -3,27 +3,53 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class ChessBase : MonoBehaviour
+[System.Serializable]
+public class ChessData
+{
+    public int moveCnt;
+    public int attackCount;
+    public int xBoard;
+    public int yBoard;
+
+    public bool isMoving;
+    public bool isAttacking;
+    public bool noneAttack;
+    public bool isSelecting;
+    public bool attackSelecting;
+
+    public ChessData(int moveCnt, int attackCount, int xBoard, int yBoard, bool isMoving, bool isAttacking, bool noneAttack, bool isSelecting, bool attackSelecting)
+    {
+        this.moveCnt = moveCnt;
+        this.attackCount = attackCount;
+        this.xBoard = xBoard;
+        this.yBoard = yBoard;
+        this.isMoving = isMoving;
+        this.isAttacking = isAttacking;
+        this.noneAttack = noneAttack;
+        this.isSelecting = isSelecting;
+        this.attackSelecting = attackSelecting;
+    }
+}
+
+
+public class ChessBase : MonoBehaviourPunCallbacks//, IPunObservable
 {
     public SpriteRenderer spriteRenderer { get; private set; }
 
     public string player;
 
     protected List<SkillBase> chosenSkill = new List<SkillBase>();
-    protected int moveCnt = 0;
-    public int attackCount = 0;
-    protected int xBoard = -1;
-    protected int yBoard = -1;
 
-    public bool isMoving = false;
-    public bool isAttacking = false;
-    protected bool noneAttack = false;
-    protected bool isSelecting = false;
-    protected bool attackSelecting = false;
+    public ChessData chessData { get; private set; }
 
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        chessData = new ChessData(0, 0, 0, 0, false, false, false, false, false);
+    }
+    private void Start()
+    {
+        
     }
 
 
@@ -33,30 +59,30 @@ public class ChessBase : MonoBehaviour
 
     public int GetXBoard()
     {
-        return xBoard;
+        return chessData.xBoard;
     }
     public int GetYBoard()
     {
-        return yBoard;
+        return chessData.yBoard;
     }
     public void SetXBoard(int x)
     {
-        xBoard = x;
+        chessData.xBoard = x;
     }
 
     public void SetYBoard(int y)
     {
-        yBoard = y;
+        chessData.yBoard = y;
     }
 
     public void PlusMoveCnt()
     {
-        moveCnt++;
+        chessData.moveCnt++;
     }
 
     public int GetMoveCnt()
     {
-        return moveCnt;
+        return chessData.moveCnt;
     }
 
     public bool CheckClickChessPiece()
@@ -116,7 +142,7 @@ public class ChessBase : MonoBehaviour
 
     public bool IsAttackSpawn(int x, int y)
     {
-        if (noneAttack && ChessManager.Inst.GetPosition(x, y).name.Contains("king")) return true;
+        if (chessData.noneAttack && ChessManager.Inst.GetPosition(x, y).name.Contains("king")) return true;
         else return false;
     }
     public void AddChosenSkill(SkillBase skill)
@@ -131,26 +157,26 @@ public class ChessBase : MonoBehaviour
 
     public bool GetAttackSelecting()
     {
-        return attackSelecting;
+        return chessData.attackSelecting;
     }
     public void SetIsMoving(bool isMoving)
     {
-        this.isMoving = isMoving;
+        chessData.isMoving = isMoving;
     }
 
     public void SetAttackSelecting(bool attackSelecting)
     {
-        this.attackSelecting = attackSelecting;
+        chessData.attackSelecting = attackSelecting;
     }
 
     public void SetNoneAttack(bool noneAttack)
     {
-        this.noneAttack = noneAttack;
+        chessData.noneAttack = noneAttack;
     }
 
     public void SetIsSelecting(bool _isHidden)
     {
-        isSelecting = _isHidden;
+        chessData.isSelecting = _isHidden;
     }
     public bool CheckIsMine()
     {
@@ -161,8 +187,8 @@ public class ChessBase : MonoBehaviour
     }
     public void SetCoords()
     {
-        float x = xBoard;
-        float y = yBoard;
+        float x = chessData.xBoard;
+        float y = chessData.yBoard;
 
         x *= 0.684f;
         y *= 0.684f;
@@ -181,8 +207,8 @@ public class ChessBase : MonoBehaviour
     {
         Vector3 startPos = transform.position;
 
-        float x = xBoard;
-        float y = yBoard;
+        float x = chessData.xBoard;
+        float y = chessData.yBoard;
 
         x *= 0.684f;
         y *= 0.684f;
@@ -204,4 +230,16 @@ public class ChessBase : MonoBehaviour
             yield return null;
         }
     }
+
+    //public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    //{
+    //    if (stream.IsWriting)
+    //    {
+    //        stream.SendNext(chessData);
+    //    }
+    //    else
+    //    {
+    //        chessData = (ChessData)stream.ReceiveNext();
+    //    }
+    //}
 }

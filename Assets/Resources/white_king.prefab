@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8456227072257792295}
   - component: {fileID: -8574767235787995844}
   - component: {fileID: 984407054484690335}
-  - component: {fileID: 731998528659232797}
+  - component: {fileID: 2641075578377673599}
   m_Layer: 0
   m_Name: white_king
   m_TagString: ChessPiece
@@ -100,9 +100,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: white
-  attackCount: 0
-  isMoving: 0
-  isAttacking: 0
 --- !u!61 &-8574767235787995844
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -148,11 +145,11 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 731998528659232797}
+  - {fileID: 0}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &731998528659232797
+--- !u!114 &2641075578377673599
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

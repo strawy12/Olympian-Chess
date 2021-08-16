@@ -11,14 +11,14 @@ public class King : ChessBase
 
     private void Ki_MovePlate()
     {
-        PointMovePlate(xBoard, yBoard + 1);
-        PointMovePlate(xBoard, yBoard - 1);
-        PointMovePlate(xBoard - 1, yBoard - 1);
-        PointMovePlate(xBoard - 1, yBoard - 0);
-        PointMovePlate(xBoard - 1, yBoard + 1);
-        PointMovePlate(xBoard + 1, yBoard - 1);
-        PointMovePlate(xBoard + 1, yBoard - 0);
-        PointMovePlate(xBoard + 1, yBoard + 1);
+        PointMovePlate(chessData.xBoard, chessData.yBoard + 1);
+        PointMovePlate(chessData.xBoard, chessData.yBoard - 1);
+        PointMovePlate(chessData.xBoard - 1, chessData.yBoard - 1);
+        PointMovePlate(chessData.xBoard - 1, chessData.yBoard - 0);
+        PointMovePlate(chessData.xBoard - 1, chessData.yBoard + 1);
+        PointMovePlate(chessData.xBoard + 1, chessData.yBoard - 1);
+        PointMovePlate(chessData.xBoard + 1, chessData.yBoard - 0);
+        PointMovePlate(chessData.xBoard + 1, chessData.yBoard + 1);
     }
 
     public void PointMovePlate(int x, int y)

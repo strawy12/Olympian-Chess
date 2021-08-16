@@ -25,7 +25,7 @@ public class WarBuff : SkillBase
         GameManager.Inst.SetUsingSkill(true);
         selectPiece.SetNoneAttack(true);
 
-        if (selectPiece.isMoving)
+        if (selectPiece.chessData.isMoving)
         {
             TurnManager.Instance.ButtonInactive();
         }
@@ -33,7 +33,7 @@ public class WarBuff : SkillBase
 
     private void WB_Standard()
     {
-        if (cnt == 0 && !selectPiece.isMoving)
+        if (cnt == 0 && !selectPiece.chessData.isMoving)
         {
             cnt++;
             TurnManager.Instance.ButtonInactive();

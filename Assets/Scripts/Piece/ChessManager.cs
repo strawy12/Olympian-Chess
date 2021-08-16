@@ -5,8 +5,8 @@ using System;
 using Photon.Pun;
 
 
-public class ChessManager : MonoBehaviour, IPunObservable
-{
+public class ChessManager : MonoBehaviourPunCallbacks
+{ 
     //black_pawn
     #region SingleTon
 
@@ -59,7 +59,6 @@ public class ChessManager : MonoBehaviour, IPunObservable
 
     private void SettingGame()
     {
-        Debug.Log("ぁ");
         if (NetworkManager.Inst.GetPlayer() == "white")
         {
             //StartCoroutine(SpawnWhiteChessPiece());
@@ -91,7 +90,9 @@ public class ChessManager : MonoBehaviour, IPunObservable
            Creat(white[king], 4,0), Creat(white[bishop], 5,0), Creat(white[knight], 6,0),
            Creat(white[rook], 7,0)
         };
-        Debug.Log("い");
+        //string jsonData = NetworkManager.Inst.SaveDataToJson(new ChessData("white", playerWhite));
+        Debug.Log("览局");
+        //photonView.RPC("SetPlayerArr", RpcTarget.Others, jsonData);
     }
     private void SpawnBlackChessPiece()
     {
@@ -104,9 +105,29 @@ public class ChessManager : MonoBehaviour, IPunObservable
            Creat(black[king], 4,7), Creat(black[bishop], 5,7), Creat(black[rook], 7,7),
            Creat(black[knight], 6,7)
         };
-        Debug.Log("い");
+        Debug.Log("览局");
+
+        //string jsonData = NetworkManager.Inst.SaveDataToJson(new ChessData("black", playerBlack));
+        Debug.Log("览局");
+        //photonView.RPC("SetPlayerArr", RpcTarget.Others, jsonData);
     }
 
+    [PunRPC]
+    //void SetPlayerArr(string jsonData)
+    //{
+    //    Debug.Log("览局2");
+            
+    //    ChessData cd = NetworkManager.Inst.LoadDataFromJson<ChessData>(jsonData);
+    //    Debug.Log(cd.player);
+    //    if (cd.player == "white")
+    //    {
+    //        playerWhite = cd.chesses;
+    //    }
+    //    else if(cd.player == "black")
+    //    {
+    //        playerBlack = cd.chesses;
+    //    }
+    //}
 
     public ChessBase Creat(GameObject chessPiece, int x, int y)
     {
@@ -149,10 +170,10 @@ public class ChessManager : MonoBehaviour, IPunObservable
         {
             if (playerWhite[i] == null)
                 continue;
-            playerWhite[i].isMoving = false;
+            playerWhite[i].chessData.isMoving = false;
             if (playerBlack[i] == null)
                 continue;
-            playerBlack[i].isMoving = false;
+            playerBlack[i].chessData.isMoving = false;
         }
     }
 
@@ -162,10 +183,10 @@ public class ChessManager : MonoBehaviour, IPunObservable
         {
             if (playerWhite[i] == null)
                 continue;
-            playerWhite[i].isMoving = false;
+            playerWhite[i].chessData.isMoving = false;
             if (playerBlack[i] == null)
                 continue;
-            playerBlack[i].isMoving = false;
+            playerBlack[i].chessData.isMoving = false;
         }
     }
 
@@ -282,7 +303,7 @@ public class ChessManager : MonoBehaviour, IPunObservable
         UpdateArr(cp);
         Destroy(cp.gameObject);
 
-        if (mp.Getreference().isAttacking)
+        if (mp.Getreference().chessData.isAttacking)
         {
             GameManager.Inst.RemoveAttackings(mp.Getreference());
         }
@@ -297,7 +318,7 @@ public class ChessManager : MonoBehaviour, IPunObservable
         cp.SetYBoard(matrixY);
         cp.PlusMoveCnt();
         SetPosition(cp);
-        cp.isMoving = true;
+        cp.chessData.isMoving = true;
         cp.SetCoordsAnimation();
         //StartCoroutine(SetCoordsAnimation());
         TurnManager.Instance.ButtonActive();

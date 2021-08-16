@@ -13,12 +13,12 @@ public class Pawn : ChessBase
     {
         if(player == "white")
         {
-            PawnMovePlate(xBoard, yBoard + 1);
+            PawnMovePlate(chessData.xBoard, chessData.yBoard + 1);
         }
 
         else
         {
-            PawnMovePlate(xBoard, yBoard - 1);
+            PawnMovePlate(chessData.xBoard, chessData.yBoard - 1);
         }
     }
     public void PawnMovePlate(int x, int y)
@@ -27,7 +27,7 @@ public class Pawn : ChessBase
         {
             if (ChessManager.Inst.GetPosition(x, y) == null)
             {
-                if (moveCnt != 0)
+                if (chessData.moveCnt != 0)
                     GameManager.Inst.MovePlateSpawn(x, y, this);
 
                 else
