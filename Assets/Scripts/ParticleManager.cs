@@ -23,10 +23,10 @@ public class ParticleManager : MonoBehaviour
     }
     #endregion
 
-    private void Awake()
-    {
-        DontDestroyOnLoad(this);
-    }
+    //private void Awake()
+    //{
+    //    DontDestroyOnLoad(this);
+    //}
 
     public enum ParticleType
     {

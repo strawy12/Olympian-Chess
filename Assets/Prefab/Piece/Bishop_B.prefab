@@ -97,8 +97,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38fb97dcf5801264d89d6eef7647ac4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attack: 0
   player: black
+  attackCount: 0
+  isMoving: 0
+  isAttacking: 0
+  p: {fileID: 535879230185396921, guid: b90b6275a5b803447a6e6981e84f0816, type: 3}
 --- !u!61 &-7377210606711140774
 BoxCollider2D:
   m_ObjectHideFlags: 0

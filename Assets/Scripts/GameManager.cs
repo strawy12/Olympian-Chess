@@ -52,6 +52,7 @@ public class GameManager : MonoBehaviour
     private bool moving = true;
     private bool isStop = false;
 
+    public ChessPiecePool chessPiecePool { get; private set; }
 
     [Multiline(10)]
     [SerializeField] string cheatInfo;
@@ -70,7 +71,8 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
-        pool = FindObjectOfType<PoolManager>();
+        chessPiecePool = FindObjectOfType<ChessPiecePool>();
+         pool = FindObjectOfType<PoolManager>();
         TurnManager.Instance.StartGame(); 
         //SettingGame();
     }

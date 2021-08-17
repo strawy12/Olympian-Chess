@@ -51,17 +51,41 @@ public class ChessBase : MonoBehaviour
     {
         return moveCnt;
     }
+
+    public void InstanceParticle(Vector3 tm)
+    {
+        GameObject newP = null;
+        if(GameManager.Inst.chessPiecePool.transform.childCount>0)
+        {
+            newP = GameManager.Inst.chessPiecePool.transform.GetChild(0).gameObject;
+            newP.transform.position = tm;
+            newP.SetActive(true);
+        }
+        else
+        {
+            newP = Resources.Load<GameObject>("Particle/W_ChessPiece");
+        }
+
+        if(newP!=null)
+        {
+            newP.transform.SetParent(null);
+        }
+    }
     public void OnMouseUp()
     {
         Vector3 P = new Vector3(transform.position.x, transform.position.y, 0f);
-        ParticleManager.Instance.AddParticle(ParticleManager.ParticleType.W_ChessPieceClick, P);
-        //ParticleManager.Instance.AddParticle(ParticleManager.ParticleType.B_ChessPieceClick, P);
-        //ParticleManager.Instance.AddParticle(ParticleManager.ParticleType.S, P);
+        Debug.Log("12345676");
+        InstanceParticle(new Vector3(transform.position.x, transform.position.y, 0f));
 
         Debug.Log("마우스 올림");
         if (TurnManager.Instance.GetIsActive()) return;
         if (!GameManager.Inst.IsGameOver() && GameManager.Inst.GetCurrentPlayer() == player)
         {
+
+            //ParticleManager.Instance.AddParticle(ParticleManager.ParticleType.W_ChessPieceClick, P);
+            //ParticleManager.Instance.AddParticle(ParticleManager.ParticleType.B_ChessPieceClick, P);
+            //ParticleManager.Instance.AddParticle(ParticleManager.ParticleType.S, P);
+
             SkillManager.Inst.CheckSkillCancel("에로스의 사랑,수면,죽음의 땅,파도");
             GameManager.Inst.DestroyMovePlates();
 
