@@ -227,7 +227,7 @@ public class TurnManager : MonoBehaviour
         ButtonInactive();
 
         CardManager.Inst.ChangeIsUse(false);
-        SkillManager.Inst.SkillListCntPlus();
+        //SkillManager.Inst.SkillListCntPlus();
         SuperSkillManager.Inst.SuperListCntPlus();
         GameManager.Inst.NextTurn();
         GameManager.Inst.PlusAttackCnt();
@@ -236,6 +236,8 @@ public class TurnManager : MonoBehaviour
         GameManager.Inst.SetUsingSkill(false);
         GameManager.Inst.SetMoving(true);
         GameManager.Inst.SetIsStop(false);
+
+        SkillManager.Inst.SkillListCntPlus();
 
         StartCoroutine(StartTurnCo());
         WinOrLose();

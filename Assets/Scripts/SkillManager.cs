@@ -166,9 +166,9 @@ public class SkillManager : MonoBehaviour
            
         for (i = 0; i < _skillList.Count; i++)
         {
-            if (GameManager.Inst.isBacchrs && skillList[i].name == "바카스")
+            if (GameManager.Inst.isBacchrs && _skillList[i].name == "바카스")
             {
-                skillList[i].SetSelectPiece(cp);
+                _skillList[i].SetSelectPiece(cp);
             }
 
             _skillList[i].StandardSkill();
@@ -210,6 +210,7 @@ public class SkillManager : MonoBehaviour
         SkillBase sb = skillList[skillList.Count - 1];
         sb.SetPosX(mp.GetPosX());
         sb.SetPosY(mp.GetPosY());
+        sb.SetSelectPiece(mp.Getreference());
         sb.StandardSkill();
 
         CardManager.Inst.SetSelectCard(null);

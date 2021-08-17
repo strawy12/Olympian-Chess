@@ -49,18 +49,24 @@ public class MovePlate : MonoBehaviour
         if (eChessState == EChessState.Moving)
         {
             ChessManager.Inst.MoveChessPiece(reference, matrixX, matrixY);
+            Debug.Log("¹«ºù");
+
         }
 
         else if (eChessState == EChessState.Skill)
         {
+            Debug.Log("¤µ¤»");
             SkillManager.Inst.UsingSkill(this);
             SuperSkillManager.Inst.UsingSkill(this);
+
         }
 
         else if (eChessState == EChessState.MovingAndSkill)
         {
             ChessManager.Inst.MoveChessPiece(reference, matrixX, matrixY);
             SkillManager.Inst.UsingSkill(this);
+            Debug.Log("¹«ºù½ÃÅ°");
+
         }
 
         else
@@ -75,12 +81,6 @@ public class MovePlate : MonoBehaviour
     {
         if (TurnManager.Instance.isLoading) return;
         if (isSelected) return;
-        //if(PilSalGi.Inst.GetisUsePilSalGi())
-        //{
-        //    PilSalGi.Inst.SetselectPiece(GameManager.Inst.GetPosition(matrixX, matrixY));
-        //    return;
-        //}
-        // change to coroutine for moving animation
         OnMouseUpEvent();
     }
 
@@ -105,11 +105,6 @@ public class MovePlate : MonoBehaviour
         {
             eChessState = EChessState.Stop;
         }
-    }
-
-    public void SetIsSelected(bool isSelected)
-    {
-        this.isSelected = isSelected;
     }
 
     public void SetCoords(int x, int y)

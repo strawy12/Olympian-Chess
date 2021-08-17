@@ -63,6 +63,5 @@ public class ShieldOfAthena : SkillBase
             selectPiece.RemoveChosenSkill(this);
         }
         Destroy(gameObject);
-
     }
 }

@@ -6,14 +6,26 @@ public class Drunkenness : SkillBase
 {
     int random;
 
-    public override void UsingSkill()
-    {
-        Drunk_UsingSkill();
-    }
-
     public override void StandardSkill()
     {
         DR_StandardSkill();
+    }
+
+    public override void ResetSkill()
+    {
+        if(turnCnt > 1)
+        {
+            if(selectPiece != null)
+            {
+                selectPiece.RemoveChosenSkill(this);
+            }
+            SkillManager.Inst.RemoveSkillList(this);
+            Destroy(gameObject);
+            return;
+        }
+
+        GameManager.Inst.SetMoving(false);
+        GameManager.Inst.SetUsingSkill(true);
     }
 
     private void DR_StandardSkill()
@@ -36,10 +48,6 @@ public class Drunkenness : SkillBase
         GameManager.Inst.SetMoving(true);
         GameManager.Inst.SetUsingSkill(false);
     }
-    private void Drunk_UsingSkill()
-    {
-        selectPiece.spriteRenderer.material.SetColor("_Color", new Color32(97, 23, 128, 225));
-    }
 
     private void MoveChessPiece(ChessBase cp, int matrixX, int matrixY)
     {
@@ -51,4 +59,5 @@ public class Drunkenness : SkillBase
         StartCoroutine(ChessManager.Inst.SetCoordsAnimation(cp));
         GameManager.Inst.DestroyMovePlates();
     }
+
 }
