@@ -87,12 +87,12 @@ public class SuperSkillManager : MonoBehaviour
     {
         if (response == "Zeus")
         {
-            icon.spriteRenderer.sprite = zeus;
+            icon.ChangeSprite(zeus);
         }
 
         else
         {
-            icon.spriteRenderer.sprite = poseidon;
+            icon.ChangeSprite(poseidon);
         }
     }
 

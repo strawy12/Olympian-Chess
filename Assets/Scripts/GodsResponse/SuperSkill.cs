@@ -4,14 +4,18 @@ using UnityEngine;
 
 public class SuperSkill : MonoBehaviour
 {
-    public SpriteRenderer spriteRenderer;
+    private SpriteRenderer spriteRenderer;
     private Collider2D col;
     [SerializeField] private string player;
     private bool isUsed;
 
-    void Start()
+    private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
+    void Start()
+    {
         col = GetComponent<Collider2D>();
         spriteRenderer.color = Color.gray;
         col.enabled = false;
@@ -120,5 +124,10 @@ public class SuperSkill : MonoBehaviour
                 else return false;
             }
         }
+    }
+
+    public void ChangeSprite(Sprite sprite)
+    {
+        spriteRenderer.sprite = sprite;
     }
 }

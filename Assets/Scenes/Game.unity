@@ -598,7 +598,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a5d6c96db7c1a042ba4b029e412d288, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 0}
+  spriteRenderer: {fileID: 189838246}
   player: black
 --- !u!58 &189838249
 CircleCollider2D:
@@ -1685,7 +1685,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a5d6c96db7c1a042ba4b029e412d288, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 0}
+  spriteRenderer: {fileID: 891267663}
   player: white
 --- !u!58 &891267666
 CircleCollider2D:
