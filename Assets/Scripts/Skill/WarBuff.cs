@@ -5,6 +5,7 @@ using UnityEngine;
 public class WarBuff : SkillBase
 {
     private int cnt = 0;
+    
     public override void UsingSkill()
     {
         WB_UsingSkill();
@@ -25,7 +26,7 @@ public class WarBuff : SkillBase
         GameManager.Inst.SetUsingSkill(true);
         selectPiece.SetNoneAttack(true);
 
-        if (selectPiece.chessData.isMoving)
+        if (selectPiece.GetIsMoving())
         {
             TurnManager.Instance.ButtonInactive();
         }
@@ -33,7 +34,7 @@ public class WarBuff : SkillBase
 
     private void WB_Standard()
     {
-        if (cnt == 0 && !selectPiece.chessData.isMoving)
+        if (cnt == 0 && !selectPiece.GetIsMoving())
         {
             cnt++;
             TurnManager.Instance.ButtonInactive();

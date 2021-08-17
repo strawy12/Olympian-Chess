@@ -408,12 +408,12 @@ public class CardManager : MonoBehaviour
         }
         else
         {
-            var cardObject = Instantiate(cardPrefab, cardSpawnPoint.position, Utils.QI);
+            var cardObject = NetworkManager.Inst.SpawnObject(cardPrefab);
             cardObject.transform.SetParent(cards.transform);
             var card = cardObject.GetComponent<Card>();
-            card.SetUp(PopCard(isMine), isMine);
+            card.SetUp(PopCard(false), true);
             card.SetPlayer("black");
-            card.isFront = isMine;
+            card.isFront = true;
             otherCards.Add(card);
             SetOriginOrder(isMine);
             CardAlignment(isMine);

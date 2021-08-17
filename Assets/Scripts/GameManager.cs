@@ -386,9 +386,9 @@ public class GameManager : MonoBehaviour
 
             else
             {
-                attackings[i].chessData.attackCount++;
+                attackings[i].PlusAttackCnt();
 
-                if (attackings[i].chessData.attackCount > 2)
+                if (attackings[i].GetAttackCnt() > 2)
                 {
                     attackings.RemoveAt(i);
                 }
@@ -403,12 +403,12 @@ public class GameManager : MonoBehaviour
     public void AddAttackings(ChessBase chessBase)
     {
         attackings.Add(chessBase);
-        chessBase.chessData.isAttacking = true;
+        chessBase.SetIsAttacking(true);
     }
     public void RemoveAttackings(ChessBase chessBase)
     {
         attackings.Remove(chessBase);
-        chessBase.chessData.attackCount = 0;
+        chessBase.ClearAttackCnt();
     }
 
     public void StartEndTurn()

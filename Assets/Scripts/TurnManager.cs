@@ -52,7 +52,7 @@ public class TurnManager : MonoBehaviour, IPunObservable
 
     private bool isActive = false;
 
-    private string currentPlayer = "white";
+    [Ser]private string currentPlayer = "white";
 
     [Header("¼Ó¼º")]
     public bool isLoading;

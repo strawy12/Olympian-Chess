@@ -11,45 +11,47 @@ public class ChessData
     public int xBoard;
     public int yBoard;
 
-    public bool isMoving;
     public bool isAttacking;
+    public bool isMoving;
     public bool noneAttack;
     public bool isSelecting;
     public bool attackSelecting;
 
-    public ChessData(int moveCnt, int attackCount, int xBoard, int yBoard, bool isMoving, bool isAttacking, bool noneAttack, bool isSelecting, bool attackSelecting)
+    public List<SkillBase> chosenSkill;
+
+    public ChessData(int moveCnt, int attackCount, int xBoard, int yBoard,bool isMoving, bool isAttacking, bool noneAttack, bool isSelecting, bool attackSelecting, List<SkillBase> chosenSkill)
     {
         this.moveCnt = moveCnt;
         this.attackCount = attackCount;
         this.xBoard = xBoard;
         this.yBoard = yBoard;
-        this.isMoving = isMoving;
         this.isAttacking = isAttacking;
+        this.isMoving = isMoving;
         this.noneAttack = noneAttack;
         this.isSelecting = isSelecting;
         this.attackSelecting = attackSelecting;
+        this.chosenSkill = chosenSkill;
     }
 }
 
 
-public class ChessBase : MonoBehaviourPunCallbacks//, IPunObservable
+public class ChessBase : MonoBehaviour
 {
     public SpriteRenderer spriteRenderer { get; private set; }
 
     public string player;
-
-    protected List<SkillBase> chosenSkill = new List<SkillBase>();
-
-    public ChessData chessData { get; private set; }
+    private PhotonView photonView;
+    protected ChessData chessData;
 
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        chessData = new ChessData(0, 0, 0, 0, false, false, false, false, false);
+        photonView = GetComponent<PhotonView>();
+        chessData = new ChessData(0, 0, 0, 0, false, false, false, false, false, new List<SkillBase>());
     }
     private void Start()
     {
-        
+
     }
 
 
@@ -57,32 +59,19 @@ public class ChessBase : MonoBehaviourPunCallbacks//, IPunObservable
 
     public virtual void MovePosition() { }
 
-    public int GetXBoard()
+
+
+    private void SendChessData()
     {
-        return chessData.xBoard;
-    }
-    public int GetYBoard()
-    {
-        return chessData.yBoard;
-    }
-    public void SetXBoard(int x)
-    {
-        chessData.xBoard = x;
+        string jsonData = NetworkManager.Inst.SaveDataToJson(chessData);
+        photonView.RPC("SetChessData", RpcTarget.Others, jsonData);
     }
 
-    public void SetYBoard(int y)
+    [PunRPC]
+    public void SetChessData(string jsonData)
     {
-        chessData.yBoard = y;
-    }
-
-    public void PlusMoveCnt()
-    {
-        chessData.moveCnt++;
-    }
-
-    public int GetMoveCnt()
-    {
-        return chessData.moveCnt;
+        ChessData cd = NetworkManager.Inst.LoadDataFromJson<ChessData>(jsonData);
+        chessData = cd;
     }
 
     public bool CheckClickChessPiece()
@@ -112,11 +101,11 @@ public class ChessBase : MonoBehaviourPunCallbacks//, IPunObservable
     }
     public SkillBase CheckSkillList(string name)
     {
-        for (int i = 0; i < chosenSkill.Count; i++)
+        for (int i = 0; i < chessData.chosenSkill.Count; i++)
         {
-            if (chosenSkill[i].gameObject.name == name)
+            if (chessData.chosenSkill[i].gameObject.name == name)
             {
-                return chosenSkill[i];
+                return chessData.chosenSkill[i];
             }
         }
         return null;
@@ -147,37 +136,14 @@ public class ChessBase : MonoBehaviourPunCallbacks//, IPunObservable
     }
     public void AddChosenSkill(SkillBase skill)
     {
-        chosenSkill.Add(skill);
+        chessData.chosenSkill.Add(skill);
     }
 
     public void RemoveChosenSkill(SkillBase skill)
     {
-        chosenSkill.Remove(skill);
+        chessData.chosenSkill.Remove(skill);
     }
 
-    public bool GetAttackSelecting()
-    {
-        return chessData.attackSelecting;
-    }
-    public void SetIsMoving(bool isMoving)
-    {
-        chessData.isMoving = isMoving;
-    }
-
-    public void SetAttackSelecting(bool attackSelecting)
-    {
-        chessData.attackSelecting = attackSelecting;
-    }
-
-    public void SetNoneAttack(bool noneAttack)
-    {
-        chessData.noneAttack = noneAttack;
-    }
-
-    public void SetIsSelecting(bool _isHidden)
-    {
-        chessData.isSelecting = _isHidden;
-    }
     public bool CheckIsMine()
     {
         if (player == TurnManager.Instance.GetCurrentPlayer())
@@ -185,7 +151,8 @@ public class ChessBase : MonoBehaviourPunCallbacks//, IPunObservable
         else
             return false;
     }
-    public void SetCoords()
+    [PunRPC]
+    public void SettingCoords()
     {
         float x = chessData.xBoard;
         float y = chessData.yBoard;
@@ -199,10 +166,16 @@ public class ChessBase : MonoBehaviourPunCallbacks//, IPunObservable
         // Aligns according the board
         transform.position = new Vector3(x, y, -1.0f);
     }
+    public void SetCoords()
+    {
+        photonView.RPC("SettingCoords", RpcTarget.All);
+    }
     public void SetCoordsAnimation()
     {
-        StartCoroutine(SetCoordsAnimationCo());
+        photonView.RPC("SetCoordsAnimationCo", RpcTarget.All);
     }
+
+    [PunRPC]
     public IEnumerator SetCoordsAnimationCo()
     {
         Vector3 startPos = transform.position;
@@ -231,15 +204,113 @@ public class ChessBase : MonoBehaviourPunCallbacks//, IPunObservable
         }
     }
 
-    //public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    //{
-    //    if (stream.IsWriting)
-    //    {
-    //        stream.SendNext(chessData);
-    //    }
-    //    else
-    //    {
-    //        chessData = (ChessData)stream.ReceiveNext();
-    //    }
-    //}
+    #region Get / Set from ChessData
+    public void SetXBoard(int x)
+    {
+        chessData.xBoard = x;
+        SendChessData();
+    }
+
+    public void SetYBoard(int y)
+    {
+        chessData.yBoard = y;
+        SendChessData();
+    }
+
+    public void PlusMoveCnt()
+    {
+        chessData.moveCnt++;
+        SendChessData();
+    }
+
+    public void PlusAttackCnt()
+    {
+        chessData.attackCount++;
+        SendChessData();
+    }
+
+    public void ClearAttackCnt()
+    {
+        chessData.attackCount = 0;
+        SendChessData();
+    }
+
+    public void ClearMoveCnt()
+    {
+        chessData.moveCnt = 0;
+        SendChessData();
+    }
+
+    public void SetNoneAttack(bool noneAttack)
+    {
+        chessData.noneAttack = noneAttack;;
+        SendChessData();
+    }
+    public void SetAttackSelecting(bool attackSelecting)
+    {
+        chessData.attackSelecting = attackSelecting;
+        SendChessData();
+    }
+
+    public void SetIsSelecting(bool isSelecting)
+    {
+        chessData.isSelecting = isSelecting;
+        SendChessData();
+    }
+
+    public void SetIsAttacking(bool isAttacking)
+    {
+        chessData.isAttacking = isAttacking;
+        SendChessData();
+    }
+
+    public void SetIsMoving(bool isMoving)
+    {
+        chessData.isMoving = isMoving;
+        SendChessData();
+    }
+
+    public int GetXBoard()
+    {
+        return chessData.xBoard;
+    }
+    public int GetYBoard()
+    {
+        return chessData.yBoard;
+    }
+
+    public int GetMoveCnt()
+    {
+        return chessData.moveCnt;
+    }
+
+    public int GetAttackCnt()
+    {
+        return chessData.attackCount;
+    }
+
+    public bool GetAttackSelecting()
+    {
+        return chessData.attackSelecting;
+    }
+
+    public bool GetIsAttacking()
+    {
+        return chessData.isAttacking;
+    }
+
+    public bool GetIsSelecting()
+    {
+        return chessData.isSelecting;
+    }
+
+    public bool GetNoneAttack()
+    {
+        return chessData.noneAttack;
+    }    
+    public bool GetIsMoving()
+    {
+        return chessData.isMoving;
+    }
+    #endregion
 }

@@ -86,7 +86,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public string SaveDataToJson<T>(T data)
     {
-
         string jsonData = JsonUtility.ToJson(data, true);
         string path = Path.Combine(Application.dataPath, typeof(T).ToString() + ".Json");
         File.WriteAllText(path, jsonData);
@@ -120,7 +119,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
-        PhotonNetwork.JoinLobby();
         print("서버접속완료");
 
     }

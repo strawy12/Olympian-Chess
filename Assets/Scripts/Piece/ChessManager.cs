@@ -170,23 +170,10 @@ public class ChessManager : MonoBehaviourPunCallbacks
         {
             if (playerWhite[i] == null)
                 continue;
-            playerWhite[i].chessData.isMoving = false;
+            playerWhite[i].SetIsMoving(false);
             if (playerBlack[i] == null)
                 continue;
-            playerBlack[i].chessData.isMoving = false;
-        }
-    }
-
-    public void FalsIsMoving()
-    {
-        for (int i = 0; i < playerWhite.Length; i++)
-        {
-            if (playerWhite[i] == null)
-                continue;
-            playerWhite[i].chessData.isMoving = false;
-            if (playerBlack[i] == null)
-                continue;
-            playerBlack[i].chessData.isMoving = false;
+            playerBlack[i].SetIsMoving(false);
         }
     }
 
@@ -303,7 +290,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
         UpdateArr(cp);
         Destroy(cp.gameObject);
 
-        if (mp.Getreference().chessData.isAttacking)
+        if (mp.Getreference().GetIsAttacking())
         {
             GameManager.Inst.RemoveAttackings(mp.Getreference());
         }
@@ -318,7 +305,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
         cp.SetYBoard(matrixY);
         cp.PlusMoveCnt();
         SetPosition(cp);
-        cp.chessData.isMoving = true;
+        cp.SetIsMoving(true);
         cp.SetCoordsAnimation();
         //StartCoroutine(SetCoordsAnimation());
         TurnManager.Instance.ButtonActive();

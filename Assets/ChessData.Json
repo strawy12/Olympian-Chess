@@ -1,53 +1,12 @@
 {
-    "player": "black",
-    "chesses": [
-        {
-            "instanceID": -20096
-        },
-        {
-            "instanceID": -20108
-        },
-        {
-            "instanceID": -20120
-        },
-        {
-            "instanceID": -20132
-        },
-        {
-            "instanceID": -20144
-        },
-        {
-            "instanceID": -20156
-        },
-        {
-            "instanceID": -20168
-        },
-        {
-            "instanceID": -20180
-        },
-        {
-            "instanceID": -20192
-        },
-        {
-            "instanceID": -20204
-        },
-        {
-            "instanceID": -20216
-        },
-        {
-            "instanceID": -20228
-        },
-        {
-            "instanceID": -20240
-        },
-        {
-            "instanceID": -20252
-        },
-        {
-            "instanceID": -20264
-        },
-        {
-            "instanceID": -20276
-        }
-    ]
+    "moveCnt": 1,
+    "attackCount": 0,
+    "xBoard": 2,
+    "yBoard": 3,
+    "isAttacking": false,
+    "isMoving": true,
+    "noneAttack": false,
+    "isSelecting": false,
+    "attackSelecting": false,
+    "chosenSkill": []
 }
