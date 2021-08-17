@@ -16,7 +16,7 @@ public class SoundManager : MonoBehaviour
                 _instance = FindObjectOfType<SoundManager>();
                 if (_instance == null)
                 {
-                    _instance = new GameObject("===[ SoundManager ]===").AddComponent<SoundManager>();
+                    _instance = new GameObject("SoundManager").AddComponent<SoundManager>();
                 }
             }
             return _instance;
@@ -53,5 +53,13 @@ public class SoundManager : MonoBehaviour
     //    return 0;
     //}
 
-    private static Dictionary<SoundType, GameObject> soundDic = new Dictionary<SoundType, GameObject>();
+    public void SoundPlay(string name,AudioClip clip)
+    {
+        GameObject go = new GameObject(name + "Sound");
+        AudioSource audioSource = go.AddComponent<AudioSource>();
+        audioSource.clip = clip;
+        audioSource.Play();
+
+        Destroy(go, clip.length);
+    }
 }

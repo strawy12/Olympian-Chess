@@ -38,7 +38,7 @@ public class ParticleManager : MonoBehaviour
 
     public void DeleteParticle(ParticleType pt)
     {
-        Destroy(particleDic[pt]);
+        Destroy(particleDic[pt].gameObject);
     }
 
     public int AddParticle(ParticleType pt, Vector3 pos)

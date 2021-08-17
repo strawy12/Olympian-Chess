@@ -82,7 +82,7 @@ public class ChessBase : MonoBehaviour
         if (!GameManager.Inst.IsGameOver() && GameManager.Inst.GetCurrentPlayer() == player)
         {
 
-            //ParticleManager.Instance.AddParticle(ParticleManager.ParticleType.W_ChessPieceClick, P);
+            ParticleManager.Instance.AddParticle(ParticleManager.ParticleType.W_ChessPieceClick, P);
             //ParticleManager.Instance.AddParticle(ParticleManager.ParticleType.B_ChessPieceClick, P);
             //ParticleManager.Instance.AddParticle(ParticleManager.ParticleType.S, P);
 
@@ -99,6 +99,7 @@ public class ChessBase : MonoBehaviour
 
         
     }
+
     public SkillBase CheckSkillList(string name)
     {
 

@@ -48,6 +48,14 @@ public class TurnManager : MonoBehaviour
     [SerializeField] Transform posUp; // Opponent's button position
     [SerializeField] Transform posDown; // button position of the current player
 
+    [Header("이겼을 떄 브금")]
+    [SerializeField]
+    private AudioClip winMusic;
+
+    [Header("버튼 눌렀을 때 브금")]
+    [SerializeField]
+    private AudioClip buttonMusic;
+
     private bool isActive = false;
 
 
@@ -153,12 +161,14 @@ public class TurnManager : MonoBehaviour
         // When these conditions are met, the search is the winner and the game is over.
         if (!ChessManager.Inst.CheckArr(true, "white_king"))
         {
+            SoundManager.Instance.SoundPlay("Win", winMusic);
             GameManager.Inst.Winner("black");
             GameManager.Inst.GameOver();
         }
         // When these conditions are met, White is the winner and the game is over.
         else if (!ChessManager.Inst.CheckArr(false, "black_king"))
         {
+            SoundManager.Instance.SoundPlay("Win", winMusic);
             GameManager.Inst.Winner("white");
             GameManager.Inst.GameOver();
         }
@@ -183,12 +193,14 @@ public class TurnManager : MonoBehaviour
         if (myTurn)
         {
             ParticleManager.Instance.AddParticle(ParticleManager.ParticleType.button, P);
+            SoundManager.Instance.SoundPlay("button", buttonMusic);
             buttonWhite.image.sprite = buttonActive;
         }
 
         else if(!myTurn)
         {
             ParticleManager.Instance.AddParticle(ParticleManager.ParticleType.button, P);
+            SoundManager.Instance.SoundPlay("button", buttonMusic);
             buttonBlack.image.sprite = buttonActive;
         }
 

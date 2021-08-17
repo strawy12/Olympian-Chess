@@ -97,7 +97,6 @@ public class ChessManager : MonoBehaviour
     } 
     #endregion
 
-   
     public void PointMovePlate(int x, int y, ChessBase cp)
     {
 
