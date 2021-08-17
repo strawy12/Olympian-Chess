@@ -23,7 +23,6 @@ public class King : ChessBase
 
     public void PointMovePlate(int x, int y)
     {
-
         if (ChessManager.Inst.PositionOnBoard(x, y))
         {
             ChessBase cb = ChessManager.Inst.GetPosition(x, y);

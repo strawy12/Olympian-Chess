@@ -174,7 +174,6 @@ public class ChessManager : MonoBehaviour
                     playerBlack[i] = chessPiece;
             }
         }
-
         //RotationBoard.playerWhite = playerWhite;
         //RotationBoard.playerBlack = playerBlack;
     }
@@ -320,5 +319,88 @@ public class ChessManager : MonoBehaviour
     public GameObject[] GetBlackObject()
     {
         return black;
+    }
+
+    public bool CheckMate(string player)
+    {
+        List<GameObject> movePlates = new List<GameObject>();
+
+        if (player == "black")
+        {
+            for (int i = 0; i < playerWhite.Length; i++)
+            {
+                if (playerWhite[i] == null) continue;
+
+                playerWhite[i].MovePlate();
+
+                movePlates = GameManager.Inst.GetMovePlates();
+
+                for (int j = 0; j < movePlates.Count; j++)
+                {
+                    if (movePlates[j].GetComponent<MovePlate>().GetChessPiece() == null) continue;
+
+                    if (movePlates[j].GetComponent<MovePlate>().GetChessPiece().name == "black_king")
+                        return true;
+                }
+
+                GameManager.Inst.DestroyMovePlates();
+            }
+        }
+
+        else
+        {
+            for (int i = 0; i < playerBlack.Length; i++)
+            {
+                if (playerBlack[i] == null) continue;
+
+                playerBlack[i].MovePlate();
+
+                movePlates = GameManager.Inst.GetMovePlates();
+
+                for (int j = 0; j < movePlates.Count; j++)
+                {
+                    if (movePlates[j].GetComponent<MovePlate>().GetChessPiece() == null) continue;
+
+                    if (movePlates[j].GetComponent<MovePlate>().GetChessPiece().name == "white_king")
+                        return true;
+                }
+
+                GameManager.Inst.DestroyMovePlates();
+            }
+        }
+
+        GameManager.Inst.DestroyMovePlates();
+        return false;
+    }
+
+    public bool KingAndRook(string player, bool isKing)
+    {
+        List<ChessBase> cblist = new List<ChessBase>();
+
+        if (player == "white" && isKing)
+        {
+            if (PositionOnBoard(5, 0) && PositionOnBoard(6, 0))
+                return true;
+        }
+
+        else if (player == "white" && !isKing)
+        {
+            if (PositionOnBoard(1, 0) && PositionOnBoard(2, 0) && PositionOnBoard(3, 0))
+                return true;
+        }
+
+        else if (player == "black" && isKing)
+        {
+            if (PositionOnBoard(5, 7) && PositionOnBoard(6, 7))
+                return true;
+        }
+
+        else if (player == "black" && isKing)
+        {
+            if (PositionOnBoard(1, 7) && PositionOnBoard(2, 7) && PositionOnBoard(3, 7))
+                return true;
+        }
+
+        return false;
     }
 }
