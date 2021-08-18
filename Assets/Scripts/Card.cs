@@ -2,7 +2,7 @@ using DG.Tweening;
 using Photon.Pun;
 using UnityEngine;
 
-public class Card : MonoBehaviour
+public class Card : MonoBehaviourPunCallbacks
 {
 
     #region SerializeField Var
@@ -113,8 +113,25 @@ public class Card : MonoBehaviour
             gameObject.name = carditem.name;
         }
     }
-    public void MoveTransform(PRS prs, bool useDotween, float dotweemTime = 0) // Card Move
+
+    public void MoveTransform(PRS prs, bool useDotween, bool isSend, float dotweemTime = 0)
     {
+        string prs_ToJson = NetworkManager.Inst.SaveDataToJson(prs, false);
+        if (isSend)
+        {
+            photonView.RPC("SetMoveTransform", RpcTarget.All, prs_ToJson, useDotween, dotweemTime);
+        }
+        else
+        {
+            SetMoveTransform(prs_ToJson, useDotween, dotweemTime);
+        }
+
+    }
+
+    [PunRPC]
+    public void SetMoveTransform(string prs_ToJson, bool useDotween, float dotweemTime = 0) // Card Move
+    {
+        PRS prs = NetworkManager.Inst.LoadDataFromJson<PRS>(prs_ToJson);
         //pv.enabled = true;
         if (useDotween)
         {

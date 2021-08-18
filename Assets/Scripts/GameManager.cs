@@ -32,7 +32,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public GameObject chesspiece;
     [SerializeField] private GameObject chess = null;
     public PoolManager pool { get; private set; }
     // Positions and team for each chesspiece
@@ -78,9 +77,7 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
-        pool = FindObjectOfType<PoolManager>();
         TurnManager.Instance.StartGame();
-        CardManager.Inst.CardShare();
         SetCamera();
     }
     private void Update()

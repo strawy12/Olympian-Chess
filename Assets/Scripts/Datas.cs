@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class ChessListData
 {
     public string player;
@@ -13,7 +14,7 @@ public class ChessListData
         this.chesses = chesses;
     }
 }
-
+[System.Serializable]
 public class PositionData
 {
     public ChessBase[,] position;
@@ -23,7 +24,7 @@ public class PositionData
         this.position = position;
     }
 }
-
+[System.Serializable]
 public class GameData
 {
     public List<SkillBase> skillList;

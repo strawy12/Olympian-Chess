@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3909148313311468858}
   - component: {fileID: 1399387032060936246}
-  - component: {fileID: 6024791892739034506}
   - component: {fileID: -895341803943474326}
   - component: {fileID: -8762648097974916871}
+  - component: {fileID: 528355256087816348}
   m_Layer: 0
   m_Name: black_knight
   m_TagString: ChessPiece
@@ -86,19 +86,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6024791892739034506
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8521106812641234907}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9d67fb049fb8ca408a7723a4dc30565, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: black
 --- !u!61 &-895341803943474326
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -143,8 +130,20 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents:
-  - {fileID: 0}
+  ObservedComponents: []
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &528355256087816348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8521106812641234907}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9d67fb049fb8ca408a7723a4dc30565, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: black

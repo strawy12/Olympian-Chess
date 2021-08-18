@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8982804884715685391}
   - component: {fileID: 7043206180169018812}
-  - component: {fileID: 7420709648095688181}
   - component: {fileID: -7377210606711140774}
   - component: {fileID: -5439109272567305513}
+  - component: {fileID: 7137509594832989929}
   m_Layer: 0
   m_Name: black_bishop
   m_TagString: ChessPiece
@@ -86,19 +86,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7420709648095688181
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8829162914448363504}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38fb97dcf5801264d89d6eef7647ac4a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: black
 --- !u!61 &-7377210606711140774
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -143,8 +130,20 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents:
-  - {fileID: 0}
+  ObservedComponents: []
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &7137509594832989929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8829162914448363504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38fb97dcf5801264d89d6eef7647ac4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: black

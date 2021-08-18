@@ -93,7 +93,6 @@ public class CardManager : MonoBehaviour
     void Awake()
     {
         cardPrefab.GetComponent<Card>().enabled = true;
-        cardPrefab.GetComponent<DraftCard>().enabled = false;
     }
 
     private void Start()
@@ -603,7 +602,7 @@ public class CardManager : MonoBehaviour
                     var targetCard = myCards[i];
                     targetCard.originPRS = originCardPRSs[i];
                     targetCard.originPRS.pos.z = originCardPRSs[i].pos.z - zPosition;
-                    targetCard.MoveTransform(targetCard.originPRS, true, 0.7f);
+                    targetCard.MoveTransform(targetCard.originPRS, true, true, 0.7f);
 
                     zPosition++;
                 }
@@ -617,7 +616,7 @@ public class CardManager : MonoBehaviour
                     var targetCard = myCards[i];
                     targetCard.originPRS = originCardPRSs[i];
                     targetCard.originPRS.pos.z = originCardPRSs[i].pos.z - zPosition;
-                    targetCard.MoveTransform(targetCard.originPRS, true, 0.7f);
+                    targetCard.MoveTransform(targetCard.originPRS, true, true, 0.7f);
 
                     zPosition--;
                 }
@@ -635,7 +634,7 @@ public class CardManager : MonoBehaviour
                     var targetCard = otherCards[i];
                     targetCard.originPRS = originCardPRSs[i];
                     targetCard.originPRS.pos.z = originCardPRSs[i].pos.z - zPosition;
-                    targetCard.MoveTransform(targetCard.originPRS, true, 0.7f);
+                    targetCard.MoveTransform(targetCard.originPRS, true, true, 0.7f);
 
                     zPosition++;
                 }
@@ -649,7 +648,7 @@ public class CardManager : MonoBehaviour
                     var targetCard = otherCards[i];
                     targetCard.originPRS = originCardPRSs[i];
                     targetCard.originPRS.pos.z = originCardPRSs[i].pos.z - zPosition;
-                    targetCard.MoveTransform(targetCard.originPRS, true, 0.7f);
+                    targetCard.MoveTransform(targetCard.originPRS, true, true, 0.7f);
 
                     zPosition--;
                 }
@@ -705,17 +704,17 @@ public class CardManager : MonoBehaviour
             if (TurnManager.Instance.CheckPlayer("white"))
             {
                 Vector3 enlargePos = new Vector3(card.originPRS.pos.x, -3.5f, -10f);
-                card.MoveTransform(new PRS(enlargePos, Utils.QI, Vector3.one * 2.5f), false);
+                card.MoveTransform(new PRS(enlargePos, Utils.QI, Vector3.one * 2.5f), false, false);
             }
             else
             {
                 Vector3 enlargePos = new Vector3(card.originPRS.pos.x, 3.5f, -10f);
                 Quaternion rot = Quaternion.Euler(180f, 180f, 0f);
-                card.MoveTransform(new PRS(enlargePos, rot, Vector3.one * 2.5f), false);
+                card.MoveTransform(new PRS(enlargePos, rot, Vector3.one * 2.5f), false, false);
             }
         }
         else
-            card.MoveTransform(card.originPRS, false);
+            card.MoveTransform(card.originPRS, false, false);
 
         card.GetComponent<Order>().SetMostFrontOrder(isEnlarge);
     }
@@ -812,11 +811,11 @@ public class CardManager : MonoBehaviour
         {
             if (TurnManager.Instance.CheckPlayer("white"))
             {
-                selectCard.MoveTransform(new PRS(Utils.MousePos, Utils.QI, selectCard.originPRS.scale), false);
+                selectCard.MoveTransform(new PRS(Utils.MousePos, Utils.QI, selectCard.originPRS.scale), false, false);
             }
             else
             {
-                selectCard.MoveTransform(new PRS(Utils.MousePos, Quaternion.Euler(0f, 0f, 180f), selectCard.originPRS.scale), false);
+                selectCard.MoveTransform(new PRS(Utils.MousePos, Quaternion.Euler(0f, 0f, 180f), selectCard.originPRS.scale), false, false);
             }
             cardInfo.SetActive(false);
         }

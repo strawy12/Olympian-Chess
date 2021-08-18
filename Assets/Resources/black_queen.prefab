@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5666109053453734316}
   - component: {fileID: 7331167368621159868}
-  - component: {fileID: 8458898914946864591}
   - component: {fileID: -1780010127891216619}
   - component: {fileID: 1149748866234071988}
+  - component: {fileID: 6510419075402097503}
   m_Layer: 0
   m_Name: black_queen
   m_TagString: ChessPiece
@@ -86,19 +86,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &8458898914946864591
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6479057492079610592}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 205cea7639ea2584e9e33d8b6d8cfbb8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: black
 --- !u!61 &-1780010127891216619
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -143,8 +130,20 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents:
-  - {fileID: 0}
+  ObservedComponents: []
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &6510419075402097503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6479057492079610592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 205cea7639ea2584e9e33d8b6d8cfbb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: black

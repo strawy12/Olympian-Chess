@@ -12,10 +12,8 @@ GameObject:
   - component: {fileID: 1306375242828518994}
   - component: {fileID: 6964373363087810063}
   - component: {fileID: 2484191845472093514}
-  - component: {fileID: -4722776812497538056}
   - component: {fileID: 3743070300535461238}
   - component: {fileID: 1406526119332768984}
-  - component: {fileID: 5998653026105716319}
   m_Layer: 0
   m_Name: Card
   m_TagString: Card
@@ -133,35 +131,6 @@ MonoBehaviour:
   middleRenderers:
   - {fileID: 5359609414508250856}
   sortingLayerName: Card
---- !u!114 &-4722776812497538056
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 533931229646251596}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bad46dc332c9d5f409ddb224bd611f81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cardFront: {fileID: 7458371095103671374, guid: 4454062fe2a78614587b7e6f430aaafe,
-    type: 3}
-  cardBack: {fileID: -4286328378328285589, guid: 4454062fe2a78614587b7e6f430aaafe,
-    type: 3}
-  emptySprite: {fileID: 0}
-  cardDefault: {fileID: 7458371095103671374, guid: 4454062fe2a78614587b7e6f430aaafe,
-    type: 3}
-  card: {fileID: 5359609414508250856}
-  cardPrame: {fileID: 1306375242828518994}
-  carditem:
-    name: 
-    className: 
-    god: 
-    sprite: {fileID: 0}
-    color: {r: 0, g: 0, b: 0, a: 0}
-    info: 
-  isSelected: 0
 --- !u!114 &3743070300535461238
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -211,26 +180,10 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 5998653026105716319}
+  - {fileID: 0}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &5998653026105716319
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 533931229646251596}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 1
-  m_UseLocal: 1
 --- !u!1 &1038366284917602505
 GameObject:
   m_ObjectHideFlags: 0

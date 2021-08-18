@@ -7,7 +7,7 @@ using System;
 using Random = UnityEngine.Random;
 
 
-public class TurnManager : MonoBehaviour, IPunObservable
+public class TurnManager : MonoBehaviourPunCallbacks
 {
     #region SingleTon
 
@@ -49,10 +49,11 @@ public class TurnManager : MonoBehaviour, IPunObservable
     [Header("상대와 나의 버튼 위치")]
     [SerializeField] Transform posUp; // Opponent's button position
     [SerializeField] Transform posDown; // button position of the current player
+    [SerializeField] GameObject loadingDisplay; 
 
     private bool isActive = false;
 
-    [Ser]private string currentPlayer = "white";
+    [SerializeField]private string currentPlayer = "white";
 
     [Header("속성")]
     public bool isLoading;
@@ -75,11 +76,13 @@ public class TurnManager : MonoBehaviour, IPunObservable
     }
     public void StartGame()
     {
-        TurnSetting();
-        StartCoroutine(StartTurnCo());
+        loadingDisplay.SetActive(true);
+        StartCoroutine(TurnSetting());
     }
 
     // Function calling next turn
+
+    [PunRPC]
     public void NextTurn()
     {
         if (GameManager.Inst.gameOver) return;
@@ -96,11 +99,9 @@ public class TurnManager : MonoBehaviour, IPunObservable
         //StartCoroutine(CameraDelayRotate());
     }
 
-    void TurnSetting()
+    IEnumerator TurnSetting()
     {
         // 5 second delay in fast mode
-        if (fastMode)
-            delay05 = new WaitForSeconds(0.05f);
         int i = Random.Range(0, 2);
         // normal turn mode
         switch (eTurnMode)
@@ -122,6 +123,14 @@ public class TurnManager : MonoBehaviour, IPunObservable
                 break;
         }
         isLoading = true;
+        ChessManager.Inst.SettingGame();
+        yield return new WaitForSeconds(5f);
+        loadingDisplay.SetActive(false);
+        CardManager.Inst.CardShare();
+        yield return new WaitForSeconds(2f);
+        
+
+        isLoading = false;
     }
 
     public bool GetCurrentPlayerTF()
@@ -247,7 +256,7 @@ public class TurnManager : MonoBehaviour, IPunObservable
 
         CardManager.Inst.ChangeIsUse(false);
         SkillManager.Inst.SkillListCntPlus();
-        NextTurn();
+        photonView.RPC("NextTurn", RpcTarget.All);
         GameManager.Inst.PlusAttackCnt();
 
         GameManager.Inst.SetUsingSkill(false);
@@ -257,17 +266,6 @@ public class TurnManager : MonoBehaviour, IPunObservable
 
         StartCoroutine(StartTurnCo());
         //WinOrLose();
-    }
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.IsWriting)
-        {
-            stream.SendNext(currentPlayer);
-        }
-        else
-        {
-            currentPlayer = (string)stream.ReceiveNext();
-        }
     }
 
 }

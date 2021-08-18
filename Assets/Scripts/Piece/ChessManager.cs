@@ -50,14 +50,18 @@ public class ChessManager : MonoBehaviourPunCallbacks
 
     [SerializeField] private WaitForSeconds delay = new WaitForSeconds(0.5f);
 
+    private bool isLoading;
+
+
+
     void Start()
     {
-        SettingGame();
+        
     }
 
 
 
-    private void SettingGame()
+    public void SettingGame()
     {
         if (NetworkManager.Inst.GetPlayer() == "white")
         {
@@ -71,12 +75,11 @@ public class ChessManager : MonoBehaviourPunCallbacks
             SpawnBlackChessPiece();
         }
 
+        StartCoroutine(SetPlayerArr()); 
+        //SetPlayerArr(jsonData);
 
-        for (int i = 0; i < playerBlack.Length; i++)
-        {
-            SetPosition(playerBlack[i]);
-            SetPosition(playerWhite[i]);
-        }
+
+
     }
 
     private void SpawnWhiteChessPiece()
@@ -90,9 +93,6 @@ public class ChessManager : MonoBehaviourPunCallbacks
            Creat(white[king], 4,0), Creat(white[bishop], 5,0), Creat(white[knight], 6,0),
            Creat(white[rook], 7,0)
         };
-        //string jsonData = NetworkManager.Inst.SaveDataToJson(new ChessData("white", playerWhite));
-        Debug.Log("览局");
-        //photonView.RPC("SetPlayerArr", RpcTarget.Others, jsonData);
     }
     private void SpawnBlackChessPiece()
     {
@@ -105,29 +105,38 @@ public class ChessManager : MonoBehaviourPunCallbacks
            Creat(black[king], 4,7), Creat(black[bishop], 5,7), Creat(black[rook], 7,7),
            Creat(black[knight], 6,7)
         };
-        Debug.Log("览局");
 
-        //string jsonData = NetworkManager.Inst.SaveDataToJson(new ChessData("black", playerBlack));
-        Debug.Log("览局");
-        //photonView.RPC("SetPlayerArr", RpcTarget.Others, jsonData);
     }
 
-    [PunRPC]
-    //void SetPlayerArr(string jsonData)
-    //{
-    //    Debug.Log("览局2");
-            
-    //    ChessData cd = NetworkManager.Inst.LoadDataFromJson<ChessData>(jsonData);
-    //    Debug.Log(cd.player);
-    //    if (cd.player == "white")
-    //    {
-    //        playerWhite = cd.chesses;
-    //    }
-    //    else if(cd.player == "black")
-    //    {
-    //        playerBlack = cd.chesses;
-    //    }
-    //}
+    IEnumerator SetPlayerArr()
+    {
+        yield return new WaitForSeconds(2f);
+        ChessBase[] cbs = FindObjectsOfType<ChessBase>();
+        string player = NetworkManager.Inst.GetPlayer() == "white" ? "black" : "white";
+        bool isBlack = false;
+        if(player == "white")
+        {
+            isBlack = true; 
+        }
+        for (int i = 0; i < cbs.Length; i++)
+        {
+            if(isBlack)
+            {
+                cbs[i].transform.rotation = Quaternion.Euler(0f, 0f, 180f);
+            }
+
+            if (cbs[i].player == player)
+            {
+                AddArr(cbs[i]);
+                
+            }
+        }
+        for (int i = 0; i < playerBlack.Length; i++)
+        {
+            SetPosition(playerBlack[i]);
+            SetPosition(playerWhite[i]);
+        }
+    }
 
     public ChessBase Creat(GameObject chessPiece, int x, int y)
     {
@@ -268,7 +277,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
     public void SetPosition(ChessBase obj)
     {
         if (obj == null) return;
-        position[obj.GetXBoard(), obj.GetYBoard()] = obj;
+        position[obj.GetXBoard(), obj.GetYBoard()] =obj;
     }
     #endregion
 

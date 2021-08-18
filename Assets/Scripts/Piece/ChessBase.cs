@@ -18,7 +18,6 @@ public class ChessData
     public bool attackSelecting;
 
     public List<SkillBase> chosenSkill;
-
     public ChessData(int moveCnt, int attackCount, int xBoard, int yBoard,bool isMoving, bool isAttacking, bool noneAttack, bool isSelecting, bool attackSelecting, List<SkillBase> chosenSkill)
     {
         this.moveCnt = moveCnt;
@@ -34,19 +33,17 @@ public class ChessData
     }
 }
 
-
-public class ChessBase : MonoBehaviour
+[System.Serializable]
+public class ChessBase : MonoBehaviourPunCallbacks
 {
     public SpriteRenderer spriteRenderer { get; private set; }
 
     public string player;
-    private PhotonView photonView;
     protected ChessData chessData;
 
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        photonView = GetComponent<PhotonView>();
         chessData = new ChessData(0, 0, 0, 0, false, false, false, false, false, new List<SkillBase>());
     }
     private void Start()
@@ -63,8 +60,8 @@ public class ChessBase : MonoBehaviour
 
     private void SendChessData()
     {
-        string jsonData = NetworkManager.Inst.SaveDataToJson(chessData);
-        photonView.RPC("SetChessData", RpcTarget.Others, jsonData);
+        string jsonData = NetworkManager.Inst.SaveDataToJson(chessData, true);
+        photonView.RPC("SetChessData", RpcTarget.OthersBuffered, jsonData);
     }
 
     [PunRPC]
@@ -77,6 +74,7 @@ public class ChessBase : MonoBehaviour
     public bool CheckClickChessPiece()
     {
         if (TurnManager.Instance.GetIsActive()) return true;
+        if (TurnManager.Instance.isLoading) return true;
         if (SkillManager.Inst.CheckDontClickPiece(this)) return true;
         if (GameManager.Inst.IsGameOver()) return true;
         if (!TurnManager.Instance.GetCurrentPlayerTF()) return true;
@@ -137,11 +135,13 @@ public class ChessBase : MonoBehaviour
     public void AddChosenSkill(SkillBase skill)
     {
         chessData.chosenSkill.Add(skill);
+        SendChessData();
     }
 
     public void RemoveChosenSkill(SkillBase skill)
     {
         chessData.chosenSkill.Remove(skill);
+        SendChessData();
     }
 
     public bool CheckIsMine()
@@ -150,6 +150,12 @@ public class ChessBase : MonoBehaviour
             return true;
         else
             return false;
+    }
+
+    public void SetCoords()
+    {
+        photonView.RPC("SettingCoords", RpcTarget.AllBuffered);
+        SettingCoords();
     }
     [PunRPC]
     public void SettingCoords()
@@ -166,13 +172,9 @@ public class ChessBase : MonoBehaviour
         // Aligns according the board
         transform.position = new Vector3(x, y, -1.0f);
     }
-    public void SetCoords()
-    {
-        photonView.RPC("SettingCoords", RpcTarget.All);
-    }
     public void SetCoordsAnimation()
     {
-        photonView.RPC("SetCoordsAnimationCo", RpcTarget.All);
+        photonView.RPC("SetCoordsAnimationCo", RpcTarget.AllBuffered);
     }
 
     [PunRPC]

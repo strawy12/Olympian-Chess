@@ -62,17 +62,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         {
             statusText.text = PhotonNetwork.NetworkClientState.ToString();
         }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            for (int i = 0; i < PhotonNetwork.PlayerListOthers.Length; i++)
-            {
-                if (PhotonNetwork.PlayerListOthers[i].NickName == nickname)
-                {
-                    nicknamePanal.SetActive(true);
-                }
-            }
-
-        }
     }
 
     public void Connect()
@@ -84,11 +73,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         PhotonNetwork.ConnectUsingSettings();
     }
 
-    public string SaveDataToJson<T>(T data)
+    public string SaveDataToJson<T>(T data, bool isSave)
     {
         string jsonData = JsonUtility.ToJson(data, true);
-        string path = Path.Combine(Application.dataPath, typeof(T).ToString() + ".Json");
-        File.WriteAllText(path, jsonData);
+        if(isSave)
+        {
+            string path = Path.Combine(Application.persistentDataPath, typeof(T).ToString() + ".json");
+            File.WriteAllText(path, jsonData);
+        }
+
         return jsonData;
     }
 
@@ -96,7 +89,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         if (jsonData == null)
         {
-            string path = Path.Combine(Application.dataPath, typeof(T).ToString() + ".Json");
+            string path = Path.Combine(Application.persistentDataPath, typeof(T).ToString() + ".json");
             jsonData = File.ReadAllText(path);
         }
         return JsonUtility.FromJson<T>(jsonData);
@@ -254,7 +247,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void SetPlayer(int i)
     {
-        nicknameText.text = PhotonNetwork.PlayerList[0].NickName;
+        nicknameText.text = PhotonNetwork.PlayerList[i].NickName;
 
         if (PhotonNetwork.PlayerList[i].NickName == nickname)
         {
@@ -265,13 +258,14 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             player = "black";
         }
         playerText.text = player;
+        Debug.Log("¾À ¹Ù²Û´Ù¤¿¤¿¾Æ¤¿¾Æ");
         //SceneManager.LoadScene("Game");
     }
 
     [PunRPC]
     private void Rename()
     {
-        Debug.Log("ÀÀ¾Ö");
+        
         LeaveRoom();
         nicknamePanal.SetActive(true);
     }
