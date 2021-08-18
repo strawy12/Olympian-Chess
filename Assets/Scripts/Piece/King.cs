@@ -37,47 +37,52 @@ public class King : ChessBase
             {
                 GameManager.Inst.MovePlateAttackSpawn(x, y, this);
             }
-
         }
     }
 
     private void CastlingMovePlate()
     {
-        if(ChessManager.Inst.Castling(player, moveCnt))
+        if (player == "white")
         {
-            Debug.Log("캐슬링 가능");
-
-            if (player == "white")
+            if (ChessManager.Inst.Castling(player, moveCnt, true))
             {
-                Debug.Log("화이트라면");
-                Debug.Log(CheckMovePlate(player, 5, 0));
-                //white king side
-                if (!CheckMovePlate(player, 5, 0) && !CheckMovePlate(player, 6, 0))
                 {
-                    GameManager.Inst.MovePlateSpawn(6, 0, this);
-                    Debug.Log("백 킹사이드");
+                    //white king side
+                    if (!CheckMovePlate(player, 5, 0) && !CheckMovePlate(player, 6, 0))
+                    {
+                        GameManager.Inst.MovePlateSpawn(6, 0, this);
+                    }
                 }
+            }
 
+            if (ChessManager.Inst.Castling(player, moveCnt, false))
+            {
                 //white queen side
-                else if (!CheckMovePlate(player, 1, 0) && !CheckMovePlate(player, 2, 0) && !CheckMovePlate(player, 3, 0))
+                if (!CheckMovePlate(player, 1, 0) && !CheckMovePlate(player, 2, 0) && !CheckMovePlate(player, 3, 0))
                 {
                     GameManager.Inst.MovePlateSpawn(2, 0, this);
                     Debug.Log("백 퀸사이드");
                 }
             }
+        }
 
-            else
+        if (player == "black")
+        {
+            if (ChessManager.Inst.Castling(player, moveCnt, true))
             {
                 //black king side
                 if (!CheckMovePlate(player, 5, 7) && !CheckMovePlate(player, 6, 7))
                 {
-                    GameManager.Inst.MovePlateSpawn(7, 6, this);
+                    GameManager.Inst.MovePlateSpawn(6, 7, this);
                 }
+            }
 
+            else if (ChessManager.Inst.Castling(player, moveCnt, false))
+            {
                 //black queen side
-                else if (!CheckMovePlate(player, 1, 7) && !CheckMovePlate(player, 2, 7) && !CheckMovePlate(player, 3, 7))
+                if (!CheckMovePlate(player, 1, 7) && !CheckMovePlate(player, 2, 7) && !CheckMovePlate(player, 3, 7))
                 {
-                    GameManager.Inst.MovePlateSpawn(7, 2, this);
+                    GameManager.Inst.MovePlateSpawn(2, 7, this);
                 }
             }
         }
@@ -86,5 +91,30 @@ public class King : ChessBase
     private bool CheckMovePlate(string player, int x, int y)
     {
         return ChessManager.Inst.CheckMovePlate(player, x, y);
+    }
+
+    private void RookCastling()
+    {
+        if (moveCnt == 0)
+        {
+            if (player == "white")
+            {
+                if (xBoard == 6 && yBoard == 0)
+                {
+                    ChessManager.Inst.RookCastling(player, true);
+                    Debug.Log("sdf");
+                }
+                if (xBoard == 2 && yBoard == 0)
+                    ChessManager.Inst.RookCastling(player, false);
+            }
+
+            else
+            {
+                if (xBoard == 6 && yBoard == 7)
+                    ChessManager.Inst.RookCastling(player, true);
+                if (xBoard == 2 && yBoard == 7)
+                    ChessManager.Inst.RookCastling(player, false);
+            }
+        }
     }
 }

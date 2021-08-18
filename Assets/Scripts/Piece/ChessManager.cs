@@ -271,6 +271,7 @@ public class ChessManager : MonoBehaviour
         StartCoroutine(SetCoordsAnimation(cp));
         TurnManager.Instance.ButtonColor();
         GameManager.Inst.DestroyMovePlates();
+        CastlingKing(cp);
     }
     public IEnumerator SetCoordsAnimation(ChessBase cp)
     {
@@ -379,25 +380,25 @@ public class ChessManager : MonoBehaviour
 
         if (player == "white" && isKing)
         {
-            if (PositionOnBoard(5, 0) && PositionOnBoard(6, 0))
+            if (GetPosition(5, 0) == null && GetPosition(6, 0) == null)
                 return true;
         }
 
         else if (player == "white" && !isKing)
         {
-            if (PositionOnBoard(1, 0) && PositionOnBoard(2, 0) && PositionOnBoard(3, 0))
+            if (GetPosition(1, 0) == null && GetPosition(2, 0) == null && GetPosition(3, 0) == null)
                 return true;
         }
 
         else if (player == "black" && isKing)
         {
-            if (PositionOnBoard(5, 7) && PositionOnBoard(6, 7))
+            if (GetPosition(5, 7) == null && GetPosition(6, 7) == null)
                 return true;
         }
 
         else if (player == "black" && !isKing)
         {
-            if (PositionOnBoard(1, 7) && PositionOnBoard(2, 7) && PositionOnBoard(3, 7))
+            if (GetPosition(1, 7) == null && GetPosition(2, 7) == null && GetPosition(3, 7) == null)
                 return true;
         }
 
@@ -406,31 +407,32 @@ public class ChessManager : MonoBehaviour
 
     public bool CheckMovePlate(string player, int x, int y)
     {
-        List<GameObject> movePlates = new List<GameObject>();
+        List<GameObject> movePlates;
 
-        //if (player == "black")
-        //{
-        //    for (int i = 0; i < playerWhite.Length; i++)
-        //    {
-        //        if (playerWhite[i] == null) continue;
+        if (player == "black")
+        {
+            for (int i = 0; i < playerWhite.Length; i++)
+            {
+                if (playerWhite[i] == null) continue;
 
-        //        playerWhite[i].MovePlate();
+                playerWhite[i].MovePlate();
 
-        //        movePlates = GameManager.Inst.GetMovePlates();
+                movePlates = GameManager.Inst.GetMovePlates();
 
-        //        for (int j = 0; j < movePlates.Count; j++)
-        //        {
-        //            if (movePlates[j].GetComponent<MovePlate>().GetChessPiece() == null) continue;
+                for (int j = 0; j < movePlates.Count; j++)
+                {
+                    if (movePlates[j].GetComponent<MovePlate>().GetPosX() == x && movePlates[j].GetComponent<MovePlate>().GetPosY() == y)
+                    {
+                        GameManager.Inst.DestroyMovePlates();
+                        return true;
+                    }
+                }
 
-        //            if (movePlates[j].GetComponent<MovePlate>().GetPosX() == x && movePlates[j].GetComponent<MovePlate>().GetPosY() == y)
-        //                return true;
-        //        }
+                GameManager.Inst.DestroyMovePlates();
+            }
+        }
 
-        //        GameManager.Inst.DestroyMovePlates();
-        //    }
-        //}
-
-        if(player == "white")
+        if (player == "white")
         {
             for (int i = 0; i < playerBlack.Length; i++)
             {
@@ -442,16 +444,15 @@ public class ChessManager : MonoBehaviour
 
                 for (int j = 0; j < movePlates.Count; j++)
                 {
-                    if (movePlates[j].GetComponent<MovePlate>().GetChessPiece() == null) continue;
-
                     if (movePlates[j].GetComponent<MovePlate>().GetPosX() == x && movePlates[j].GetComponent<MovePlate>().GetPosY() == y)
+                    {
+                        GameManager.Inst.DestroyMovePlates();
                         return true;
+                    }
                 }
 
+                GameManager.Inst.DestroyMovePlates();
             }
-
-            GameManager.Inst.DestroyMovePlates();
-
         }
 
         GameManager.Inst.DestroyMovePlates();
@@ -459,35 +460,104 @@ public class ChessManager : MonoBehaviour
 
     }
 
-    public bool Castling(string player, int moveCnt)
+    public bool Castling(string player, int moveCnt, bool isKing)
     {
         if (player == "white" && moveCnt == 0)
         {
-            Debug.Log("플레이어 화이트고 움직이지 않았음");
-
-            if (KingAndRook("white", true) || KingAndRook("white", false))
+            if (isKing && KingAndRook("white", true))
             {
-                Debug.Log("킹과 룩 사이에 장애물 없음");
-
                 if (!CheckMate("white"))
                 {
-                    Debug.Log("왕이 체크메이트가 아님");
-
                     return true;
                 }
             }
 
-            else if (player == "black" && moveCnt == 0)
+            else if (!isKing && KingAndRook("white", false))
             {
-                if (KingAndRook("black", true) || KingAndRook("black", true))
+                if (!CheckMate("white"))
                 {
-                    if (!CheckMate("white"))
-                    {
-                        return true;
-                    }
+                    return true;
+                }
+            }
+        }
+
+        else if (player == "black" && moveCnt == 0)
+        {
+            if (isKing && KingAndRook("black", true))
+            {
+                if (!CheckMate("white"))
+                {
+                    return true;
+                }
+            }
+
+            else if (!isKing && KingAndRook("black", false))
+            {
+                if (!CheckMate("white"))
+                {
+                    return true;
                 }
             }
         }
         return false;
+    }
+
+
+
+    public void RookCastling(string player, bool isKing)
+    {
+        ChessBase rook;
+
+        if (player == "white")
+        {
+            if (isKing)
+            {
+                Debug.Log("sdf");
+                rook = GetPosition(7, 0);
+                MoveChessPiece(rook, 5, 0);
+            }
+
+            else
+            {
+                rook = GetPosition(0, 0);
+                MoveChessPiece(rook, 3, 0);
+            }
+        }
+
+        else
+        {
+            if (isKing)
+            {
+                rook = GetPosition(7, 7);
+                MoveChessPiece(rook, 5, 7);
+            }
+            else
+            {
+                rook = GetPosition(4, 7);
+                MoveChessPiece(rook, 3, 7);
+            }
+        }
+    }
+
+    private void CastlingKing(ChessBase cp)
+    {
+        if (cp.name == "white_king")
+        {
+            if (cp.GetMoveCnt() == 1)
+            {
+                if (cp.GetXBoard() == 6 && cp.GetYBoard() == 0)
+                    RookCastling("white", true);
+                else if (cp.GetXBoard() == 2 && cp.GetYBoard() == 0)
+                    RookCastling("white", false);
+            }
+        }
+
+        else if (cp.name == "black_king")
+        {
+            if (cp.GetXBoard() == 6 && cp.GetYBoard() == 7)
+                RookCastling("black", true);
+            else if (cp.GetXBoard() == 2 && cp.GetYBoard() == 7)
+                RookCastling("black", false);
+        }
     }
 }

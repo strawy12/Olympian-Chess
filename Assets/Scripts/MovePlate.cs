@@ -49,7 +49,6 @@ public class MovePlate : MonoBehaviour
         if (eChessState == EChessState.Moving)
         {
             ChessManager.Inst.MoveChessPiece(reference, matrixX, matrixY);
-
         }
 
         else if (eChessState == EChessState.Skill)
