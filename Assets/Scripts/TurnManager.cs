@@ -56,6 +56,15 @@ public class TurnManager : MonoBehaviour
     [SerializeField]
     private AudioClip buttonMusic;
 
+    [Header("체스 이동했을 때 브금")]
+    [SerializeField]
+    private AudioClip moveChessMusic;
+
+    [Header("버튼 파티클")]
+    [SerializeField]
+    private GameObject buttonParticle;
+
+
     private bool isActive = false;
 
 
@@ -192,21 +201,30 @@ public class TurnManager : MonoBehaviour
 
         if (myTurn)
         {
-            ParticleManager.Instance.AddParticle(ParticleManager.ParticleType.button, P);
-            SoundManager.Instance.SoundPlay("button", buttonMusic);
+            //ParticleManager.Instance.AddParticle(ParticleManager.ParticleType.button, P);
+            ButtonParticle();
+            SoundManager.Instance.SoundPlay("MoveChess", moveChessMusic);
             buttonWhite.image.sprite = buttonActive;
         }
 
         else if(!myTurn)
         {
-            ParticleManager.Instance.AddParticle(ParticleManager.ParticleType.button, P);
-            SoundManager.Instance.SoundPlay("button", buttonMusic);
+            //ParticleManager.Instance.AddParticle(ParticleManager.ParticleType.button, P);
+            ButtonParticle();
+            SoundManager.Instance.SoundPlay("MoveChess", moveChessMusic);
             buttonBlack.image.sprite = buttonActive;
         }
 
         isActive = true;
     }
 
+    private void ButtonParticle()
+    {
+        Vector3 P = new Vector3(-2.45f, -3.15f, 0f);
+
+        ParticleManager.Instance.ParticlePlay(buttonParticle, P,5f);
+        Destroy(buttonParticle, 5f);
+    }
     // Change the other party and my button to a disabled button image
     public void ButtonInactive()
     {
@@ -247,6 +265,8 @@ public class TurnManager : MonoBehaviour
         }
         //,,..CardManager.Inst.UpdateCard();
         myTurn = !myTurn;
+        SoundManager.Instance.SoundPlay("button", buttonMusic);
+
 
         ChessManager.Inst.FalseIsMoving();
         ChangeButtonTransform();

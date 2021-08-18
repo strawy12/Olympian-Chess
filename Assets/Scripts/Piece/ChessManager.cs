@@ -46,6 +46,9 @@ public class ChessManager : MonoBehaviour
 
     [SerializeField] private GameObject cccccp;
 
+    [Header("체스말 죽을 때 브금")]
+    [SerializeField]
+    private AudioClip deadChessPiece;
     #endregion
 
     void Start()
@@ -86,7 +89,7 @@ public class ChessManager : MonoBehaviour
     {
         GameObject obj = Instantiate(chessPiece, new Vector3(0, 0, -1), Quaternion.identity);
         obj.transform.SetParent(cccccp.transform);
-
+        obj.name = chessPiece.name;
         ChessBase cb = obj.GetComponent<ChessBase>();
 
         cb.SetXBoard(x);
@@ -245,6 +248,7 @@ public class ChessManager : MonoBehaviour
 
         SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
         UpdateArr(cp);
+        SoundManager.Instance.SoundPlay("DeadChess", deadChessPiece);
         Destroy(cp.gameObject);
 
         if (mp.Getreference().isAttacking)
