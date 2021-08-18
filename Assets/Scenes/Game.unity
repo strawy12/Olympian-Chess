@@ -640,6 +640,9 @@ MonoBehaviour:
   posDown: {fileID: 1512220577}
   winMusic: {fileID: 8300000, guid: c97f4471f0b03e64f9aba1705f4aab33, type: 3}
   buttonMusic: {fileID: 8300000, guid: b5a96ff68d47a474a9b1e7fff0bec7f3, type: 3}
+  moveChessMusic: {fileID: 8300000, guid: 9614bd20cc551634c8f90907592327b2, type: 3}
+  buttonParticle: {fileID: 639031507346184926, guid: d6d4c5e5f02b69e46baaccb7b9f4fd9f,
+    type: 3}
   isLoading: 0
   myTurn: 0
 --- !u!1 &345451344
