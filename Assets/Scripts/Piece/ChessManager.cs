@@ -246,6 +246,7 @@ public class ChessManager : MonoBehaviour
             return;
         }
 
+        EnPassant(mp.Getreference(), mp);
         SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
         UpdateArr(cp);
         GameManager.Inst.RemoveAttackings(cp);
@@ -457,7 +458,6 @@ public class ChessManager : MonoBehaviour
 
         GameManager.Inst.DestroyMovePlates();
         return false;
-
     }
 
     public bool Castling(string player, int moveCnt, bool isKing)
@@ -501,8 +501,6 @@ public class ChessManager : MonoBehaviour
         }
         return false;
     }
-
-
 
     public void RookCastling(string player, bool isKing)
     {
@@ -557,6 +555,20 @@ public class ChessManager : MonoBehaviour
                 RookCastling("black", true);
             else if (cp.GetXBoard() == 2 && cp.GetYBoard() == 7)
                 RookCastling("black", false);
+        }
+    }
+
+    private void EnPassant(ChessBase cp, MovePlate mp)
+    {
+        if (cp.name.Contains("pawn") && cp.GetMoveCnt() == 2)
+        {
+            if (mp.GetPosX() == cp.GetXBoard() + 1 || mp.GetPosX() == cp.GetXBoard())
+            {
+                if (cp.name.Contains("white"))
+                    mp.SetCoords(mp.GetPosX(), mp.GetPosY() + 1);
+                else
+                    mp.SetCoords(mp.GetPosX(), mp.GetPosY() - 1);
+            }
         }
     }
 }
