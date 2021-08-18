@@ -485,7 +485,7 @@ public class ChessManager : MonoBehaviour
         {
             if (isKing && KingAndRook("black", true))
             {
-                if (!CheckMate("white"))
+                if (!CheckMate("black"))
                 {
                     return true;
                 }
@@ -493,7 +493,7 @@ public class ChessManager : MonoBehaviour
 
             else if (!isKing && KingAndRook("black", false))
             {
-                if (!CheckMate("white"))
+                if (!CheckMate("black"))
                 {
                     return true;
                 }
@@ -512,7 +512,6 @@ public class ChessManager : MonoBehaviour
         {
             if (isKing)
             {
-                Debug.Log("sdf");
                 rook = GetPosition(7, 0);
                 MoveChessPiece(rook, 5, 0);
             }
@@ -533,7 +532,7 @@ public class ChessManager : MonoBehaviour
             }
             else
             {
-                rook = GetPosition(4, 7);
+                rook = GetPosition(0, 7);
                 MoveChessPiece(rook, 3, 7);
             }
         }

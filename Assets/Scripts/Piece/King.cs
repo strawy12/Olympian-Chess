@@ -44,21 +44,21 @@ public class King : ChessBase
     {
         if (player == "white")
         {
-            if (ChessManager.Inst.Castling(player, moveCnt, true))
+            if (ChessManager.Inst.Castling("white", moveCnt, true))
             {
                 {
                     //white king side
-                    if (!CheckMovePlate(player, 5, 0) && !CheckMovePlate(player, 6, 0))
+                    if (!CheckMovePlate("white", 5, 0) && !CheckMovePlate("white", 6, 0))
                     {
                         GameManager.Inst.MovePlateSpawn(6, 0, this);
                     }
                 }
             }
 
-            if (ChessManager.Inst.Castling(player, moveCnt, false))
+            if (ChessManager.Inst.Castling("white", moveCnt, false))
             {
                 //white queen side
-                if (!CheckMovePlate(player, 1, 0) && !CheckMovePlate(player, 2, 0) && !CheckMovePlate(player, 3, 0))
+                if (!CheckMovePlate("white", 1, 0) && !CheckMovePlate("white", 2, 0) && !CheckMovePlate("white", 3, 0))
                 {
                     GameManager.Inst.MovePlateSpawn(2, 0, this);
                     Debug.Log("¹é Äý»çÀÌµå");
@@ -68,19 +68,19 @@ public class King : ChessBase
 
         if (player == "black")
         {
-            if (ChessManager.Inst.Castling(player, moveCnt, true))
+            if (ChessManager.Inst.Castling("black", moveCnt, true))
             {
                 //black king side
-                if (!CheckMovePlate(player, 5, 7) && !CheckMovePlate(player, 6, 7))
+                if (!CheckMovePlate("black", 5, 7) && !CheckMovePlate("black", 6, 7))
                 {
                     GameManager.Inst.MovePlateSpawn(6, 7, this);
                 }
             }
 
-            else if (ChessManager.Inst.Castling(player, moveCnt, false))
+            else if (ChessManager.Inst.Castling("black", moveCnt, false))
             {
                 //black queen side
-                if (!CheckMovePlate(player, 1, 7) && !CheckMovePlate(player, 2, 7) && !CheckMovePlate(player, 3, 7))
+                if (!CheckMovePlate("black", 1, 7) && !CheckMovePlate("black", 2, 7) && !CheckMovePlate("black", 3, 7))
                 {
                     GameManager.Inst.MovePlateSpawn(2, 7, this);
                 }
