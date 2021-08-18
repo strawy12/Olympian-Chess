@@ -395,12 +395,99 @@ public class ChessManager : MonoBehaviour
                 return true;
         }
 
-        else if (player == "black" && isKing)
+        else if (player == "black" && !isKing)
         {
             if (PositionOnBoard(1, 7) && PositionOnBoard(2, 7) && PositionOnBoard(3, 7))
                 return true;
         }
 
+        return false;
+    }
+
+    public bool CheckMovePlate(string player, int x, int y)
+    {
+        List<GameObject> movePlates = new List<GameObject>();
+
+        //if (player == "black")
+        //{
+        //    for (int i = 0; i < playerWhite.Length; i++)
+        //    {
+        //        if (playerWhite[i] == null) continue;
+
+        //        playerWhite[i].MovePlate();
+
+        //        movePlates = GameManager.Inst.GetMovePlates();
+
+        //        for (int j = 0; j < movePlates.Count; j++)
+        //        {
+        //            if (movePlates[j].GetComponent<MovePlate>().GetChessPiece() == null) continue;
+
+        //            if (movePlates[j].GetComponent<MovePlate>().GetPosX() == x && movePlates[j].GetComponent<MovePlate>().GetPosY() == y)
+        //                return true;
+        //        }
+
+        //        GameManager.Inst.DestroyMovePlates();
+        //    }
+        //}
+
+        if(player == "white")
+        {
+            for (int i = 0; i < playerBlack.Length; i++)
+            {
+                if (playerBlack[i] == null) continue;
+
+                playerBlack[i].MovePlate();
+
+                movePlates = GameManager.Inst.GetMovePlates();
+
+                for (int j = 0; j < movePlates.Count; j++)
+                {
+                    if (movePlates[j].GetComponent<MovePlate>().GetChessPiece() == null) continue;
+
+                    if (movePlates[j].GetComponent<MovePlate>().GetPosX() == x && movePlates[j].GetComponent<MovePlate>().GetPosY() == y)
+                        return true;
+                }
+
+            }
+
+            GameManager.Inst.DestroyMovePlates();
+
+        }
+
+        GameManager.Inst.DestroyMovePlates();
+        return false;
+
+    }
+
+    public bool Castling(string player, int moveCnt)
+    {
+        if (player == "white" && moveCnt == 0)
+        {
+            Debug.Log("플레이어 화이트고 움직이지 않았음");
+
+            if (KingAndRook("white", true) || KingAndRook("white", false))
+            {
+                Debug.Log("킹과 룩 사이에 장애물 없음");
+
+                if (!CheckMate("white"))
+                {
+                    Debug.Log("왕이 체크메이트가 아님");
+
+                    return true;
+                }
+            }
+
+            else if (player == "black" && moveCnt == 0)
+            {
+                if (KingAndRook("black", true) || KingAndRook("black", true))
+                {
+                    if (!CheckMate("white"))
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
         return false;
     }
 }
