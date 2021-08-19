@@ -61,8 +61,19 @@ public class ChessManager : MonoBehaviour
     private IEnumerator Particle()
     {
         GameObject b;
-        b = Instantiate(B_P.gameObject);
-        b = Instantiate(W_P.gameObject);
+        if(W_P)
+        {
+            b = Instantiate(B_P.gameObject);
+
+        }
+        if(B_P)
+        {
+            b = Instantiate(W_P.gameObject);
+        }
+        if(W_P)
+        {
+
+        }
         yield return new WaitForSeconds(1f);
         Destroy(b);
     }
