@@ -222,8 +222,8 @@ public class TurnManager : MonoBehaviour
     {
         Vector3 P = new Vector3(-2.45f, -3.15f, 0f);
 
+        //Debug.Log("파티클 생성");    
         ParticleManager.Instance.ParticlePlay(buttonParticle, P,5f);
-        Destroy(buttonParticle, 5f);
     }
     // Change the other party and my button to a disabled button image
     public void ButtonInactive()

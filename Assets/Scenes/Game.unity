@@ -798,6 +798,8 @@ MonoBehaviour:
   - {fileID: 0}
   cccccp: {fileID: 95835600}
   deadChessPiece: {fileID: 8300000, guid: be0282cca2b30a84484cbae9818b145d, type: 3}
+  W_P: {fileID: 0}
+  B_P: {fileID: 0}
 --- !u!1 &417723382
 GameObject:
   m_ObjectHideFlags: 0

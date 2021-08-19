@@ -116,8 +116,6 @@ public class GameManager : MonoBehaviour
         {
             Destroy(movePlateList[0]);
             RemoveMovePlateList(movePlateList[0]);
-            Debug.Log("qweqeqweqwe");
-
         }
 
     }

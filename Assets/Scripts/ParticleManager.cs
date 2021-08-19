@@ -24,60 +24,60 @@ public class ParticleManager : MonoBehaviour
     #endregion
 
     #region dsdf
-    //    public enum ParticleType
-    //    {
-    //        button,
-    //        W_ChessPieceClick,
-    //        B_ChessPieceClick,
-    //        S,
-    //    }
+    public enum ParticleType
+    {
+        button,
+        W_ChessPieceClick,
+        B_ChessPieceClick,
+        S,
+    }
 
-    //    public void DeleteParticle(ParticleType pt)
-    //    {
-    //        Destroy(particleDic[pt].gameObject);
-    //    }
+    public void DeleteParticle(ParticleType pt)
+    {
+        Destroy(particleDic[pt].gameObject);
+    }
 
-    //    public int AddParticle(ParticleType pt, Vector3 pos)
-    //    {
-    //        switch(pt)
-    //        {
-    //            case ParticleType.button:
-    //                if(false==particleDic.ContainsKey(pt))
-    //                {
-    //                    particleDic[pt] = Resources.Load<GameObject>("Particle/P_button");
-    //                }
-    //                break;
-    //            case ParticleType.W_ChessPieceClick:
-    //                if(false ==particleDic.ContainsKey(pt))
-    //                {
-    //                    particleDic[pt] = Resources.Load<GameObject>("Particle/W_ChessPiece");
-    //                }
-    //                break;
-    //            case ParticleType.B_ChessPieceClick:
-    //                if (false == particleDic.ContainsKey(pt))
-    //                {
-    //                    particleDic[pt] = Resources.Load<GameObject>("Particle/B_ChessPiece");
-    //                }
-    //                break;
-    //            case ParticleType.S:
-    //                if (false == particleDic.ContainsKey(pt))
-    //                {
-    //                    particleDic[pt] = Resources.Load<GameObject>("Particle/s");
-    //                }
-    //                break;
-    //        }
-    //        if(particleDic[pt]==null)
-    //        {
-    //            Debug.LogWarning($"로딩을 못했어!!!ㅠㅅㅠ{pt}");
-    //            return 0;
-    //        }
+    public int AddParticle(ParticleType pt, Vector3 pos)
+    {
+        switch (pt)
+        {
+            case ParticleType.button:
+                if (false == particleDic.ContainsKey(pt))
+                {
+                    particleDic[pt] = Resources.Load<GameObject>("Particle/P_button");
+                }
+                break;
+            case ParticleType.W_ChessPieceClick:
+                if (false == particleDic.ContainsKey(pt))
+                {
+                    particleDic[pt] = Resources.Load<GameObject>("Particle/W_ChessPiece");
+                }
+                break;
+            case ParticleType.B_ChessPieceClick:
+                if (false == particleDic.ContainsKey(pt))
+                {
+                    particleDic[pt] = Resources.Load<GameObject>("Particle/B_ChessPiece");
+                }
+                break;
+            case ParticleType.S:
+                if (false == particleDic.ContainsKey(pt))
+                {
+                    particleDic[pt] = Resources.Load<GameObject>("Particle/s");
+                }
+                break;
+        }
+        if (particleDic[pt] == null)
+        {
+            Debug.LogWarning($"로딩을 못했어!!!ㅠㅅㅠ{pt}");
+            return 0;
+        }
 
-    //        GameObject go = Instantiate<GameObject>(particleDic[pt], pos, Quaternion.identity);
+        GameObject go = Instantiate<GameObject>(particleDic[pt], pos, Quaternion.identity);
 
-    //        return 0;
-    //    }
+        return 0;
+    }
 
-    //    private static Dictionary<ParticleType, GameObject> particleDic = new Dictionary<ParticleType, GameObject>(); 
+    private static Dictionary<ParticleType, GameObject> particleDic = new Dictionary<ParticleType, GameObject>();
     #endregion
 
     public IEnumerator ParticlePlay(GameObject Particle,Vector3 Position,float time)

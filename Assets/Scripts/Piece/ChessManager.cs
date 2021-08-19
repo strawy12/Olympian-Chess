@@ -49,11 +49,29 @@ public class ChessManager : MonoBehaviour
     [Header("체스말 죽을 때 브금")]
     [SerializeField]
     private AudioClip deadChessPiece;
+
+    [SerializeField]
+    private ParticleSystem W_P;
+
+    [SerializeField]
+    private ParticleSystem B_P;
+
     #endregion
 
+    private IEnumerator Particle()
+    {
+        GameObject b;
+        b = Instantiate(B_P.gameObject);
+        b = Instantiate(W_P.gameObject);
+        yield return new WaitForSeconds(1f);
+        Destroy(b);
+    }
+
+    
     void Start()
     {
         SettingGame();
+        StartCoroutine(Particle());
     }
 
     #region Create

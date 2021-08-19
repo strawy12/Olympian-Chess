@@ -27,7 +27,7 @@ public class SoundManager : MonoBehaviour
 
     public void SoundPlay(string name,AudioClip clip)
     {
-        Debug.Log(name + "Sound");
+        //Debug.Log(name + "Sound");
         GameObject go = new GameObject(name + "Sound");
         AudioSource audioSource = go.AddComponent<AudioSource>();
         audioSource.clip = clip;
