@@ -6,6 +6,7 @@ using Photon.Pun;
 [System.Serializable]
 public class ChessData
 {
+    public string chessPiece;
     public int moveCnt;
     public int attackCount;
     public int xBoard;
@@ -18,8 +19,9 @@ public class ChessData
     public bool attackSelecting;
 
     public List<SkillBase> chosenSkill;
-    public ChessData(int moveCnt, int attackCount, int xBoard, int yBoard,bool isMoving, bool isAttacking, bool noneAttack, bool isSelecting, bool attackSelecting, List<SkillBase> chosenSkill)
+    public ChessData(string player, string chessPiece, int moveCnt, int attackCount, int xBoard, int yBoard,bool isMoving, bool isAttacking, bool noneAttack, bool isSelecting, bool attackSelecting, List<SkillBase> chosenSkill)
     {
+        this.chessPiece = chessPiece;
         this.moveCnt = moveCnt;
         this.attackCount = attackCount;
         this.xBoard = xBoard;
@@ -37,20 +39,14 @@ public class ChessData
 public class ChessBase : MonoBehaviourPunCallbacks
 {
     public SpriteRenderer spriteRenderer { get; private set; }
-
     public string player;
     protected ChessData chessData;
 
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        chessData = new ChessData(0, 0, 0, 0, false, false, false, false, false, new List<SkillBase>());
+        chessData = new ChessData(player, gameObject.name, 0, 0, 0, 0, false, false, false, false, false, new List<SkillBase>());
     }
-    private void Start()
-    {
-
-    }
-
 
     public virtual void MovePlate() { }
 
@@ -313,6 +309,11 @@ public class ChessBase : MonoBehaviourPunCallbacks
     public bool GetIsMoving()
     {
         return chessData.isMoving;
+    }
+
+    public ChessData GetChessData()
+    {
+        return chessData;
     }
     #endregion
 }

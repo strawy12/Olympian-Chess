@@ -50,13 +50,15 @@ public class ChessManager : MonoBehaviourPunCallbacks
 
     [SerializeField] private WaitForSeconds delay = new WaitForSeconds(0.5f);
 
+    private PositionData positionData;
     private bool isLoading;
+
 
 
 
     void Start()
     {
-        
+        positionData = new PositionData(new ChessData[,] { });
     }
 
 
@@ -133,8 +135,8 @@ public class ChessManager : MonoBehaviourPunCallbacks
         }
         for (int i = 0; i < playerBlack.Length; i++)
         {
-            SetPosition(playerBlack[i]);
-            SetPosition(playerWhite[i]);
+            SetPosition(playerBlack[i], false);
+            SetPosition(playerWhite[i], false);
         }
     }
 
@@ -253,15 +255,21 @@ public class ChessManager : MonoBehaviourPunCallbacks
     }
 
     #region Position
-    public void SetPositionEmpty(int x, int y)
+    public void SetPositionEmpty(int x, int y, bool isSend = true)
     {
+        if(isSend)
+        {
+            photonView.RPC("SetPositionEmpty", RpcTarget.Others, x, y, false);
+        }
         position[x, y] = null;
     }
+
     //return positions
     public ChessBase GetPosition(int x, int y)
     {
         return position[x, y];
     }
+
     // Function checking if any chesspiece exists on parameters' value on board
     // exist => true
     public bool PositionOnBoard(int x, int y)
@@ -274,10 +282,17 @@ public class ChessManager : MonoBehaviourPunCallbacks
         position[x, y] = obj;
     }
 
-    public void SetPosition(ChessBase obj)
+    public void SetPosition(ChessBase obj, bool isSend = true)
     {
+        if (isSend)
+        {
+            photonView.RPC("SetPosition", RpcTarget.Others, obj, false);
+        }
+
         if (obj == null) return;
-        position[obj.GetXBoard(), obj.GetYBoard()] =obj;
+        int x = obj.GetXBoard();
+        int y = obj.GetYBoard();
+        position[x, y] = obj;
     }
     #endregion
 
@@ -321,6 +336,18 @@ public class ChessManager : MonoBehaviourPunCallbacks
         GameManager.Inst.DestroyMovePlates();
     }
 
+    private void SendPositionData()
+    {
+        string jsonData = NetworkManager.Inst.SaveDataToJson(positionData, true);
+        photonView.RPC("SetPositionData", RpcTarget.OthersBuffered, jsonData);
+    }
+
+    [PunRPC]
+    public void SetPositionData(string jsonData)
+    {
+        PositionData pd = NetworkManager.Inst.LoadDataFromJson<PositionData>(jsonData);
+        positionData = pd;
+    }
 
     public ChessBase[] GetPlayerBlack()
     {

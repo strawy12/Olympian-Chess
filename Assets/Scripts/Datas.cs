@@ -17,11 +17,11 @@ public class ChessListData
 [System.Serializable]
 public class PositionData
 {
-    public ChessBase[,] position;
-
-    public PositionData(ChessBase[,] position)
+    public ChessData[,] position;
+    public PositionData(ChessData[,] position)
     {
         this.position = position;
+
     }
 }
 [System.Serializable]

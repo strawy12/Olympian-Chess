@@ -30,7 +30,7 @@ public class OceanJail : SkillBase
         if (ChessManager.Inst.GetPosition(posX, posY) != null)
         {
             Destroy(ChessManager.Inst.GetPosition(posX, posY).gameObject);
-            ChessManager.Inst.SetPositionEmpty(posX, posY);
+            ChessManager.Inst.SetPositionEmpty(posX, posY, true);
         }
         //ChessManager.Inst.SetChessPiecePosition(posX, posY, selectPiece);
         selectPiece.spriteRenderer.material.SetColor("_Color", new Color32(0, 0, 0, 0));
