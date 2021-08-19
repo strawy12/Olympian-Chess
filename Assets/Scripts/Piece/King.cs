@@ -92,29 +92,4 @@ public class King : ChessBase
     {
         return ChessManager.Inst.CheckMovePlate(player, x, y);
     }
-
-    private void RookCastling()
-    {
-        if (moveCnt == 0)
-        {
-            if (player == "white")
-            {
-                if (xBoard == 6 && yBoard == 0)
-                {
-                    ChessManager.Inst.RookCastling(player, true);
-                    Debug.Log("sdf");
-                }
-                if (xBoard == 2 && yBoard == 0)
-                    ChessManager.Inst.RookCastling(player, false);
-            }
-
-            else
-            {
-                if (xBoard == 6 && yBoard == 7)
-                    ChessManager.Inst.RookCastling(player, true);
-                if (xBoard == 2 && yBoard == 7)
-                    ChessManager.Inst.RookCastling(player, false);
-            }
-        }
-    }
 }
