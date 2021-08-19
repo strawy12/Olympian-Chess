@@ -110,7 +110,7 @@ public class Law : SkillBase
 
         else
         {
-            if (selectPiece.player == "white")
+            if (selectPiece.GetChessData().player == "white")
             {
                 GameManager.Inst.MovePlateSpawn(x, y, selectPiece);
                 if (ChessManager.Inst.GetPosition(x, y + 1) == null)
@@ -140,13 +140,13 @@ public class Law : SkillBase
         }
 
         if (ChessManager.Inst.PositionOnBoard(x + 1, y) && ChessManager.Inst.GetPosition(x + 1, y) != null &&
-           ChessManager.Inst.GetPosition(x + 1, y).GetComponent<ChessBase>().player != selectPiece.player)
+           ChessManager.Inst.GetPosition(x + 1, y).GetComponent<ChessBase>().GetChessData().player != selectPiece.GetChessData().player)
         {
             GameManager.Inst.MovePlateAttackSpawn(x + 1, y, selectPiece);
         }
 
         if (ChessManager.Inst.PositionOnBoard(x - 1, y) && ChessManager.Inst.GetPosition(x - 1, y) != null &&
-            ChessManager.Inst.GetPosition(x - 1, y).GetComponent<ChessBase>().player != selectPiece.player)
+            ChessManager.Inst.GetPosition(x - 1, y).GetComponent<ChessBase>().GetChessData().player != selectPiece.GetChessData().player)
         {
             GameManager.Inst.MovePlateAttackSpawn(x - 1, y, selectPiece);
         }
@@ -170,7 +170,7 @@ public class Law : SkillBase
             {
                 cnt++;
 
-                if (ChessManager.Inst.PositionOnBoard(x, y) && ChessManager.Inst.GetPosition(x, y).player != selectPiece.player)
+                if (ChessManager.Inst.PositionOnBoard(x, y) && ChessManager.Inst.GetPosition(x, y).GetChessData().player != selectPiece.GetChessData().player)
                 {
                     GameManager.Inst.MovePlateAttackSpawn(x, y, selectPiece);
                 }
@@ -184,7 +184,7 @@ public class Law : SkillBase
             y += yIncrement;
         }
 
-        if (ChessManager.Inst.PositionOnBoard(x, y) && ChessManager.Inst.GetPosition(x, y).player != selectPiece.player)
+        if (ChessManager.Inst.PositionOnBoard(x, y) && ChessManager.Inst.GetPosition(x, y).GetChessData().player != selectPiece.GetChessData().player)
         {
             GameManager.Inst.MovePlateAttackSpawn(x, y, selectPiece);
         }
@@ -225,7 +225,7 @@ public class Law : SkillBase
                 GameManager.Inst.MovePlateSpawn(x, y, selectPiece);
             }
 
-            else if (cp.player != player)
+            else if (cp.GetChessData().player != player)
             {
                 GameManager.Inst.MovePlateAttackSpawn(x, y, selectPiece);
             }

@@ -67,7 +67,7 @@ public class LoveOfEros : SkillBase
         selectPieceTo.SetYBoard(selectPiece.GetYBoard());
         //ChessManager.Inst.SetCoords(selectPiece.gameObject, selectPiece.GetYBoard(), selectPiece.GetXBoard());
         selectPieceTo.SetCoords();
-        ChessManager.Inst.SetPosition(selectPieceTo);
+        ChessManager.Inst.SetPosition(selectPieceTo.GetChessData());
         ChessManager.Inst.UpdateArr(selectPiece);
         SkillManager.Inst.RemoveSkillList(this);
         if (selectPiece != null)

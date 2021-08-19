@@ -14,7 +14,7 @@ public class GiveBirth : SkillBase
     {
         ChessBase baby;
 
-        if (selectPiece.player == "white")
+        if (selectPiece.GetChessData().player == "white")
         {
             if (ChessManager.Inst.GetPosition(selectPiece.GetXBoard(), selectPiece.GetYBoard() + 1) == null)
             {
@@ -43,7 +43,7 @@ public class GiveBirth : SkillBase
             baby = ChessManager.Inst.Creat(ChessManager.Inst.GetBlackObject()[0], selectPiece.GetXBoard(), selectPiece.GetYBoard());
         }
 
-        ChessManager.Inst.SetPosition(baby);
+        ChessManager.Inst.SetPosition(baby.GetChessData());
         ChessManager.Inst.AddArr(baby);
 
         if (selectPiece != null)

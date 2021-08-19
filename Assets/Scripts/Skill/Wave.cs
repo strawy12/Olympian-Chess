@@ -113,7 +113,7 @@ public class Wave : SkillBase
 
         for (int i = 0; i < cmList.Count; i++)
         {
-            ChessManager.Inst.SetPosition(cmList[i]);
+            ChessManager.Inst.SetPosition(cmList[i].GetChessData());
         }
 
     }

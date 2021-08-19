@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: white
+  ID: 25
 --- !u!61 &-8574767235787995844
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -77,7 +77,7 @@ public class Sleep : SkillBase
 
     public void CheckSPChessPiece()
     {
-        cp_Player = selectPiece.player;
+        cp_Player = selectPiece.GetChessData().player;
         if (CheckMoveCnt(moveCnt, selectPiece.GetMoveCnt()) && CheckMoveCnt(moveCnt2, selectPieceTo.GetMoveCnt()))
         {
             //particle = selectPiece.gameObject.transform.GetChild(0).gameObject;

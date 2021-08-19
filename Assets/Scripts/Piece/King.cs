@@ -33,7 +33,7 @@ public class King : ChessBase
                 GameManager.Inst.MovePlateSpawn(x, y, this);
             }
 
-            else if (cb.player != player)
+            else if (cb.GetChessData().player != chessData.player)
             {
                 GameManager.Inst.MovePlateAttackSpawn(x, y, this);
             }

@@ -6,7 +6,7 @@ using Photon.Pun;
 
 
 public class ChessManager : MonoBehaviourPunCallbacks
-{ 
+{
     //black_pawn
     #region SingleTon
 
@@ -40,8 +40,8 @@ public class ChessManager : MonoBehaviourPunCallbacks
 
     [SerializeField] private GameObject[] white; // { white_Pawn, white_Bishop, white_Knight, white_Rook, white_Queen  ,white_King }
     [SerializeField] private GameObject[] black; // black_Bishop, black_King, black_Knight, black_Pawn, black_Queen, black_Rook;
-    
-    [SerializeField] private ChessBase[,] position = new ChessBase[8, 8];
+
+    [SerializeField] private ChessData[,] position = new ChessData[8, 8];
 
     [SerializeField] private ChessBase[] playerBlack = new ChessBase[16];
     [SerializeField] private ChessBase[] playerWhite = new ChessBase[16];
@@ -68,7 +68,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
         if (NetworkManager.Inst.GetPlayer() == "white")
         {
             //StartCoroutine(SpawnWhiteChessPiece());
-            
+
             SpawnWhiteChessPiece();
         }
         else
@@ -77,7 +77,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
             SpawnBlackChessPiece();
         }
 
-        StartCoroutine(SetPlayerArr()); 
+        StartCoroutine(SetPlayerArr());
         //SetPlayerArr(jsonData);
 
 
@@ -116,28 +116,48 @@ public class ChessManager : MonoBehaviourPunCallbacks
         ChessBase[] cbs = FindObjectsOfType<ChessBase>();
         string player = NetworkManager.Inst.GetPlayer() == "white" ? "black" : "white";
         bool isBlack = false;
-        if(player == "white")
+        Debug.Log(player);
+        if (player == "white")
         {
-            isBlack = true; 
+            isBlack = true;
         }
         for (int i = 0; i < cbs.Length; i++)
         {
-            if(isBlack)
+            if (isBlack)
             {
                 cbs[i].transform.rotation = Quaternion.Euler(0f, 0f, 180f);
             }
 
-            if (cbs[i].player == player)
+            if (cbs[i].GetChessData().player == player)
             {
                 AddArr(cbs[i]);
-                
+
             }
         }
-        for (int i = 0; i < playerBlack.Length; i++)
+        yield return new WaitForSeconds(1f);
+        if (!isBlack)
         {
-            SetPosition(playerBlack[i], false);
-            SetPosition(playerWhite[i], false);
+            for (int i = 0; i < playerWhite.Length; i++)
+            {
+                Debug.Log(playerWhite.Length);
+                Debug.Log(playerWhite[i]);
+                Debug.Log(playerWhite[i].GetChessData());
+
+                SetPosition(playerWhite[i].GetChessData());
+            }
         }
+        else
+        {
+            for (int i = 0; i < playerBlack.Length; i++)
+            {
+                Debug.Log(playerBlack.Length);
+                Debug.Log(playerBlack[i]);
+                Debug.Log(playerBlack[i].GetChessData());
+                SetPosition(playerBlack[i].GetChessData());
+            }
+        }
+        
+        Debug.Log(position);
     }
 
     public ChessBase Creat(GameObject chessPiece, int x, int y)
@@ -168,7 +188,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
                 GameManager.Inst.MovePlateSpawn(x, y, cp);
             }
 
-            else if (cb.player != cp.player)
+            else if (cb.GetChessData().player != cp.GetChessData().player)
             {
                 GameManager.Inst.MovePlateAttackSpawn(x, y, cp);
             }
@@ -206,7 +226,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
 
     public void AddArr(ChessBase chessPiece)
     {
-        if (chessPiece.player == "white")
+        if (chessPiece.GetChessData().player == "white")
         {
             for (int i = 0; i < playerWhite.Length; i++)
             {
@@ -255,19 +275,27 @@ public class ChessManager : MonoBehaviourPunCallbacks
     }
 
     #region Position
-    public void SetPositionEmpty(int x, int y, bool isSend = true)
+    public void SetPositionEmpty(int x, int y)
     {
-        if(isSend)
-        {
-            photonView.RPC("SetPositionEmpty", RpcTarget.Others, x, y, false);
-        }
         position[x, y] = null;
     }
 
     //return positions
     public ChessBase GetPosition(int x, int y)
     {
-        return position[x, y];
+        for (int i = 0; i < 16; i++)
+        {
+            if (position[x, y].ID == playerWhite[i].GetChessData().ID)
+            {
+                return playerWhite[i];
+            }
+            else if (position[x, y].ID == playerBlack[i].GetChessData().ID)
+            {
+                return playerBlack[i];
+            }
+        }
+        return null;
+
     }
 
     // Function checking if any chesspiece exists on parameters' value on board
@@ -279,20 +307,29 @@ public class ChessManager : MonoBehaviourPunCallbacks
     }
     public void SetChessPiecePosition(int x, int y, ChessBase obj)
     {
-        position[x, y] = obj;
+
+        position[x, y] = obj.GetChessData();
     }
 
-    public void SetPosition(ChessBase obj, bool isSend = true)
+    public void SetPosition(ChessData chessData)
     {
-        if (isSend)
-        {
-            photonView.RPC("SetPosition", RpcTarget.Others, obj, false);
-        }
+        int x = chessData.xBoard;
+        int y = chessData.yBoard;
+        position[x, y] = chessData;
+        SendPositionData();
+    }
 
-        if (obj == null) return;
-        int x = obj.GetXBoard();
-        int y = obj.GetYBoard();
-        position[x, y] = obj;
+    private void SendPositionData()
+    {
+        string jsonData = NetworkManager.Inst.SaveDataToJson(position, true);
+        photonView.RPC("SetPositionData", RpcTarget.OthersBuffered, jsonData);
+    }
+
+    [PunRPC]
+    private void SetPositionData(string jsonData)
+    {
+        ChessData[,] pd = NetworkManager.Inst.LoadDataFromJson<ChessData[,]>(jsonData);
+        position = pd;
     }
     #endregion
 
@@ -328,25 +365,12 @@ public class ChessManager : MonoBehaviourPunCallbacks
         cp.SetXBoard(matrixX);
         cp.SetYBoard(matrixY);
         cp.PlusMoveCnt();
-        SetPosition(cp);
+        SetPosition(cp.GetChessData());
         cp.SetIsMoving(true);
         cp.SetCoordsAnimation();
         //StartCoroutine(SetCoordsAnimation());
         TurnManager.Instance.ButtonActive();
         GameManager.Inst.DestroyMovePlates();
-    }
-
-    private void SendPositionData()
-    {
-        string jsonData = NetworkManager.Inst.SaveDataToJson(positionData, true);
-        photonView.RPC("SetPositionData", RpcTarget.OthersBuffered, jsonData);
-    }
-
-    [PunRPC]
-    public void SetPositionData(string jsonData)
-    {
-        PositionData pd = NetworkManager.Inst.LoadDataFromJson<PositionData>(jsonData);
-        positionData = pd;
     }
 
     public ChessBase[] GetPlayerBlack()

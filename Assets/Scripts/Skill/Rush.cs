@@ -16,7 +16,7 @@ public class Rush : SkillBase
 
         //if color of selected piece is white,
         //selected piece moves up one space
-        if (selectPiece.player == "white")
+        if (selectPiece.GetChessData().player == "white")
         {
             if (ChessManager.Inst.GetPosition(posX, posY + 1) == null)
             {
