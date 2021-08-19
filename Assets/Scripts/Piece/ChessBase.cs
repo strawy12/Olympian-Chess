@@ -20,11 +20,10 @@ public class ChessBase : MonoBehaviour
     protected bool isSelecting = false;
     protected bool attackSelecting = false;
 
-    private void Start()
+    public virtual void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
-
 
     public virtual void MovePlate() { }
 

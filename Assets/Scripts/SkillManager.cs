@@ -268,7 +268,7 @@ public class SkillManager : MonoBehaviour
                 obj.AddComponent<OceanJail>();
                 break;
 
-            case "질서":
+            case "순보":
                 obj.AddComponent<Law>();
                 break;
 
@@ -284,7 +284,7 @@ public class SkillManager : MonoBehaviour
                 obj.AddComponent<Music>();
                 break;
 
-            case "대쉬":
+            case "신속":
                 obj.AddComponent<Rush>();
                 break;
 

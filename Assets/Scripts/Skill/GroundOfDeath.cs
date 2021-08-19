@@ -19,7 +19,6 @@ public class GroundOfDeath : SkillBase
     }
     public override void ResetSkill()
     {
-        if (turnCnt < 3) return;
         StartCoroutine(GOD_SkillEffect());
     }
     private void GOD_UsingSkill()
@@ -27,7 +26,9 @@ public class GroundOfDeath : SkillBase
         GameManager.Inst.SetUsingSkill(true);
         GameManager.Inst.SetMoving(false);
         GameManager.Inst.RealAllMovePlateSpawn();
-        if(selectPiece != null)
+        GameManager.Inst.DestroyNonemptyMovePlate();
+
+        if (selectPiece != null)
         {
             selectPiece.RemoveChosenSkill(this);
             selectPiece = null;

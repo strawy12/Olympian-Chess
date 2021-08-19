@@ -7,8 +7,9 @@ public class Pawn : ChessBase
     private int originPosX;
     private bool isEnpassant = false;
 
-    private void Start()
+    public override void Start()
     {
+        base.Start();
         originPosX = xBoard;
     }
 

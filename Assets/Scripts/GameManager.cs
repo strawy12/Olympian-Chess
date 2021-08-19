@@ -272,6 +272,15 @@ public class GameManager : MonoBehaviour
         //resultPanal.Show(isMyWin ? "½Â¸®" : "ÆÐ¹è");
         //cameraEffect.SetGrayScale(true);
     }
+
+    public void DestroyNonemptyMovePlate()
+    {
+        for(int i = 0; i< movePlateList.Count; i++)
+        {
+            if (movePlateList[i].GetComponent<MovePlate>().Getreference() != null)
+                Destroy(movePlateList[i]);
+        }
+    }
     #region
 
     public void SetIsStop(bool isStop)

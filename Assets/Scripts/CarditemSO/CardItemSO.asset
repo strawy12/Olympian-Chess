@@ -101,7 +101,7 @@ MonoBehaviour:
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC544\uAD70  \uC9C0\uC18D\uC2DC\uAC04: \uC774\uB3D9\uD560
       \uB54C\n\uC544\uD14C\uB098\uC758 \uBC29\uD328\uB85C \uC8FD\uC74C\uC73C\uB85C\uBD80\uD130
       \uBCF4\uD638 \uC2DC\uD0B5\uB2C8\uB2E4."
-  - name: "\uC9C8\uC11C"
+  - name: "\uC21C\uBCF4"
     className: Order
     god: "\uB370\uBBF8\uD14C\uB974"
     sprite: {fileID: 6759782793127277833, guid: 4454062fe2a78614587b7e6f430aaafe,
@@ -155,7 +155,7 @@ MonoBehaviour:
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC544\uAD70  \uC9C0\uC18D\uC2DC\uAC04: \uB9D0\uC774
       \uC8FD\uC744\uB54C\n\uC790\uC2E0\uC774 \uC8FD\uC740 \uC801\uACFC \uD568\uAED8
       \uC8FD\uC2B5\uB2C8\uB2E4."
-  - name: "\uB300\uC26C"
+  - name: "\uC2E0\uC18D"
     className: Rush
     god: "\uD30C\uC6B0\uB204\uC2A4"
     sprite: {fileID: 5394022533433988051, guid: 4454062fe2a78614587b7e6f430aaafe,
