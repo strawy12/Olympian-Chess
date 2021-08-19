@@ -78,7 +78,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 7458371095103671374, guid: 4454062fe2a78614587b7e6f430aaafe,
     type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.23137255, b: 0.5529412, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -154,8 +154,10 @@ MonoBehaviour:
   cardPrame: {fileID: 1306375242828518994}
   carditem:
     name: 
-    sprite: {fileID: 0}
+    className: 
     god: 
+    sprite: {fileID: 0}
+    color: {r: 0, g: 0, b: 0, a: 0}
     info: 
   isSelected: 0
 --- !u!114 &3743070300535461238
@@ -180,12 +182,14 @@ MonoBehaviour:
   cardPrame: {fileID: 1306375242828518994}
   card: {fileID: 5359609414508250856}
   isFront: 0
+  isSelected: 0
   carditem:
     name: 
-    sprite: {fileID: 0}
+    className: 
     god: 
+    sprite: {fileID: 0}
+    color: {r: 0, g: 0, b: 0, a: 0}
     info: 
-  isSelected: 0
 --- !u!1 &1038366284917602505
 GameObject:
   m_ObjectHideFlags: 0
