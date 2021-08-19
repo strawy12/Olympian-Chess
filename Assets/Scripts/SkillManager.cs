@@ -151,6 +151,7 @@ public class SkillManager : MonoBehaviour
             {
                 if (skillList[i].GetPosX() == x && skillList[i].GetPosY() == y)
                 {
+                    
                     return true;
                 }   
 
@@ -328,8 +329,8 @@ public class SkillManager : MonoBehaviour
                 obj.AddComponent<Ghost>();
                 break;
 
-            case "무적":
-                obj.AddComponent<Invincibility>();
+            case "시간정지":
+                obj.AddComponent<TimeStop>();
                 break;
 
             case "만취":

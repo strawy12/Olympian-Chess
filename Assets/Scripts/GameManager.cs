@@ -121,8 +121,8 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        for(int i = 0; i < black.Length; i++)
-        { 
+        for (int i = 0; i < black.Length; i++)
+        {
             if (black[i] == null) continue;
             if (black[i].gameObject.name == "black_pawn")
             {
@@ -151,7 +151,8 @@ public class GameManager : MonoBehaviour
 
     public GameObject MovePlateSpawn(int matrixX, int matrixY, ChessBase cp)
     {
-        if (SkillManager.Inst.CheckReturnMovePlate(matrixX, matrixY, "¼­Ç³"))
+        if (SkillManager.Inst.CheckReturnMovePlate(matrixX, matrixY, "¼­Ç³") ||
+            (SkillManager.Inst.CheckReturnMovePlate(matrixX, matrixY, "½Ã°£Á¤Áö")))
             return null;
 
         float x = matrixX;
