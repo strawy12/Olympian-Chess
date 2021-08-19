@@ -35,6 +35,8 @@ public class ChessManager : MonoBehaviour
 
     int pawn = 0, bishop = 1, knight = 2, rook = 3, queen = 4, king = 5;
 
+    ChessBase cpp;
+
     [SerializeField] private GameObject[] white; // { white_Pawn, white_Bishop, white_Knight, white_Rook, white_Queen  ,white_King }
     [SerializeField] private GameObject[] black; // black_Bishop, black_King, black_Knight, black_Pawn, black_Queen, black_Rook;
 
@@ -44,6 +46,7 @@ public class ChessManager : MonoBehaviour
     [SerializeField] private ChessBase[] playerWhite = new ChessBase[16];
 
     [SerializeField] private GameObject cccccp;
+    [SerializeField] private GameObject promotionUI;
 
     void Start()
     {
@@ -273,6 +276,7 @@ public class ChessManager : MonoBehaviour
         TurnManager.Instance.ButtonColor();
         GameManager.Inst.DestroyMovePlates();
         CastlingKing(cp);
+        Promotion(cp);
     }
     public IEnumerator SetCoordsAnimation(ChessBase cp)
     {
@@ -570,5 +574,54 @@ public class ChessManager : MonoBehaviour
                     mp.SetCoords(mp.GetPosX(), mp.GetPosY() - 1);
             }
         }
+    }
+
+    private void Promotion(ChessBase cp)
+    {
+        if(cp.name == "white_pawn")
+        {
+            if(cp.GetYBoard() == 7)
+            {
+                promotionUI.SetActive(true);
+                promotionUI.transform.GetChild(1).gameObject.SetActive(true);
+                promotionUI.transform.GetChild(0).gameObject.SetActive(false);
+            }
+        }
+
+        else if(cp.name == "black_pawn")
+        {
+            if (cp.GetYBoard() == 0)
+            {
+                promotionUI.SetActive(true);
+                promotionUI.transform.GetChild(0).gameObject.SetActive(true);
+                promotionUI.transform.GetChild(1).gameObject.SetActive(false);
+            }
+        }
+
+        cpp = cp;
+    }
+
+    public void ClosePromotionUI()
+    {
+        promotionUI.SetActive(false);
+    }
+
+    public void ExecutePromotion(int cp)
+    {
+        UpdateArr(cpp);
+        GameManager.Inst.RemoveAttackings(cpp);
+        Destroy(cpp.gameObject);
+        
+        if(cpp.player == "white")
+        {
+            Creat(white[cp], cpp.GetXBoard(), cpp.GetYBoard());
+        }
+
+        else
+        {
+            Creat(black[cp], cpp.GetXBoard(), cpp.GetYBoard());
+        }
+
+        promotionUI.SetActive(false);
     }
 }
