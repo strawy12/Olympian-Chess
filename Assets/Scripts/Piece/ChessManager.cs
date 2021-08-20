@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System;
 using Photon.Pun;
 
@@ -51,6 +52,9 @@ public class ChessManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject cccccp;
 
     [SerializeField] private WaitForSeconds delay = new WaitForSeconds(0.5f);
+    [SerializeField] private Text stateText;
+    [SerializeField] private string[] str = new string[64];
+    [SerializeField] private int strcnt = 0;
 
     private PositionData positionData;
     private bool isLoading;
@@ -63,6 +67,22 @@ public class ChessManager : MonoBehaviourPunCallbacks
         positionData = new PositionData(new ChessData[,] { });
     }
 
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Q))
+        {
+            
+            for(int i = 0; i < 8; i++)
+            {
+                for(int j = 0; j < 8; j++)
+                {
+                    if (position[i, j] == null)
+                        continue;
+                    Debug.Log(i + "," + j + " " + position[i, j].chessPiece);
+                }
+            }
+        }
+    }
 
 
     public void SettingGame()
@@ -293,23 +313,46 @@ public class ChessManager : MonoBehaviourPunCallbacks
         position[x, y] = null;
     }
 
+    public ChessData CheckPosition(int x, int y)
+    {
+        return position[x, y];
+    }
     //return positions
     public ChessBase GetPosition(int x, int y)
     {
-        ChessData chessData = position[x, y];
+        Debug.Log(x + "," + y );
+        Debug.Log(position[x, y]);
+        if (position[x, y] == null) return null;
+        bool isWhite = false;
+        
 
-        if (chessData == null) return null;
-
+        if(position[x, y].ID < 200)
+        {
+            isWhite = true;
+        }
         for (int i = 0; i < 16; i++)
         {
-            if (chessData.ID == playerWhite[i].GetChessData().ID)
+            if(isWhite)
             {
-                ;
-                return playerWhite[i];
+                if (playerWhite[i] == null)
+                {
+                    continue;
+                }
+                if (position[x, y].ID == playerWhite[i].GetChessData().ID)
+                {
+                    return playerWhite[i];
+                }
             }
-            else if (chessData.ID == playerBlack[i].GetChessData().ID)
+            else
             {
-                return playerBlack[i];
+                if (playerBlack[i] == null)
+                {
+                    continue;
+                }
+                if (position[x, y].ID == playerBlack[i].GetChessData().ID)
+                {
+                    return playerBlack[i];
+                }
             }
         }
 

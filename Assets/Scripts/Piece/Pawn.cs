@@ -23,6 +23,7 @@ public class Pawn : ChessBase
     }
     public void PawnMovePlate(int x, int y)
     {
+
         if (ChessManager.Inst.PositionOnBoard(x, y))
         {
             if (ChessManager.Inst.GetPosition(x, y) == null)
@@ -48,19 +49,15 @@ public class Pawn : ChessBase
                     }
                 }
             }
-
             if (ChessManager.Inst.PositionOnBoard(x + 1, y) && ChessManager.Inst.GetPosition(x + 1, y) != null &&
                ChessManager.Inst.GetPosition(x + 1, y).GetChessData().player != chessData.player)
             {
-                Debug.Log("응애");
                 GameManager.Inst.MovePlateAttackSpawn(x + 1, y, this);
             }
 
             if (ChessManager.Inst.PositionOnBoard(x - 1, y) && ChessManager.Inst.GetPosition(x - 1, y) != null &&
                 ChessManager.Inst.GetPosition(x - 1, y).GetChessData().player != chessData.player)
             {
-                Debug.Log("응애");
-
                 GameManager.Inst.MovePlateAttackSpawn(x - 1, y, this);
             }
         }
