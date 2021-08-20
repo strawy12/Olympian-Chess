@@ -44,13 +44,12 @@ public class ChessBase : MonoBehaviourPunCallbacks
 {
     public SpriteRenderer spriteRenderer { get; private set; }
     [SerializeField] private string player;
-    [SerializeField] private int ID;
     protected ChessData chessData;
 
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        chessData = new ChessData(player, ID, gameObject.name, 0, 0, 0, 0, false, false, false, false, false, new List<SkillBase>());
+        chessData = new ChessData(player, 0, gameObject.name, 0, 0, 0, 0, false, false, false, false, false, new List<SkillBase>());
     }
 
     public virtual void MovePlate() { }
@@ -85,7 +84,10 @@ public class ChessBase : MonoBehaviourPunCallbacks
     }
     public void OnMouseUp()
     {
+
+        print("1");
         if (CheckClickChessPiece()) return;
+        print("2");
 
         SkillManager.Inst.CheckSkillCancel("¿¡·Î½ºÀÇ »ç¶û,¼ö¸é,Á×À½ÀÇ ¶¥,ÆÄµµ");
         GameManager.Inst.DestroyMovePlates();
@@ -219,6 +221,11 @@ public class ChessBase : MonoBehaviourPunCallbacks
         chessData.yBoard = y;
         SendChessData();
     }
+    public void SetID(int ID)
+    {
+        chessData.ID = ID;
+        SendChessData();
+    }
 
     public void PlusMoveCnt()
     {
@@ -243,6 +250,7 @@ public class ChessBase : MonoBehaviourPunCallbacks
         chessData.moveCnt = 0;
         SendChessData();
     }
+
 
     public void SetNoneAttack(bool noneAttack)
     {
@@ -314,6 +322,11 @@ public class ChessBase : MonoBehaviourPunCallbacks
     public bool GetIsMoving()
     {
         return chessData.isMoving;
+    }
+
+    public int GetID()
+    {
+        return chessData.ID;
     }
 
     public ChessData GetChessData()

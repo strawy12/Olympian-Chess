@@ -43,7 +43,7 @@ public class GiveBirth : SkillBase
             baby = ChessManager.Inst.Creat(ChessManager.Inst.GetBlackObject()[0], selectPiece.GetXBoard(), selectPiece.GetYBoard());
         }
 
-        ChessManager.Inst.SetPosition(baby.GetChessData());
+        ChessManager.Inst.SetPosition(baby);
         ChessManager.Inst.AddArr(baby);
 
         if (selectPiece != null)

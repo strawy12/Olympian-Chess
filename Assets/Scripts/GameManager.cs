@@ -32,7 +32,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    [SerializeField] private GameObject chess = null;
     public PoolManager pool { get; private set; }
     // Positions and team for each chesspiece
 
