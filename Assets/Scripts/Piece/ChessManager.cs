@@ -43,7 +43,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject[] white; // { white_Pawn, white_Bishop, white_Knight, white_Rook, white_Queen  ,white_King }
     [SerializeField] private GameObject[] black; // black_Bishop, black_King, black_Knight, black_Pawn, black_Queen, black_Rook;
 
-    [SerializeField] private ChessData[,] position = new ChessData[8,8];
+    [SerializeField] private ChessData[,] position = new ChessData[8, 8];
 
     [SerializeField] private ChessBase[] playerBlack = new ChessBase[16];
     [SerializeField] private ChessBase[] playerWhite = new ChessBase[16];
@@ -171,7 +171,15 @@ public class ChessManager : MonoBehaviourPunCallbacks
 
     public void SetIds(ChessBase cp)
     {
-        cp.SetID(IDs);
+        if (cp.GetChessData().player == "white")
+        {
+            cp.SetID(IDs + 100);
+        }
+        else if (cp.GetChessData().player == "black")
+        {
+            cp.SetID(IDs + 200);
+        }
+
         IDs++;
     }
     public void PointMovePlate(int x, int y, ChessBase cp)
@@ -290,6 +298,8 @@ public class ChessManager : MonoBehaviourPunCallbacks
     {
         ChessData chessData = position[x, y];
 
+        if (chessData == null) return null;
+
         for (int i = 0; i < 16; i++)
         {
             if (chessData.ID == playerWhite[i].GetChessData().ID)
@@ -326,6 +336,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
         int x = chessData.xBoard;
         int y = chessData.yBoard;
         position[x, y] = chessData;
+        Debug.Log(x + "," + y + position[x, y].chessPiece);
 
         SendPositionData(chessData);
     }
@@ -343,6 +354,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
         int x = chessData.xBoard;
         int y = chessData.yBoard;
         position[x, y] = chessData;
+        Debug.Log(x + "," + y + position[x, y].chessPiece);
     }
     #endregion
 
