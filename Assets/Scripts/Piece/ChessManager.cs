@@ -50,39 +50,11 @@ public class ChessManager : MonoBehaviour
     [SerializeField]
     private AudioClip deadChessPiece;
 
-    [SerializeField]
-    private ParticleSystem W_P;
-
-    [SerializeField]
-    private ParticleSystem B_P;
-
     #endregion
-
-    private IEnumerator Particle()
-    {
-        GameObject b;
-        if(W_P)
-        {
-            b = Instantiate(B_P.gameObject);
-
-        }
-        if(B_P)
-        {
-            b = Instantiate(W_P.gameObject);
-        }
-        if(W_P)
-        {
-
-        }
-        yield return new WaitForSeconds(1f);
-        Destroy(b);
-    }
-
     
     void Start()
     {
         SettingGame();
-        StartCoroutine(Particle());
     }
 
     #region Create
