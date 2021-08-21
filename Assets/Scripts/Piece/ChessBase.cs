@@ -59,9 +59,6 @@ public class ChessBase : MonoBehaviour
         if (TurnManager.Instance.GetIsActive()) return;
         if (!GameManager.Inst.IsGameOver() && GameManager.Inst.GetCurrentPlayer() == player)
         {
-            Debug.Log("파티클 생성됨");
-
-            
             //ParticleManager.Instance.AddParticle(ParticleManager.ParticleType.W_ChessPieceClick, P);
             //ParticleManager.Instance.AddParticle(ParticleManager.ParticleType.B_ChessPieceClick, P);
             //ParticleManager.Instance.AddParticle(ParticleManager.ParticleType.S, P);
