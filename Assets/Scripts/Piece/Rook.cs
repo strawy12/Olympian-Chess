@@ -31,7 +31,7 @@ public class Rook : ChessBase
 
         if (ChessManager.Inst.PositionOnBoard(x, y) && ChessManager.Inst.GetPosition(x, y).GetChessData().player != chessData.player)
         {
-            GameManager.Inst.MovePlateAttackSpawn(x, y, this);
+            GameManager.Inst.MovePlateAttackSpawn(x, y, this); 
         }
     }
 }
