@@ -12,7 +12,7 @@ public class Offering : SkillBase
     private void OF_UsingSkill()
     {
         //Preventing Pawns from being the target of Offering
-        if (selectPiece.name.Contains("pawn") || CardManager.Inst.GetOtherCards().Count == 0)
+        if (selectPiece.name.Contains("pawn") || selectPiece.name.Contains("king") || CardManager.Inst.GetOtherCards().Count == 0)
         {
             RemoveSkill();
             CardManager.Inst.SetisBreak(true);
