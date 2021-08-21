@@ -138,13 +138,13 @@ public class ChessManager : MonoBehaviourPunCallbacks
         ChessBase[] cbs = FindObjectsOfType<ChessBase>();
         string player = NetworkManager.Inst.GetPlayer() == "white" ? "black" : "white";
         bool isBlack = false;
-        Debug.Log(player);
         if (player == "white")
         {
             isBlack = true;
         }
         for (int i = 0; i < cbs.Length; i++)
         {
+            
             if (isBlack)
             {
                 cbs[i].transform.rotation = Quaternion.Euler(0f, 0f, 180f);
@@ -152,6 +152,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
 
             if (cbs[i].GetChessData().player == player)
             {
+                Debug.Log(cbs[i]);
                 AddArr(cbs[i]);
 
             }
@@ -252,20 +253,29 @@ public class ChessManager : MonoBehaviourPunCallbacks
 
     public void AddArr(ChessBase chessPiece)
     {
+        Debug.Log(chessPiece);
         if (chessPiece.GetChessData().player == "white")
         {
             for (int i = 0; i < playerWhite.Length; i++)
             {
+
                 if (playerWhite[i] == null)
+                {
                     playerWhite[i] = chessPiece;
+                    return;
+                }
             }
         }
         else
         {
             for (int i = 0; i < playerBlack.Length; i++)
             {
+
                 if (playerBlack[i] == null)
+                {
                     playerBlack[i] = chessPiece;
+                    return;
+                }
             }
         }
 
@@ -320,8 +330,6 @@ public class ChessManager : MonoBehaviourPunCallbacks
     //return positions
     public ChessBase GetPosition(int x, int y)
     {
-        Debug.Log(x + "," + y );
-        Debug.Log(position[x, y]);
         if (position[x, y] == null) return null;
         bool isWhite = false;
         
@@ -338,18 +346,21 @@ public class ChessManager : MonoBehaviourPunCallbacks
                 {
                     continue;
                 }
-                if (position[x, y].ID == playerWhite[i].GetChessData().ID)
+
+                if (position[x, y].ID == playerWhite[i].GetID())
                 {
                     return playerWhite[i];
                 }
             }
             else
             {
+
                 if (playerBlack[i] == null)
                 {
                     continue;
                 }
-                if (position[x, y].ID == playerBlack[i].GetChessData().ID)
+
+                if (position[x, y].ID == playerBlack[i].GetID())
                 {
                     return playerBlack[i];
                 }
@@ -364,7 +375,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
     // exist => true
     public bool PositionOnBoard(int x, int y)
     {
-        //if (x < 0 || y < 0 || x >= position.GetLength(0) || y >= position.GetLength(1)) return false;
+        if (x < 0 || y < 0 || x >= position.GetLength(0) || y >= position.GetLength(1)) return false;
         return true;
     }
     public void SetChessPiecePosition(int x, int y, ChessBase obj)
@@ -379,7 +390,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
         int x = chessData.xBoard;
         int y = chessData.yBoard;
         position[x, y] = chessData;
-        Debug.Log(x + "," + y + position[x, y].chessPiece);
+        //Debug.Log(x + "," + y + position[x, y].chessPiece);
 
         SendPositionData(chessData);
     }
@@ -397,7 +408,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
         int x = chessData.xBoard;
         int y = chessData.yBoard;
         position[x, y] = chessData;
-        Debug.Log(x + "," + y + position[x, y].chessPiece);
+        //Debug.Log(x + "," + y + position[x, y].chessPiece);
     }
     #endregion
 

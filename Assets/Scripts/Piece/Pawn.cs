@@ -23,7 +23,12 @@ public class Pawn : ChessBase
     }
     public void PawnMovePlate(int x, int y)
     {
-
+        Debug.Log(x + "," + y); 
+        Debug.Log(ChessManager.Inst.GetPosition(x, y + 1));
+        Debug.Log(ChessManager.Inst.GetPosition(x, y));
+        Debug.Log(ChessManager.Inst.GetPosition(x, y - 1));
+        Debug.Log(ChessManager.Inst.GetPosition(x + 1, y));
+        Debug.Log(ChessManager.Inst.GetPosition(x - 1, y)); 
         if (ChessManager.Inst.PositionOnBoard(x, y))
         {
             if (ChessManager.Inst.GetPosition(x, y) == null)
