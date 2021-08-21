@@ -237,6 +237,18 @@ public class ChessManager : MonoBehaviourPunCallbacks
 
     public void UpdateArr(ChessBase chessPiece)
     {
+        ChessData chessData = chessPiece.GetChessData();
+        string jsonData = NetworkManager.Inst.SaveDataToJson(chessData, false);
+        photonView.RPC("UpdateArr_Pun", RpcTarget.All, jsonData);
+    }
+
+    [PunRPC]
+    public void UpdateArr_Pun(string jsonData)
+    {
+        ChessData chessData = NetworkManager.Inst.LoadDataFromJson<ChessData>(jsonData);
+        ChessBase chessPiece = GetChessPiece(chessData);
+        if (chessPiece == null) return;
+
         for (int i = 0; i < playerWhite.Length; i++)
         {
             if (playerBlack[i] == null) continue;
@@ -251,9 +263,9 @@ public class ChessManager : MonoBehaviourPunCallbacks
         }
     }
 
+
     public void AddArr(ChessBase chessPiece)
     {
-        Debug.Log(chessPiece);
         if (chessPiece.GetChessData().player == "white")
         {
             for (int i = 0; i < playerWhite.Length; i++)
@@ -311,21 +323,64 @@ public class ChessManager : MonoBehaviourPunCallbacks
     }
 
     #region Position
-    public void SetPositionEmpty(int x, int y)
-    {
-        position[x, y] = null;
-        photonView.RPC("SetPositionDataEmpty", RpcTarget.OthersBuffered, x, y);
-    }
 
     [PunRPC]
-    public void SetPositionDataEmpty(int x, int y)
+    public void SetPositionEmpty(int x, int y, bool isSend = true)
     {
+        if (isSend)
+        {
+            photonView.RPC("SetPositionEmpty", RpcTarget.OthersBuffered, x, y, false);
+
+        }
+
         position[x, y] = null;
+
     }
+
+
 
     public ChessData CheckPosition(int x, int y)
     {
         return position[x, y];
+    }
+
+    public ChessBase GetChessPiece(ChessData chessData)
+    {
+        bool isWhite = false;
+        if (chessData == null) return null;
+        if (chessData.ID < 200)
+        {
+            isWhite = true;
+        }
+        for (int i = 0; i < 16; i++)
+        {
+            if (isWhite)
+            {
+                if (playerWhite[i] == null)
+                {
+                    continue;
+                }
+
+                if (chessData.ID == playerWhite[i].GetID())
+                {
+                    return playerWhite[i];
+                }
+            }
+            else
+            {
+
+                if (playerBlack[i] == null)
+                {
+                    continue;
+                }
+
+                if (chessData.ID == playerBlack[i].GetID())
+                {
+                    return playerBlack[i];
+                }
+            }
+        }
+        return null;
     }
     //return positions
     public ChessBase GetPosition(int x, int y)
@@ -428,7 +483,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
 
         SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
         UpdateArr(cp);
-        Destroy(cp.gameObject);
+        cp.DestroyChessPiece();
 
         if (mp.Getreference().GetIsAttacking())
         {
@@ -438,6 +493,11 @@ public class ChessManager : MonoBehaviourPunCallbacks
         GameManager.Inst.AddAttackings(mp.Getreference());
     }
 
+    [PunRPC]
+    private void DestroyRPC(ChessData chessData)
+    {
+        photonView.RPC("DestroyRPC", RpcTarget.AllBuffered);
+    }
     public void MoveChessPiece(ChessBase cp, int matrixX, int matrixY)
     {
         SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());

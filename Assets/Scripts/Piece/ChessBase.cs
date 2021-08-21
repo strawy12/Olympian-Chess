@@ -209,6 +209,14 @@ public class ChessBase : MonoBehaviourPunCallbacks
         }
     }
 
+    
+    public void DestroyChessPiece()
+    {
+        Destroy(gameObject);
+    }
+
+
+
     #region Get / Set from ChessData
     public void SetXBoard(int x)
     {

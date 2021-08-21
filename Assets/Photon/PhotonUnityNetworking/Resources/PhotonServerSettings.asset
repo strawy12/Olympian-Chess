@@ -58,6 +58,9 @@ MonoBehaviour:
   - NextTurn
   - SetPositionData
   - SetPositionDataEmpty
+  - SetPositionEmpty
+  - UpdateArr_Pun
+  - DestroyChessPiece_Pun
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
