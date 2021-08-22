@@ -152,7 +152,6 @@ public class ChessManager : MonoBehaviourPunCallbacks
 
             if (cbs[i].GetChessData().player == player)
             {
-                Debug.Log(cbs[i]);
                 AddArr(cbs[i]);
 
             }
@@ -348,6 +347,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
     {
         bool isWhite = false;
         if (chessData == null) return null;
+        Debug.Log(chessData.ID);
         if (chessData.ID < 200)
         {
             isWhite = true;
@@ -368,7 +368,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
             }
             else
             {
-
+                
                 if (playerBlack[i] == null)
                 {
                     continue;
@@ -376,6 +376,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
 
                 if (chessData.ID == playerBlack[i].GetID())
                 {
+                    
                     return playerBlack[i];
                 }
             }
@@ -482,8 +483,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
         }
 
         SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
-        UpdateArr(cp);
-        cp.DestroyChessPiece();
+        DestroyChessPiece(cp.GetChessData());
 
         if (mp.Getreference().GetIsAttacking())
         {
@@ -494,9 +494,19 @@ public class ChessManager : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    private void DestroyRPC(ChessData chessData)
+    void DestroyRPC(string jsonData)
     {
-        photonView.RPC("DestroyRPC", RpcTarget.AllBuffered);
+        ChessData chessData = NetworkManager.Inst.LoadDataFromJson<ChessData>(jsonData);
+        ChessBase cp = GetChessPiece(chessData);
+        UpdateArr(cp);
+        cp.DestroyChessPiece();
+    }
+
+    private void DestroyChessPiece(ChessData chessData)
+    {
+        Debug.Log(chessData.chessPiece);
+        string jsonData = NetworkManager.Inst.SaveDataToJson(chessData, false);
+        photonView.RPC("DestroyRPC", RpcTarget.AllBuffered, jsonData);
     }
     public void MoveChessPiece(ChessBase cp, int matrixX, int matrixY)
     {

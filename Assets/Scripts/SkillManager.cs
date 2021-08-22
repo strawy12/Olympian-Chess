@@ -207,7 +207,7 @@ public class SkillManager : MonoBehaviour
     }
 
     // Function spawning skill prefab
-    public SkillBase SpawnSkillPrefab(Card card, ChessBase chessPiece)
+    public SkillBase SpawnSkillPrefab(Card card, ChessData chessData)
     {
         SkillBase sb = CheckSkill(card).GetComponent<SkillBase>();
         if (sb == null) return null;

@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
                     var newObj = new GameObject().AddComponent<GameManager>();
                     inst = newObj;
                 }
-            }
+            }   
             return inst;
         }
     }
