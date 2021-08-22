@@ -36,7 +36,7 @@ public class GroundOfDeath : SkillBase
     private void GOD_StandardSkill()
     {
         CardManager.Inst.NotAmolang();
-        god_Mp = GameManager.Inst.MovePlateSpawn(posX, posY, null);
+        god_Mp = GameManager.Inst.MovePlateSpawn(skillData.posX, skillData.posY, null);
         SpriteRenderer sp = god_Mp.GetComponent<SpriteRenderer>();
         sp.material.SetColor("_Color", new Color32(95, 0, 255, 255));
         sp.sortingOrder -= 10;
@@ -49,16 +49,16 @@ public class GroundOfDeath : SkillBase
 
     private IEnumerator GOD_SkillEffect()
     {
-        if (ChessManager.Inst.GetPosition(posX, posY) == null)
+        if (ChessManager.Inst.GetPosition(skillData.posX, skillData.posY) == null)
         {
             god_Mp.SetActive(false);
             yield return 0;
         }
 
-        else if (ChessManager.Inst.GetPosition(posX, posY) != null)
+        else if (ChessManager.Inst.GetPosition(skillData.posX, skillData.posY) != null)
         {
             god_Mp.SetActive(true);
-            chosen_CP = ChessManager.Inst.GetPosition(posX, posY);
+            chosen_CP = ChessManager.Inst.GetPosition(skillData.posX, skillData.posY);
             for (int i = 0; i < 5; i++)
             {
                 chosen_CP.spriteRenderer.material.SetColor("_Color", new Color(1, 0, 0, 0));
@@ -67,7 +67,7 @@ public class GroundOfDeath : SkillBase
                 yield return new WaitForSeconds(0.05f);
             }
             Destroy(chosen_CP.gameObject);
-            ChessManager.Inst.SetPositionEmpty(posX, posY);
+            ChessManager.Inst.SetPositionEmpty(skillData.posX, skillData.posY);
             god_Mp.SetActive(false);
         }
     }

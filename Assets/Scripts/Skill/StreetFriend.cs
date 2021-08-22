@@ -12,7 +12,7 @@ public class StreetFriend : SkillBase
 
     public override void StandardSkill()
     {
-        ChessBase attacker = ChessManager.Inst.GetPosition(posX, posY);
+        ChessBase attacker = ChessManager.Inst.GetPosition(skillData.posX, skillData.posY);
 
         if (attacker.name.Contains("king"))
         {
@@ -21,7 +21,7 @@ public class StreetFriend : SkillBase
         }
 
         Destroy(attacker.gameObject);
-        ChessManager.Inst.SetPositionEmpty(posX, posY);
+        ChessManager.Inst.SetPositionEmpty(skillData.posX, skillData.posY);
 
         ChessManager.Inst.UpdateArr(attacker);
         ChessManager.Inst.UpdateArr(selectPiece);

@@ -38,7 +38,7 @@ public class LoveOfEros : SkillBase
         CardManager.Inst.NotAmolang();
         isSetting = true;
         attacked = false;
-        selectPieceTo = ChessManager.Inst.GetPosition(posX, posY);
+        selectPieceTo = ChessManager.Inst.GetPosition(skillData.posX, skillData.posY);
         selectPieceTo.SetAttackSelecting(true);
         selectPieceTo.AddChosenSkill(this);
         StartCoroutine(LOE_SkillEffect());

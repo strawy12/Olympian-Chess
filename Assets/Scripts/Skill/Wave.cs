@@ -56,13 +56,13 @@ public class Wave : SkillBase
     private void WaveCheck()
     {
         CardManager.Inst.NotAmolang();
-        if (posX == selectPiece.GetXBoard() + 1)
+        if (skillData.posX == selectPiece.GetXBoard() + 1)
             WaveMove(true, true);
-        else if (posX == selectPiece.GetXBoard() - 1)
+        else if (skillData.posX == selectPiece.GetXBoard() - 1)
             WaveMove(true, false);
-        else if (posY == selectPiece.GetYBoard() + 1)
+        else if (skillData.posY == selectPiece.GetYBoard() + 1)
             WaveMove(false, true);
-        else if (posY == selectPiece.GetYBoard() - 1)
+        else if (skillData.posY == selectPiece.GetYBoard() - 1)
             WaveMove(false, false);
 
         GameManager.Inst.DestroyMovePlates();
@@ -76,7 +76,7 @@ public class Wave : SkillBase
 
         List<ChessBase> cmList = new List<ChessBase>();
         int cnt = 0;
-        cnt = CheckNull(isXY, isPlma, isXY ? posY : posX);
+        cnt = CheckNull(isXY, isPlma, isXY ? skillData.posY : skillData.posX);
 
 
         if (isXY && isPlma)
@@ -125,7 +125,7 @@ public class Wave : SkillBase
 
         if (isXY)
         {
-            cb = ChessManager.Inst.GetPosition(i, posY);
+            cb = ChessManager.Inst.GetPosition(i, skillData.posY);
 
             if (cb == null) return null;
 
@@ -148,7 +148,7 @@ public class Wave : SkillBase
         }
         else
         {
-            cb = ChessManager.Inst.GetPosition(posX, i);
+            cb = ChessManager.Inst.GetPosition(skillData.posX, i);
 
             if (cb == null) return cb;
 

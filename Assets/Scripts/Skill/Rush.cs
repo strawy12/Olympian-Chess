@@ -11,16 +11,16 @@ public class Rush : SkillBase
 
     private void RS_UsingSkill()
     {
-        posX = selectPiece.GetXBoard();
-        posY = selectPiece.GetYBoard();
+        skillData.posX = selectPiece.GetXBoard();
+        skillData.posY = selectPiece.GetYBoard();
 
         //if color of selected piece is white,
         //selected piece moves up one space
         if (selectPiece.GetChessData().player == "white")
         {
-            if (ChessManager.Inst.GetPosition(posX, posY + 1) == null)
+            if (ChessManager.Inst.GetPosition(skillData.posX, skillData.posY + 1) == null)
             {
-                ChessManager.Inst.MoveChessPiece(selectPiece, posX, posY + 1);
+                ChessManager.Inst.MoveChessPiece(selectPiece, skillData.posX, skillData.posY + 1);
             }
 
             // if the space to go is not empty, Use of the card is canceled.
@@ -35,9 +35,9 @@ public class Rush : SkillBase
         {
             //if color of selected piece is black,
             //selected piece moves down one space
-            if (ChessManager.Inst.GetPosition(posX, posY - 1) == null)
+            if (ChessManager.Inst.GetPosition(skillData.posX, skillData.posY - 1) == null)
             {
-                ChessManager.Inst.MoveChessPiece(selectPiece, posX, posY - 1);
+                ChessManager.Inst.MoveChessPiece(selectPiece, skillData.posX, skillData.posY - 1);
             }
 
             // if the space to go is not empty, Use of the card is canceled.

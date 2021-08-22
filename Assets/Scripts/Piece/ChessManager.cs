@@ -52,9 +52,6 @@ public class ChessManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject cccccp;
 
     [SerializeField] private WaitForSeconds delay = new WaitForSeconds(0.5f);
-    [SerializeField] private Text stateText;
-    [SerializeField] private string[] str = new string[64];
-    [SerializeField] private int strcnt = 0;
 
     private PositionData positionData;
     private bool isLoading;

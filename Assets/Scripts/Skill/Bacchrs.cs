@@ -14,7 +14,7 @@ public class Bacchrs : SkillBase
 
     public override void ResetSkill()
     {
-        if (turnCnt > 1)
+        if (skillData.turnCnt > 1)
         {
             SkillManager.Inst.RemoveSkillList(this);
             ChosenSkill(false);

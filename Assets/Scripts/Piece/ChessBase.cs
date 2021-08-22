@@ -20,8 +20,8 @@ public class ChessData
     public bool isSelecting;
     public bool attackSelecting;
 
-    public List<SkillBase> chosenSkill;
-    public ChessData(string player,int ID, string chessPiece, int moveCnt, int attackCount, int xBoard, int yBoard,bool isMoving, bool isAttacking, bool noneAttack, bool isSelecting, bool attackSelecting, List<SkillBase> chosenSkill)
+    public List<SkillData> chosenSkill;
+    public ChessData(string player,int ID, string chessPiece, int moveCnt, int attackCount, int xBoard, int yBoard,bool isMoving, bool isAttacking, bool noneAttack, bool isSelecting, bool attackSelecting, List<SkillData> chosenSkill)
     {
         this.chessPiece = chessPiece;
         this.player = player;
@@ -49,7 +49,7 @@ public class ChessBase : MonoBehaviourPunCallbacks
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        chessData = new ChessData(player, 0, gameObject.name, 0, 0, 0, 0, false, false, false, false, false, new List<SkillBase>());
+        chessData = new ChessData(player, 0, gameObject.name, 0, 0, 0, 0, false, false, false, false, false, new List<SkillData>());
     }
 
     public virtual void MovePlate() { }
@@ -100,11 +100,11 @@ public class ChessBase : MonoBehaviourPunCallbacks
         MovePlate(); // Instatiate
 
     }
-    public SkillBase CheckSkillList(string name)
+    public SkillData CheckSkillList(string name)
     {
         for (int i = 0; i < chessData.chosenSkill.Count; i++)
         {
-            if (chessData.chosenSkill[i].gameObject.name == name)
+            if (chessData.chosenSkill[i].name == name)
             {
                 return chessData.chosenSkill[i];
             }
@@ -115,7 +115,7 @@ public class ChessBase : MonoBehaviourPunCallbacks
     public List<SkillBase> GetSkillList(string name)
     {
         List<SkillBase> _skillList = new List<SkillBase>();
-        SkillBase skill;
+        SkillData skill;
         string[] names = name.Split(',');
 
         for (int i = 0; i < names.Length; i++)
@@ -123,12 +123,14 @@ public class ChessBase : MonoBehaviourPunCallbacks
             skill = CheckSkillList(names[i]);
             if (skill != null)
             {
-                _skillList.Add(skill);
+                _skillList.Add(SkillManager.Inst.GetSkill(skill));
             }
         }
 
         return _skillList;
     }
+
+
 
     public bool IsAttackSpawn(int x, int y)
     {
@@ -137,13 +139,13 @@ public class ChessBase : MonoBehaviourPunCallbacks
     }
     public void AddChosenSkill(SkillBase skill)
     {
-        chessData.chosenSkill.Add(skill);
+        chessData.chosenSkill.Add(skill.GetSkillData());
         SendChessData();
     }
 
     public void RemoveChosenSkill(SkillBase skill)
     {
-        chessData.chosenSkill.Remove(skill);
+        chessData.chosenSkill.Remove(skill.GetSkillData());
         SendChessData();
     }
 

@@ -22,24 +22,24 @@ public class Music : SkillBase
 
     private IEnumerator MC_SkillEffect()
     {
-        int k = turnCnt;
+        int k = skillData.turnCnt;
         int cnt = 1;
 
         // Randomly determines whether or not there is a sparkling effect
-        while (turnCnt < k + 4)
+        while (skillData.turnCnt < k + 4)
         {
-            if (turnCnt > k + 1)
+            if (skillData.turnCnt > k + 1)
             {
-                if (turnCnt == k + 2 && cnt == 1)
+                if (skillData.turnCnt == k + 2 && cnt == 1)
                 {
                     cnt++;
-                    if (RandomPercent(turnCnt, k))
+                    if (RandomPercent(skillData.turnCnt, k))
                         break;
                 }
-                else if (turnCnt == k + 3 && cnt == 2)
+                else if (skillData.turnCnt == k + 3 && cnt == 2)
                 {
                     cnt++;
-                    if (RandomPercent(turnCnt, k))
+                    if (RandomPercent(skillData.turnCnt, k))
                         break;
                 }
             }

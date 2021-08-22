@@ -19,7 +19,7 @@ public class Justice : SkillBase
     }
     public override void ResetSkill()
     {
-        if (turnCnt > 2)
+        if (skillData.turnCnt > 2)
         {
             for (int i = 0; i < justiceCP.Count; i++)
             {

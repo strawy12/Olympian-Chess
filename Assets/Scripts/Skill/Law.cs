@@ -19,7 +19,7 @@ public class Law : SkillBase
 
     public override void ResetSkill()
     {
-        if (turn <= turnCnt)
+        if (turn <= skillData.turnCnt)
         {
             selectPiece.spriteRenderer.material.SetColor("_Color", new Color32(0, 0, 0, 0));
             selectPiece.SetNoneAttack(false);
@@ -36,10 +36,10 @@ public class Law : SkillBase
     private void Law_UsingSkill()
     {
         selectPiece.SetNoneAttack(true);
-        turn = turnCnt + 2;
+        turn = skillData.turnCnt + 2;
         selectPiece.spriteRenderer.material.SetColor("_Color", new Color32(0, 0, 0, 144));
-        posX = selectPiece.GetXBoard();
-        posY = selectPiece.GetYBoard();
+        skillData.posX = selectPiece.GetXBoard();
+        skillData.posY = selectPiece.GetYBoard();
     }
 
     private void Law_InitiateMovePlates()
@@ -73,7 +73,7 @@ public class Law : SkillBase
 
             case "black_king":
             case "white_king":
-                Law_SurroundMovePlate(posX, posY);
+                Law_SurroundMovePlate(skillData.posX, skillData.posY);
                 break;
 
             case "black_rook":
@@ -85,11 +85,11 @@ public class Law : SkillBase
                 break;
 
             case "black_pawn":
-                Law_PawnMovePlate(posX, posY - 1);
+                Law_PawnMovePlate(skillData.posX, skillData.posY - 1);
                 break;
 
             case "white_pawn":
-                Law_PawnMovePlate(posX, posY + 1);
+                Law_PawnMovePlate(skillData.posX, skillData.posY + 1);
                 break;
         }
     }
@@ -124,7 +124,7 @@ public class Law : SkillBase
                 }
             }
 
-            else if (player == "black")
+            else if (skillData.player == "black")
             {
                 GameManager.Inst.MovePlateSpawn(x, y, selectPiece);
                 if (ChessManager.Inst.GetPosition(x, y - 1) == null)
@@ -204,14 +204,16 @@ public class Law : SkillBase
 
     public void LMovePlate()
     {
-        ChessManager.Inst.PointMovePlate(posX + 1, posY + 2, selectPiece);
-        ChessManager.Inst.PointMovePlate(posX - 1, posY + 2, selectPiece);
-        ChessManager.Inst.PointMovePlate(posX + 2, posY + 1, selectPiece);
-        ChessManager.Inst.PointMovePlate(posX + 2, posY - 1, selectPiece);
-        ChessManager.Inst.PointMovePlate(posX + 1, posY - 2, selectPiece);
-        ChessManager.Inst.PointMovePlate(posX - 1, posY - 2, selectPiece);
-        ChessManager.Inst.PointMovePlate(posX - 2, posY + 1, selectPiece);
-        ChessManager.Inst.PointMovePlate(posX - 2, posY - 1, selectPiece);
+        int x = skillData.posX;
+        int y = skillData.posY;
+        ChessManager.Inst.PointMovePlate(x + 1, y + 2, selectPiece);
+        ChessManager.Inst.PointMovePlate(x - 1, y + 2, selectPiece);
+        ChessManager.Inst.PointMovePlate(x + 2, y + 1, selectPiece);
+        ChessManager.Inst.PointMovePlate(x + 2, y - 1, selectPiece);
+        ChessManager.Inst.PointMovePlate(x + 1, y - 2, selectPiece);
+        ChessManager.Inst.PointMovePlate(x - 1, y - 2, selectPiece);
+        ChessManager.Inst.PointMovePlate(x - 2, y + 1, selectPiece);
+        ChessManager.Inst.PointMovePlate(x - 2, y - 1, selectPiece);
     }
 
     private void Law_PointMovePlate(int x, int y)
@@ -225,7 +227,7 @@ public class Law : SkillBase
                 GameManager.Inst.MovePlateSpawn(x, y, selectPiece);
             }
 
-            else if (cp.GetChessData().player != player)
+            else if (cp.GetChessData().player != skillData.player)
             {
                 GameManager.Inst.MovePlateAttackSpawn(x, y, selectPiece);
             }

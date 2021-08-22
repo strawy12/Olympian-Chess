@@ -37,7 +37,7 @@ public class Sleep : SkillBase
     private void SleepSetting()
     {
         CardManager.Inst.NotAmolang();
-        selectPieceTo = ChessManager.Inst.GetPosition(posX, posY);
+        selectPieceTo = ChessManager.Inst.GetPosition(skillData.posX, skillData.posY);
         moveCnt = selectPiece.GetMoveCnt();
         moveCnt2 = selectPieceTo.GetMoveCnt();
         StartCoroutine(SP_SkillEffect());
@@ -49,8 +49,8 @@ public class Sleep : SkillBase
 
     public IEnumerator SP_SkillEffect()
     {
-        int k  = turnCnt + 2;
-        while (turnCnt < k)
+        int k  = skillData.turnCnt + 2;
+        while (skillData.turnCnt < k)
         {
             selectPiece.spriteRenderer.material.color = new Color32(0, 216, 255, 0);
             selectPieceTo.spriteRenderer.material.color = new Color32(0, 216, 255, 0);
@@ -62,7 +62,7 @@ public class Sleep : SkillBase
         selectPiece.spriteRenderer.material.color = Color.clear;
         selectPieceTo.spriteRenderer.material.color = Color.clear;
         CheckSPChessPiece();
-        turnCnt = 0;
+        skillData.turnCnt = 0;
         turn = 2;
     }
 
@@ -155,7 +155,7 @@ public class Sleep : SkillBase
 
     public void CheckParticle()
     {
-        if (turn > turnCnt)
+        if (turn > skillData.turnCnt)
         {
             if (particle == null) return;
             SleepParticle();
@@ -192,7 +192,7 @@ public class Sleep : SkillBase
 
     private void CheckSleep()
     {
-        if (turn > turnCnt)
+        if (turn > skillData.turnCnt)
         {
             return;
         }

@@ -22,6 +22,7 @@ public class SkillManager : MonoBehaviour
     public List<ChessBase> dontClickPiece = new List<ChessBase>();
     private SkillBase selectingSkill;
     private bool isUsingCard = false;
+    private int IDs = 0;
     #endregion
 
     #region System Check
@@ -136,6 +137,21 @@ public class SkillManager : MonoBehaviour
             }
         }
     }
+    public SkillBase GetSkill(SkillData skillData)
+    {
+        if (skillData == null) return null;
+
+        for (int i = 0; i < skillList.Count; i++)
+        {
+
+                if (skillData.ID == skillList[i].GetID())
+                {
+                    return skillList[i];
+                }
+            
+        }
+        return null;
+    }
 
     public bool CheckReturnMovePlate(int x, int y, string name)
     {
@@ -206,15 +222,32 @@ public class SkillManager : MonoBehaviour
         CardManager.Inst.SetSelectCard(null);
     }
 
+    public void SetIds(SkillBase sk)
+    {
+        if (sk.GetSkillData().player == "white")
+        {
+            sk.SetID(IDs + 100);
+        }
+        else if (sk.GetSkillData().player == "black")
+        {
+            sk.SetID(IDs + 200);
+        }
+
+        IDs++;
+    }
+
     // Function spawning skill prefab
-    public SkillBase SpawnSkillPrefab(Card card, ChessData chessData)
+    public SkillBase SpawnSkillPrefab(Card card, ChessBase chessPiece)
     {
         SkillBase sb = CheckSkill(card).GetComponent<SkillBase>();
         if (sb == null) return null;
+        if (chessPiece != null)
+        {
+            chessPiece.AddChosenSkill(sb);
+        }
         AddSkillList(sb);
         sb.SetPalyer(NetworkManager.Inst.GetPlayer());
-        sb.SetSelectPiece(chessPiece);
-        chessPiece.AddChosenSkill(sb);
+        SetIds(sb);
         selectingSkill = sb;
         sb.UsingSkill();
 
@@ -225,7 +258,7 @@ public class SkillManager : MonoBehaviour
     private GameObject CheckSkill(Card card)
     {
         GameObject obj = null;
-        obj = Instantiate(skillPrefab, transform);
+        obj = NetworkManager.Inst.SpawnObject(skillPrefab);
         obj.name = card.carditem.name;
         obj.transform.SetParent(null);
         switch (card.carditem.name)

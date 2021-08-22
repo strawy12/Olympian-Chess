@@ -13,24 +13,24 @@ public class OceanJail : SkillBase
     private void OJ_UsingSkill()
     {
         selectPiece.spriteRenderer.material.SetColor("_Color", new Color32(0, 0, 255, 144));
-        posX = selectPiece.GetXBoard();
-        posY = selectPiece.GetYBoard();
+        skillData.posX = selectPiece.GetXBoard();
+        skillData.posY = selectPiece.GetYBoard();
         selectPiece.spriteRenderer.sortingOrder = -2;
         selectPiece.gameObject.GetComponent<Collider2D>().enabled = false;
-        ChessManager.Inst.SetPositionEmpty(posX, posY);
+        ChessManager.Inst.SetPositionEmpty(skillData.posX, skillData.posY);
         CardManager.Inst.SetisBreak(false);
-        turn = turnCnt + 2;
+        turn = skillData.turnCnt + 2;
     }
 
     public override void ResetSkill()
     {
-        if (turn > turnCnt) return;
+        if (turn > skillData.turnCnt) return;
         selectPiece.spriteRenderer.sortingOrder = 0;
         selectPiece.gameObject.GetComponent<Collider2D>().enabled = true;
-        if (ChessManager.Inst.GetPosition(posX, posY) != null)
+        if (ChessManager.Inst.GetPosition(skillData.posX, skillData.posY) != null)
         {
-            Destroy(ChessManager.Inst.GetPosition(posX, posY).gameObject);
-            ChessManager.Inst.SetPositionEmpty(posX, posY);
+            Destroy(ChessManager.Inst.GetPosition(skillData.posX, skillData.posY).gameObject);
+            ChessManager.Inst.SetPositionEmpty(skillData.posX, skillData.posY);
         }
         //ChessManager.Inst.SetChessPiecePosition(posX, posY, selectPiece);
         selectPiece.spriteRenderer.material.SetColor("_Color", new Color32(0, 0, 0, 0));

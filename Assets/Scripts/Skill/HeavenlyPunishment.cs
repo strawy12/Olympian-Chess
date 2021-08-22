@@ -39,9 +39,9 @@ public class HeavenlyPunishment : SkillBase
 
     private IEnumerator HP_SkillEffect()
     {
-        int k = turnCnt + 2;
+        int k = skillData.turnCnt + 2;
         //sparkling effect (yellow)
-        while (turnCnt < k)
+        while (skillData.turnCnt < k)
         {
             selectPiece.spriteRenderer.material.color = new Color32(255, 228, 0, 0);
             yield return new WaitForSeconds(0.2f);

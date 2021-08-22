@@ -22,7 +22,7 @@ public class GiveBirth : SkillBase
             }
             else
             {
-                movePlate.SetCoords(posX, posY);
+                movePlate.SetCoords(skillData.posX, skillData.posY);
             }
 
             baby = ChessManager.Inst.Creat(ChessManager.Inst.GetWhiteObject()[0], selectPiece.GetXBoard(), selectPiece.GetYBoard());
@@ -36,8 +36,7 @@ public class GiveBirth : SkillBase
             }
             else
             {
-                Debug.Log("sdf");
-                movePlate.SetCoords(posX, posY);
+                movePlate.SetCoords(skillData.posX, skillData.posY);
             }
 
             baby = ChessManager.Inst.Creat(ChessManager.Inst.GetBlackObject()[0], selectPiece.GetXBoard(), selectPiece.GetYBoard());
