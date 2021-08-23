@@ -8,47 +8,72 @@ public class WhitePPawn : MonoBehaviour
     private GameObject movePlate_me;
     [SerializeField]
     private GameObject movePlate_other;
+    [SerializeField]
+    private GameObject BP;
 
-    public static bool isClicked = false;
+    private GameObject MV_M;
+    private GameObject MV_O;
+
+
     void Start()
     {
-        
     }
 
     void Update()
     {
-        //Debug.Log(RedMovePlate.isClicke);
+        if(TutorialManager.Instance.is2StoryEnd)
+        {
+            InstantiateMV_M();
+            InstantiateMV_O();
+        }
     }
 
     private void OnMouseUp()
     {
-        MyMoveplate();
-        OtherMovePlate();
+        
     }
 
-    private void MyMoveplate()
+    private void InstantiateMV_M()
     {
-        GameObject M;
-        M=Instantiate(movePlate_me);
-        //업뎃문에 이 조건문 넣었을 떈 잘 나오는데 여기선 안됨.ㅅㅂ
-
-        if(RedMovePlate.isClicke==true)
-        {
-            Debug.Log(RedMovePlate.isClicke);
-
-            Destroy(M);
-        }
+        MV_M=Instantiate(movePlate_me);
     }
 
-    private void OtherMovePlate()
+    private void InstantiateMV_O()
     {
-        GameObject M;
-        M=Instantiate(movePlate_other);
-        if (RedMovePlate.isClicke==true)
-        {
-            Debug.Log(RedMovePlate.isClicke);
+        MV_O=Instantiate(movePlate_other);
+        TutorialManager.Instance.is2StoryEnd = false;
+    }
 
-            Destroy(M);
-        }
+    public void DestroyMV_M()
+    {
+        Destroy(MV_M);
+    }
+
+    public void DestroyMV_O()
+    {
+        Destroy(MV_O);
+    }
+
+    public void DestoryBP()
+    {
+        Destroy(BP);
+    }
+
+    public IEnumerator PositionMove()
+    {
+        Vector3 statPos = transform.position;
+        Vector3 endPos = new Vector3(-0.348f, 0.33f, 0f);
+
+        float t = 0f;
+
+        //while(t<1f)
+        //{
+        //    Debug.Log("qweqwe");
+        //    transform.position = Vector3.Lerp(statPos, endPos, t);
+        //    yield return null;
+        //}
+        transform.position = endPos;
+        yield return null;
+
     }
 }

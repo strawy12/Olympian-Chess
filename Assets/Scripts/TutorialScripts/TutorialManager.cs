@@ -8,6 +8,18 @@ public class TutorialManager : MonoBehaviour
     [SerializeField]
     private AudioClip startSound;
 
+    [HideInInspector]
+    public bool is2StoryEnd = false;
+
+    [HideInInspector]
+    public bool is3Story = false;
+
+    [HideInInspector]
+    public bool is5Story = false;
+
+    [HideInInspector]
+    public bool is5StoryEnd = false;
+
     #region ΩÃ±€≈Ê
 
     private static TutorialManager _instance;

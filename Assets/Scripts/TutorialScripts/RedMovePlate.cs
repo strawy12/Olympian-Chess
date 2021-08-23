@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class RedMovePlate : MonoBehaviour
 {
-    public static bool isClicke = false;
+    private WhitePPawn WP;
+   
     void Start()
     {
-        
+        WP = FindObjectOfType<WhitePPawn>();
     }
 
     void Update()
@@ -17,12 +18,16 @@ public class RedMovePlate : MonoBehaviour
 
     private void OnMouseUp()
     {
-        Debug.Log("´­·¯½á");
-        DestroyMovePlates();
+        Debug.Log("qweqwe");
+        Ready();
+        TutorialManager.Instance.is3Story = true;
     }
 
-    private void DestroyMovePlates()
+    private void Ready()
     {
-        isClicke = true;
+        WP.DestroyMV_M();
+        WP.DestroyMV_O();
+        StartCoroutine(WP.PositionMove());
+        WP.DestoryBP();
     }
 }

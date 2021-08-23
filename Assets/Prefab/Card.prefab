@@ -154,8 +154,10 @@ MonoBehaviour:
   cardPrame: {fileID: 1306375242828518994}
   carditem:
     name: 
-    sprite: {fileID: 0}
+    className: 
     god: 
+    sprite: {fileID: 0}
+    color: {r: 0, g: 0, b: 0, a: 0}
     info: 
   isSelected: 0
 --- !u!114 &3743070300535461238
@@ -180,12 +182,14 @@ MonoBehaviour:
   cardPrame: {fileID: 1306375242828518994}
   card: {fileID: 5359609414508250856}
   isFront: 0
+  isSelected: 0
   carditem:
     name: 
-    sprite: {fileID: 0}
+    className: 
     god: 
+    sprite: {fileID: 0}
+    color: {r: 0, g: 0, b: 0, a: 0}
     info: 
-  isSelected: 0
 --- !u!1 &1038366284917602505
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,12 +5,18 @@ using UnityEngine.UI;
 
 public class Stroy : MonoBehaviour
 {
+    [Header("타자 사운드")]
+    [SerializeField]
+    private AudioClip typingSound;
     [SerializeField]
     private Text stroyText;
     [SerializeField]
     private string[] story;
     [SerializeField]
     private float speed = 0.4f;
+
+    private bool isTyping = false;
+    private bool isTyping_ing = false;
 
     private WaitForSeconds delayStory = new WaitForSeconds(6f); 
     void Start()
@@ -25,6 +31,7 @@ public class Stroy : MonoBehaviour
 
     private IEnumerator StoryStart()
     {
+        isTyping = true;
         story1();
         yield return delayStory;
 
@@ -51,6 +58,7 @@ public class Stroy : MonoBehaviour
 
         story9();
         yield return delayStory;
+        isTyping = false;
     }
 
     private IEnumerator TypingEffect(Text _typingText,string _message,float _speed)
@@ -61,6 +69,17 @@ public class Stroy : MonoBehaviour
             yield return new WaitForSeconds(speed);
         }
     }
+
+    //private void Sound()
+    //{
+    //    if(isTyping)
+    //    {
+    //        Debug.Log("ytpyip");
+    //        isTyping_ing = true;
+    //        if (isTyping_ing) return;
+    //        SoundManager.Instance.SoundPlay("typing", typingSound);
+    //    }
+    //}
 
     #region 스토리진행
 
@@ -76,27 +95,31 @@ public class Stroy : MonoBehaviour
 
     private void story3()
     {
-        // Write conditional code
-
         StartCoroutine((TypingEffect(stroyText, story[2], speed)));
+        TutorialManager.Instance.is2StoryEnd = true;
     }
     private void story4()
     {
         //Write conditional code
-
-        StartCoroutine((TypingEffect(stroyText, story[3], speed)));
+        if(TutorialManager.Instance.is3Story)
+        {
+            StartCoroutine((TypingEffect(stroyText, story[3], speed)));
+        }
     }
     private void story5()
     {
         //Write conditional code
-
+        // turn
+        TutorialManager.Instance.is5Story = true;
         StartCoroutine((TypingEffect(stroyText, story[4], speed)));
     }
     private void story6()
     {
         //Write conditional code
-
-        StartCoroutine((TypingEffect(stroyText, story[5], speed)));
+        if(TutorialManager.Instance.is5StoryEnd)
+        {
+            StartCoroutine((TypingEffect(stroyText, story[5], speed)));
+        }
     }
     private void story7()
     {
