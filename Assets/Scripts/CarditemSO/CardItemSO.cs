@@ -13,6 +13,8 @@ public class Carditem
     public Color color;
     [TextArea]
     public string info;
+    public int ID;
+    public string player;
 }
 
 [CreateAssetMenu(fileName = "CardItemSO", menuName = "Sprictable Object/CardItemSO")]

@@ -37,7 +37,7 @@ public class SkillBase : MonoBehaviourPunCallbacks
     protected ChessBase selectPiece;
     protected ChessBase selectPieceTo;
 
-    protected void Start()
+    protected void Awake()
     {
         skillData = new SkillData(null, null, 0, 0, 0, null, 0, null);
     }
@@ -47,11 +47,13 @@ public class SkillBase : MonoBehaviourPunCallbacks
     public virtual void StandardSkill() { }
 
     public virtual void ResetSkill() { }
+
     public void SendSkillData()
     {
         string jsonData = NetworkManager.Inst.SaveDataToJson(skillData, true);
         photonView.RPC("SetSkillData", RpcTarget.OthersBuffered, jsonData);
     }
+
 
     [PunRPC]
     public void SetSkillData(string jsonData)
@@ -74,6 +76,7 @@ public class SkillBase : MonoBehaviourPunCallbacks
         skillData.selectPieceDT = cp;
         selectPiece = ChessManager.Inst.GetChessPiece(skillData.selectPieceDT);
     }
+
     public void SetSelectPieceTo(ChessBase cp) 
     {
         string jsonData = NetworkManager.Inst.SaveDataToJson(cp.GetChessData(), false);

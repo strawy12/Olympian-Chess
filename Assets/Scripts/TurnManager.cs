@@ -246,9 +246,9 @@ public class TurnManager : MonoBehaviourPunCallbacks
         if (CardManager.Inst.GetSelectCard() != null)
         {
             var targetCards = CardManager.Inst.GetMyCards();
-            CardManager.Inst.DestroyCard(CardManager.Inst.GetSelectCard(), targetCards);
+            CardManager.Inst.DestroyCard(CardManager.Inst.GetSelectCard());
         }
-        //,,..CardManager.Inst.UpdateCard();
+        CardManager.Inst.ChangeCarditem(currentPlayer == "white");
 
         ChessManager.Inst.FalseIsMoving();
         //ChangeButtonTransform();

@@ -1,9 +1,10 @@
+using Photon.Pun;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkillManager : MonoBehaviour
+public class SkillManager : MonoBehaviourPunCallbacks
 {
     #region SingleTon
     //SkillManager singleton
@@ -241,27 +242,27 @@ public class SkillManager : MonoBehaviour
     {
         SkillBase sb = CheckSkill(card).GetComponent<SkillBase>();
         if (sb == null) return null;
+
+        AddSkillList(sb);
+        sb.SetPalyer(NetworkManager.Inst.GetPlayer());
+        sb.SetName(card.carditem.name);
+        SetIds(sb);
+        selectingSkill = sb;
         if (chessPiece != null)
         {
             chessPiece.AddChosenSkill(sb);
+            sb.SetSelectPiece(chessPiece);
         }
-        AddSkillList(sb);
-        sb.SetPalyer(NetworkManager.Inst.GetPlayer());
-        SetIds(sb);
-        selectingSkill = sb;
         sb.UsingSkill();
 
         return sb;
     }
 
-
-    private GameObject CheckSkill(Card card)
+    [PunRPC]
+    private void AddSkill(string jsonData, string name)
     {
-        GameObject obj = null;
-        obj = NetworkManager.Inst.SpawnObject(skillPrefab);
-        obj.name = card.carditem.name;
-        obj.transform.SetParent(null);
-        switch (card.carditem.name)
+        GameObject obj = NetworkManager.Inst.LoadDataFromJson<GameObject>(jsonData);
+        switch (name)
         {
             case "Ãµ¹ú":
                 obj.AddComponent<HeavenlyPunishment>();
@@ -343,6 +344,15 @@ public class SkillManager : MonoBehaviour
                 obj.AddComponent<MoonLight>();
                 break;
         }
+    }
+
+    private GameObject CheckSkill(Card card)
+    {
+        GameObject obj = null;
+        obj = NetworkManager.Inst.SpawnObject(skillPrefab);
+        obj.name = card.carditem.name;
+        obj.transform.SetParent(null);
+        photonView.RPC("AddSkill", RpcTarget.AllBuffered, NetworkManager.Inst.SaveDataToJson(obj, false), card.carditem.name);
         return obj;
     }
 

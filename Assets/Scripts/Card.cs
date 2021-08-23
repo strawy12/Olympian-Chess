@@ -18,11 +18,11 @@ public class Card : MonoBehaviourPunCallbacks
     private SpriteRenderer spriteRenderer = null;
     private PhotonView pv;
 
-    private string player;
+    
     public bool isFront = false;
     public bool isSelected;
 
-    public Carditem carditem;
+    public Carditem carditem = new Carditem();
     public PRS originPRS;
 
     #endregion
@@ -86,10 +86,23 @@ public class Card : MonoBehaviourPunCallbacks
         if (enabled == false) return true;
         if (GameManager.Inst.IsGameOver()) return true;
         if (!TurnManager.Instance.GetCurrentPlayerTF()) return true;
-        if (NetworkManager.Inst.GetPlayer() != player) return true;
+        if (NetworkManager.Inst.GetPlayer() != carditem.player) return true;
 
 
         return false;
+    }
+
+    private void SendCardData()
+    {
+        string jsonData = NetworkManager.Inst.SaveDataToJson(carditem, true);
+        photonView.RPC("SetCardData", RpcTarget.OthersBuffered, jsonData);
+    }
+
+    [PunRPC]
+    public void SetCardData(string jsonData)
+    {
+        Carditem carditem = NetworkManager.Inst.LoadDataFromJson<Carditem>(jsonData);
+        this.carditem = carditem;
     }
     #endregion
 
@@ -157,10 +170,25 @@ public class Card : MonoBehaviourPunCallbacks
         else
             cardPrame.sprite = emptySprite;
     }
+    public void SetID(int ID)
+    {
+        carditem.ID = ID;
+        SendCardData();
+    }
 
     public void SetPlayer(string player)
     {
-        this.player = player;
+        carditem.player = player;
+        SendCardData();
+    }
+    public int GetID()
+    {
+        return carditem.ID;
+    }
+
+    public Carditem GetCarditem()
+    {
+        return carditem;
     }
     #endregion
 

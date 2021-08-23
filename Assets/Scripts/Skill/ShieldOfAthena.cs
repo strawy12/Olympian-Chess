@@ -23,6 +23,7 @@ public class ShieldOfAthena : SkillBase
 
     private void SOA_UsingSkill()
     {
+        Debug.Log(selectPiece);
         if (selectPiece.name.Contains("king"))
         {
             CardManager.Inst.SetisBreak(true);

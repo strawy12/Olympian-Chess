@@ -73,6 +73,7 @@ public class GameManager : MonoBehaviour
             return;
         }
         DontDestroyOnLoad(gameObject);
+        pool = FindObjectOfType<PoolManager>();
     }
     private void Start()
     {

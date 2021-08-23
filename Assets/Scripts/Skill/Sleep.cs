@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -40,11 +41,17 @@ public class Sleep : SkillBase
         selectPieceTo = ChessManager.Inst.GetPosition(skillData.posX, skillData.posY);
         moveCnt = selectPiece.GetMoveCnt();
         moveCnt2 = selectPieceTo.GetMoveCnt();
-        StartCoroutine(SP_SkillEffect());
+        photonView.RPC("StartSkillEffect", RpcTarget.AllBuffered);
         GameManager.Inst.SetUsingSkill(false);
         GameManager.Inst.SetMoving(true);
         GameManager.Inst.DestroyMovePlates();
         turn = 3;
+    }
+    
+    [PunRPC]
+    private void StartSkillEffect()
+    {
+        StartCoroutine(SP_SkillEffect());
     }
 
     public IEnumerator SP_SkillEffect()

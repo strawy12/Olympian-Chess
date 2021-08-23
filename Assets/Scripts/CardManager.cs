@@ -1,4 +1,5 @@
 ﻿using DG.Tweening;
+using Photon.Pun;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-public class CardManager : MonoBehaviour
+public class CardManager : MonoBehaviourPunCallbacks
 {
     #region SingleTon
     private static CardManager inst;
@@ -74,6 +75,7 @@ public class CardManager : MonoBehaviour
     private Card selectCard;
     [SerializeField] private GameObject cards;
     private CardbufferManager cardbufferManager;
+    private int IDs = 0;
 
     public bool isMyCardDrag { get; private set; }
     public bool onMyCardArea { get; private set; }
@@ -202,7 +204,6 @@ public class CardManager : MonoBehaviour
     private void ShowInfo() // When Card MouseDown, Show CardInfo
     {
         if (selectCard == null) return;
-        Debug.Log("응앵");
 
         infoText.text = string.Format("{0}", selectCard.carditem.info);
         godText.text = string.Format("{0}", selectCard.carditem.god);
@@ -233,6 +234,20 @@ public class CardManager : MonoBehaviour
     #endregion
 
     #region System Check
+
+    public void ChangeCarditem(bool isWihte)
+    {
+        if(isWihte)
+        {
+            cardArea.transform.position = new Vector2(0f, -3.9f);
+        }
+        else
+        {
+            cardArea.transform.position = new Vector2(0f, 3.9f);
+
+        }
+    }
+
 
     void DetectCardArea() // CardArea in out Check
     {
@@ -376,6 +391,19 @@ public class CardManager : MonoBehaviour
         }
     }
 
+    public void SetIds(Card card)
+    {
+        if (card.GetCarditem().player == "white")
+        {
+            card.SetID(IDs + 100);
+        }
+        else if (card.GetCarditem().player == "black")
+        {
+            card.SetID(IDs + 200);
+        }
+
+        IDs++;
+    }
     public void CardShare()
     {
         StartCoroutine(CardShareCo());
@@ -400,6 +428,7 @@ public class CardManager : MonoBehaviour
             var card = cardObject.GetComponent<Card>();
             card.SetUp(PopCard(isMine), isMine);
             card.SetPlayer("white");
+            SetIds(card);
             card.isFront = isMine;
             myCards.Add(card);
             SetOriginOrder(isMine);
@@ -423,18 +452,43 @@ public class CardManager : MonoBehaviour
     {
         if (selectCard != null)
         {
-            var targetCards = GetMyCards();
-            DestroyCard(selectCard, targetCards);
+            DestroyCard(selectCard);
             isUse = true;
         }
     }
-
-    public void DestroyCard(Card card, List<Card> targetCards) // Using Card Destroy
+    public Card GetCard(Carditem carditem)
     {
-        bool isSame = false;
+        
+        if (carditem == null) return null;
+        var targetCards = carditem.ID < 200 ? myCards : otherCards;
 
+        for (int i = 0; i < targetCards.Count; i++)
+        {
+                if (carditem.ID == targetCards[i].GetID())
+                {
+                    return targetCards[i];
+                }
+        }
+        return null;
+    }
+    public void DestroyCard(Card card) // Using Card Destroy
+    {
         if (card == null) return;
 
+        string jsonData = NetworkManager.Inst.SaveDataToJson(card.GetCarditem(), false);
+        photonView.RPC("DestroyCard", RpcTarget.AllBuffered, jsonData);
+    }
+
+    [PunRPC]
+    public void DestroyCard(string jsonData)
+    {
+        bool isSame = false;
+        Carditem carditem = NetworkManager.Inst.LoadDataFromJson<Carditem>(jsonData);
+        var targetCards = carditem.ID < 200 ? myCards : otherCards;
+        Card card = GetCard(carditem);
+        Debug.Log(carditem.name);
+        Debug.Log(GetCard(carditem).name);
+        Debug.Log(card.name);
         targetCards.Remove(card);
         card.transform.DOKill();
         card.transform.SetParent(GameManager.Inst.pool.transform);
@@ -450,7 +504,6 @@ public class CardManager : MonoBehaviour
         if (!isSame)
             usedCards.Add(card.carditem);
     }
-
     public void DestroyCards() // All Cards Destroy
     {
         for (int i = 0; i < myCards.Count; i++)
@@ -667,8 +720,7 @@ public class CardManager : MonoBehaviour
         if (!isMine && otherCards.Count <= 0)
             return false;
 
-        Card card = isMine ? selectCard : otherCards[Random.Range(0, otherCards.Count)];
-        var targetCards = isMine ? myCards : otherCards;
+        Card card = selectCard;
         if (isUsed)
         {
 
@@ -681,7 +733,7 @@ public class CardManager : MonoBehaviour
                 return false;
             }
             if(CheckCardname("에로스의 사랑,수면,죽음의 땅,파도")) return true;
-            DestroyCard(card, targetCards);
+            DestroyCard(card);
             isUse = true;
 
             if (isMine)
