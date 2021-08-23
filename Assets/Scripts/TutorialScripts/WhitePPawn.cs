@@ -30,6 +30,8 @@ public class WhitePPawn : MonoBehaviour
     {
         GameObject M;
         M=Instantiate(movePlate_me);
+        //업뎃문에 이 조건문 넣었을 떈 잘 나오는데 여기선 안됨.ㅅㅂ
+
         if(RedMovePlate.isClicke==true)
         {
             Debug.Log(RedMovePlate.isClicke);
