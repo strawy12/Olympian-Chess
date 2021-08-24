@@ -7,6 +7,8 @@ using UnityEngine.UI;
 public class SlotManager : MonoBehaviour, IPointerClickHandler
 {
     private Image image = null;
+    [SerializeField]
+    private Carditem carditem;
     int currentNum;
 
     void Start()
@@ -25,9 +27,15 @@ public class SlotManager : MonoBehaviour, IPointerClickHandler
     {
         Debug.Log(currentNum);
         DeckManager.Instance.isChosen[currentNum] = false;
-        currentNum = DeckManager.Instance.card;
-        image.sprite = DeckManager.Instance.GetSprite(currentNum);
-        DeckManager.Instance.Deselect();
+        if (carditem != null) DeckManager.Instance.RemoveMyDeck(carditem);
+
+        currentNum = DeckManager.Instance.GetCard();
+        carditem = DeckManager.Instance.GetCurrentCard();
+        image.sprite = carditem.sprite;
+
+        DeckManager.Instance.AddMyDeck(carditem);
+        DeckManager.Instance.SetIsSelected(false);
+
         DeckManager.Instance.isChosen[currentNum] = true;
     }
 }

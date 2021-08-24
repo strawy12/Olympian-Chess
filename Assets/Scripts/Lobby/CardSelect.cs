@@ -9,6 +9,7 @@ public class CardSelect : MonoBehaviour, IPointerClickHandler
     public int cardNum;//이게 카드를 구분하는 고유 번호
     private Image image = null;
     private Carditem carditem;
+    private bool isSelect;
 
     void Start()
     {
@@ -18,12 +19,15 @@ public class CardSelect : MonoBehaviour, IPointerClickHandler
     }
     public void OnPointerClick(PointerEventData eventData)
     {
-        if(!DeckManager.Instance.isChosen[cardNum])Select();
+        if(!DeckManager.Instance.isChosen[cardNum])
+        {
+            Select();
+        }
     }
 
     void Update()
     {
-        if (DeckManager.Instance.isSelected && DeckManager.Instance.card == cardNum) 
+        if (DeckManager.Instance.isSelected && DeckManager.Instance.GetCard() == cardNum) 
         {
             transform.localScale = new Vector3(1.2f, 1.2f, 1f);
         }
@@ -44,9 +48,10 @@ public class CardSelect : MonoBehaviour, IPointerClickHandler
 
     private void Select()
     {
-        DeckManager.Instance.Deselect();
+        DeckManager.Instance.SetIsSelected(false);
         DeckManager.Instance.SelectedCard(cardNum);
-        DeckManager.Instance.Select();
+        DeckManager.Instance.SetCurrentCard(carditem);
+        DeckManager.Instance.SetIsSelected(true);
     }
 
     public void SetCardItem(Carditem carditem)

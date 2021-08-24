@@ -7,7 +7,7 @@ public class CardContents : MonoBehaviour
     [SerializeField]
     private CardItemSO cards;
 
-    void Start()
+    private void Awake()
     {
         for (int i = 0; i < transform.GetChildCount(); i++)
         {
