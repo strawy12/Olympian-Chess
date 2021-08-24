@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class SlotManager : MonoBehaviour, IPointerClickHandler
 {
     private Image image = null;
-    int currentNum = 0;
+    int currentNum;
 
     void Start()
     {

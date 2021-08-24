@@ -21,6 +21,7 @@ public class NestedScrollManager : MonoBehaviour, IBeginDragHandler, IDragHandle
 
     void Start()
     {
+        scrollbar.value = 0.5f;
         distance = 1f / (SIZE - 1);
         for (int i = 0; i < SIZE; i++)
         {
@@ -28,7 +29,7 @@ public class NestedScrollManager : MonoBehaviour, IBeginDragHandler, IDragHandle
         }
         targetPos = pos[1];
         targetIndex = 1;
-        Debug.Log(targetPos);
+        Debug.Log("1" + targetPos);
     }
     public void OnBeginDrag(PointerEventData eventData) => curPos = SetPos();
     public void OnDrag(PointerEventData eventData) => isDrag = true;
@@ -37,19 +38,22 @@ public class NestedScrollManager : MonoBehaviour, IBeginDragHandler, IDragHandle
         isDrag = false;
 
         targetPos = SetPos();
+        Debug.Log("2" + targetPos);
 
-        if(curPos == targetPos)
+        if (curPos == targetPos)
         {
 
-            if(eventData.delta.x > 18 && curPos - distance >= 0)
+            if (eventData.delta.x > 18 && curPos - distance >= 0)
             {
                 --targetIndex;
                 targetPos = curPos - distance;
+                Debug.Log("1" + targetPos);
             }
             else if (eventData.delta.x < -18 && curPos + distance <= 1.01f)
             {
                 ++targetIndex;
                 targetPos = curPos + distance;
+                Debug.Log("2" + targetPos);
             }
         }
         for (int i = 0; i < SIZE; i++)
@@ -66,8 +70,9 @@ public class NestedScrollManager : MonoBehaviour, IBeginDragHandler, IDragHandle
             {
                 targetIndex = i;
                 return pos[i];
+                Debug.Log("3" + targetPos);
             }
-        return 0;
+        return 0.5f;
     }
     void Update()
     {
@@ -76,6 +81,8 @@ public class NestedScrollManager : MonoBehaviour, IBeginDragHandler, IDragHandle
         if (!isDrag)
         {
             scrollbar.value = Mathf.Lerp(scrollbar.value, targetPos, 0.1f);
+            Debug.Log("4" + targetPos);
+
             for (int i = 0; i < SIZE; i++) BtnRect[i].sizeDelta = new Vector2(i == targetIndex ? 400 : 340, BtnRect[i].sizeDelta.y);
         }
 
@@ -87,7 +94,7 @@ public class NestedScrollManager : MonoBehaviour, IBeginDragHandler, IDragHandle
             Vector3 BtnTargetScale = Vector3.one;
             bool textActive = false;
 
-            if(i == targetIndex)
+            if (i == targetIndex)
             {
                 BtnTargetPos.y = -23f;
                 BtnTargetScale = new Vector3(1.2f, 1.2f, 1);
@@ -104,5 +111,6 @@ public class NestedScrollManager : MonoBehaviour, IBeginDragHandler, IDragHandle
     {
         targetIndex = n;
         targetPos = pos[n];
+        Debug.Log("3" + targetPos);
     }
 }
