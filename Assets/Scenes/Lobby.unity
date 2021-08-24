@@ -322,12 +322,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprites:
-  - {fileID: 21300000, guid: 5595d07a061fc914caee1d21a84d7fcf, type: 3}
-  - {fileID: 21300000, guid: 5595d07a061fc914caee1d21a84d7fcf, type: 3}
-  - {fileID: 21300000, guid: 5595d07a061fc914caee1d21a84d7fcf, type: 3}
-  - {fileID: 21300000, guid: 5595d07a061fc914caee1d21a84d7fcf, type: 3}
-  - {fileID: 21300000, guid: 5595d07a061fc914caee1d21a84d7fcf, type: 3}
-  - {fileID: 21300000, guid: 5595d07a061fc914caee1d21a84d7fcf, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -348,6 +348,7 @@ MonoBehaviour:
   card: 0
   isSelected: 0
   isChosen: 0000000000000000000000000000000000000000000000
+  cardItemSO: {fileID: 11400000, guid: db0d74c26d4d2164e8380b62e5e5e3d9, type: 2}
 --- !u!4 &36618652
 Transform:
   m_ObjectHideFlags: 0
@@ -2006,6 +2007,7 @@ GameObject:
   - component: {fileID: 376769634}
   - component: {fileID: 376769633}
   - component: {fileID: 376769636}
+  - component: {fileID: 376769637}
   m_Layer: 5
   m_Name: CardFrame(Inner)
   m_TagString: Untagged
@@ -2131,6 +2133,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
   m_VerticalFit: 2
+--- !u!114 &376769637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 376769631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a118e25b93db644fab5eb14a44e83e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cards: {fileID: 11400000, guid: db0d74c26d4d2164e8380b62e5e5e3d9, type: 2}
 --- !u!1 &423084102
 GameObject:
   m_ObjectHideFlags: 0
@@ -6883,6 +6898,7 @@ GameObject:
   - component: {fileID: 1475442730}
   - component: {fileID: 1475442729}
   - component: {fileID: 1475442731}
+  - component: {fileID: 1475442732}
   m_Layer: 5
   m_Name: CardFrame(Outer)
   m_TagString: Untagged
@@ -6962,6 +6978,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 0
+--- !u!114 &1475442732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1475442727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a118e25b93db644fab5eb14a44e83e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cards: {fileID: 0}
 --- !u!1 &1498547939
 GameObject:
   m_ObjectHideFlags: 0

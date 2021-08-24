@@ -26,8 +26,8 @@ public class SlotManager : MonoBehaviour, IPointerClickHandler
         Debug.Log(currentNum);
         DeckManager.Instance.isChosen[currentNum] = false;
         currentNum = DeckManager.Instance.card;
-        image.sprite = DeckManager.Instance.sprites[DeckManager.Instance.card];
+        image.sprite = DeckManager.Instance.GetSprite(currentNum);
         DeckManager.Instance.Deselect();
-        DeckManager.Instance.isChosen[DeckManager.Instance.card] = true;
+        DeckManager.Instance.isChosen[currentNum] = true;
     }
 }

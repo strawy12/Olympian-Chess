@@ -57,10 +57,10 @@ public class NestedScrollManager : MonoBehaviour, IBeginDragHandler, IDragHandle
             }
         }
         for (int i = 0; i < SIZE; i++)
+        {
             if (contentTr.GetChild(i).GetComponent<ScrollScript>() && curPos != pos[i] && targetPos == pos[i])
-            {
                 contentTr.GetChild(i).GetChild(1).GetComponent<Scrollbar>().value = 1;
-            }
+        }
 
     }
     float SetPos()
@@ -69,8 +69,8 @@ public class NestedScrollManager : MonoBehaviour, IBeginDragHandler, IDragHandle
             if (scrollbar.value < pos[i] + distance * 0.5f && scrollbar.value > pos[i] - distance * 0.5f)
             {
                 targetIndex = i;
-                return pos[i];
                 Debug.Log("3" + targetPos);
+                return pos[i];
             }
         return 0.5f;
     }
@@ -81,7 +81,7 @@ public class NestedScrollManager : MonoBehaviour, IBeginDragHandler, IDragHandle
         if (!isDrag)
         {
             scrollbar.value = Mathf.Lerp(scrollbar.value, targetPos, 0.1f);
-            Debug.Log("4" + targetPos);
+            //Debug.Log("4" + targetPos);
 
             for (int i = 0; i < SIZE; i++) BtnRect[i].sizeDelta = new Vector2(i == targetIndex ? 400 : 340, BtnRect[i].sizeDelta.y);
         }

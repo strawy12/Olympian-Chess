@@ -8,10 +8,13 @@ public class CardSelect : MonoBehaviour, IPointerClickHandler
 {
     public int cardNum;//이게 카드를 구분하는 고유 번호
     private Image image = null;
+    private Carditem carditem;
 
     void Start()
     {
         image = GetComponent<Image>();
+        image.sprite = carditem.sprite;
+        gameObject.name = carditem.name;
     }
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -44,5 +47,10 @@ public class CardSelect : MonoBehaviour, IPointerClickHandler
         DeckManager.Instance.Deselect();
         DeckManager.Instance.SelectedCard(cardNum);
         DeckManager.Instance.Select();
+    }
+
+    public void SetCardItem(Carditem carditem)
+    {
+        this.carditem = carditem;
     }
 }
