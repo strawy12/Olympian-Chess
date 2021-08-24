@@ -45,13 +45,13 @@ public class CardManager : MonoBehaviourPunCallbacks
     [SerializeField] Transform cardSpawnPoint;
 
     // Later these var name retouch
-    [SerializeField] Transform myCardLeft; // White Player Card Area Left 
-    [SerializeField] Transform myCardRight; // White Player Card Area Right
-    [SerializeField] Transform otherCardRight;  // Black Player Card Area Right
-    [SerializeField] Transform otherCardLeft; // Black Player Card Area Left
+    [SerializeField] Transform whiteCardLeft; // White Player Card Area Left 
+    [SerializeField] Transform whiteCardRight; // White Player Card Area Right
+    [SerializeField] Transform blackCardRight;  // Black Player Card Area Right
+    [SerializeField] Transform blackCardLeft; // Black Player Card Area Left
 
-    [SerializeField] List<Card> myCards;
-    [SerializeField] List<Card> otherCards;
+    [SerializeField] List<Card> whiteCards;
+    [SerializeField] List<Card> blackCards;
 
     [SerializeField] ECardState eCardState; // now Game system state
 
@@ -65,8 +65,8 @@ public class CardManager : MonoBehaviourPunCallbacks
 
     #region Var List
     // Later these var name retouch
-    private List<Carditem> myCardBuffer; //white Card Buffer
-    private List<Carditem> otherCardBuffer; //Balck Card Buffer
+    private List<Carditem> whiteCardBuffer; //white Card Buffer
+    private List<Carditem> blackCardBuffer; //Balck Card Buffer
 
     public List<Carditem> usedCards = new List<Carditem>();
 
@@ -85,7 +85,7 @@ public class CardManager : MonoBehaviourPunCallbacks
     [SerializeField] private bool isStop = false;
     [SerializeField] private bool isUse = false;
 
-    int myPutCount;
+    int myPutCount = 0;
     [SerializeField] private bool isUsed;
 
     enum ECardState { Nothing, CanMouseDrag }
@@ -256,11 +256,11 @@ public class CardManager : MonoBehaviourPunCallbacks
         onMyCardArea = Array.Exists(hits, x => x.collider.gameObject.layer == layer);
     }
 
-    public bool CheckCard(string name, bool isMine) // same card in CardBuffer Check
+    public bool CheckCard(string name, bool isWhite) // same card in CardBuffer Check
     {
         List<Card> targetCards;
 
-        targetCards = isMine ? myCards : otherCards;
+        targetCards = isWhite ? whiteCards : blackCards;
 
         for (int i = 0; i < targetCards.Count; i++)
         {
@@ -308,18 +308,18 @@ public class CardManager : MonoBehaviourPunCallbacks
         this.isBreak = isBreak;
     }
 
-    public List<Card> GetMyCards()
+    public List<Card> GetWhiteCards()
     {
-        return myCards;
+        return whiteCards;
     }
     public List<Carditem> GetUsedCards()
     {
         return usedCards;
     }
 
-    public List<Card> GetOtherCards()
+    public List<Card> GetBlackCards()
     {
-        return otherCards;
+        return blackCards;
     }
 
     public Card GetSelectCard()
@@ -344,15 +344,15 @@ public class CardManager : MonoBehaviourPunCallbacks
         if (isMine)
         {
             Carditem carditem = null;
-            carditem = myCardBuffer[0];
-            myCardBuffer.RemoveAt(0);
+            carditem = whiteCardBuffer[0];
+            whiteCardBuffer.RemoveAt(0);
             return carditem;
         }
         else
         {
             Carditem carditem = null;
-            carditem = otherCardBuffer[0];
-            otherCardBuffer.RemoveAt(0);
+            carditem = blackCardBuffer[0];
+            blackCardBuffer.RemoveAt(0);
             return carditem;
         }
 
@@ -362,32 +362,32 @@ public class CardManager : MonoBehaviourPunCallbacks
     {
         if (cardbufferManager == null)
         {
-            myCardBuffer = new List<Carditem>();
+            whiteCardBuffer = new List<Carditem>();
             for (int i = 0; i < cardItemSO.cardItems.Length; i++)
             {
                 Carditem carditem = cardItemSO.cardItems[i];
-                myCardBuffer.Add(carditem);
+                whiteCardBuffer.Add(carditem);
             }
         }
         else
         {
-            myCardBuffer = cardbufferManager.GetMyCardBuffer();
+            whiteCardBuffer = cardbufferManager.GetMyCardBuffer();
         } // It does come from Draft Scene, cardbufferManager == null
           // So, if cardbufferManager == null, my.other CardBuffer is default value
           // CardBufferManager have value from Draft Scene's selectCards
 
         if (cardbufferManager == null)
         {
-            otherCardBuffer = new List<Carditem>();
+            blackCardBuffer = new List<Carditem>();
             for (int i = 0; i < cardItemSO.cardItems.Length; i++)
             {
                 Carditem carditem = cardItemSO.cardItems[i];
-                otherCardBuffer.Add(carditem);
+                blackCardBuffer.Add(carditem);
             }
         }
         else
         {
-            otherCardBuffer = cardbufferManager.GetOhterCardBuffer();
+            blackCardBuffer = cardbufferManager.GetOhterCardBuffer();
         }
     }
 
@@ -411,15 +411,30 @@ public class CardManager : MonoBehaviourPunCallbacks
 
     private IEnumerator CardShareCo()
     {
+        Card[] cds;
+        List<Card> targetCards; 
         for (int i = 0; i < 10; i++)
         {
             yield return new WaitForSeconds(0.05f);
             AddCard(NetworkManager.Inst.GetPlayer() == "white");
         }
+
+        yield return new WaitForSeconds(2f);
+        cds = FindObjectsOfType<Card>();
+        targetCards = NetworkManager.Inst.GetPlayer() == "white" ? blackCards : whiteCards;
+
+        for (int i = 0; i < cds.Length; i++)
+        {
+            if(cds[i].GetCarditem().player == NetworkManager.Inst.GetPlayer())
+            {
+                continue;
+            }
+            targetCards.Add(cds[i]);
+        }
     }
     public void AddCard(bool isMine) // CardBuffer value => GameObjectCard conversion
     {
-        if (myCardBuffer.Count == 0 && otherCardBuffer.Count == 0) return;
+        if (whiteCardBuffer.Count == 0 && blackCardBuffer.Count == 0) return;
 
         if (isMine)
         {
@@ -430,7 +445,7 @@ public class CardManager : MonoBehaviourPunCallbacks
             card.SetPlayer("white");
             SetIds(card);
             card.isFront = isMine;
-            myCards.Add(card);
+            whiteCards.Add(card);
             SetOriginOrder(isMine);
             CardAlignment(isMine);
         }
@@ -442,7 +457,7 @@ public class CardManager : MonoBehaviourPunCallbacks
             card.SetUp(PopCard(false), true);
             card.SetPlayer("black");
             card.isFront = true;
-            otherCards.Add(card);
+            blackCards.Add(card);
             SetOriginOrder(isMine);
             CardAlignment(isMine);
         }
@@ -460,7 +475,7 @@ public class CardManager : MonoBehaviourPunCallbacks
     {
         
         if (carditem == null) return null;
-        var targetCards = carditem.ID < 200 ? myCards : otherCards;
+        var targetCards = carditem.ID < 200 ? whiteCards : blackCards;
 
         for (int i = 0; i < targetCards.Count; i++)
         {
@@ -484,16 +499,15 @@ public class CardManager : MonoBehaviourPunCallbacks
     {
         bool isSame = false;
         Carditem carditem = NetworkManager.Inst.LoadDataFromJson<Carditem>(jsonData);
-        var targetCards = carditem.ID < 200 ? myCards : otherCards;
+        var targetCards = carditem.ID < 200 ? whiteCards : blackCards;
         Card card = GetCard(carditem);
-        Debug.Log(carditem.name);
-        Debug.Log(GetCard(carditem).name);
-        Debug.Log(card.name);
+        Debug.Log(card);
+        if (card == null) return;
         targetCards.Remove(card);
         card.transform.DOKill();
         card.transform.SetParent(GameManager.Inst.pool.transform);
         card.gameObject.SetActive(false);
-        CardAlignment(true);
+        CardAlignment(carditem.ID < 200);
 
         for (int i = 0; i < usedCards.Count; i++)
         {
@@ -506,13 +520,13 @@ public class CardManager : MonoBehaviourPunCallbacks
     }
     public void DestroyCards() // All Cards Destroy
     {
-        for (int i = 0; i < myCards.Count; i++)
+        for (int i = 0; i < whiteCards.Count; i++)
         {
-            Destroy(myCards[i].gameObject);
+            Destroy(whiteCards[i].gameObject);
         }
-        for (int i = 0; i < otherCards.Count; i++)
+        for (int i = 0; i < blackCards.Count; i++)
         {
-            Destroy(otherCards[i].gameObject);
+            Destroy(blackCards[i].gameObject);
         }
     }
 
@@ -525,12 +539,12 @@ public class CardManager : MonoBehaviourPunCallbacks
     {
         if (isMine) // my Cards
         {
-            int cnt = myCards.Count;
+            int cnt = whiteCards.Count;
             if (TurnManager.Instance.CheckPlayer("white"))
             {
                 for (int i = 0; i < cnt; i++)
                 {
-                    var targetCard = myCards[i];
+                    var targetCard = whiteCards[i];
                     targetCard?.GetComponent<Order>().SetOriginOrder(i);
                 }
             }
@@ -539,7 +553,7 @@ public class CardManager : MonoBehaviourPunCallbacks
                 int j = 0;
                 for (int i = cnt - 1; i >= 0; i--)
                 {
-                    var targetCard = myCards[i];
+                    var targetCard = whiteCards[i];
                     targetCard?.GetComponent<Order>().SetOriginOrder(j);
                     j++;
                 }
@@ -547,12 +561,12 @@ public class CardManager : MonoBehaviourPunCallbacks
         }
         else // other Cards
         {
-            int cnt = otherCards.Count;
+            int cnt = blackCards.Count;
             if (TurnManager.Instance.CheckPlayer("black"))
             {
                 for (int i = 0; i < cnt; i++)
                 {
-                    var targetCard = otherCards[i];
+                    var targetCard = blackCards[i];
                     targetCard?.GetComponent<Order>().SetOriginOrder(i);
                 }
             }
@@ -561,7 +575,7 @@ public class CardManager : MonoBehaviourPunCallbacks
                 int j = 0;
                 for (int i = cnt - 1; i >= 0; i--)
                 {
-                    var targetCard = otherCards[i];
+                    var targetCard = blackCards[i];
                     targetCard?.GetComponent<Order>().SetOriginOrder(j);
                     j++;
                 }
@@ -579,12 +593,12 @@ public class CardManager : MonoBehaviourPunCallbacks
         {
             if (TurnManager.Instance.CheckPlayer("white"))
             {
-                originCardPRSs = RoundAlignment(myCardLeft, myCardRight, myCards.Count, 0.5f, Vector3.one * 1.9f);
+                originCardPRSs = RoundAlignment(whiteCardLeft, whiteCardRight, whiteCards.Count, 0.5f, Vector3.one * 1.9f);
 
             }
             else
             {
-                originCardPRSs = RoundAlignment(otherCardLeft, otherCardRight, myCards.Count, -0.5f, Vector3.one * 1.9f);
+                originCardPRSs = RoundAlignment(blackCardLeft, blackCardRight, whiteCards.Count, -0.5f, Vector3.one * 1.9f);
             }
         }
 
@@ -593,12 +607,12 @@ public class CardManager : MonoBehaviourPunCallbacks
         {
             if (TurnManager.Instance.CheckPlayer("white"))
             {
-                originCardPRSs = RoundAlignment(otherCardLeft, otherCardRight, otherCards.Count, -0.5f, Vector3.one * 1.9f);
+                originCardPRSs = RoundAlignment(blackCardLeft, blackCardRight, blackCards.Count, -0.5f, Vector3.one * 1.9f);
             }
 
             else
             {
-                originCardPRSs = RoundAlignment(myCardLeft, myCardRight, otherCards.Count, 0.5f, Vector3.one * 1.9f);
+                originCardPRSs = RoundAlignment(whiteCardLeft, whiteCardRight, blackCards.Count, 0.5f, Vector3.one * 1.9f);
             }
         }
 
@@ -647,12 +661,12 @@ public class CardManager : MonoBehaviourPunCallbacks
         int cnt;
         if (isMine)
         {
-            cnt = myCards.Count;
+            cnt = whiteCards.Count;
             if (TurnManager.Instance.CheckPlayer("white"))
             {
                 for (int i = 0; i < cnt; i++)
                 {
-                    var targetCard = myCards[i];
+                    var targetCard = whiteCards[i];
                     targetCard.originPRS = originCardPRSs[i];
                     targetCard.originPRS.pos.z = originCardPRSs[i].pos.z - zPosition;
                     targetCard.MoveTransform(targetCard.originPRS, true, true, 0.7f);
@@ -666,7 +680,7 @@ public class CardManager : MonoBehaviourPunCallbacks
                 zPosition = 10;
                 for (int i = 0; i < cnt; i++)
                 {
-                    var targetCard = myCards[i];
+                    var targetCard = whiteCards[i];
                     targetCard.originPRS = originCardPRSs[i];
                     targetCard.originPRS.pos.z = originCardPRSs[i].pos.z - zPosition;
                     targetCard.MoveTransform(targetCard.originPRS, true, true, 0.7f);
@@ -679,12 +693,12 @@ public class CardManager : MonoBehaviourPunCallbacks
         }
         else
         {
-            cnt = otherCards.Count;
+            cnt = blackCards.Count;
             if (!TurnManager.Instance.CheckPlayer("white"))
             {
                 for (int i = 0; i < cnt; i++)
                 {
-                    var targetCard = otherCards[i];
+                    var targetCard = blackCards[i];
                     targetCard.originPRS = originCardPRSs[i];
                     targetCard.originPRS.pos.z = originCardPRSs[i].pos.z - zPosition;
                     targetCard.MoveTransform(targetCard.originPRS, true, true, 0.7f);
@@ -698,7 +712,7 @@ public class CardManager : MonoBehaviourPunCallbacks
                 zPosition = 10;
                 for (int i = 0; i < cnt; i++)
                 {
-                    var targetCard = otherCards[i];
+                    var targetCard = blackCards[i];
                     targetCard.originPRS = originCardPRSs[i];
                     targetCard.originPRS.pos.z = originCardPRSs[i].pos.z - zPosition;
                     targetCard.MoveTransform(targetCard.originPRS, true, true, 0.7f);
@@ -717,7 +731,7 @@ public class CardManager : MonoBehaviourPunCallbacks
         if (isMine && myPutCount >= 1)
             return false;
 
-        if (!isMine && otherCards.Count <= 0)
+        if (!isMine && blackCards.Count <= 0)
             return false;
 
         Card card = selectCard;
@@ -779,17 +793,18 @@ public class CardManager : MonoBehaviourPunCallbacks
         cardObject.transform.SetParent(cards.transform);
         var card = cardObject.GetComponent<Card>();
         card.SetUp(usedCards[randomNum], true);
-        myCards.Add(card);
+        whiteCards.Add(card);
 
         SetOriginOrder(true);
         CardAlignment(true);
     }
 
-    public void RemoveCard(int rand)
+    public void RemoveCard(int rand, List<Card> targetCards)
     {
-        Destroy(otherCards[rand].gameObject);
-        otherCards.RemoveAt(rand);
-        CardAlignment(!isMine);
+        Debug.Log(targetCards == whiteCards);
+        Debug.Log(targetCards[rand].GetCarditem().name);
+        Debug.Log(targetCards[rand].GetCarditem().player);
+        DestroyCard(targetCards[rand]);
     }
     #endregion
 
@@ -839,20 +854,6 @@ public class CardManager : MonoBehaviourPunCallbacks
         if(!TryPutCard(true, isUsed))
         {
             selectCard = null;
-        }
-    }
-
-    public void CardClick(Card card)
-    {
-        if (CheckCard(card.carditem.name, false))
-        {
-            otherCards.Remove(card);
-            Destroy(card.gameObject);
-            CardAlignment(false);
-        }
-        else
-        {
-            return;
         }
     }
 

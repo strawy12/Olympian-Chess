@@ -14,7 +14,7 @@ public class SkillData
     public string player;
     public string name;
     public int ID;
-    
+
     public SkillData(ChessData selectPieceDT, ChessData selectPieceToDT, int posX, int posY, int turnCnt, string player, int ID, string name)
     {
         this.selectPieceDT = selectPieceDT;
@@ -77,7 +77,7 @@ public class SkillBase : MonoBehaviourPunCallbacks
         selectPiece = ChessManager.Inst.GetChessPiece(skillData.selectPieceDT);
     }
 
-    public void SetSelectPieceTo(ChessBase cp) 
+    public void SetSelectPieceTo(ChessBase cp)
     {
         string jsonData = NetworkManager.Inst.SaveDataToJson(cp.GetChessData(), false);
         photonView.RPC("SetSelectPieceTo", RpcTarget.AllBuffered, jsonData);
@@ -104,7 +104,7 @@ public class SkillBase : MonoBehaviourPunCallbacks
     public string GetPlayer()
     {
         return skillData.player;
-        
+
     }
     public void SetPalyer(string player)
     {
@@ -119,7 +119,7 @@ public class SkillBase : MonoBehaviourPunCallbacks
     public int GetPosY()
     {
         return skillData.posY;
-    }    
+    }
     public int GetID()
     {
         return skillData.ID;
@@ -165,5 +165,17 @@ public class SkillBase : MonoBehaviourPunCallbacks
     public void SetMovePlate(MovePlate movePlate)
     {
         this.movePlate = movePlate;
+    }
+
+    public void RPC_DetroySkill()
+    {
+        photonView.RPC("DestroySkill", RpcTarget.AllBuffered);
+    }
+
+    [PunRPC]
+    protected void DestroySkill()
+    {
+        Destroy(gameObject);
+        SkillManager.Inst.RemoveSkillList(this);
     }
 }

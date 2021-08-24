@@ -15,11 +15,12 @@ public class GroundOfDeath : SkillBase
 
     public override void StandardSkill()
     {
-        GOD_StandardSkill();
+        photonView.RPC("GOD_StandardSkill", Photon.Pun.RpcTarget.AllBuffered);
+
     }
     public override void ResetSkill()
     {
-        StartCoroutine(GOD_SkillEffect());
+        photonView.RPC("StartEffect", Photon.Pun.RpcTarget.AllBuffered);
     }
     private void GOD_UsingSkill()
     {
@@ -33,6 +34,7 @@ public class GroundOfDeath : SkillBase
         }
     }
 
+    [Photon.Pun.PunRPC]
     private void GOD_StandardSkill()
     {
         CardManager.Inst.NotAmolang();
@@ -47,6 +49,12 @@ public class GroundOfDeath : SkillBase
         GameManager.Inst.SetMoving(true);
     }
 
+    [Photon.Pun.PunRPC]
+    private void StartEffect()
+    {
+        StartCoroutine(GOD_SkillEffect());
+    }
+
     private IEnumerator GOD_SkillEffect()
     {
         if (ChessManager.Inst.GetPosition(skillData.posX, skillData.posY) == null)
@@ -59,6 +67,7 @@ public class GroundOfDeath : SkillBase
         {
             god_Mp.SetActive(true);
             chosen_CP = ChessManager.Inst.GetPosition(skillData.posX, skillData.posY);
+            if (chosen_CP == null) yield return 0;
             for (int i = 0; i < 5; i++)
             {
                 chosen_CP.spriteRenderer.material.SetColor("_Color", new Color(1, 0, 0, 0));

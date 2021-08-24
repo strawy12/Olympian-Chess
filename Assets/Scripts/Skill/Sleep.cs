@@ -38,7 +38,7 @@ public class Sleep : SkillBase
     private void SleepSetting()
     {
         CardManager.Inst.NotAmolang();
-        selectPieceTo = ChessManager.Inst.GetPosition(skillData.posX, skillData.posY);
+        SetSelectPieceTo(ChessManager.Inst.GetPosition(skillData.posX, skillData.posY));
         moveCnt = selectPiece.GetMoveCnt();
         moveCnt2 = selectPieceTo.GetMoveCnt();
         photonView.RPC("StartSkillEffect", RpcTarget.AllBuffered);
@@ -230,6 +230,7 @@ public class Sleep : SkillBase
         {
             selectPiece.RemoveChosenSkill(this);
         }
-        Destroy(gameObject);
+        photonView.RPC("DestroySkill", RpcTarget.AllBuffered);
+        
     }
 }

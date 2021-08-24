@@ -124,7 +124,7 @@ public class TurnManager : MonoBehaviourPunCallbacks
         }
         isLoading = true;
         ChessManager.Inst.SettingGame();
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(3f);
         loadingDisplay.SetActive(false);
         CardManager.Inst.CardShare();
         yield return new WaitForSeconds(2f);
@@ -245,7 +245,6 @@ public class TurnManager : MonoBehaviourPunCallbacks
 
         if (CardManager.Inst.GetSelectCard() != null)
         {
-            var targetCards = CardManager.Inst.GetMyCards();
             CardManager.Inst.DestroyCard(CardManager.Inst.GetSelectCard());
         }
         CardManager.Inst.ChangeCarditem(currentPlayer == "white");

@@ -32,10 +32,17 @@ public class HeavenlyPunishment : SkillBase
             CardManager.Inst.SetisBreak(isBreak);
             return;
         }
-        StartCoroutine(HP_SkillEffect());
+        photonView.RPC("StartEffect", Photon.Pun.RpcTarget.AllBuffered);
         CardManager.Inst.SetisBreak(false);
         SkillManager.Inst.AddDontClickPiece(selectPiece);
     }
+
+    [Photon.Pun.PunRPC]
+    private void StartEffect()
+    {
+        StartCoroutine(HP_SkillEffect());
+    }
+
 
     private IEnumerator HP_SkillEffect()
     {
@@ -50,14 +57,15 @@ public class HeavenlyPunishment : SkillBase
         }
         // When card time is over, selected pieces turn to original color
 
-        SkillManager.Inst.RemoveSkillList(this);
-        SkillManager.Inst.RemoveDontClickPiece(selectPiece);
+        
+        
 
         if (selectPiece != null)
         {
             selectPiece.RemoveChosenSkill(this);
+            SkillManager.Inst.RemoveDontClickPiece(selectPiece);
         }
 
-        Destroy(gameObject); 
+        photonView.RPC("DestroySkill", Photon.Pun.RpcTarget.AllBuffered);
     }
 }

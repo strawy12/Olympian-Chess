@@ -20,7 +20,7 @@ public class SkillManager : MonoBehaviourPunCallbacks
 
     #region Var List
     // List of non-clickable chess pieces
-    public List<ChessBase> dontClickPiece = new List<ChessBase>();
+    public List<ChessData> dontClickPiece = new List<ChessData>();
     private SkillBase selectingSkill;
     private bool isUsingCard = false;
     private int IDs = 0;
@@ -33,9 +33,12 @@ public class SkillManager : MonoBehaviourPunCallbacks
 
     public bool CheckDontClickPiece(ChessBase cp)
     {
+        ChessData chessData = cp.GetChessData();
+        Debug.Log(chessData.ID);
         for (int i = 0; i < dontClickPiece.Count; i++)
         {
-            if (dontClickPiece[i] == cp)
+            Debug.Log(dontClickPiece[i].ID);
+            if (dontClickPiece[i].ID == chessData.ID)
                 return true;
         }
         return false;
@@ -109,16 +112,38 @@ public class SkillManager : MonoBehaviourPunCallbacks
         Destroy(sb.gameObject);
     }
 
+
+
     // Function adding the cp to dontClickPiece list
     public void AddDontClickPiece(ChessBase cp)
     {
-        dontClickPiece.Add(cp);
+        ChessData chessData = cp.GetChessData();
+        string jsonData = NetworkManager.Inst.SaveDataToJson(chessData, false);
+        photonView.RPC("AddDontClickPiece", RpcTarget.AllBuffered, jsonData) ;
+       
+    }
+
+    [PunRPC]
+    private void AddDontClickPiece(string jsonData)
+    {
+        ChessData chessData = NetworkManager.Inst.LoadDataFromJson<ChessData>(jsonData);
+        dontClickPiece.Add(chessData);
     }
 
     // Function removing cp from dontClickPiece list
     public void RemoveDontClickPiece(ChessBase cp)
     {
-        dontClickPiece.Remove(cp);
+        ChessData chessData = cp.GetChessData();
+        string jsonData = NetworkManager.Inst.SaveDataToJson(chessData, false);
+        photonView.RPC("RemoveDontClickPiece", RpcTarget.AllBuffered, jsonData);
+    }
+
+    [PunRPC]
+    public void RemoveDontClickPiece(string jsonData)
+    {
+
+        ChessData chessData = NetworkManager.Inst.LoadDataFromJson<ChessData>(jsonData);
+        dontClickPiece.Remove(chessData);
     }
 
     public void CheckSkillCancel(string name)
@@ -132,7 +157,7 @@ public class SkillManager : MonoBehaviourPunCallbacks
             {
                 SkillBase sb = GetSkillList(names[i])[0];
                 skillList.Remove(sb);
-                Destroy(sb.gameObject);
+                sb.RPC_DetroySkill();
                 GameManager.Inst.SetUsingSkill(false);
                 GameManager.Inst.SetMoving(true);
             }
@@ -243,7 +268,6 @@ public class SkillManager : MonoBehaviourPunCallbacks
         SkillBase sb = CheckSkill(card).GetComponent<SkillBase>();
         if (sb == null) return null;
 
-        AddSkillList(sb);
         sb.SetPalyer(NetworkManager.Inst.GetPlayer());
         sb.SetName(card.carditem.name);
         SetIds(sb);
@@ -259,9 +283,9 @@ public class SkillManager : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    private void AddSkill(string jsonData, string name)
+    private void AddSkill(int skillID, string name)
     {
-        GameObject obj = NetworkManager.Inst.LoadDataFromJson<GameObject>(jsonData);
+        GameObject obj = PhotonView.Find(skillID).gameObject;
         switch (name)
         {
             case "Ãµ¹ú":
@@ -344,15 +368,22 @@ public class SkillManager : MonoBehaviourPunCallbacks
                 obj.AddComponent<MoonLight>();
                 break;
         }
+        
+
+        skillList.Add(obj.GetComponent<SkillBase>());
     }
 
     private GameObject CheckSkill(Card card)
     {
         GameObject obj = null;
+        int skillID;
         obj = NetworkManager.Inst.SpawnObject(skillPrefab);
         obj.name = card.carditem.name;
         obj.transform.SetParent(null);
-        photonView.RPC("AddSkill", RpcTarget.AllBuffered, NetworkManager.Inst.SaveDataToJson(obj, false), card.carditem.name);
+        skillID = obj.GetPhotonView().ViewID;
+        //AddSkill(obj, card.carditem.name);
+
+        photonView.RPC("AddSkill", RpcTarget.AllBuffered, skillID, card.carditem.name);
         return obj;
     }
 

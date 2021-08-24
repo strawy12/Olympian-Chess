@@ -429,7 +429,7 @@ GameObject:
   m_Component:
   - component: {fileID: 166013286}
   m_Layer: 0
-  m_Name: OtherCardRight
+  m_Name: BlackCardRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -781,7 +781,7 @@ GameObject:
   m_Component:
   - component: {fileID: 345451345}
   m_Layer: 0
-  m_Name: MyCardLeft
+  m_Name: WhiteCardLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1205,12 +1205,12 @@ MonoBehaviour:
   cardArea: {fileID: 1345313709}
   cardInfo: {fileID: 2116978884}
   cardSpawnPoint: {fileID: 983496012}
-  myCardLeft: {fileID: 345451345}
-  myCardRight: {fileID: 1862974116}
-  otherCardRight: {fileID: 166013286}
-  otherCardLeft: {fileID: 1255073935}
-  myCards: []
-  otherCards: []
+  whiteCardLeft: {fileID: 345451345}
+  whiteCardRight: {fileID: 1862974116}
+  blackCardRight: {fileID: 166013286}
+  blackCardLeft: {fileID: 1255073935}
+  whiteCards: []
+  blackCards: []
   eCardState: 0
   infoText: {fileID: 666164921}
   nameText: {fileID: 1316750624}
@@ -2130,7 +2130,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1255073935}
   m_Layer: 0
-  m_Name: OtherCardLeft
+  m_Name: BlackCardLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2941,7 +2941,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1862974116}
   m_Layer: 0
-  m_Name: MyCardRight
+  m_Name: WhiteCardRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
