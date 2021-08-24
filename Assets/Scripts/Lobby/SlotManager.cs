@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class SlotManager : MonoBehaviour, IPointerClickHandler
 {
     private Image image = null;
-    int currentNum = 0;
+    int currentNum;
 
     void Start()
     {
@@ -16,18 +16,18 @@ public class SlotManager : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-            if (DeckManager.Instance.isSelected)
-            {
-                    cardIn();
-            }
+        if (DeckManager.Instance.isSelected)
+        {
+            CardIn();
+        }
     }
-    private void cardIn()
+    private void CardIn()
     {
+        Debug.Log(currentNum);
         DeckManager.Instance.isChosen[currentNum] = false;
         currentNum = DeckManager.Instance.card;
         image.sprite = DeckManager.Instance.sprites[DeckManager.Instance.card];
         DeckManager.Instance.Deselect();
         DeckManager.Instance.isChosen[DeckManager.Instance.card] = true;
     }
-
 }

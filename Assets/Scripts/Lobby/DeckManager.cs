@@ -27,11 +27,11 @@ public class DeckManager : MonoBehaviour
 
     //여기서 isChosen[카드 번호]가 true면 그 카드를 선택된거임
 
-    public void selectedCard(int Card)
+    public void SelectedCard(int Card)
     {
         card = Card;
     }
-    public void select()
+    public void Select()
     {
         isSelected = true;
     }

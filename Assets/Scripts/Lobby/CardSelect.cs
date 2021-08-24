@@ -42,7 +42,7 @@ public class CardSelect : MonoBehaviour, IPointerClickHandler
     private void Select()
     {
         DeckManager.Instance.Deselect();
-        DeckManager.Instance.selectedCard(cardNum);
-        DeckManager.Instance.select();
+        DeckManager.Instance.SelectedCard(cardNum);
+        DeckManager.Instance.Select();
     }
 }
