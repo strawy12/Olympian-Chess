@@ -29,20 +29,25 @@ public class WarBuff : SkillBase
         if (selectPiece.GetIsMoving())
         {
             TurnManager.Instance.ButtonInactive();
+            cnt++; 
         }
     }
 
     private void WB_Standard()
     {
         Debug.Log("¤·¤·¤·");
-        if (cnt == 0 && !selectPiece.GetIsMoving())
+        if (cnt == 0)
         {
+            Debug.Log("12");
+
             cnt++;
             TurnManager.Instance.ButtonInactive();
             return;
         }
         else
         {
+            Debug.Log("131");
+
             TurnManager.Instance.ButtonActive();
         }
     }
