@@ -19,30 +19,9 @@ public class CardSelect : MonoBehaviour, IPointerClickHandler
     }
     public void OnPointerClick(PointerEventData eventData)
     {
-        if(!DeckManager.Instance.isChosen[cardNum])
+        if(!DeckManager.Instance.GetIsChosen(cardNum))
         {
             Select();
-        }
-    }
-
-    void Update()
-    {
-        if (DeckManager.Instance.isSelected && DeckManager.Instance.GetCard() == cardNum) 
-        {
-            transform.localScale = new Vector3(1.2f, 1.2f, 1f);
-        }
-        else
-        {
-            transform.localScale = new Vector3(1f, 1f, 1f);
-        }
-
-        if (DeckManager.Instance.isChosen[cardNum])
-        {
-            image.color = Color.gray;
-        }
-        else
-        {
-            image.color = Color.white;
         }
     }
 
@@ -57,5 +36,15 @@ public class CardSelect : MonoBehaviour, IPointerClickHandler
     public void SetCardItem(Carditem carditem)
     {
         this.carditem = carditem;
+    }
+
+    public void ChangeColor(Color color)
+    {
+        image.color = color;
+    }
+
+    public void ChangeScale(float scale)
+    {
+        transform.localScale = new Vector3(scale, scale, 1f);
     }
 }

@@ -20,55 +20,64 @@ public class DeckManager : MonoBehaviour
             return instance;
         }
     }
-    private Sprite[] sprites = new Sprite[23];
     private int card;
     public bool isSelected = false;
-    public bool[] isChosen;
-    [SerializeField]
-    private CardItemSO cardItemSO;
+    public bool[] isChosen = new bool[23];
     private Carditem currentCard;
     public List<Carditem> myDeck = new List<Carditem>();
 
-    //여기서 isChosen[카드 번호]가 true면 그 카드를 선택된거임
+    [SerializeField]
+    CardContents cardContents;
 
-    private void Start()
-    {
-        for (int i = 0; i < sprites.Length; i++)
-        {
-            sprites[i] = cardItemSO.cardItems[i].sprite;
-        }
-    }
+    //여기서 isChosen[카드 번호]가 true면 그 카드를 선택된거임
     public int GetCard()
     {
         return card;
     }
+
     public void SelectedCard(int Card)
     {
         card = Card;
     }
+
     public void SetIsSelected(bool isTrue)
     {
         isSelected = isTrue;
+        cardContents.IsClicked();
     }
 
-    public Sprite GetSprite(int index)
-    {
-        return sprites[index];
-    }
     public void AddMyDeck(Carditem carditem)
     {
         myDeck.Add(carditem);
     }
+
     public void RemoveMyDeck(Carditem carditem)
     {
         myDeck.Remove(carditem);
     }
+
     public void SetCurrentCard(Carditem carditem)
     {
         currentCard = carditem;
     }
+
     public Carditem GetCurrentCard()
     {
         return currentCard;
+    }
+
+    public void SetIsChosen(int index, bool isTrue)
+    {
+        isChosen[index] = isTrue;
+    }
+
+    public bool GetIsChosen(int index)
+    {
+        return isChosen[index];
+    }
+
+    public void ChangeCard()
+    {
+        cardContents.IsClicked();
     }
 }

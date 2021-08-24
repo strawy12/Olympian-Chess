@@ -9,6 +9,7 @@ public class SlotManager : MonoBehaviour, IPointerClickHandler
     private Image image = null;
     [SerializeField]
     private Carditem carditem;
+    private bool isUsed = false;
     int currentNum;
 
     void Start()
@@ -25,9 +26,11 @@ public class SlotManager : MonoBehaviour, IPointerClickHandler
     }
     private void CardIn()
     {
-        Debug.Log(currentNum);
-        DeckManager.Instance.isChosen[currentNum] = false;
-        if (carditem != null) DeckManager.Instance.RemoveMyDeck(carditem);
+        if (carditem != null && isUsed)
+        {
+            DeckManager.Instance.SetIsChosen(currentNum, false);
+            DeckManager.Instance.RemoveMyDeck(carditem);
+        }
 
         currentNum = DeckManager.Instance.GetCard();
         carditem = DeckManager.Instance.GetCurrentCard();
@@ -36,6 +39,9 @@ public class SlotManager : MonoBehaviour, IPointerClickHandler
         DeckManager.Instance.AddMyDeck(carditem);
         DeckManager.Instance.SetIsSelected(false);
 
-        DeckManager.Instance.isChosen[currentNum] = true;
+        DeckManager.Instance.SetIsChosen(currentNum, true);
+        DeckManager.Instance.ChangeCard();
+
+        isUsed = true;
     }
 }

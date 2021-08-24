@@ -321,34 +321,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f88cde1acaaa2fc44a233537f8edccd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprites:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  card: 0
   isSelected: 0
   isChosen: 0000000000000000000000000000000000000000000000
-  cardItemSO: {fileID: 11400000, guid: db0d74c26d4d2164e8380b62e5e5e3d9, type: 2}
+  myDeck: []
+  cardContents: {fileID: 376769637}
 --- !u!4 &36618652
 Transform:
   m_ObjectHideFlags: 0
@@ -922,6 +898,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 631a70bd5991924488da232aacf2cda2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  carditem:
+    name: 
+    className: 
+    god: 
+    sprite: {fileID: 0}
+    color: {r: 0, g: 0, b: 0, a: 0}
+    info: 
 --- !u!114 &109769579
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1136,6 +1119,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 631a70bd5991924488da232aacf2cda2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  carditem:
+    name: 
+    className: 
+    god: 
+    sprite: {fileID: 0}
+    color: {r: 0, g: 0, b: 0, a: 0}
+    info: 
 --- !u!114 &120046518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1509,6 +1499,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 631a70bd5991924488da232aacf2cda2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  carditem:
+    name: 
+    className: 
+    god: 
+    sprite: {fileID: 0}
+    color: {r: 0, g: 0, b: 0, a: 0}
+    info: 
 --- !u!114 &258780038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2442,6 +2439,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 631a70bd5991924488da232aacf2cda2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  carditem:
+    name: 
+    className: 
+    god: 
+    sprite: {fileID: 0}
+    color: {r: 0, g: 0, b: 0, a: 0}
+    info: 
 --- !u!114 &481003887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3137,6 +3141,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 631a70bd5991924488da232aacf2cda2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  carditem:
+    name: 
+    className: 
+    god: 
+    sprite: {fileID: 0}
+    color: {r: 0, g: 0, b: 0, a: 0}
+    info: 
 --- !u!114 &630873446
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5150,6 +5161,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 631a70bd5991924488da232aacf2cda2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  carditem:
+    name: 
+    className: 
+    god: 
+    sprite: {fileID: 0}
+    color: {r: 0, g: 0, b: 0, a: 0}
+    info: 
 --- !u!114 &1232188375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5238,6 +5256,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 631a70bd5991924488da232aacf2cda2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  carditem:
+    name: 
+    className: 
+    god: 
+    sprite: {fileID: 0}
+    color: {r: 0, g: 0, b: 0, a: 0}
+    info: 
 --- !u!114 &1258395152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5435,6 +5460,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 631a70bd5991924488da232aacf2cda2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  carditem:
+    name: 
+    className: 
+    god: 
+    sprite: {fileID: 0}
+    color: {r: 0, g: 0, b: 0, a: 0}
+    info: 
 --- !u!114 &1296026454
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8371,6 +8403,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 631a70bd5991924488da232aacf2cda2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  carditem:
+    name: 
+    className: 
+    god: 
+    sprite: {fileID: 0}
+    color: {r: 0, g: 0, b: 0, a: 0}
+    info: 
 --- !u!114 &1744254378
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9099,6 +9138,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 631a70bd5991924488da232aacf2cda2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  carditem:
+    name: 
+    className: 
+    god: 
+    sprite: {fileID: 0}
+    color: {r: 0, g: 0, b: 0, a: 0}
+    info: 
 --- !u!114 &1946052465
 MonoBehaviour:
   m_ObjectHideFlags: 0
