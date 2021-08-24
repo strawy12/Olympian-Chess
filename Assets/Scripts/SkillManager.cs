@@ -134,6 +134,7 @@ public class SkillManager : MonoBehaviourPunCallbacks
     public void RemoveDontClickPiece(ChessBase cp)
     {
         ChessData chessData = cp.GetChessData();
+        Debug.Log(chessData.chessPiece);
         string jsonData = NetworkManager.Inst.SaveDataToJson(chessData, false);
         photonView.RPC("RemoveDontClickPiece", RpcTarget.AllBuffered, jsonData);
     }
@@ -143,6 +144,8 @@ public class SkillManager : MonoBehaviourPunCallbacks
     {
 
         ChessData chessData = NetworkManager.Inst.LoadDataFromJson<ChessData>(jsonData);
+        Debug.Log(chessData == dontClickPiece[0]);
+
         dontClickPiece.Remove(chessData);
     }
 

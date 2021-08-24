@@ -439,6 +439,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
 
     public void SetPosition(ChessBase cp)
     {
+        if (cp == null) return;
         ChessData chessData = cp.GetChessData();
         int x = chessData.xBoard;
         int y = chessData.yBoard;

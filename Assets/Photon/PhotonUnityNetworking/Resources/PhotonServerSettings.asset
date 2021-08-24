@@ -76,6 +76,10 @@ MonoBehaviour:
   - DestroySkill
   - RemoveDontClickPiece
   - GOD_StandardSkill
+  - OJ_UsingSkill
+  - OJ_ResetSkill
+  - WV_UsingSkill
+  - CheckSleep
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

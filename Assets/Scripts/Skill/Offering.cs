@@ -22,11 +22,17 @@ public class Offering : SkillBase
         int rand;
         rand = Random.Range(0, targetCards.Count);
         CardManager.Inst.RemoveCard(rand, targetCards);
+        RemoveSkill();
+        photonView.RPC("DestroySkill", Photon.Pun.RpcTarget.AllBuffered);
+
+    }
+
+    private void RemoveSkill()
+    {
         if (selectPiece != null)
         {
             selectPiece.RemoveChosenSkill(this);
         }
-        photonView.RPC("DestroySkill", Photon.Pun.RpcTarget.AllBuffered);
-
+        Destroy(selectPiece.gameObject);
     }
 }

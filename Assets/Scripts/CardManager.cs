@@ -237,7 +237,7 @@ public class CardManager : MonoBehaviourPunCallbacks
 
     public void ChangeCarditem(bool isWihte)
     {
-        if(isWihte)
+        if (isWihte)
         {
             cardArea.transform.position = new Vector2(0f, -3.9f);
         }
@@ -407,12 +407,12 @@ public class CardManager : MonoBehaviourPunCallbacks
     public void CardShare()
     {
         StartCoroutine(CardShareCo());
-    }    
+    }
 
     private IEnumerator CardShareCo()
     {
         Card[] cds;
-        List<Card> targetCards; 
+        List<Card> targetCards;
         for (int i = 0; i < 10; i++)
         {
             yield return new WaitForSeconds(0.05f);
@@ -425,7 +425,7 @@ public class CardManager : MonoBehaviourPunCallbacks
 
         for (int i = 0; i < cds.Length; i++)
         {
-            if(cds[i].GetCarditem().player == NetworkManager.Inst.GetPlayer())
+            if (cds[i].GetCarditem().player == NetworkManager.Inst.GetPlayer())
             {
                 continue;
             }
@@ -456,6 +456,7 @@ public class CardManager : MonoBehaviourPunCallbacks
             var card = cardObject.GetComponent<Card>();
             card.SetUp(PopCard(false), true);
             card.SetPlayer("black");
+            SetIds(card);
             card.isFront = true;
             blackCards.Add(card);
             SetOriginOrder(isMine);
@@ -473,16 +474,19 @@ public class CardManager : MonoBehaviourPunCallbacks
     }
     public Card GetCard(Carditem carditem)
     {
-        
+
         if (carditem == null) return null;
+        Debug.Log(carditem.ID);
         var targetCards = carditem.ID < 200 ? whiteCards : blackCards;
 
         for (int i = 0; i < targetCards.Count; i++)
         {
-                if (carditem.ID == targetCards[i].GetID())
-                {
-                    return targetCards[i];
-                }
+
+            if (carditem.ID == targetCards[i].GetID())
+            {
+
+                return targetCards[i];
+            }
         }
         return null;
     }
@@ -507,8 +511,10 @@ public class CardManager : MonoBehaviourPunCallbacks
         card.transform.DOKill();
         card.transform.SetParent(GameManager.Inst.pool.transform);
         card.gameObject.SetActive(false);
-        CardAlignment(carditem.ID < 200);
-
+        if(!TurnManager.Instance.GetCurrentPlayerTF())
+        {
+            CardAlignment(false);
+        }
         for (int i = 0; i < usedCards.Count; i++)
         {
             if (card.carditem.name == usedCards[i].name)
@@ -530,7 +536,7 @@ public class CardManager : MonoBehaviourPunCallbacks
         }
     }
 
-    
+
 
     #endregion
 
@@ -589,33 +595,35 @@ public class CardManager : MonoBehaviourPunCallbacks
         List<PRS> originCardPRSs = new List<PRS>();
         float zPosition = 0f;
 
-        if (isMine)
+
+        if (TurnManager.Instance.CheckPlayer("white"))
         {
-            if (TurnManager.Instance.CheckPlayer("white"))
+            if (isMine)
             {
                 originCardPRSs = RoundAlignment(whiteCardLeft, whiteCardRight, whiteCards.Count, 0.5f, Vector3.one * 1.9f);
-
             }
             else
             {
-                originCardPRSs = RoundAlignment(blackCardLeft, blackCardRight, whiteCards.Count, -0.5f, Vector3.one * 1.9f);
+                originCardPRSs = RoundAlignment(blackCardLeft, blackCardRight, blackCards.Count, -0.5f, Vector3.one * 1.9f);
             }
         }
 
 
         else
         {
-            if (TurnManager.Instance.CheckPlayer("white"))
+            if (isMine)
             {
                 originCardPRSs = RoundAlignment(blackCardLeft, blackCardRight, blackCards.Count, -0.5f, Vector3.one * 1.9f);
+
             }
 
             else
             {
-                originCardPRSs = RoundAlignment(whiteCardLeft, whiteCardRight, blackCards.Count, 0.5f, Vector3.one * 1.9f);
+                originCardPRSs = RoundAlignment(whiteCardLeft, whiteCardRight, whiteCards.Count, 0.5f, Vector3.one * 1.9f);
+
             }
         }
-
+        
         SetZPosition(isMine, originCardPRSs, zPosition);
 
         SetOriginOrder(isMine);
@@ -659,11 +667,14 @@ public class CardManager : MonoBehaviourPunCallbacks
     private void SetZPosition(bool isMine, List<PRS> originCardPRSs, float zPosition)
     {
         int cnt;
-        if (isMine)
+        Debug.Log(TurnManager.Instance.CheckPlayer("white"));
+        Debug.Log(isMine);
+        if (TurnManager.Instance.CheckPlayer("white"))
         {
-            cnt = whiteCards.Count;
-            if (TurnManager.Instance.CheckPlayer("white"))
+            if (isMine)
             {
+                cnt = whiteCards.Count;
+
                 for (int i = 0; i < cnt; i++)
                 {
                     var targetCard = whiteCards[i];
@@ -675,12 +686,15 @@ public class CardManager : MonoBehaviourPunCallbacks
                 }
                 return;
             }
+
             else
             {
+                cnt = blackCards.Count;
+
                 zPosition = 10;
                 for (int i = 0; i < cnt; i++)
                 {
-                    var targetCard = whiteCards[i];
+                    var targetCard = blackCards[i];
                     targetCard.originPRS = originCardPRSs[i];
                     targetCard.originPRS.pos.z = originCardPRSs[i].pos.z - zPosition;
                     targetCard.MoveTransform(targetCard.originPRS, true, true, 0.7f);
@@ -693,22 +707,10 @@ public class CardManager : MonoBehaviourPunCallbacks
         }
         else
         {
-            cnt = blackCards.Count;
-            if (!TurnManager.Instance.CheckPlayer("white"))
+            if (isMine)
             {
-                for (int i = 0; i < cnt; i++)
-                {
-                    var targetCard = blackCards[i];
-                    targetCard.originPRS = originCardPRSs[i];
-                    targetCard.originPRS.pos.z = originCardPRSs[i].pos.z - zPosition;
-                    targetCard.MoveTransform(targetCard.originPRS, true, true, 0.7f);
+                cnt = blackCards.Count;
 
-                    zPosition++;
-                }
-                return;
-            }
-            else
-            {
                 zPosition = 10;
                 for (int i = 0; i < cnt; i++)
                 {
@@ -718,6 +720,23 @@ public class CardManager : MonoBehaviourPunCallbacks
                     targetCard.MoveTransform(targetCard.originPRS, true, true, 0.7f);
 
                     zPosition--;
+                }
+                return;
+            }
+
+
+            else
+            {
+                cnt = whiteCards.Count;
+
+                for (int i = 0; i < cnt; i++)
+                {
+                    var targetCard = whiteCards[i];
+                    targetCard.originPRS = originCardPRSs[i];
+                    targetCard.originPRS.pos.z = originCardPRSs[i].pos.z - zPosition;
+                    targetCard.MoveTransform(targetCard.originPRS, true, true, 0.7f);
+
+                    zPosition++;
                 }
                 return;
             }
@@ -746,7 +765,7 @@ public class CardManager : MonoBehaviourPunCallbacks
                 isBreak = false;
                 return false;
             }
-            if(CheckCardname("에로스의 사랑,수면,죽음의 땅,파도")) return true;
+            if (CheckCardname("에로스의 사랑,수면,죽음의 땅,파도")) return true;
             DestroyCard(card);
             isUse = true;
 
@@ -756,10 +775,10 @@ public class CardManager : MonoBehaviourPunCallbacks
                 targetPicker.SetActive(false);
             }
 
-            CardAlignment(isMine);
-
+            CardAlignment(TurnManager.Instance.GetCurrentPlayerTF());
             return true;
         }
+        CardAlignment(TurnManager.Instance.GetCurrentPlayerTF());
         return false;
     }
 
@@ -795,8 +814,7 @@ public class CardManager : MonoBehaviourPunCallbacks
         card.SetUp(usedCards[randomNum], true);
         whiteCards.Add(card);
 
-        SetOriginOrder(true);
-        CardAlignment(true);
+        CardAlignment(TurnManager.Instance.GetCurrentPlayerTF());
     }
 
     public void RemoveCard(int rand, List<Card> targetCards)
@@ -804,6 +822,7 @@ public class CardManager : MonoBehaviourPunCallbacks
         Debug.Log(targetCards == whiteCards);
         Debug.Log(targetCards[rand].GetCarditem().name);
         Debug.Log(targetCards[rand].GetCarditem().player);
+        Debug.Log(targetCards[rand].GetID());
         DestroyCard(targetCards[rand]);
     }
     #endregion
@@ -851,7 +870,7 @@ public class CardManager : MonoBehaviourPunCallbacks
         {
             isUsed = true;
         }
-        if(!TryPutCard(true, isUsed))
+        if (!TryPutCard(true, isUsed))
         {
             selectCard = null;
         }

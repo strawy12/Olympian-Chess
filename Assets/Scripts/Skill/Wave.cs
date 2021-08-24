@@ -16,18 +16,9 @@ public class Wave : SkillBase
     }
     public override void ResetSkill()
     {
-        TurnManager.Instance.ButtonActive();
-        SkillManager.Inst.RemoveSkillList(this);
-        GameManager.Inst.SetUsingSkill(false);
-        GameManager.Inst.SetMoving(true);
-
-        if (selectPiece != null)
-        {
-            selectPiece.RemoveChosenSkill(this);
-        }
-        Destroy(gameObject);
-        
+        WV_ResetSkill();
     }
+
 
     private void WV_UsingSkill()
     {
@@ -37,6 +28,20 @@ public class Wave : SkillBase
         WV_MovePlate(selectPiece, selectPiece.GetXBoard(), selectPiece.GetYBoard());
     }
 
+    private void WV_ResetSkill()
+    {
+        TurnManager.Instance.ButtonActive();
+        GameManager.Inst.SetUsingSkill(false);
+        GameManager.Inst.SetMoving(true);
+
+        if (selectPiece != null)
+        {
+            selectPiece.RemoveChosenSkill(this);
+        }
+        DestroySkill();
+
+
+    }
     private void WV_MovePlate(ChessBase chessPiece, int x, int y)
     {
 

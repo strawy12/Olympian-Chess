@@ -22,7 +22,11 @@ public class Sleep : SkillBase
     }
     public override void ResetSkill()
     {
-        CheckSleep();
+        if (turn > skillData.turnCnt)
+        {
+            return;
+        }
+        photonView.RPC("CheckSleep", RpcTarget.AllBuffered);
     }
 
     private void SP_UsingSkill()
@@ -45,12 +49,12 @@ public class Sleep : SkillBase
         GameManager.Inst.SetUsingSkill(false);
         GameManager.Inst.SetMoving(true);
         GameManager.Inst.DestroyMovePlates();
-        turn = 3;
     }
     
     [PunRPC]
     private void StartSkillEffect()
     {
+        turn = 100;
         StartCoroutine(SP_SkillEffect());
     }
 
@@ -68,9 +72,12 @@ public class Sleep : SkillBase
         }
         selectPiece.spriteRenderer.material.color = Color.clear;
         selectPieceTo.spriteRenderer.material.color = Color.clear;
-        CheckSPChessPiece();
         skillData.turnCnt = 0;
-        turn = 2;
+        turn = 3;
+
+        CheckSPChessPiece();
+        
+        
     }
 
     private bool CheckMoveCnt(int moveCnt, int nowMoveCnt)
@@ -93,8 +100,12 @@ public class Sleep : SkillBase
             //particle2.SetActive(true);
             selectPiece.spriteRenderer.material.SetColor("_Color", Color.cyan);
             selectPieceTo.spriteRenderer.material.SetColor("_Color", Color.cyan);
-            SkillManager.Inst.AddDontClickPiece(selectPiece);
-            SkillManager.Inst.AddDontClickPiece(selectPieceTo);
+            if(photonView.IsMine)
+            {
+                SkillManager.Inst.AddDontClickPiece(selectPiece);
+                SkillManager.Inst.AddDontClickPiece(selectPieceTo);
+            }
+
             return;
         }
         else if (CheckMoveCnt(moveCnt, selectPiece.GetMoveCnt()) && !CheckMoveCnt(moveCnt2, selectPieceTo.GetMoveCnt()))
@@ -104,8 +115,11 @@ public class Sleep : SkillBase
             //particle.SetActive(true);
 
             selectPiece.spriteRenderer.material.SetColor("_Color", Color.cyan);
+            if (photonView.IsMine)
+            {
+                SkillManager.Inst.AddDontClickPiece(selectPiece);
+            }
 
-            SkillManager.Inst.AddDontClickPiece(selectPiece); ;
             return;
         }
 
@@ -116,13 +130,17 @@ public class Sleep : SkillBase
             //particle2.SetActive(true);
 
             selectPieceTo.spriteRenderer.material.SetColor("_Color", Color.cyan);
-
-            SkillManager.Inst.AddDontClickPiece(selectPieceTo);
+            if (photonView.IsMine)
+            {
+                SkillManager.Inst.AddDontClickPiece(selectPieceTo);
+            }
             return;
         }
+    }
 
-        SkillManager.Inst.RemoveSkillList(this);
-        Destroy(gameObject);
+    private void SetTurn()
+    {
+
     }
 
     public void SleepParticle()
@@ -165,7 +183,7 @@ public class Sleep : SkillBase
         if (turn > skillData.turnCnt)
         {
             if (particle == null) return;
-            SleepParticle();
+            //SleepParticle();
             return;
         }
 
@@ -194,43 +212,55 @@ public class Sleep : SkillBase
         {
             selectPiece.RemoveChosenSkill(this);
         }
-        Destroy(gameObject);
+        //Destroy(gameObject);
     }
 
+    [Photon.Pun.PunRPC]
     private void CheckSleep()
     {
-        if (turn > skillData.turnCnt)
-        {
-            return;
-        }
 
+        Debug.Log(photonView.IsMine);
         if (selectPiece != null && selectPieceTo != null)
         {
             selectPiece.spriteRenderer.material.SetColor("_Color", Color.clear);
             selectPieceTo.spriteRenderer.material.SetColor("_Color", Color.clear);
 
-            SkillManager.Inst.RemoveDontClickPiece(selectPiece);
-            SkillManager.Inst.RemoveDontClickPiece(selectPieceTo);
+            if(photonView.IsMine)
+            {
+                SkillManager.Inst.RemoveDontClickPiece(selectPiece);
+                SkillManager.Inst.RemoveDontClickPiece(selectPieceTo);
+            }
+
+            selectPiece.RemoveChosenSkill(this);
+            selectPieceTo.RemoveChosenSkill(this);
+
         }
         else if (selectPiece != null)
         {
             selectPiece.spriteRenderer.material.SetColor("_Color", Color.clear);
-            SkillManager.Inst.RemoveDontClickPiece(selectPiece);
-
+            selectPiece.RemoveChosenSkill(this);
+            if (photonView.IsMine)
+            {
+                SkillManager.Inst.RemoveDontClickPiece(selectPiece);
+            }
         }
 
         else if (selectPieceTo != null)
         {
             selectPieceTo.spriteRenderer.material.SetColor("_Color", Color.clear);
-            SkillManager.Inst.RemoveDontClickPiece(selectPieceTo);
+            selectPieceTo.RemoveChosenSkill(this);
+            if (photonView.IsMine)
+            {
+                SkillManager.Inst.RemoveDontClickPiece(selectPieceTo);
+
+            }
 
         }
-        SkillManager.Inst.RemoveSkillList(this);
         if (selectPiece != null)
         {
-            selectPiece.RemoveChosenSkill(this);
         }
-        photonView.RPC("DestroySkill", RpcTarget.AllBuffered);
+
+        DestroySkill();
         
     }
 }

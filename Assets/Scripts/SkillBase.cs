@@ -175,7 +175,7 @@ public class SkillBase : MonoBehaviourPunCallbacks
     [PunRPC]
     protected void DestroySkill()
     {
-        Destroy(gameObject);
         SkillManager.Inst.RemoveSkillList(this);
+        Destroy(gameObject);
     }
 }

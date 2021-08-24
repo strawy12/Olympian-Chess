@@ -84,10 +84,7 @@ public class ChessBase : MonoBehaviourPunCallbacks
     }
     public void OnMouseUp()
     {
-
-        print("1");
         if (CheckClickChessPiece()) return;
-        print("2");
 
         SkillManager.Inst.CheckSkillCancel("¿¡·Î½ºÀÇ »ç¶û,¼ö¸é,Á×À½ÀÇ ¶¥,ÆÄµµ");
         GameManager.Inst.DestroyMovePlates();
