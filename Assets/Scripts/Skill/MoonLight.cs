@@ -10,60 +10,61 @@ public class MoonLight : SkillBase
 
     public override void UsingSkill()
     {
-        ML_UsingSkill();
+        photonView.RPC("ML_UsingSkill", Photon.Pun.RpcTarget.AllBuffered);
     }
 
+    [Photon.Pun.PunRPC]
     private void ML_UsingSkill()
     {
         originX = selectPiece.GetXBoard();
         originY = selectPiece.GetYBoard();
 
-        selectPiece.spriteRenderer.material.color = new Color(0.5f, 0.5f, 0.5f, 0f);
-        selectPiece.SetNoneAttack(true);
-    }
-
-    public override void ResetSkill()
-    {
-        if (moveCnt < 2)
+        if(photonView.IsMine)
         {
-            if(selectPiece == null)
-            {
-                DestroySkill();
-                return;
-            }
-
-            if(originX != selectPiece.GetXBoard() || originY != selectPiece.GetYBoard())
-            {
-                originX = selectPiece.GetXBoard();
-                originY = selectPiece.GetYBoard();
-                moveCnt++;
-            }
-
-            if (TurnManager.Instance.CheckPlayer(skillData.player))
-            {
-                selectPiece.spriteRenderer.enabled = false;
-                selectPiece.spriteRenderer.material.color = new Color(0.5f, 0.5f, 0.5f, 0f);
-            }
-
-            else
-                selectPiece.spriteRenderer.enabled = true;
+            selectPiece.spriteRenderer.material.color = new Color(0.5f, 0.5f, 0.5f, 0f);
+            selectPiece.SetNoneAttack(true);
         }
 
         else
         {
-            selectPiece.spriteRenderer.enabled = true;
-            selectPiece.spriteRenderer.material.color = new Color(0f, 0f, 0f, 0f);
-            selectPiece.SetIsSelecting(false);
-            DestroySkill();
+            selectPiece.spriteRenderer.enabled = false;
+            selectPiece.spriteRenderer.material.color = new Color(0.5f, 0.5f, 0.5f, 0f);
         }
     }
 
-    private void DestroySkill()
+    public override void ResetSkill()
     {
-        SkillManager.Inst.RemoveSkillList(this);
-        if (selectPiece != null)
-            selectPiece.RemoveChosenSkill(this);
+        if (selectPiece == null)
+        {
+            photonView.RPC("DestroySkill_RPC", Photon.Pun.RpcTarget.AllBuffered);
 
-        Destroy(gameObject);
+            return;
+        }
+
+        if (originX != selectPiece.GetXBoard() || originY != selectPiece.GetYBoard())
+        {
+            originX = selectPiece.GetXBoard();
+            originY = selectPiece.GetYBoard();
+            moveCnt++;
+        }
+
+        if (moveCnt >= 2)
+        {
+            photonView.RPC("DestroySkill_RPC", Photon.Pun.RpcTarget.AllBuffered);
+        }
+    }
+
+    [Photon.Pun.PunRPC]
+    private void DestroySkill_RPC()
+    {
+        if (selectPiece != null)
+        {
+            selectPiece.spriteRenderer.enabled = true;
+            selectPiece.spriteRenderer.material.color = new Color(0f, 0f, 0f, 0f);
+            selectPiece.SetIsSelecting(false);
+            selectPiece.SetNoneAttack(false);
+            selectPiece.RemoveChosenSkill(this);
+        }
+        DestroySkill();
     }
 }

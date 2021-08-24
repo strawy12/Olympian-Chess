@@ -497,10 +497,15 @@ public class ChessManager : MonoBehaviourPunCallbacks
         ChessData chessData = NetworkManager.Inst.LoadDataFromJson<ChessData>(jsonData);
         ChessBase cp = GetChessPiece(chessData);
         UpdateArr(cp);
+        SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
+        if(SkillManager.Inst.CheckDontClickPiece(cp))
+        {
+            SkillManager.Inst.RemoveDontClickPiece(cp);
+        }
         cp.DestroyChessPiece();
     }
 
-    private void DestroyChessPiece(ChessData chessData)
+    public void DestroyChessPiece(ChessData chessData)
     {
         Debug.Log(chessData.chessPiece);
         string jsonData = NetworkManager.Inst.SaveDataToJson(chessData, false);

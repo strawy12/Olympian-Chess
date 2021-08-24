@@ -9,6 +9,12 @@ public class Justice : SkillBase
 
     public override void UsingSkill()
     {
+        photonView.RPC("JT_UsingSkill", Photon.Pun.RpcTarget.AllBuffered);
+    }
+
+    [Photon.Pun.PunRPC]
+    private void JT_UsingSkill()
+    {
         for (int i = 0; i < attacking.Count; i++)
         {
             if (attacking[i] == null) continue;
@@ -19,6 +25,12 @@ public class Justice : SkillBase
     }
     public override void ResetSkill()
     {
+        if (selectPiece == null)
+        {
+            SkillManager.Inst.RemoveDontClickPiece(selectPiece);
+            RPC_DetroySkill();
+        }
+
         if (skillData.turnCnt > 2)
         {
             for (int i = 0; i < justiceCP.Count; i++)
@@ -33,8 +45,7 @@ public class Justice : SkillBase
                 selectPiece.RemoveChosenSkill(this);
             }
 
-            SkillManager.Inst.RemoveSkillList(this);
-            Destroy(gameObject);
+            RPC_DetroySkill();
         }
     }
 }

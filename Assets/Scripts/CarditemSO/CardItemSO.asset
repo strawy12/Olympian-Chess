@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CardItemSO
   m_EditorClassIdentifier: 
   cardItems:
-  - name: "\uCC9C\uBC8C"
+  - name: "\uAE38\uB3D9\uBB34"
     className: HeavenlyPunishment
     god: "\uC81C\uC6B0\uC2A4"
     sprite: {fileID: -533655650184955271, guid: 4454062fe2a78614587b7e6f430aaafe,
@@ -22,7 +22,7 @@ MonoBehaviour:
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC0C1\uB300  \uC9C0\uC18D\uC2DC\uAC04: 1\uD134\n\uCC9C\uB465\uC758
       \uD798\uC744 \uBE4C\uB824 \uC0C1\uB300\uB97C \uD55C\uD134 \uB3D9\uC548 \uB9C8\uBE44
       \uC0C1\uD0DC\uC5D0 \uBE60\uD2B8\uB9BD\uB2C8\uB2E4."
-    ID: 0
+    ID: 200
     player: black
   - name: "\uC8FD\uC74C\uC758 \uB545"
     className: GroundOfDeath
@@ -32,7 +32,7 @@ MonoBehaviour:
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC601\uC5ED  \uC9C0\uC18D\uC2DC\uAC04: \uC601\uAD6C\uC9C0\uC18D\n\uB4E4\uC5B4\uC624\uB294
       \uBAA8\uB4E0 \uAC83\uC744 \uC8FD\uC774\uB294 \uC8FD\uC74C\uC758 \uB545\uC744
       \uB9CC\uB4ED\uB2C8\uB2E4."
-    ID: 0
+    ID: 201
     player: black
   - name: "\uC81C\uBB3C"
     className: Offering
@@ -43,7 +43,7 @@ MonoBehaviour:
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC544\uAD70  \uC9C0\uC18D\uC2DC\uAC04: \uC989\uC2DC\n\uC544\uAD70\uC758
       \uB9D0\uC744 \uC81C\uBB3C\uB85C \uBC1B\uD600 \uC0C1\uB300\uC758 \uB79C\uB364
       \uCE74\uB4DC \uD55C\uC7A5\uC744 \uC81C\uAC70\uD569\uB2C8\uB2E4."
-    ID: 0
+    ID: 202
     player: black
   - name: "\uC218\uC911\uAC10\uC625"
     className: OceanJail
@@ -55,7 +55,7 @@ MonoBehaviour:
       \uC0DD\uC131\uD558\uC5EC \uAC00\uB461\uB2C8\uB2E4. \uC218\uC911\uAC10\uC625\uC5D0\uC11C
       \uB098\uC628 \uB9D0\uC5D0\uAC8C \uC8FD\uC744 \uC218\uB3C4 \uC788\uC73C\uB2C8
       \uC8FC\uC758\uD558\uC138\uC694."
-    ID: 0
+    ID: 203
     player: black
   - name: "\uC218\uBA74"
     className: Sleep
@@ -65,7 +65,7 @@ MonoBehaviour:
     color: {r: 1, g: 0.7372549, b: 0.6509804, a: 1}
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC0C1\uB300  \uC9C0\uC18D\uC2DC\uAC04: 1\uD134\n\uC6C0\uC9C1\uC774\uC9C0
       \uC54A\uC73C\uBA74 \uC218\uBA74\uC5D0 \uBE60\uC9C0\uAC8C \uD569\uB2C8\uB2E4."
-    ID: 0
+    ID: 204
     player: black
   - name: "\uD30C\uB3C4"
     className: Wave
@@ -76,7 +76,7 @@ MonoBehaviour:
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC544\uBB34 \uB9D0  \uC9C0\uC18D\uC2DC\uAC04:
       \uC989\uC2DC\n\uD30C\uB3C4\uB97C \uC77C\uC73C\uCF1C \uD55C \uC904\uC5D0 \uC788\uB294
       \uBAA8\uB4E0 \uB9D0\uB4E4\uC744 \uB4A4\uB85C \uBC00\uC5B4\uB0C5\uB2C8\uB2E4."
-    ID: 0
+    ID: 205
     player: black
   - name: "\uB2EC\uBE5B"
     className: MoonLight
@@ -86,7 +86,7 @@ MonoBehaviour:
     color: {r: 0.9254902, g: 0.9607843, b: 0.96862745, a: 1}
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC544\uAD70  \uC9C0\uC18D\uC2DC\uAC04: \uC774\uB3D9\uD560\uB54C(2\uD134)\n\uB2EC\uBE5B
       \uC18D\uC5D0\uC11C \uC740\uC2E0\uD569\uB2C8\uB2E4."
-    ID: 0
+    ID: 206
     player: black
   - name: "\uC804\uC7C1\uAD11"
     className: WarBuff
@@ -97,7 +97,7 @@ MonoBehaviour:
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC544\uAD70  \uC9C0\uC18D\uC2DC\uAC04: \uC774\uB3D9\uD560\uB54C(2\uD134)\n\uC804\uC7C1\uC758
       \uBBF8\uCCD0 2\uBC88 \uC774\uB3D9 \uD560 \uC218 \uC788\uB3C4\uB85D \uD569\uB2C8\uB2E4.
       \uADF8 \uD6C4, \uB9D0\uC740 \uC8FD\uC2B5\uB2C8\uB2E4."
-    ID: 0
+    ID: 207
     player: black
   - name: "\uC815\uC758\uAD6C\uD604"
     className: Justice
@@ -108,7 +108,7 @@ MonoBehaviour:
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC870\uAC74\uB300\uC0C1  \uC9C0\uC18D\uC2DC\uAC04:
       1\uD134\n\uC0B4\uC0DD\uC744 \uD55C \uB9D0\uB4E4\uC744 \uCC98\uBC8C\uD558\uC5EC
       \uC774\uB3D9\uBD88\uAC00 \uC0C1\uD0DC\uB85C \uB9CC\uB4ED\uB2C8\uB2E4."
-    ID: 0
+    ID: 208
     player: black
   - name: "\uC544\uD14C\uB098\uC758 \uBC29\uD328"
     className: AthenaShield
@@ -119,7 +119,7 @@ MonoBehaviour:
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC544\uAD70  \uC9C0\uC18D\uC2DC\uAC04: \uC774\uB3D9\uD560
       \uB54C\n\uC544\uD14C\uB098\uC758 \uBC29\uD328\uB85C \uC8FD\uC74C\uC73C\uB85C\uBD80\uD130
       \uBCF4\uD638 \uC2DC\uD0B5\uB2C8\uB2E4."
-    ID: 0
+    ID: 209
     player: black
   - name: "\uC9C8\uC11C"
     className: Order

@@ -429,7 +429,7 @@ GameObject:
   m_Component:
   - component: {fileID: 166013286}
   m_Layer: 0
-  m_Name: BlackCardRight
+  m_Name: BlackCardLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1207,8 +1207,8 @@ MonoBehaviour:
   cardSpawnPoint: {fileID: 983496012}
   whiteCardLeft: {fileID: 345451345}
   whiteCardRight: {fileID: 1862974116}
-  blackCardRight: {fileID: 166013286}
-  blackCardLeft: {fileID: 1255073935}
+  blackCardRight: {fileID: 1255073935}
+  blackCardLeft: {fileID: 166013286}
   whiteCards: []
   blackCards: []
   eCardState: 0
@@ -2130,7 +2130,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1255073935}
   m_Layer: 0
-  m_Name: BlackCardLeft
+  m_Name: BlackCardRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

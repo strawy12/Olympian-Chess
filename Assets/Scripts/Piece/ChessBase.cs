@@ -210,6 +210,7 @@ public class ChessBase : MonoBehaviourPunCallbacks
 
     public void DestroyChessPiece()
     {
+        StopAllCoroutines();
         Destroy(gameObject);
     }
 

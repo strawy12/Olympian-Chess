@@ -7,7 +7,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviourPunCallbacks
 {
     //GameManager Singleton
     private static GameManager inst;
@@ -399,11 +399,28 @@ public class GameManager : MonoBehaviour
     }
     public void AddAttackings(ChessBase chessBase)
     {
+        string jsonData = NetworkManager.Inst.SaveDataToJson(chessBase.GetChessData(), false);
+        photonView.RPC("AddAttackings", RpcTarget.AllBuffered, jsonData);
+    }
+
+    [PunRPC]
+    public void AddAttackings(string jsonData)
+    {
+        ChessData chessData = NetworkManager.Inst.LoadDataFromJson<ChessData>(jsonData);
+        ChessBase chessBase = ChessManager.Inst.GetChessPiece(chessData);
         attackings.Add(chessBase);
         chessBase.SetIsAttacking(true);
     }
     public void RemoveAttackings(ChessBase chessBase)
     {
+        string jsonData = NetworkManager.Inst.SaveDataToJson(chessBase.GetChessData(), false);
+        photonView.RPC("AddAttackings", RpcTarget.AllBuffered, jsonData);
+    }
+    [PunRPC]
+    public void RemoveAttackings(string jsonData)
+    {
+        ChessData chessData = NetworkManager.Inst.LoadDataFromJson<ChessData>(jsonData);
+        ChessBase chessBase = ChessManager.Inst.GetChessPiece(chessData);
         attackings.Remove(chessBase);
         chessBase.ClearAttackCnt();
     }

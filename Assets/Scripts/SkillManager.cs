@@ -127,6 +127,13 @@ public class SkillManager : MonoBehaviourPunCallbacks
     private void AddDontClickPiece(string jsonData)
     {
         ChessData chessData = NetworkManager.Inst.LoadDataFromJson<ChessData>(jsonData);
+        for(int i = 0; i < dontClickPiece.Count; i++)
+        {
+            if(dontClickPiece[i].ID == chessData.ID)
+            {
+                return;
+            }
+        }
         dontClickPiece.Add(chessData);
     }
 

@@ -464,11 +464,13 @@ public class CardManager : MonoBehaviourPunCallbacks
         }
     }
 
+
     public void NotAmolang()
     {
         if (selectCard != null)
         {
             DestroyCard(selectCard);
+            CardAlignment(true);
             isUse = true;
         }
     }

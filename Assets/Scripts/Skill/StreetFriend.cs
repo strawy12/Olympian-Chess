@@ -6,6 +6,12 @@ public class StreetFriend : SkillBase
 {
     public override void UsingSkill()
     {
+        photonView.RPC("SF_UsingSkill", Photon.Pun.RpcTarget.AllBuffered);
+    }
+
+    [Photon.Pun.PunRPC]
+    private void SF_UsingSkill()
+    {
         selectPiece.SetAttackSelecting(true);
         selectPiece.spriteRenderer.material.SetColor("_Color", new Color32(129, 0, 1, 0));
     }
@@ -16,20 +22,16 @@ public class StreetFriend : SkillBase
 
         if (attacker.name.Contains("king"))
         {
-            RemoveSkill();
+            photonView.RPC("RemoveSkill", Photon.Pun.RpcTarget.AllBuffered);
             return;
         }
-
-        Destroy(attacker.gameObject);
-        ChessManager.Inst.SetPositionEmpty(skillData.posX, skillData.posY);
-
-        ChessManager.Inst.UpdateArr(attacker);
-        ChessManager.Inst.UpdateArr(selectPiece);
+        ChessManager.Inst.DestroyChessPiece(attacker.GetChessData());
         GameManager.Inst.DestroyMovePlates();
 
-        RemoveSkill();
+        photonView.RPC("RemoveSkill", Photon.Pun.RpcTarget.AllBuffered);
     }
 
+    [Photon.Pun.PunRPC]
     private void RemoveSkill()
     {
         if (selectPiece != null)
@@ -37,7 +39,6 @@ public class StreetFriend : SkillBase
             selectPiece.RemoveChosenSkill(this);
             selectPiece.SetAttackSelecting(false);
         }
-        SkillManager.Inst.RemoveSkillList(this);
-        Destroy(gameObject);
+        DestroySkill();
     }
 }

@@ -81,6 +81,13 @@ MonoBehaviour:
   - WV_UsingSkill
   - CheckSleep
   - WB_ResetSkill
+  - ML_UsingSkill
+  - DestroySkill_RPC
+  - RemoveSkill
+  - SF_UsingSkill
+  - JT_UsingSkill
+  - AddAttackings
+  - RemoveAttackings
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
