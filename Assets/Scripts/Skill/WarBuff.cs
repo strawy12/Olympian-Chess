@@ -17,7 +17,7 @@ public class WarBuff : SkillBase
     }
     public override void ResetSkill()
     {
-        WB_ResetSkill();
+        photonView.RPC("WB_ResetSkill", Photon.Pun.RpcTarget.AllBuffered);
     }
 
     private void WB_UsingSkill()
@@ -34,6 +34,7 @@ public class WarBuff : SkillBase
 
     private void WB_Standard()
     {
+        Debug.Log("¤·¤·¤·");
         if (cnt == 0 && !selectPiece.GetIsMoving())
         {
             cnt++;
@@ -46,6 +47,7 @@ public class WarBuff : SkillBase
         }
     }
 
+    [Photon.Pun.PunRPC]
     private void WB_ResetSkill()
     {
         StartCoroutine(WB_SkillEffect());

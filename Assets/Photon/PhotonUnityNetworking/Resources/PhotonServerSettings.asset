@@ -80,6 +80,7 @@ MonoBehaviour:
   - OJ_ResetSkill
   - WV_UsingSkill
   - CheckSleep
+  - WB_ResetSkill
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
