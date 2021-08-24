@@ -324,6 +324,9 @@ MonoBehaviour:
   isSelected: 0
   isChosen: 0000000000000000000000000000000000000000000000
   myDeck: []
+  deck:
+    myDecks: []
+  cards: {fileID: 11400000, guid: db0d74c26d4d2164e8380b62e5e5e3d9, type: 2}
   cardContents: {fileID: 376769637}
 --- !u!4 &36618652
 Transform:
@@ -8314,7 +8317,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1713052284}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 36618651}
+        m_TargetAssemblyTypeName: DeckManager, Assembly-CSharp
+        m_MethodName: SaveButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1713052284
 MonoBehaviour:
   m_ObjectHideFlags: 0

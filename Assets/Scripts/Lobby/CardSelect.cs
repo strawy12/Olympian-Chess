@@ -11,9 +11,12 @@ public class CardSelect : MonoBehaviour, IPointerClickHandler
     private Carditem carditem;
     private bool isSelect;
 
-    void Start()
+    void Awake()
     {
         image = GetComponent<Image>();
+    }
+    void Start()
+    {
         image.sprite = carditem.sprite;
         gameObject.name = carditem.name;
     }

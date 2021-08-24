@@ -9,12 +9,20 @@ public class SlotManager : MonoBehaviour, IPointerClickHandler
     private Image image = null;
     [SerializeField]
     private Carditem carditem;
-    private bool isUsed = false;
     int currentNum;
 
     void Start()
     {
         image = GetComponent<Image>();
+
+        for (int i = 0; i < DeckManager.Instance.GetDeck().Count; i++)
+        {
+            if(i == Child())
+            {
+                ChangeSprite(DeckManager.Instance.GetDeck(i));
+                carditem = DeckManager.Instance.GetCardItemSO().cardItems[i];
+            }
+        }
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -26,8 +34,9 @@ public class SlotManager : MonoBehaviour, IPointerClickHandler
     }
     private void CardIn()
     {
-        if (carditem != null && isUsed)
+        if (carditem != null)
         {
+            CurrentNum(carditem);
             DeckManager.Instance.SetIsChosen(currentNum, false);
             DeckManager.Instance.RemoveMyDeck(carditem);
         }
@@ -41,7 +50,45 @@ public class SlotManager : MonoBehaviour, IPointerClickHandler
 
         DeckManager.Instance.SetIsChosen(currentNum, true);
         DeckManager.Instance.ChangeCard();
+    }
 
-        isUsed = true;
+    private int Child()
+    {
+        for (int i = 0; i < transform.parent.childCount; i++)
+        {
+            if (transform == transform.parent.GetChild(i))
+            {
+                return i;
+            }
+
+        }
+        return 0;
+    }
+
+    private void ChangeSprite(string card)
+    {
+        CardItemSO cards = DeckManager.Instance.GetCardItemSO();
+
+        for (int i = 0; i< cards.cardItems.Length; i++)
+        {
+            if(cards.cardItems[i].name == card)
+            {
+                image.sprite = cards.cardItems[i].sprite;
+            }
+        }
+    }
+
+    private void CurrentNum(Carditem carditem)
+    {
+        CardItemSO cards = DeckManager.Instance.GetCardItemSO();
+
+        for (int i = 0; i < cards.cardItems.Length; i++)
+        {
+            if (cards.cardItems[i].name == carditem.name)
+            {
+                currentNum = i;
+                Debug.Log(i + cards.cardItems[i].name);
+            }
+        }
     }
 }
