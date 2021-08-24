@@ -64,6 +64,13 @@ public class TurnManager : MonoBehaviour
 
     public static event Action<bool> OnTurnStarted;
 
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            isActive = !isActive;
+        }
+    }
     public void StartGame()
     {
         TurnSetting();
@@ -138,13 +145,13 @@ public class TurnManager : MonoBehaviour
     private void WinOrLose()
     {
         // When these conditions are met, the search is the winner and the game is over.
-        if (!GameManager.Inst.CheckArr(true, "white_king"))
+        if (!ChessManager.Inst.CheckArr(true, "white_king"))
         {
             GameManager.Inst.Winner("black");
             GameManager.Inst.GameOver();
         }
         // When these conditions are met, White is the winner and the game is over.
-        else if (!GameManager.Inst.CheckArr(false, "black_king"))
+        else if (!ChessManager.Inst.CheckArr(false, "black_king"))
         {
             GameManager.Inst.Winner("white");
             GameManager.Inst.GameOver();
@@ -212,27 +219,27 @@ public class TurnManager : MonoBehaviour
             var targetCards = CardManager.Inst.GetMyCards();
             CardManager.Inst.DestroyCard(CardManager.Inst.GetSelectCard(), targetCards);
         }
-        CardManager.Inst.UpdateCard();
+        //,,..CardManager.Inst.UpdateCard();
         myTurn = !myTurn;
 
-        GameManager.Inst.FalseIsMoving();
+        ChessManager.Inst.FalseIsMoving();
         ChangeButtonTransform();
         ButtonInactive();
 
         CardManager.Inst.ChangeIsUse(false);
-        SkillManager.Inst.SkillListCntPlus();
+        //SkillManager.Inst.SkillListCntPlus();
+        SuperSkillManager.Inst.SuperListCntPlus();
         GameManager.Inst.NextTurn();
         GameManager.Inst.PlusAttackCnt();
+        SuperSkillManager.Inst.CheckSuperSkill();
+
+        GameManager.Inst.SetUsingSkill(false);
+        GameManager.Inst.SetMoving(true);
+        GameManager.Inst.SetIsStop(false);
+
+        SkillManager.Inst.SkillListCntPlus();
 
         StartCoroutine(StartTurnCo());
         WinOrLose();
     }
-
-    //private bool CheckSkillList(string name, string player)
-    //{
-    //    if (SkillManager.Inst.CheckSkillList(name, player))
-    //        return true;
-    //    else
-    //        return false;
-    //}
 }

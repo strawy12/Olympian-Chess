@@ -21,23 +21,40 @@ public class Traveler : SkillBase
             {
                 randomX = Random.Range(0, 8);
                 randomY = Random.Range(0, 8);
-            } while (GameManager.Inst.GetPosition(randomX, randomY) != null);
+            } while (ChessManager.Inst.GetPosition(randomX, randomY) != null);
 
-            GameManager.Inst.SetPositionEmpty(selectPiece.GetXBoard(), selectPiece.GetYBoard());
-            selectPiece.SetXBoard(randomX);
-            selectPiece.SetYBoard(randomY);
-            selectPiece.SetCoords();
-
-            GameManager.Inst.SetPosition(selectPiece);
+            MoveChessPiece(selectPiece, randomX, randomY);
         }
 
         //if the pieces are not pawns, use of card is canceled
         else
         {
             CardManager.Inst.SetisBreak(true);
+            RemoveSkill();
             return;
+        }
+
+        RemoveSkill();
+    }
+
+    private void RemoveSkill()
+    {
+        if (selectPiece != null)
+        {
+            selectPiece.RemoveChosenSkill(this);
         }
         SkillManager.Inst.RemoveSkillList(this);
         Destroy(gameObject);
+    }
+
+    private void MoveChessPiece(ChessBase cp, int matrixX, int matrixY)
+    {
+        ChessManager.Inst.SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
+        cp.SetXBoard(matrixX);
+        cp.SetYBoard(matrixY);
+        cp.PlusMoveCnt();
+        ChessManager.Inst.SetPosition(cp);
+        StartCoroutine(ChessManager.Inst.SetCoordsAnimation(cp));
+        GameManager.Inst.DestroyMovePlates();
     }
 }

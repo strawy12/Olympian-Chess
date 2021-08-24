@@ -70,17 +70,6 @@ public class Card : MonoBehaviour
 
     }
 
-    //private void OnMouseUpAsButton()
-    //{
-       // if (enabled == false)
-         //   return;
-       // if (PilSalGi.Inst.GetisUsePilSalGi()) return;
-       //if (SkillManager.Inst.CheckSkillList("Á¦¹°", SkillManager.Inst.GetCurrentPlayer(true)))
-       // {
-       //     CardManager.Inst.CardClick(this);
-       // }
-   // }
-
     void OnMouseUp()
     {
         // if (PilSalGi.Inst.GetisUsePilSalGi()) return;
@@ -90,12 +79,6 @@ public class Card : MonoBehaviour
         isSelected = false;
         if (isFront)
             CardManager.Inst.CardMouseUp(this);
-
-        //if(!CardManager.Inst.isMine)
-        //{
-        //    Destroy(gameObject);
-        //    CardManager.Inst.CardAlignment(false);
-        //}
 
     }
     #endregion
@@ -111,11 +94,13 @@ public class Card : MonoBehaviour
         {
             cardPrame.sprite = cardFornt;
             card.sprite = carditem.sprite;
+            gameObject.name = carditem.name;
         }
         else
         {
             cardPrame.sprite = cardBack;
             card.sprite = null;
+            gameObject.name = carditem.name;
         }
     }
 

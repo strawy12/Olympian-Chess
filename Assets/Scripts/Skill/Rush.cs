@@ -11,9 +11,6 @@ public class Rush : SkillBase
 
     private void RS_UsingSkill()
     {
-        int posX;
-        int posY;
-
         posX = selectPiece.GetXBoard();
         posY = selectPiece.GetYBoard();
 
@@ -21,41 +18,71 @@ public class Rush : SkillBase
         //selected piece moves up one space
         if (selectPiece.player == "white")
         {
-            if (GameManager.Inst.GetPosition(posX, posY + 1) == null)
+            if (posY == 7)
             {
-                selectPiece.SetYBoard(posY + 1);
+                CardManager.Inst.SetisBreak(true);
+                RemoveSkill();
+                return;
+            }
+
+            if (ChessManager.Inst.GetPosition(posX, posY + 1) == null)
+            {
+                MoveChessPiece(selectPiece, posX, posY + 1);
             }
 
             // if the space to go is not empty, Use of the card is canceled.
             else
             {
                 CardManager.Inst.SetisBreak(true);
+                RemoveSkill();
                 return;
             }
         }
         else
         {
-            //if color of selected piece is black,
-            //selected piece moves down one space
-            if (GameManager.Inst.GetPosition(posX, posY - 1) == null)
+            if (posY == 0)
             {
-                selectPiece.SetYBoard(posY - 1);
+                CardManager.Inst.SetisBreak(true);
+                RemoveSkill();
+                return;
+            }
+
+            //selected piece moves down one space
+            if (ChessManager.Inst.GetPosition(posX, posY - 1) == null)
+            {
+                MoveChessPiece(selectPiece, posX, posY - 1);
             }
 
             // if the space to go is not empty, Use of the card is canceled.
             else
             {
                 CardManager.Inst.SetisBreak(true);
+                RemoveSkill();
                 return;
             }
         }
 
-        GameManager.Inst.SetPositionEmpty(posX, posY);
-        selectPiece.SetXBoard(posX);
-        selectPiece.SetCoords();
-        GameManager.Inst.SetPosition(selectPiece);
+        RemoveSkill();
+    }
 
-        Destroy(gameObject);
+    private void RemoveSkill()
+    {
+        if (selectPiece != null)
+        {
+            selectPiece.RemoveChosenSkill(this);
+        }
         SkillManager.Inst.RemoveSkillList(this);
+        Destroy(gameObject);
+    }
+
+    private void MoveChessPiece(ChessBase cp, int matrixX, int matrixY)
+    {
+        ChessManager.Inst.SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
+        cp.SetXBoard(matrixX);
+        cp.SetYBoard(matrixY);
+        cp.PlusMoveCnt();
+        ChessManager.Inst.SetPosition(cp);
+        StartCoroutine(ChessManager.Inst.SetCoordsAnimation(cp));
+        GameManager.Inst.DestroyMovePlates();
     }
 }

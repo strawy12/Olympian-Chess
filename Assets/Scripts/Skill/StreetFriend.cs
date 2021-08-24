@@ -6,27 +6,38 @@ public class StreetFriend : SkillBase
 {
     public override void UsingSkill()
     {
-        selectPiece.SetIsAttackSelecting(true);
-        selectPiece.AddChosenSkill(this);
+        selectPiece.SetAttackSelecting(true);
         selectPiece.spriteRenderer.material.SetColor("_Color", new Color32(129, 0, 1, 0));
     }
 
     public override void StandardSkill()
     {
-        Chessman attacker = GameManager.Inst.GetPosition(posX, posY);
+        ChessBase attacker = ChessManager.Inst.GetPosition(posX, posY);
 
-        if (attacker.name.Contains("king")) return;
+        if (attacker.name.Contains("king"))
+        {
+            RemoveSkill();
+            return;
+        }
 
         Destroy(attacker.gameObject);
-        GameManager.Inst.SetPositionEmpty(posX, posY);
+        ChessManager.Inst.SetPositionEmpty(posX, posY);
 
-        GameManager.Inst.UpdateArr(attacker);
-        GameManager.Inst.UpdateArr(selectPiece);
-        attacker.DestroyMovePlates();
+        ChessManager.Inst.UpdateArr(attacker);
+        ChessManager.Inst.UpdateArr(selectPiece);
+        GameManager.Inst.DestroyMovePlates();
 
-        Destroy(gameObject);
+        RemoveSkill();
+    }
+
+    private void RemoveSkill()
+    {
+        if (selectPiece != null)
+        {
+            selectPiece.RemoveChosenSkill(this);
+            selectPiece.SetAttackSelecting(false);
+        }
         SkillManager.Inst.RemoveSkillList(this);
-        selectPiece.RemoveChosenSkill(this);
-        selectPiece.SetIsAttackSelecting(false);
+        Destroy(gameObject);
     }
 }

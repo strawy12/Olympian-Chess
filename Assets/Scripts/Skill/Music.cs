@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Music : SkillBase
 {
-
     //Music function
     public override void UsingSkill()
     {
@@ -12,6 +11,7 @@ public class Music : SkillBase
         if (selectPiece.name == "black_king" || selectPiece.name == "white_king")
         {
             CardManager.Inst.SetisBreak(true);
+            RemoveSkill();
             return;
         }
 
@@ -52,10 +52,8 @@ public class Music : SkillBase
 
         // if use of this card is over,
         // remove this from skill list and destroy this game object
-        SkillManager.Inst.RemoveSkillList(this);
         SkillManager.Inst.RemoveDontClickPiece(selectPiece);
-        selectPiece = null;
-        Destroy(gameObject);
+        RemoveSkill();
     }
 
     //Functions setting true or false randomly
@@ -86,5 +84,15 @@ public class Music : SkillBase
         }
         else
             return false;
+    }
+
+    private void RemoveSkill()
+    {
+        SkillManager.Inst.RemoveSkillList(this);
+        if (selectPiece != null)
+        {
+            selectPiece.RemoveChosenSkill(this);
+        }
+        Destroy(gameObject);
     }
 }

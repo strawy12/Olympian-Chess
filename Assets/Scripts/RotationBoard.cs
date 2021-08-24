@@ -5,8 +5,8 @@ using UnityEngine;
 public class RotationBoard
 {
     public static Camera camera;
-    public static Chessman[] playerWhite;
-    public static Chessman[] playerBlack;
+    public static ChessBase[] playerWhite;
+    public static ChessBase[] playerBlack;
     public static List<Card> mycards;
     public static List<Card> ohtercards;
      

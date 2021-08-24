@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Justice : SkillBase
 {
-    List<Chessman> attacking = GameManager.Inst.attackings;
-    List<Chessman> justiceCP = new List<Chessman>();
+    List<ChessBase> attacking = GameManager.Inst.GetAttackings();
+    List<ChessBase> justiceCP = new List<ChessBase>();
 
     public override void UsingSkill()
     {
@@ -28,9 +28,13 @@ public class Justice : SkillBase
                 justiceCP[i].spriteRenderer.material.color = new Color32(0, 0, 0, 0);
                 SkillManager.Inst.RemoveDontClickPiece(justiceCP[i]);
             }
+            if (selectPiece != null)
+            {
+                selectPiece.RemoveChosenSkill(this);
+            }
 
-            Destroy(gameObject);
             SkillManager.Inst.RemoveSkillList(this);
+            Destroy(gameObject);
         }
     }
 }
