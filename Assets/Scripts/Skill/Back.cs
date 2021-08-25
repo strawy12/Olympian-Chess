@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Back : SkillBase
 {
-
     public override void UsingSkill()
     {
         Back_UsingSkill();

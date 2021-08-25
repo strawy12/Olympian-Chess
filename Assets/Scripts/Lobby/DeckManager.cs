@@ -239,4 +239,6 @@ public class DeckManager : MonoBehaviour
 public class Deck
 {
     public string[] myDecks = new string[10];
+
 }
+

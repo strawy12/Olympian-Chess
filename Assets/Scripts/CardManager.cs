@@ -1,5 +1,6 @@
 ﻿using DG.Tweening;
 using System;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -64,14 +65,16 @@ public class CardManager : MonoBehaviour
 
     #region Var List
     // Later these var name retouch
-    private List<Carditem> myCardBuffer; //white Card Buffer
-    private List<Carditem> otherCardBuffer; //Balck Card Buffer
+    private List<Carditem> myCardBuffer = new List<Carditem>(); //white Card Buffer
+    private List<Carditem> otherCardBuffer = new List<Carditem>(); //Balck Card Buffer
 
     public List<Carditem> usedCards = new List<Carditem>();
 
     private Vector3 localPosition = Vector3.zero;
     private ChessBase chessPiece;
     private Card selectCard;
+    [SerializeField]
+    private Deck deck;
     [SerializeField] private GameObject cards;
     private CardbufferManager cardbufferManager;
 
@@ -98,7 +101,7 @@ public class CardManager : MonoBehaviour
 
     private void Start()
     {
-        cardbufferManager = FindObjectOfType<CardbufferManager>();
+        LoadFromJson();
         SetUpCardBuffer();
     }
 
@@ -354,17 +357,19 @@ public class CardManager : MonoBehaviour
     {
         if (cardbufferManager == null)
         {
-            myCardBuffer = new List<Carditem>();
-            for (int i = 0; i < cardItemSO.cardItems.Length; i++)
+            for (int i = 0; i < 10; i++)
             {
-                Carditem carditem = cardItemSO.cardItems[i];
-                myCardBuffer.Add(carditem);
+                for (int j = 0; j < cardItemSO.cardItems.Length; j++)
+                {
+                    if(deck.myDecks[i] == cardItemSO.cardItems[j].name)
+                    {
+                        myCardBuffer.Add(cardItemSO.cardItems[j]);
+                    }
+                }
             }
         }
-        else
-        {
-            myCardBuffer = cardbufferManager.GetMyCardBuffer();
-        } // It does come from Draft Scene, cardbufferManager == null
+        
+        // It does come from Draft Scene, cardbufferManager == null
           // So, if cardbufferManager == null, my.other CardBuffer is default value
           // CardBufferManager have value from Draft Scene's selectCards
 
@@ -382,6 +387,21 @@ public class CardManager : MonoBehaviour
             otherCardBuffer = cardbufferManager.GetOhterCardBuffer();
         }
     }
+
+    private void LoadFromJson()
+    {
+        string json;
+        string SAVE_PATH = Application.dataPath + "/Save";
+        string SAVE_FILENAME = "/SaveFile.txt";
+
+        if (File.Exists(SAVE_PATH + SAVE_FILENAME))
+        {
+            json = File.ReadAllText(SAVE_PATH + SAVE_FILENAME);
+            deck = JsonUtility.FromJson<Deck>(json);
+        }
+    }
+
+
 
     public void AddCard(bool isMine) // CardBuffer value => GameObjectCard conversion
     {
@@ -707,7 +727,7 @@ public class CardManager : MonoBehaviour
                 isBreak = false;
                 return false;
             }
-            if(CheckCardname("에로스의 사랑,수면,죽음의 땅,파도")) return true;
+            if (CheckCardname("에로스의 사랑,수면,죽음의 땅,파도")) return true;
             DestroyCard(card, targetCards);
             isUse = true;
 
@@ -811,7 +831,7 @@ public class CardManager : MonoBehaviour
         {
             isUsed = true;
         }
-        if(!TryPutCard(true, isUsed))
+        if (!TryPutCard(true, isUsed))
         {
             selectCard = null;
         }

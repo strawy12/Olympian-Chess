@@ -424,7 +424,5 @@ public class GameManager : MonoBehaviour
     {
         return movePlateList;
     }
-
-
     #endregion
 }

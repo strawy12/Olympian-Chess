@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CardItemSO
   m_EditorClassIdentifier: 
   cardItems:
-  - name: "\uCD9C\uC0B0"
+  - name: "\uCC9C\uBC8C"
     className: HeavenlyPunishment
     god: "\uC81C\uC6B0\uC2A4"
     sprite: {fileID: -533655650184955271, guid: 4454062fe2a78614587b7e6f430aaafe,
