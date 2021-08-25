@@ -407,8 +407,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
     public void AddAttackings(ChessBase cp)
     {
-<<<<<<< HEAD
-        string jsonData = NetworkManager.Inst.SaveDataToJson(chessBase.GetChessData(), false);
+        string jsonData = NetworkManager.Inst.SaveDataToJson(cp.GetChessData(), false);
         photonView.RPC("AddAttackings", RpcTarget.AllBuffered, jsonData);
     }
 
@@ -419,15 +418,10 @@ public class GameManager : MonoBehaviourPunCallbacks
         ChessBase chessBase = ChessManager.Inst.GetChessPiece(chessData);
         attackings.Add(chessBase);
         chessBase.SetIsAttacking(true);
-=======
-        attackings.Add(cp);
-        cp.isAttacking = true;
->>>>>>> minyoung
     }
     public void RemoveAttackings(ChessBase cp)
     {
-<<<<<<< HEAD
-        string jsonData = NetworkManager.Inst.SaveDataToJson(chessBase.GetChessData(), false);
+        string jsonData = NetworkManager.Inst.SaveDataToJson(cp.GetChessData(), false);
         photonView.RPC("RemoveAttackings", RpcTarget.AllBuffered, jsonData);
     }
     [PunRPC]
@@ -439,22 +433,20 @@ public class GameManager : MonoBehaviourPunCallbacks
         chessBase.ClearAttackCnt();
     }
 
-    public void StartEndTurn()
-    {
-        TurnManager.Instance.EndTurn();
-    }
-=======
-        if(attackings.Contains(cp))
-        {
-            attackings.Remove(cp);
->>>>>>> minyoung
+    //public void StartEndTurn()
+    //{
+    //    TurnManager.Instance.EndTurn();
+    
+    //    if(attackings.Contains(cp))
+    //    {
+    //        attackings.Remove(cp);
 
-            if(cp != null)
-            {
-                cp.attackCount = 0;
-            }
-        }
-    }
+    //        if(cp != null)
+    //        {
+    //            cp.attackCount = 0;
+    //        }
+    //    }
+    //}
     public List<GameObject> GetMovePlates()
     {
         return movePlateList;

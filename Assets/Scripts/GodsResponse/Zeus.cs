@@ -22,21 +22,21 @@ public class Zeus : SkillBase
 
         if (!isSetting)
         {
-            originPosX = posX;
-            originPosY = posY;
+            originPosX = skillData.posX;
+            originPosY = skillData.posY;
 
             GameManager.Inst.SetUsingSkill(true);
             GameManager.Inst.SetMoving(false);
 
-            if (posX == 7)
-                GameManager.Inst.MovePlateSpawn(posX - 1, posY, null);
+            if (skillData.posX == 7)
+                GameManager.Inst.MovePlateSpawn(skillData.posX - 1, skillData.posY, null);
             else
-                GameManager.Inst.MovePlateSpawn(posX + 1, posY, null);
+                GameManager.Inst.MovePlateSpawn(skillData.posX + 1, skillData.posY, null);
 
-            if (posY == 7)
-                GameManager.Inst.MovePlateSpawn(posX, posY - 1, null);
+            if (skillData.posY == 7)
+                GameManager.Inst.MovePlateSpawn(skillData.posX, skillData.posY - 1, null);
             else
-                GameManager.Inst.MovePlateSpawn(posX, posY + 1, null);
+                GameManager.Inst.MovePlateSpawn(skillData.posX, skillData.posY + 1, null);
 
             isSetting = true;
         }
@@ -51,7 +51,7 @@ public class Zeus : SkillBase
 
     public override void ResetSkill()
     {
-        if (turnCnt > 3)
+        if (skillData.turnCnt > 3)
         {
             SuperSkillManager.Inst.RemoveSuperList(this);
             Destroy(gameObject);
@@ -59,7 +59,7 @@ public class Zeus : SkillBase
     }
     private void Z_StandardSkill()
     {
-        if (posY == originPosY + 1 || posY == originPosY - 1)
+        if (skillData.posY == originPosY + 1 || skillData.posY == originPosY - 1)
         {
             for (int i = 0; i < 8; i++)
             {
@@ -93,7 +93,7 @@ public class Zeus : SkillBase
             k = 3;
         }
 
-        while (turnCnt < k)
+        while (skillData.turnCnt < k)
         {
             cp.spriteRenderer.material.color = new Color32(255, 228, 0, 0);
             yield return new WaitForSeconds(0.2f);

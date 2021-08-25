@@ -42,9 +42,9 @@ public class King : ChessBase
 
     private void CastlingMovePlate()
     {
-        if (player == "white")
+        if (chessData.player == "white")
         {
-            if (ChessManager.Inst.Castling("white", moveCnt, true))
+            if (ChessManager.Inst.Castling("white", chessData.moveCnt, true))
             {
                 {
                     //white king side
@@ -55,7 +55,7 @@ public class King : ChessBase
                 }
             }
 
-            if (ChessManager.Inst.Castling("white", moveCnt, false))
+            if (ChessManager.Inst.Castling("white", chessData.moveCnt, false))
             {
                 //white queen side
                 if (!CheckMovePlate("white", 1, 0) && !CheckMovePlate("white", 2, 0) && !CheckMovePlate("white", 3, 0))
@@ -66,9 +66,9 @@ public class King : ChessBase
             }
         }
 
-        if (player == "black")
+        if (chessData.player == "black")
         {
-            if (ChessManager.Inst.Castling("black", moveCnt, true))
+            if (ChessManager.Inst.Castling("black", chessData.moveCnt, true))
             {
                 //black king side
                 if (!CheckMovePlate("black", 5, 7) && !CheckMovePlate("black", 6, 7))
@@ -77,7 +77,7 @@ public class King : ChessBase
                 }
             }
 
-            else if (ChessManager.Inst.Castling("black", moveCnt, false))
+            else if (ChessManager.Inst.Castling("black", chessData.moveCnt, false))
             {
                 //black queen side
                 if (!CheckMovePlate("black", 1, 7) && !CheckMovePlate("black", 2, 7) && !CheckMovePlate("black", 3, 7))

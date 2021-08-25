@@ -5,12 +5,7 @@ using UnityEngine;
 public class WarBuff : SkillBase
 {
     private int cnt = 0;
-<<<<<<< HEAD
-    
-=======
     private List<ChessBase> chessPieces = new List<ChessBase>();
-
->>>>>>> minyoung
     public override void UsingSkill()
     {
         
@@ -30,15 +25,11 @@ public class WarBuff : SkillBase
     {
         GameManager.Inst.SetMoving(true);
         GameManager.Inst.SetUsingSkill(true);
-<<<<<<< HEAD
         selectPiece.SetNoneAttack(true, true);
-=======
-        selectPiece.SetNoneAttack(true);
         GetOtherPieces();
         DontMoveOthercp(true);
 
         selectPiece.spriteRenderer.material.SetColor("_Color", new Color(1, 0, 0, 0));
->>>>>>> minyoung
 
         if (selectPiece.GetIsMoving())
         {
@@ -50,29 +41,15 @@ public class WarBuff : SkillBase
 
     private void WB_Standard()
     {
-<<<<<<< HEAD
-        Debug.Log("¤·¤·¤·");
         if (cnt == 0)
         {
-            Debug.Log("12");
-
-=======
-        if (cnt == 0)
-        {
->>>>>>> minyoung
             cnt++;
             TurnManager.Instance.ButtonInactive();
             return;
         }
         else
         {
-<<<<<<< HEAD
-            Debug.Log("131");
-
             TurnManager.Instance.ButtonActive();
-=======
-            TurnManager.Instance.ButtonColor();
->>>>>>> minyoung
         }
     }
 
@@ -141,7 +118,7 @@ public class WarBuff : SkillBase
 
         for (int i = 0; i< white.Length; i++)
         {
-            if(!SkillManager.Inst.dontClickPiece.Contains(white[i]) && white[i] != selectPiece)
+            if(!SkillManager.Inst.dontClickPiece.Contains(white[i].GetChessData()) && white[i] != selectPiece)
             {
                 if (white[i] == null) continue;
                 chessPieces.Add(white[i]);
@@ -150,7 +127,7 @@ public class WarBuff : SkillBase
 
         for (int i = 0; i < black.Length; i++)
         {
-            if (!SkillManager.Inst.dontClickPiece.Contains(black[i]) && black[i] != selectPiece)
+            if (!SkillManager.Inst.dontClickPiece.Contains(black[i].GetChessData()) && black[i] != selectPiece)
             {
                 if (black[i] == null) continue;
                 chessPieces.Add(black[i]);

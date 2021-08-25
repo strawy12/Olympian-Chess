@@ -38,11 +38,8 @@ public class ChessManager : MonoBehaviourPunCallbacks
 
     int pawn = 0, bishop = 1, knight = 2, rook = 3, queen = 4, king = 5;
 
-<<<<<<< HEAD
     int IDs = 0;
-=======
     ChessBase cpp;
->>>>>>> minyoung
 
     [SerializeField] private GameObject[] white; // { white_Pawn, white_Bishop, white_Knight, white_Rook, white_Queen  ,white_King }
     [SerializeField] private GameObject[] black; // black_Bishop, black_King, black_Knight, black_Pawn, black_Queen, black_Rook;
@@ -235,7 +232,6 @@ public class ChessManager : MonoBehaviourPunCallbacks
     }
 
     public void UpdateArr(ChessBase chessPiece)
-<<<<<<< HEAD
     {
         ChessData chessData = chessPiece.GetChessData();
         string jsonData = NetworkManager.Inst.SaveDataToJson(chessData, false);
@@ -244,8 +240,6 @@ public class ChessManager : MonoBehaviourPunCallbacks
 
     [PunRPC]
     public void UpdateArr_Pun(string jsonData)
-=======
->>>>>>> minyoung
     {
         ChessData chessData = NetworkManager.Inst.LoadDataFromJson<ChessData>(jsonData);
         ChessBase chessPiece = GetChessPiece(chessData);
@@ -485,13 +479,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
 
         EnPassant(mp.Getreference(), mp);
         SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
-<<<<<<< HEAD
         DestroyChessPiece(cp.GetChessData());
-=======
-        UpdateArr(cp);
-        GameManager.Inst.RemoveAttackings(cp);
-        Destroy(cp.gameObject);
->>>>>>> minyoung
 
         if (mp.Getreference().GetIsAttacking())
         {
@@ -524,38 +512,18 @@ public class ChessManager : MonoBehaviourPunCallbacks
     public void MoveChessPiece(ChessBase cp, int matrixX, int matrixY)
     {
         Debug.Log(matrixX + ", " + matrixY);
-        
+
         SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
         cp.SetXBoard(matrixX);
         cp.SetYBoard(matrixY);
         cp.PlusMoveCnt();
         SetPosition(cp);
-<<<<<<< HEAD
         cp.SetIsMoving(true);
         cp.SetCoordsAnimation();
-        Debug.Log(matrixX + ", " + matrixY);        
-=======
-        cp.isMoving = true;
-        StartCoroutine(SetCoordsAnimation(cp));
-        TurnManager.Instance.ButtonColor();
+        TurnManager.Instance.ButtonActive();
         GameManager.Inst.DestroyMovePlates();
         CastlingKing(cp);
         Promotion(cp);
-    }
-    public IEnumerator SetCoordsAnimation(ChessBase cp)
-    {
-        Vector3 startPos = cp.transform.position;
-
-        float x = cp.GetXBoard();
-        float y = cp.GetYBoard();
-
-        x *= 0.684f;
-        y *= 0.684f;
->>>>>>> minyoung
-
-        //StartCoroutine(SetCoordsAnimation());
-        TurnManager.Instance.ButtonActive();
-        GameManager.Inst.DestroyMovePlates();
     }
 
     public ChessBase[] GetPlayerBlack()
@@ -578,53 +546,6 @@ public class ChessManager : MonoBehaviourPunCallbacks
         return black;
     }
 
-<<<<<<< HEAD
-
-    //public void SetCoords(GameObject obj, int xBoard, int yBoard)
-    //{
-    //    Debug.Log(obj.name);
-    //    float x = xBoard;
-    //    float y = yBoard;
-
-    //    x *= 0.684f;
-    //    y *= 0.684f;
-
-    //    x += -2.4f;
-    //    y += -2.4f;
-
-    //    // Aligns according the board
-    //    obj.transform.position = new Vector3(x, y, -1.0f);
-    //}
-    //public IEnumerator SetCoordsAnimation(ChessBase cp)
-    //{
-    //    Vector3 startPos = cp.transform.position;
-
-    //    float x = cp.GetXBoard();
-    //    float y = cp.GetYBoard();
-
-    //    x *= 0.684f;
-    //    y *= 0.684f;
-
-    //    x += -2.4f;
-    //    y += -2.4f;
-
-    //    // end position
-    //    Vector3 endPos = new Vector3(x, y, -1.0f);
-    //    // calculate distance for move speed
-    //    float distance = (endPos - startPos).magnitude;
-
-    //    float t = 0f;
-
-    //    while (t < 1f)
-    //    {
-    //        if (cp == null) yield break;
-    //        t += Time.deltaTime / distance * 10f;
-    //        cp.transform.position = Vector3.Lerp(startPos, endPos, t);
-    //        yield return null;
-    //    }
-    //}
-}
-=======
     public bool CheckMate(string player)
     {
         List<GameObject> movePlates = new List<GameObject>();
@@ -910,7 +831,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
         GameManager.Inst.RemoveAttackings(cpp);
         Destroy(cpp.gameObject);
         
-        if(cpp.player == "white")
+        if(cpp.GetPlayer() == "white")
         {
             Creat(white[cp], cpp.GetXBoard(), cpp.GetYBoard());
         }
@@ -923,4 +844,3 @@ public class ChessManager : MonoBehaviourPunCallbacks
         promotionUI.SetActive(false);
     }
 }
->>>>>>> minyoung

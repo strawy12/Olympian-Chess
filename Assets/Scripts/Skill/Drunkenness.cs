@@ -13,7 +13,7 @@ public class Drunkenness : SkillBase
 
     public override void ResetSkill()
     {
-        if(turnCnt > 1)
+        if(skillData.turnCnt > 1)
         {
             if(selectPiece != null)
             {
@@ -56,7 +56,7 @@ public class Drunkenness : SkillBase
         cp.SetYBoard(matrixY);
         cp.PlusMoveCnt();
         ChessManager.Inst.SetPosition(cp);
-        StartCoroutine(ChessManager.Inst.SetCoordsAnimation(cp));
+        cp.SetCoordsAnimation();
         GameManager.Inst.DestroyMovePlates();
     }
 

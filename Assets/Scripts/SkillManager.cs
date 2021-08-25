@@ -171,15 +171,10 @@ public class SkillManager : MonoBehaviourPunCallbacks
             {
                 SkillBase sb = GetSkillList(names[i])[0];
                 if (sb == null) return;
-                if (sb.selectPiece == null) return;
+                if (sb.GetSelectPiece() == null) return;
 
                 skillList.Remove(sb);
-<<<<<<< HEAD
                 sb.RPC_DestroySkill();
-=======
-                sb.selectPiece.RemoveChosenSkill(sb);
-                Destroy(sb.gameObject);
->>>>>>> minyoung
                 GameManager.Inst.SetUsingSkill(false);
                 GameManager.Inst.SetMoving(true);
             }
@@ -226,11 +221,7 @@ public class SkillManager : MonoBehaviourPunCallbacks
         int i;
         for (i = 0; i < _skillList.Count; i++)
         {
-<<<<<<< HEAD
             if (GameManager.Inst.isBacchrs && _skillList[i].GetName() == "바카스")
-=======
-            if (GameManager.Inst.isBacchrs && _skillList[i].name == "바카스")
->>>>>>> minyoung
             {
                 _skillList[i].SetSelectPiece(cp);
             }
@@ -250,23 +241,13 @@ public class SkillManager : MonoBehaviourPunCallbacks
     public void AttackUsingSkill(MovePlate mp)
     {
         ChessBase cp = ChessManager.Inst.GetPosition(mp.GetPosX(), mp.GetPosY());
-<<<<<<< HEAD
-        List<SkillBase> _skillList = cp.GetSkillList("출산,아테나의 방패,에로스의 사랑,길동무");
-=======
         List<SkillBase> _skillList = cp.GetSkillList("출산,아테나의 방패,에로스의 사랑,동귀어진");
-        Debug.Log(_skillList.Count);
->>>>>>> minyoung
         for (int i = 0; i < _skillList.Count; i++)
         {
             _skillList[i].SetPosX(mp.Getreference().GetXBoard());
             _skillList[i].SetPosY(mp.Getreference().GetYBoard());
-<<<<<<< HEAD
             _skillList[i].SetMovePlate(mp);
             if (_skillList[i].GetName() == "에로스의 사랑")
-=======
-
-            if(_skillList[i].name == "에로스의 사랑")
->>>>>>> minyoung
             {
                 _skillList[i].SetPosX(mp.GetChessPiece().GetXBoard());
                 _skillList[i].SetPosY(mp.GetChessPiece().GetYBoard());

@@ -15,20 +15,7 @@ public class Wave : SkillBase
     }
     public override void ResetSkill()
     {
-<<<<<<< HEAD
         WV_ResetSkill();
-=======
-        //TurnManager.Instance.ButtonColor();
-        SkillManager.Inst.RemoveSkillList(this);
-        GameManager.Inst.SetUsingSkill(false);
-        GameManager.Inst.SetMoving(true);
-
-        if (selectPiece != null)
-        {
-            selectPiece.RemoveChosenSkill(this);
-        }
-        Destroy(gameObject);
->>>>>>> minyoung
     }
 
 
@@ -72,12 +59,7 @@ public class Wave : SkillBase
     private void WaveCheck()
     {
         CardManager.Inst.NotAmolang();
-<<<<<<< HEAD
         if (skillData.posX == selectPiece.GetXBoard() + 1)
-=======
-
-        if (posX == selectPiece.GetXBoard() + 1)
->>>>>>> minyoung
             WaveMove(true, true);
         else if (skillData.posX == selectPiece.GetXBoard() - 1)
             WaveMove(true, false);

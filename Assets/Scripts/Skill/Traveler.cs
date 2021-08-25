@@ -53,7 +53,7 @@ public class Traveler : SkillBase
         cp.SetYBoard(matrixY);
         cp.PlusMoveCnt();
         ChessManager.Inst.SetPosition(cp);
-        StartCoroutine(ChessManager.Inst.SetCoordsAnimation(cp));
+        cp.SetCoordsAnimation();
         GameManager.Inst.DestroyMovePlates();
     }
 }

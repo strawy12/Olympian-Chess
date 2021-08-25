@@ -46,13 +46,13 @@ public class Poseidon : SkillBase
     {
         List<ChessBase> cmList = new List<ChessBase>();
         int cnt = 0;
-        cnt = CheckNull(isXY, isPlma, isXY ? posY : posX);
+        cnt = CheckNull(isXY, isPlma, isXY ? skillData.posY : skillData.posX);
 
         Debug.Log(cnt);
         //+X
         if (isXY && isPlma)
         {
-            for (int i = posX + 1; i < cnt; i++)
+            for (int i = skillData.posX + 1; i < cnt; i++)
             {
                 cmList.Add(WV_Move(isXY, i, isPlma));
             }
@@ -61,7 +61,7 @@ public class Poseidon : SkillBase
         //-X
         else if (isXY && !isPlma)
         {
-            for (int i = posX - 1; i >= cnt; i--)
+            for (int i = skillData.posX - 1; i >= cnt; i--)
             {
                 cmList.Add(WV_Move(isXY, i, isPlma));
             }
@@ -70,7 +70,7 @@ public class Poseidon : SkillBase
         //+Y
         else if (!isXY && isPlma)
         {
-            for (int i = posY + 1; i < cnt; i++)
+            for (int i = skillData.posY + 1; i < cnt; i++)
             {
                 cmList.Add(WV_Move(isXY, i, isPlma));
             }
@@ -79,7 +79,7 @@ public class Poseidon : SkillBase
         //-Y
         else if (!isXY && !isPlma)
         {
-            for (int i = posY - 1; i >= cnt; i--)
+            for (int i = skillData.posY - 1; i >= cnt; i--)
             {
                 cmList.Add(WV_Move(isXY, i, isPlma));
             }
@@ -99,7 +99,7 @@ public class Poseidon : SkillBase
 
         if (isXY)
         {
-            cb = ChessManager.Inst.GetPosition(i, posY);
+            cb = ChessManager.Inst.GetPosition(i, skillData.posY);
 
             if (cb == null) return null;
 
@@ -113,14 +113,14 @@ public class Poseidon : SkillBase
             else
                 cb.SetXBoard(i - 1);
 
-            ChessManager.Inst.SetCoords(cb.gameObject, cb.GetXBoard(), y);
+            cb.SetCoords();
             cb.PlusMoveCnt();
 
             return cb;
         }
         else
         {
-            cb = ChessManager.Inst.GetPosition(posX, i);
+            cb = ChessManager.Inst.GetPosition(skillData.posX, i);
 
             if (cb == null) return cb;
 
@@ -133,8 +133,8 @@ public class Poseidon : SkillBase
                 cb.SetYBoard(i + 1);
             else
                 cb.SetYBoard(i - 1);
+            cb.PlusMoveCnt();
 
-            ChessManager.Inst.SetCoords(cb.gameObject, x, cb.GetYBoard());
             cb.PlusMoveCnt();
             return cb;
         }
@@ -150,7 +150,7 @@ public class Poseidon : SkillBase
         //+X
         if (isXY && isPlma)
         {
-            for (int i = 7; i > posX; i--)
+            for (int i = 7; i > skillData.posX; i--)
             {
                 if (ChessManager.Inst.GetPosition(i, pos) == null)
                 {
@@ -163,7 +163,7 @@ public class Poseidon : SkillBase
         //-X
         else if (isXY && !isPlma)
         {
-            for (int i = 0; i < posX; i++)
+            for (int i = 0; i < skillData.posX; i++)
             {
                 if (ChessManager.Inst.GetPosition(i, pos) == null)
                 {
@@ -176,7 +176,7 @@ public class Poseidon : SkillBase
         //+Y
         else if (!isXY && isPlma)
         {
-            for (int i = 7; i > posY; i--)
+            for (int i = 7; i > skillData.posY; i--)
             {
                 if (ChessManager.Inst.GetPosition(pos, i) == null)
                 {
@@ -189,7 +189,7 @@ public class Poseidon : SkillBase
         //-Y
         else if (!isXY && !isPlma)
         {
-            for (int i = 0; i < posY; i++)
+            for (int i = 0; i < skillData.posY; i++)
             {
                 if (ChessManager.Inst.GetPosition(pos, i) == null)
                 {

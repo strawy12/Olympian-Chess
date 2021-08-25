@@ -54,7 +54,7 @@ public class SuperSkill : MonoBehaviour
             }
         }
 
-        if (player != GameManager.Inst.GetCurrentPlayer())
+        if (player != TurnManager.Instance.GetCurrentPlayer())
             col.enabled = false;
     }
 

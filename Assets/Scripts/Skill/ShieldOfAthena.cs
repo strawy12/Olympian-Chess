@@ -28,7 +28,7 @@ public class ShieldOfAthena : SkillBase
         if (selectPiece.name.Contains("king"))
         {
             CardManager.Inst.SetisBreak(true);
-            RemoveSkill();
+            DestroySkill();
             return;
         }
         moveCnt = selectPiece.GetMoveCnt();
@@ -54,26 +54,11 @@ public class ShieldOfAthena : SkillBase
         selectPiece.SetAttackSelecting(false);
         if (selectPiece != null)
         {
-<<<<<<< HEAD
+            SkillManager.Inst.RemoveDontClickPiece(selectPiece);
+            selectPiece.SetAttackSelecting(false);
             selectPiece.RemoveChosenSkill(this);
         }
         DestroySkill();
-=======
-            selectPiece.spriteRenderer.material.SetColor("_Color", new Color(0, 0, 0, 0));
-            selectPiece.SetAttackSelecting(false);
-            SkillManager.Inst.RemoveDontClickPiece(selectPiece);
-            RemoveSkill();
-        }
-    }
-
-    private void RemoveSkill()
-    {
-        SkillManager.Inst.RemoveSkillList(this);
-        if (selectPiece != null)
-        {
-            selectPiece.RemoveChosenSkill(this);
-        }
-        Destroy(gameObject);
->>>>>>> minyoung
     }
 }
+

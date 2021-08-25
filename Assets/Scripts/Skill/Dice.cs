@@ -21,10 +21,10 @@ public class Dice : SkillBase
 
     public void InitiateMovePlates_Dice()
     {
-        posX = selectPiece.GetXBoard();
-        posY = selectPiece.GetYBoard();
+        skillData.posX = selectPiece.GetXBoard();
+        skillData.posY = selectPiece.GetYBoard();
 
-        if((posX + posY) % 2 == random)
+        if((skillData.posX + skillData.posY) % 2 == random)
 
         switch (selectPiece.name)
         {

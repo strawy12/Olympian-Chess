@@ -6,7 +6,6 @@ using Photon.Pun;
 [System.Serializable]
 public class SkillData
 {
-<<<<<<< HEAD
     public ChessData selectPieceDT;
     public ChessData selectPieceToDT;
     public int posX;
@@ -40,14 +39,6 @@ public class SkillBase : MonoBehaviourPunCallbacks
     {
         skillData = new SkillData(null, null, 0, 0, 0, null, 0, null);
     }
-=======
-    public ChessBase selectPiece { get; protected set; }
-    public ChessBase selectPieceTo { get; protected set; }
-    protected int posX;
-    protected int posY;
-    protected int turnCnt = 0;
-    protected string player = "white";
->>>>>>> minyoung
 
     public virtual void UsingSkill() { }
 
@@ -168,7 +159,6 @@ public class SkillBase : MonoBehaviourPunCallbacks
         skillData.ID = ID;
         SendSkillData();
     }
-<<<<<<< HEAD
 
     public void SetMovePlate(MovePlate movePlate)
     {
@@ -186,6 +176,4 @@ public class SkillBase : MonoBehaviourPunCallbacks
         SkillManager.Inst.RemoveSkillList(this);
         Destroy(gameObject);
     }
-=======
->>>>>>> minyoung
 }

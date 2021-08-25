@@ -62,7 +62,7 @@ public class SuperSkillManager : MonoBehaviour
         obj = Instantiate(skillPrefab, transform);
         obj.transform.SetParent(null);
 
-        if (GameManager.Inst.GetCurrentPlayer() == "white")
+        if (TurnManager.Instance.GetCurrentPlayer() == "white")
             obj.name = whiteGodsRes;
 
         else

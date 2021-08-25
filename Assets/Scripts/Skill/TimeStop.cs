@@ -11,13 +11,13 @@ public class TimeStop : SkillBase
 
     public override void ResetSkill()
     {
-        if (player == GameManager.Inst.GetCurrentPlayer())
-            ChessManager.Inst.SetChessPiecePosition(posX, posY, selectPiece);
+        if (skillData.player == TurnManager.Instance.GetCurrentPlayer())
+            ChessManager.Inst.SetChessPiecePosition(skillData.posX, skillData.posY, selectPiece);
 
         else
-            ChessManager.Inst.SetPositionEmpty(posX, posY);
+            ChessManager.Inst.SetPositionEmpty(skillData.posX, skillData.posY);
 
-        if (turnCnt > 2)
+        if (skillData.turnCnt > 2)
         {
 
             if (selectPiece != null)
@@ -25,7 +25,7 @@ public class TimeStop : SkillBase
                 selectPiece.spriteRenderer.material.SetColor("_Color", Color.clear);
                 SkillManager.Inst.RemoveDontClickPiece(selectPiece);
                 selectPiece.gameObject.GetComponent<Collider2D>().enabled = true;
-                ChessManager.Inst.SetChessPiecePosition(posX, posY, selectPiece);
+                ChessManager.Inst.SetChessPiecePosition(skillData.posX, skillData.posY, selectPiece);
             }
 
             SkillManager.Inst.RemoveSkillList(this);
@@ -38,21 +38,21 @@ public class TimeStop : SkillBase
     {
         selectPiece.spriteRenderer.material.SetColor("_Color", new Color32(225, 123, 0, 225));
 
-        posX = selectPiece.GetXBoard();
-        posY = selectPiece.GetYBoard();
+        skillData.posX = selectPiece.GetXBoard();
+        skillData.posY = selectPiece.GetYBoard();
 
         SkillManager.Inst.AddDontClickPiece(selectPiece);
 
         selectPiece.gameObject.GetComponent<Collider2D>().enabled = false;
 
-        if (selectPiece.player == GameManager.Inst.GetCurrentPlayer())
+        if (selectPiece.GetPlayer() == TurnManager.Instance.GetCurrentPlayer())
         {
-            ChessManager.Inst.SetChessPiecePosition(posX, posY, selectPiece);
+            ChessManager.Inst.SetChessPiecePosition(skillData.posX, skillData.posY, selectPiece);
         }
 
         else
         {
-            ChessManager.Inst.SetPositionEmpty(posX, posY);
+            ChessManager.Inst.SetPositionEmpty(skillData.posX, skillData.posY);
         }
     }
 }

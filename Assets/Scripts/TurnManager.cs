@@ -253,14 +253,9 @@ public class TurnManager : MonoBehaviourPunCallbacks
         ButtonInactive();
 
         CardManager.Inst.ChangeIsUse(false);
-<<<<<<< HEAD
         SkillManager.Inst.SkillListCntPlus();
         photonView.RPC("NextTurn", RpcTarget.All);
-=======
-        //SkillManager.Inst.SkillListCntPlus();
         SuperSkillManager.Inst.SuperListCntPlus();
-        GameManager.Inst.NextTurn();
->>>>>>> minyoung
         GameManager.Inst.PlusAttackCnt();
         SuperSkillManager.Inst.CheckSuperSkill();
 

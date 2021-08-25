@@ -13,7 +13,7 @@ public class Ghost : SkillBase
 
     private void Gho_UsingSkill()
     {
-        if (player == "white")
+        if (skillData.player == "white")
         {
             if (CheckChessPieceCnt("white_pawn") == 8)
             {
@@ -29,7 +29,7 @@ public class Ghost : SkillBase
             }
         }
 
-        else if (player == "black")
+        else if (skillData.player == "black")
         {
             if (CheckChessPieceCnt("black_pawn") == 8)
             {
@@ -78,7 +78,7 @@ public class Ghost : SkillBase
     {
         ChessBase cp;
 
-        if (player == "white")
+        if (skillData.player == "white")
         {
             for (int i = 1; i < 7; i++)
             {
@@ -98,7 +98,7 @@ public class Ghost : SkillBase
             }
         }
 
-        else if (player == "black")
+        else if (skillData.player == "black")
         {
             for (int i = 6; i >= 0; i--)
             {

@@ -46,14 +46,13 @@ public class ChessBase : MonoBehaviourPunCallbacks
     [SerializeField] private string player;
     protected ChessData chessData;
 
-<<<<<<< HEAD
     private void Awake()
-=======
-    public virtual void Start()
->>>>>>> minyoung
+    {
+        chessData = new ChessData(player, 0, gameObject.name, 0, 0, 0, 0, false, false, false, false, false, new List<SkillData>());
+    }
+    protected virtual void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        chessData = new ChessData(player, 0, gameObject.name, 0, 0, 0, 0, false, false, false, false, false, new List<SkillData>());
     }
 
     public virtual void MovePlate() { }
@@ -164,7 +163,6 @@ public class ChessBase : MonoBehaviourPunCallbacks
 
             }
         }
-        Debug.Log("¿¿æ÷");
         SendChessData();
     }
 
@@ -382,6 +380,11 @@ public class ChessBase : MonoBehaviourPunCallbacks
     public ChessData GetChessData()
     {
         return chessData;
+    }
+
+    public string GetPlayer()
+    {
+        return chessData.player;
     }
     #endregion
 }

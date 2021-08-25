@@ -69,11 +69,6 @@ public class MovePlate : MonoBehaviour
 
         else
         {
-<<<<<<< HEAD
-            Debug.Log("ÀÀ¾Ö");
-=======
-            Debug.Log("STOP");
->>>>>>> minyoung
             return;
         }
         

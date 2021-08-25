@@ -24,27 +24,23 @@ public class HeavenlyPunishment : SkillBase
         //Preventing Queen from being the target of HeavenlyPunishment
         if (selectPiece.name.Contains("queen"))
         {
-<<<<<<< HEAD
             if (TurnManager.Instance.CheckPlayer("white"))
-=======
-            if (GameManager.Inst.CheckPlayer("black"))
             {
->>>>>>> minyoung
                 isBreak = ChessManager.Inst.CheckArr(false, "black_rook");
+
             }
+
             else
             {
                 isBreak = ChessManager.Inst.CheckArr(true, "white_rook");
             }
+        }
+        CardManager.Inst.SetisBreak(isBreak);
 
-            Debug.Log(isBreak);
-            CardManager.Inst.SetisBreak(isBreak);
-
-            if(isBreak)
-            {
-                RemoveSkill();
-                return;
-            }
+        if (isBreak)
+        {
+            RemoveSkill();
+            return;
         }
         photonView.RPC("StartEffect", Photon.Pun.RpcTarget.AllBuffered);
         CardManager.Inst.SetisBreak(false);
@@ -69,31 +65,19 @@ public class HeavenlyPunishment : SkillBase
             selectPiece.spriteRenderer.material.color = new Color32(0, 0, 0, 0);
             yield return new WaitForSeconds(0.2f);
         }
-        // When card time is over, selected pieces turn to original color
 
-<<<<<<< HEAD
-        
-        
-=======
-        SkillManager.Inst.RemoveDontClickPiece(selectPiece);
         RemoveSkill();
     }
->>>>>>> minyoung
 
     private void RemoveSkill()
     {
-        SkillManager.Inst.RemoveSkillList(this);
         if (selectPiece != null)
         {
             selectPiece.RemoveChosenSkill(this);
             SkillManager.Inst.RemoveDontClickPiece(selectPiece);
         }
 
-<<<<<<< HEAD
-        photonView.RPC("DestroySkill", Photon.Pun.RpcTarget.AllBuffered);
-=======
-        Destroy(gameObject);
+        DestroySkill();
 
->>>>>>> minyoung
     }
 }

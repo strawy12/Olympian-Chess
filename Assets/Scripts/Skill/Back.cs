@@ -11,23 +11,23 @@ public class Back : SkillBase
 
     private void Back_UsingSkill()
     {
-        posX = selectPiece.GetXBoard();
-        posY = selectPiece.GetYBoard();
+        skillData.posX = selectPiece.GetXBoard();
+        skillData.posY = selectPiece.GetYBoard();
 
         //if color of selected piece is white,
         //selected piece moves up one space
-        if (selectPiece.player == "white")
+        if (selectPiece.GetPlayer() == "white")
         {
-            if(posY == 0)
+            if(skillData.posY == 0)
             {
                 CardManager.Inst.SetisBreak(true);
                 RemoveSkill();
                 return;
             }
 
-            if (ChessManager.Inst.GetPosition(posX, posY - 1) == null)
+            if (ChessManager.Inst.GetPosition(skillData.posX, skillData.posY - 1) == null)
             {
-                MoveChessPiece(selectPiece, posX, posY - 1);
+                MoveChessPiece(selectPiece, skillData.posX, skillData.posY - 1);
             }
 
             // if the space to go is not empty, Use of the card is canceled.
@@ -40,7 +40,7 @@ public class Back : SkillBase
         }
         else
         {
-            if (posY == 7)
+            if (skillData.posY == 7)
             {
                 CardManager.Inst.SetisBreak(true);
                 RemoveSkill();
@@ -49,9 +49,9 @@ public class Back : SkillBase
 
             //if color of selected piece is black,
             //selected piece moves down one space
-            if (ChessManager.Inst.GetPosition(posX, posY + 1) == null)
+            if (ChessManager.Inst.GetPosition(skillData.posX, skillData.posY + 1) == null)
             {
-                MoveChessPiece(selectPiece, posX, posY + 1);
+                MoveChessPiece(selectPiece, skillData.posX, skillData.posY + 1);
             }
 
             // if the space to go is not empty, Use of the card is canceled.
@@ -83,7 +83,7 @@ public class Back : SkillBase
         cp.SetYBoard(matrixY);
         cp.PlusMoveCnt();
         ChessManager.Inst.SetPosition(cp);
-        StartCoroutine(ChessManager.Inst.SetCoordsAnimation(cp));
+        cp.SetCoordsAnimation();
         GameManager.Inst.DestroyMovePlates();
     }
 }

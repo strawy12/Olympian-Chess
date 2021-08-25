@@ -17,15 +17,11 @@ public class TimeWarp : SkillBase
         {
             CardManager.Inst.SetisBreak(true);
             Debug.Log("사용한 카드가 0개입니다.");
-<<<<<<< HEAD
             if(selectPiece != null)
             {
                 selectPiece.RemoveChosenSkill(this);
             }
             RPC_DestroySkill();
-=======
-            RemoveSkill();
->>>>>>> minyoung
             return;
         }
 
