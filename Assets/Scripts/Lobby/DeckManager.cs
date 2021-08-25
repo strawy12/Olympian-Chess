@@ -41,6 +41,7 @@ public class DeckManager : MonoBehaviour
     private CardItemSO cards;
     private CardSelect cardSelect;
 
+
     [SerializeField]
     private CardContents cardContents;
     [SerializeField]
@@ -49,6 +50,8 @@ public class DeckManager : MonoBehaviour
     private Image cardInfo;
     private Text messageText;
     private Text cardInfoText;
+    private bool isDrag = false;
+    private float timer = 0f;
 
     //여기서 isChosen[카드 번호]가 true면 그 카드를 선택된거임
     private void Awake()
@@ -71,7 +74,6 @@ public class DeckManager : MonoBehaviour
         messageText = message.gameObject.GetComponentInChildren<Text>();
         cardInfoText = cardInfo.gameObject.GetComponentInChildren<Text>();
     }
-
     private void LoadFromJson()
     {
         string json;
@@ -272,6 +274,13 @@ public class DeckManager : MonoBehaviour
     public void PointerUp()
     {
         isInfo = false;
+        isDrag = false;
+        cardInfo.gameObject.SetActive(false);
+    }
+
+    public void Drag()
+    {
+        isDrag = true;
         cardInfo.gameObject.SetActive(false);
     }
 
@@ -283,24 +292,22 @@ public class DeckManager : MonoBehaviour
 
     IEnumerator Info(Carditem carditem)
     {
-        while(true)
+        Debug.Log("dd");
+        yield return new WaitForSeconds(0.7f);
+
+        if (isInfo&& !isDrag)
         {
-            yield return new WaitForSeconds(0.7f);
-
-            if(isInfo)
-            {
-                cardInfo.gameObject.SetActive(true);
-                cardInfoText.text = carditem.info;
-                yield break;
-            }
-
-            else if(!isInfo)
-            {
-                yield break;
-            }
+            cardInfo.gameObject.SetActive(true);
+            cardInfoText.text = carditem.info;
+        }
+        if(!isInfo)
+        {
+            cardInfo.gameObject.SetActive(false);
         }
     }
 }
+
+
 
 [System.Serializable]
 public class User
