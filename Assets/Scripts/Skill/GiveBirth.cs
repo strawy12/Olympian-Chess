@@ -115,6 +115,7 @@ public class GiveBirth : SkillBase
         cp.PlusMoveCnt();
         ChessManager.Inst.SetPosition(cp);
         StartCoroutine(ChessManager.Inst.SetCoordsAnimation(cp));
+        TurnManager.Instance.ButtonColor();
         GameManager.Inst.DestroyMovePlates();
     }
 }
