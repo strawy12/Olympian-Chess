@@ -28,7 +28,7 @@ public class Justice : SkillBase
         if (selectPiece == null)
         {
             SkillManager.Inst.RemoveDontClickPiece(selectPiece);
-            RPC_DetroySkill();
+            RPC_DestroySkill();
         }
 
         if (skillData.turnCnt > 2)
@@ -45,7 +45,7 @@ public class Justice : SkillBase
                 selectPiece.RemoveChosenSkill(this);
             }
 
-            RPC_DetroySkill();
+            RPC_DestroySkill();
         }
     }
 }

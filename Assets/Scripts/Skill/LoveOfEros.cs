@@ -117,7 +117,7 @@ public class LoveOfEros : SkillBase
             selectPieceTo.RemoveChosenSkill(this);
         }
 
-        RPC_DetroySkill();
+        RPC_DestroySkill();
     }
 
     private void MoveChessPiece(ChessBase cp, int matrixX, int matrixY)

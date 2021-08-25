@@ -24,7 +24,6 @@ public class MovePlate : MonoBehaviour
     public void Start()
     {
         AttackChess();
-        SetEChessState();
     }
 
     private void AttackChess()
@@ -48,7 +47,7 @@ public class MovePlate : MonoBehaviour
 
         if (eChessState == EChessState.Moving)
         {
-
+            Debug.Log(matrixX + ", " + matrixY);
             ChessManager.Inst.MoveChessPiece(reference, matrixX, matrixY);
             
         }
@@ -118,6 +117,7 @@ public class MovePlate : MonoBehaviour
     {
         matrixX = x;
         matrixY = y;
+        Debug.Log(matrixX + ", " + matrixY);
     }
 
     public int GetPosX()

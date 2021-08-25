@@ -210,6 +210,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         MovePlate mpScript = mp.GetComponent<MovePlate>();
         mpScript.attack = true;
         mpScript.Setreference(cp);
+        Debug.Log(matrixX+ ", " + matrixY);
         mpScript.SetCoords(matrixX, matrixY);
         AddMovePlateList(mp);
 
@@ -416,7 +417,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void RemoveAttackings(ChessBase chessBase)
     {
         string jsonData = NetworkManager.Inst.SaveDataToJson(chessBase.GetChessData(), false);
-        photonView.RPC("AddAttackings", RpcTarget.AllBuffered, jsonData);
+        photonView.RPC("RemoveAttackings", RpcTarget.AllBuffered, jsonData);
     }
     [PunRPC]
     public void RemoveAttackings(string jsonData)

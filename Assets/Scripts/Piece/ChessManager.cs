@@ -511,6 +511,8 @@ public class ChessManager : MonoBehaviourPunCallbacks
     }
     public void MoveChessPiece(ChessBase cp, int matrixX, int matrixY)
     {
+        Debug.Log(matrixX + ", " + matrixY);
+        
         SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
         cp.SetXBoard(matrixX);
         cp.SetYBoard(matrixY);
@@ -518,6 +520,8 @@ public class ChessManager : MonoBehaviourPunCallbacks
         SetPosition(cp);
         cp.SetIsMoving(true);
         cp.SetCoordsAnimation();
+        Debug.Log(matrixX + ", " + matrixY);        
+
         //StartCoroutine(SetCoordsAnimation());
         TurnManager.Instance.ButtonActive();
         GameManager.Inst.DestroyMovePlates();

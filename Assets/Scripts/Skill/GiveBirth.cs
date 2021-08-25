@@ -19,56 +19,37 @@ public class GiveBirth : SkillBase
 
     public override void StandardSkill()
     {
-        Debug.Log("이게 되는지 실험 해보겠습니유진");
         ChessBase baby;
+        ChessBase attacker = ChessManager.Inst.GetPosition(skillData.posX, skillData.posY);
 
         if (selectPiece.GetChessData().player == "white")
         {
-            if (ChessManager.Inst.GetPosition(selectPiece.GetXBoard(), selectPiece.GetYBoard() + 1) == null)
-            {
-                movePlate.SetCoords(selectPiece.GetXBoard(), selectPiece.GetYBoard() + 1);
-            }
-            else
-            {
-                movePlate.SetCoords(skillData.posX, skillData.posY);
-            }
-            
+            GameManager.Inst.SetMoving(false);
+            GameManager.Inst.SetUsingSkill(false);
+
+            AttackerPosition(attacker);
 
             baby = ChessManager.Inst.Creat(ChessManager.Inst.GetWhiteObject()[0], selectPiece.GetXBoard(), selectPiece.GetYBoard());
-            Debug.Log(baby.GetXBoard() + ", " + baby.GetYBoard());
-
-            photonView.RPC("ChangePiece", RpcTarget.AllBuffered, baby.gameObject.GetPhotonView().ViewID);
         }
         else
         {
-            if (ChessManager.Inst.GetPosition(selectPiece.GetXBoard(), selectPiece.GetYBoard() - 1) == null)
-            {
-                movePlate.SetCoords(selectPiece.GetXBoard(), selectPiece.GetYBoard() - 1);
-            }
-            else
-            {
-                movePlate.SetCoords(skillData.posX, skillData.posY);
-            }
+            GameManager.Inst.SetMoving(false);
+            GameManager.Inst.SetUsingSkill(false);
 
-            Debug.Log(selectPiece.GetXBoard() + ", " + selectPiece.GetYBoard());
+            AttackerPosition(attacker);
             baby = ChessManager.Inst.Creat(ChessManager.Inst.GetBlackObject()[0], selectPiece.GetXBoard(), selectPiece.GetYBoard());
-            Debug.Log(baby.GetXBoard() + ", " + baby.GetYBoard());
-
-            photonView.RPC("ChangePiece", RpcTarget.AllBuffered, baby.gameObject.GetPhotonView().ViewID);
-
         }
-        Debug.Log(movePlate.Getreference().GetXBoard() + ", " + movePlate.Getreference().GetYBoard());
+        photonView.RPC("ChangePiece", RpcTarget.AllBuffered, baby.gameObject.GetPhotonView().ViewID);
         ChessManager.Inst.SetPosition(baby);
         ChessManager.Inst.AddArr(baby);
 
         if (selectPiece != null)
         {
             selectPiece.RemoveChosenSkill(this);
-            selectPiece.SetAttackSelecting(false);
+            selectPiece.SetAttackSelecting(false, true);
         }
-
-        
-        RPC_DetroySkill();
+       
+        RPC_DestroySkill();
     }
 
     [PunRPC]
@@ -76,5 +57,78 @@ public class GiveBirth : SkillBase
     {
         if (NetworkManager.Inst.GetPlayer() == "white") return;
         PhotonView.Find(num).gameObject.transform.Rotate(0f, 0f, 180f);
+    }
+
+
+    private void AttackerPosition(ChessBase attacker)
+    {
+        int x = selectPiece.GetXBoard();
+        int y = selectPiece.GetYBoard();
+
+        if (skillData.posX == x)
+        {
+            if (skillData.posY < y)
+            {
+                MoveChessPiece(attacker, x, y - 1);
+            }
+
+            else if (skillData.posY > y)
+            {
+                MoveChessPiece(attacker, x, y + 1);
+            }
+        }
+
+        else if (skillData.posY == y)
+        {
+            if (skillData.posX < x)
+            {
+                MoveChessPiece(attacker, x - 1, y);
+            }
+
+            else if (skillData.posX > x)
+            {
+                MoveChessPiece(attacker, x + 1, y);
+            }
+        }
+
+        else if (Mathf.Abs(skillData.posX - x) == Mathf.Abs(skillData.posY - y))
+        {
+            if (skillData.posX > x && skillData.posY > y)
+            {
+                MoveChessPiece(attacker, x + 1, y + 1);
+            }
+
+            else if (skillData.posX > x && skillData.posY < y)
+            {
+                MoveChessPiece(attacker, x + 1, y - 1);
+            }
+
+            else if (skillData.posX < x && skillData.posY < y)
+            {
+                MoveChessPiece(attacker, x - 1, y - 1);
+            }
+
+            else if (skillData.posX < x && skillData.posY > y)
+            {
+                MoveChessPiece(attacker, x - 1, y + 1);
+            }
+        }
+
+        else
+        {
+            MoveChessPiece(attacker, skillData.posX, skillData.posY);
+        }
+    }
+
+    private void MoveChessPiece(ChessBase cp, int matrixX, int matrixY)
+    {
+        ChessManager.Inst.SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
+        cp.SetXBoard(matrixX);
+        cp.SetYBoard(matrixY);
+        cp.PlusMoveCnt();
+        ChessManager.Inst.SetPosition(cp);
+        cp.SetCoordsAnimationCo();
+        TurnManager.Instance.ButtonActive();
+        GameManager.Inst.DestroyMovePlates();
     }
 }

@@ -62,6 +62,7 @@ public class ChessBase : MonoBehaviourPunCallbacks
     {
         string jsonData = NetworkManager.Inst.SaveDataToJson(chessData, true);
         photonView.RPC("SetChessData", RpcTarget.OthersBuffered, jsonData);
+        
     }
 
     [PunRPC]
@@ -69,6 +70,7 @@ public class ChessBase : MonoBehaviourPunCallbacks
     {
         ChessData cd = NetworkManager.Inst.LoadDataFromJson<ChessData>(jsonData);
         chessData = cd;
+
     }
 
     public bool CheckClickChessPiece()
@@ -144,6 +146,7 @@ public class ChessBase : MonoBehaviourPunCallbacks
             }
         }
         chessData.chosenSkill.Add(skill.GetSkillData());
+        Debug.Log("응애");
         SendChessData();
     }
 
@@ -157,6 +160,7 @@ public class ChessBase : MonoBehaviourPunCallbacks
 
             }
         }
+        Debug.Log("응애");
         SendChessData();
     }
 
@@ -232,71 +236,94 @@ public class ChessBase : MonoBehaviourPunCallbacks
     public void SetXBoard(int x)
     {
         chessData.xBoard = x;
+
         SendChessData();
     }
 
     public void SetYBoard(int y)
     {
         chessData.yBoard = y;
+
         SendChessData();
     }
     public void SetID(int ID)
     {
         chessData.ID = ID;
+
         SendChessData();
     }
 
     public void PlusMoveCnt()
     {
         chessData.moveCnt++;
+
         SendChessData();
     }
 
     public void PlusAttackCnt()
     {
         chessData.attackCount++;
+
         SendChessData();
     }
 
-    public void ClearAttackCnt()
+    public void ClearAttackCnt(bool isSend = false)
     {
         chessData.attackCount = 0;
-        SendChessData();
+        if (isSend)
+        {
+            SendChessData();
+        }
     }
 
     public void ClearMoveCnt()
     {
         chessData.moveCnt = 0;
+
         SendChessData();
     }
 
 
-    public void SetNoneAttack(bool noneAttack)
+    public void SetNoneAttack(bool noneAttack, bool isSend = false)
     {
-        chessData.noneAttack = noneAttack;;
-        SendChessData();
+        chessData.noneAttack = noneAttack;
+
+        if (isSend)
+        {
+            SendChessData();
+        }
     }
-    public void SetAttackSelecting(bool attackSelecting)
+    public void SetAttackSelecting(bool attackSelecting, bool isSend = false)
     {
         chessData.attackSelecting = attackSelecting;
-        SendChessData();
+        if(isSend)
+        {
+            SendChessData();
+        }
     }
 
-    public void SetIsSelecting(bool isSelecting)
+    public void SetIsSelecting(bool isSelecting, bool isSend = false)
     {
         chessData.isSelecting = isSelecting;
-        SendChessData();
+        if (isSend)
+        {
+            SendChessData();
+        }
     }
 
-    public void SetIsAttacking(bool isAttacking)
+    public void SetIsAttacking(bool isAttacking, bool isSend = false)
     {
         chessData.isAttacking = isAttacking;
-        SendChessData();
+        if (isSend)
+        {
+            SendChessData();
+        }
     }
 
     public void SetIsMoving(bool isMoving)
     {
         chessData.isMoving = isMoving;
+
         SendChessData();
     }
 

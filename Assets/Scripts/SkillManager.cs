@@ -171,7 +171,7 @@ public class SkillManager : MonoBehaviourPunCallbacks
             {
                 SkillBase sb = GetSkillList(names[i])[0];
                 skillList.Remove(sb);
-                sb.RPC_DetroySkill();
+                sb.RPC_DestroySkill();
                 GameManager.Inst.SetUsingSkill(false);
                 GameManager.Inst.SetMoving(true);
             }

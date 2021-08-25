@@ -28,8 +28,6 @@ public class SkillData
     }
 }
 
-
-
 public class SkillBase : MonoBehaviourPunCallbacks
 {
     protected SkillData skillData;
@@ -167,7 +165,7 @@ public class SkillBase : MonoBehaviourPunCallbacks
         this.movePlate = movePlate;
     }
 
-    public void RPC_DetroySkill()
+    public void RPC_DestroySkill()
     {
         photonView.RPC("DestroySkill", RpcTarget.AllBuffered);
     }

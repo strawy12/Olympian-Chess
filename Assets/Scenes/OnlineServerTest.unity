@@ -2550,7 +2550,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 299567270}
         m_TargetAssemblyTypeName: NetworkManager, Assembly-CSharp
-        m_MethodName: DisConnect
+        m_MethodName: SaveTxtFile
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
