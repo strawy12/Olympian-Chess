@@ -93,6 +93,7 @@ MonoBehaviour:
   - BC_UsingSkill
   - BC_ResetSkill
   - LOE_Setting
+  - LOE_StandardSkill
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

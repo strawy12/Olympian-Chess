@@ -13,7 +13,7 @@ public class LoveOfEros : SkillBase
 
     public override void StandardSkill()
     {
-        if(!isSetting)
+        if (!isSetting)
         {
             photonView.RPC("LOE_Setting", Photon.Pun.RpcTarget.AllBuffered);
         }
@@ -21,7 +21,6 @@ public class LoveOfEros : SkillBase
         {
             photonView.RPC("LOE_StandardSkill", Photon.Pun.RpcTarget.AllBuffered);
         }
-        
     }
 
     private void LOE_UsingSkill()
@@ -41,13 +40,20 @@ public class LoveOfEros : SkillBase
         isSetting = true;
         attacked = false;
         selectPieceTo = ChessManager.Inst.GetPosition(skillData.posX, skillData.posY);
+
         selectPieceTo.SetAttackSelecting(true);
+        selectPiece.SetAttackSelecting(true);
+
         selectPieceTo.AddChosenSkill(this);
+        selectPiece.AddChosenSkill(this);
+
         StartCoroutine(LOE_SkillEffect());
         GameManager.Inst.DestroyMovePlates();
         GameManager.Inst.SetUsingSkill(false);
         GameManager.Inst.SetMoving(true);
     }
+
+    [Photon.Pun.PunRPC]
     private void LOE_StandardSkill()
     {
         attacked = true;
@@ -58,28 +64,63 @@ public class LoveOfEros : SkillBase
     {
         while (!attacked)
         {
-            if (selectPieceTo == null) yield break;
+            if (selectPieceTo == null || selectPiece == null) yield break;
+
             selectPieceTo.spriteRenderer.material.color = new Color32(255, 0, 127, 0);
+            selectPiece.spriteRenderer.material.color = Color.clear;
             yield return new WaitForSeconds(0.5f);
-            selectPieceTo.spriteRenderer.material.color = new Color32(0, 0, 0, 0);
+            selectPieceTo.spriteRenderer.material.color = Color.clear;
+            selectPiece.spriteRenderer.material.color = new Color32(255, 0, 127, 0);
             yield return new WaitForSeconds(0.5f);
         }
-        selectPieceTo.spriteRenderer.material.color = new Color32(0, 0, 0, 0);
-        selectPieceTo.SetXBoard(selectPiece.GetXBoard());
-        selectPieceTo.SetYBoard(selectPiece.GetYBoard());
-        //ChessManager.Inst.SetCoords(selectPiece.gameObject, selectPiece.GetYBoard(), selectPiece.GetXBoard());
-        selectPieceTo.SetCoords();
-        ChessManager.Inst.SetPosition(selectPieceTo);
-        ChessManager.Inst.UpdateArr(selectPiece);
+
+        if (skillData.posX == selectPiece.GetXBoard() && skillData.posY == selectPiece.GetYBoard())
+        {
+            Debug.Log(1);
+            MoveChessPiece(selectPiece, selectPieceTo.GetXBoard(), selectPieceTo.GetYBoard());
+            ChessManager.Inst.DestroyChessPiece(selectPieceTo.GetChessData());
+            selectPiece.spriteRenderer.material.color = new Color32(0, 0, 0, 0);
+            selectPiece.RemoveChosenSkill(this);
+        }
+
+        else if (skillData.posX == selectPieceTo.GetXBoard() && skillData.posY == selectPieceTo.GetYBoard())
+        {
+            Debug.Log(2);
+
+            MoveChessPiece(selectPieceTo, selectPiece.GetXBoard(), selectPiece.GetYBoard());
+            ChessManager.Inst.DestroyChessPiece(selectPiece.GetChessData());
+            selectPieceTo.spriteRenderer.material.color = new Color32(0, 0, 0, 0);
+            selectPieceTo.RemoveChosenSkill(this);
+        }
+
+
         if (selectPiece != null)
         {
-            if(selectPieceTo != null)
+            if (selectPieceTo != null)
             {
                 selectPieceTo.RemoveChosenSkill(this);
             }
             selectPiece.RemoveChosenSkill(this);
         }
-        Destroy(selectPiece.gameObject);
+        Debug.Log(skillData.posX + ", " + skillData.posY);
+        Debug.Log(ChessManager.Inst.GetPosition(skillData.posX, skillData.posY).name);
+        Debug.Log(selectPiece.GetXBoard() + ", " + selectPiece.GetYBoard());
+        Debug.Log(ChessManager.Inst.GetPosition(selectPiece.GetXBoard(), selectPiece.GetYBoard()).name);
+        Debug.Log(selectPieceTo.GetXBoard() + ", " + selectPieceTo.GetYBoard());
+        Debug.Log(ChessManager.Inst.GetPosition(selectPieceTo.GetXBoard(), selectPieceTo.GetYBoard()).name);
+
+
         DestroySkill();
+    }
+
+    private void MoveChessPiece(ChessBase cp, int matrixX, int matrixY)
+    {
+        ChessManager.Inst.SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
+        cp.SetXBoard(matrixX);
+        cp.SetYBoard(matrixY);
+        cp.PlusMoveCnt();
+        ChessManager.Inst.SetPosition(cp);
+        cp.SetCoordsAnimation();
+        GameManager.Inst.DestroyMovePlates();
     }
 }
