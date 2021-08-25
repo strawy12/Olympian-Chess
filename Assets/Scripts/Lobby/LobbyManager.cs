@@ -31,10 +31,12 @@ public class LobbyManager : MonoBehaviour
         {
             isBGBought[i] = false;
         }
+
         for (int i = 0; i < isGodBought.Length; i++)
         {
             isGodBought[i] = false;
         }
+
         UpdateUI();
     }
 
@@ -43,11 +45,11 @@ public class LobbyManager : MonoBehaviour
         text.text = "$" + gold;
     }
 
-<<<<<<< HEAD
     public void OnClickStart()
     {
         SceneManager.LoadScene("Game");
-=======
+    }
+
     public void BG_Buy(int g)
     {
         if (!isBGBought[num])
@@ -92,19 +94,6 @@ public class LobbyManager : MonoBehaviour
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     public void God_Buy(int g)
     {
         if (!isGodBought[Gnum])
@@ -146,6 +135,5 @@ public class LobbyManager : MonoBehaviour
             Gnum--;
             SetGod();
         }
->>>>>>> ef858b9dd44eeaec44e4b55add77141e896f57b5
     }
 }

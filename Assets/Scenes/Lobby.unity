@@ -540,9 +540,9 @@ RectTransform:
   m_Father: {fileID: 1545413427}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 540, y: -1228.3999}
   m_SizeDelta: {x: 992.39, y: 685.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &51855841
@@ -2369,9 +2369,9 @@ RectTransform:
   m_Father: {fileID: 1545413427}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 540, y: -1964}
   m_SizeDelta: {x: 992.39, y: 685.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &452545114
@@ -4118,7 +4118,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 807900249}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1498547940}
+        m_TargetAssemblyTypeName: LobbyManager, Assembly-CSharp
+        m_MethodName: OnClickStart
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &807900249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7152,9 +7164,9 @@ RectTransform:
   m_Father: {fileID: 1545413427}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 540, y: -492.8}
   m_SizeDelta: {x: 992.39, y: 685.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1384163774
@@ -7732,14 +7744,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text: {fileID: 1845756868}
   backGroundSprites: []
-  BGI: {fileID: 990813587}
-  BG_Shop: {fileID: 1634670176}
+  BGI: {fileID: 0}
+  BG_Shop: {fileID: 0}
   isBGBought: 
   isGodBought: 
   GodSprites: []
-  G_Shop: {fileID: 1458523581}
-  BGbutton: {fileID: 243402889}
-  Godbutton: {fileID: 1044890620}
+  G_Shop: {fileID: 0}
+  BGbutton: {fileID: 0}
+  Godbutton: {fileID: 0}
 --- !u!4 &1498547941
 Transform:
   m_ObjectHideFlags: 0
