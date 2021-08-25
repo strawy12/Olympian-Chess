@@ -506,7 +506,6 @@ public class ChessManager : MonoBehaviourPunCallbacks
 
     public void DestroyChessPiece(ChessData chessData)
     {
-        Debug.Log(chessData.chessPiece);
         string jsonData = NetworkManager.Inst.SaveDataToJson(chessData, false);
         photonView.RPC("DestroyRPC", RpcTarget.AllBuffered, jsonData);
     }
@@ -519,7 +518,6 @@ public class ChessManager : MonoBehaviourPunCallbacks
         SetPosition(cp);
         cp.SetIsMoving(true);
         cp.SetCoordsAnimation();
-        Debug.Log(cp.GetXBoard() + ", " + cp.GetYBoard());
         //StartCoroutine(SetCoordsAnimation());
         TurnManager.Instance.ButtonActive();
         GameManager.Inst.DestroyMovePlates();

@@ -48,7 +48,6 @@ public class MovePlate : MonoBehaviour
 
         if (eChessState == EChessState.Moving)
         {
-            Debug.Log("응3애");
 
             ChessManager.Inst.MoveChessPiece(reference, matrixX, matrixY);
             
@@ -56,13 +55,11 @@ public class MovePlate : MonoBehaviour
 
         else if (eChessState == EChessState.Skill)
         {
-            Debug.Log("응2애");
             SkillManager.Inst.UsingSkill(this);
         }
 
         else if (eChessState == EChessState.MovingAndSkill)
         {
-            Debug.Log("응애2");
 
             ChessManager.Inst.MoveChessPiece(reference, matrixX, matrixY);
             SkillManager.Inst.UsingSkill(this);

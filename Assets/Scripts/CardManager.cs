@@ -477,7 +477,6 @@ public class CardManager : MonoBehaviourPunCallbacks
     {
 
         if (carditem == null) return null;
-        Debug.Log(carditem.ID);
         var targetCards = carditem.ID < 200 ? whiteCards : blackCards;
 
         for (int i = 0; i < targetCards.Count; i++)
@@ -506,7 +505,6 @@ public class CardManager : MonoBehaviourPunCallbacks
         Carditem carditem = NetworkManager.Inst.LoadDataFromJson<Carditem>(jsonData);
         var targetCards = carditem.ID < 200 ? whiteCards : blackCards;
         Card card = GetCard(carditem);
-        Debug.Log(card);
         if (card == null) return;
         targetCards.Remove(card);
         card.transform.DOKill();
@@ -668,8 +666,6 @@ public class CardManager : MonoBehaviourPunCallbacks
     private void SetZPosition(bool isMine, List<PRS> originCardPRSs, float zPosition)
     {
         int cnt;
-        Debug.Log(TurnManager.Instance.CheckPlayer("white"));
-        Debug.Log(isMine);
         if (TurnManager.Instance.CheckPlayer("white"))
         {
             if (isMine)

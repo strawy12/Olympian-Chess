@@ -238,11 +238,11 @@ public class SkillManager : MonoBehaviourPunCallbacks
     {
         ChessBase cp = ChessManager.Inst.GetPosition(mp.GetPosX(), mp.GetPosY());
         List<SkillBase> _skillList = cp.GetSkillList("출산,아테나의 방패,에로스의 사랑,길동무");
-        Debug.Log(_skillList.Count);
         for (int i = 0; i < _skillList.Count; i++)
         {
             _skillList[i].SetPosX(mp.Getreference().GetXBoard());
             _skillList[i].SetPosY(mp.Getreference().GetYBoard());
+            _skillList[i].SetMovePlate(mp);
             if (_skillList[i].GetName() == "에로스의 사랑")
             {
                 _skillList[i].SetPosX(mp.GetChessPiece().GetXBoard());

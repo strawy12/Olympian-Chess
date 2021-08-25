@@ -102,8 +102,6 @@ public class Card : MonoBehaviourPunCallbacks
     public void SetCardData(string jsonData)
     {
         Carditem carditem = NetworkManager.Inst.LoadDataFromJson<Carditem>(jsonData);
-        Debug.Log(carditem.ID);
-        Debug.Log(carditem.player);
         this.carditem = carditem;
     }
     #endregion

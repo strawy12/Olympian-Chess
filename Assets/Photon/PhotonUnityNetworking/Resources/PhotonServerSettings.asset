@@ -94,6 +94,9 @@ MonoBehaviour:
   - BC_ResetSkill
   - LOE_Setting
   - LOE_StandardSkill
+  - ChangeColor
+  - GB_UsingSkill
+  - ChangePiece
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
