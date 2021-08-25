@@ -15,11 +15,11 @@ public class LoveOfEros : SkillBase
     {
         if(!isSetting)
         {
-            LOE_Setting();
+            photonView.RPC("LOE_Setting", Photon.Pun.RpcTarget.AllBuffered);
         }
         else
         {
-            LOE_StandardSkill();
+            photonView.RPC("LOE_StandardSkill", Photon.Pun.RpcTarget.AllBuffered);
         }
         
     }
@@ -33,6 +33,8 @@ public class LoveOfEros : SkillBase
         mp.GetComponent<Collider2D>().enabled = false;
         GameManager.Inst.AllMovePlateSpawn(selectPiece, true);
     }
+
+    [Photon.Pun.PunRPC]
     private void LOE_Setting()
     {
         CardManager.Inst.NotAmolang();
@@ -69,7 +71,6 @@ public class LoveOfEros : SkillBase
         selectPieceTo.SetCoords();
         ChessManager.Inst.SetPosition(selectPieceTo);
         ChessManager.Inst.UpdateArr(selectPiece);
-        SkillManager.Inst.RemoveSkillList(this);
         if (selectPiece != null)
         {
             if(selectPieceTo != null)
@@ -79,6 +80,6 @@ public class LoveOfEros : SkillBase
             selectPiece.RemoveChosenSkill(this);
         }
         Destroy(selectPiece.gameObject);
-        Destroy(gameObject);
+        DestroySkill();
     }
 }
