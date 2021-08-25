@@ -336,20 +336,20 @@ public class CardManager : MonoBehaviour
     #region CardSetting
     public Carditem PopCard(bool isMine) // First CardBuffer's Card draw
     {
-        if (isMine)
-        {
-            Carditem carditem = null;
-            carditem = myCardBuffer[0];
-            myCardBuffer.RemoveAt(0);
-            return carditem;
-        }
-        else
-        {
+        //if (isMine)
+        //{
+        //    Carditem carditem = null;
+        //    carditem = myCardBuffer[0];
+        //    myCardBuffer.RemoveAt(0);
+        //    return carditem;
+        //}
+        //else
+        //{
             Carditem carditem = null;
             carditem = otherCardBuffer[0];
             otherCardBuffer.RemoveAt(0);
             return carditem;
-        }
+        //}
 
     }
 
