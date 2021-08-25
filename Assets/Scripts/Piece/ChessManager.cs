@@ -8,7 +8,6 @@ using Photon.Pun;
 
 public class ChessManager : MonoBehaviourPunCallbacks
 {
-    //black_pawn
     #region SingleTon
 
     private static ChessManager inst;
@@ -39,7 +38,11 @@ public class ChessManager : MonoBehaviourPunCallbacks
 
     int pawn = 0, bishop = 1, knight = 2, rook = 3, queen = 4, king = 5;
 
+<<<<<<< HEAD
     int IDs = 0;
+=======
+    ChessBase cpp;
+>>>>>>> minyoung
 
     [SerializeField] private GameObject[] white; // { white_Pawn, white_Bishop, white_Knight, white_Rook, white_Queen  ,white_King }
     [SerializeField] private GameObject[] black; // black_Bishop, black_King, black_Knight, black_Pawn, black_Queen, black_Rook;
@@ -50,6 +53,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
     [SerializeField] private ChessBase[] playerWhite = new ChessBase[16];
 
     [SerializeField] private GameObject cccccp;
+    [SerializeField] private GameObject promotionUI;
 
     [SerializeField] private WaitForSeconds delay = new WaitForSeconds(0.5f);
 
@@ -201,7 +205,6 @@ public class ChessManager : MonoBehaviourPunCallbacks
     }
     public void PointMovePlate(int x, int y, ChessBase cp)
     {
-
         if (PositionOnBoard(x, y))
         {
             ChessBase cb = GetPosition(x, y);
@@ -232,6 +235,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
     }
 
     public void UpdateArr(ChessBase chessPiece)
+<<<<<<< HEAD
     {
         ChessData chessData = chessPiece.GetChessData();
         string jsonData = NetworkManager.Inst.SaveDataToJson(chessData, false);
@@ -240,6 +244,8 @@ public class ChessManager : MonoBehaviourPunCallbacks
 
     [PunRPC]
     public void UpdateArr_Pun(string jsonData)
+=======
+>>>>>>> minyoung
     {
         ChessData chessData = NetworkManager.Inst.LoadDataFromJson<ChessData>(jsonData);
         ChessBase chessPiece = GetChessPiece(chessData);
@@ -251,6 +257,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
             if (playerWhite[i] == chessPiece)
                 playerWhite[i] = null;
         }
+
         for (int i = 0; i < playerBlack.Length; i++)
         {
             if (playerBlack[i] == null) continue;
@@ -286,7 +293,6 @@ public class ChessManager : MonoBehaviourPunCallbacks
                 }
             }
         }
-
         //RotationBoard.playerWhite = playerWhite;
         //RotationBoard.playerBlack = playerBlack;
     }
@@ -300,7 +306,6 @@ public class ChessManager : MonoBehaviourPunCallbacks
                     continue;
                 if (playerWhite[i].gameObject.name == name)
                     return true;
-
             }
             return false;
         }
@@ -315,7 +320,6 @@ public class ChessManager : MonoBehaviourPunCallbacks
             }
             return false;
         }
-
     }
 
     #region Position
@@ -479,8 +483,15 @@ public class ChessManager : MonoBehaviourPunCallbacks
             return;
         }
 
+        EnPassant(mp.Getreference(), mp);
         SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
+<<<<<<< HEAD
         DestroyChessPiece(cp.GetChessData());
+=======
+        UpdateArr(cp);
+        GameManager.Inst.RemoveAttackings(cp);
+        Destroy(cp.gameObject);
+>>>>>>> minyoung
 
         if (mp.Getreference().GetIsAttacking())
         {
@@ -488,6 +499,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
         }
 
         GameManager.Inst.AddAttackings(mp.Getreference());
+        SuperSkillManager.Inst.CheckSuperSkill();
     }
 
     [PunRPC]
@@ -518,9 +530,28 @@ public class ChessManager : MonoBehaviourPunCallbacks
         cp.SetYBoard(matrixY);
         cp.PlusMoveCnt();
         SetPosition(cp);
+<<<<<<< HEAD
         cp.SetIsMoving(true);
         cp.SetCoordsAnimation();
         Debug.Log(matrixX + ", " + matrixY);        
+=======
+        cp.isMoving = true;
+        StartCoroutine(SetCoordsAnimation(cp));
+        TurnManager.Instance.ButtonColor();
+        GameManager.Inst.DestroyMovePlates();
+        CastlingKing(cp);
+        Promotion(cp);
+    }
+    public IEnumerator SetCoordsAnimation(ChessBase cp)
+    {
+        Vector3 startPos = cp.transform.position;
+
+        float x = cp.GetXBoard();
+        float y = cp.GetYBoard();
+
+        x *= 0.684f;
+        y *= 0.684f;
+>>>>>>> minyoung
 
         //StartCoroutine(SetCoordsAnimation());
         TurnManager.Instance.ButtonActive();
@@ -547,6 +578,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
         return black;
     }
 
+<<<<<<< HEAD
 
     //public void SetCoords(GameObject obj, int xBoard, int yBoard)
     //{
@@ -592,3 +624,303 @@ public class ChessManager : MonoBehaviourPunCallbacks
     //    }
     //}
 }
+=======
+    public bool CheckMate(string player)
+    {
+        List<GameObject> movePlates = new List<GameObject>();
+
+        if (player == "black")
+        {
+            for (int i = 0; i < playerWhite.Length; i++)
+            {
+                if (playerWhite[i] == null) continue;
+
+                playerWhite[i].MovePlate();
+
+                movePlates = GameManager.Inst.GetMovePlates();
+
+                for (int j = 0; j < movePlates.Count; j++)
+                {
+                    if (movePlates[j].GetComponent<MovePlate>().GetChessPiece() == null) continue;
+
+                    if (movePlates[j].GetComponent<MovePlate>().GetChessPiece().name == "black_king")
+                        return true;
+                }
+
+                GameManager.Inst.DestroyMovePlates();
+            }
+        }
+
+        else
+        {
+            for (int i = 0; i < playerBlack.Length; i++)
+            {
+                if (playerBlack[i] == null) continue;
+
+                playerBlack[i].MovePlate();
+
+                movePlates = GameManager.Inst.GetMovePlates();
+
+                for (int j = 0; j < movePlates.Count; j++)
+                {
+                    if (movePlates[j].GetComponent<MovePlate>().GetChessPiece() == null) continue;
+
+                    if (movePlates[j].GetComponent<MovePlate>().GetChessPiece().name == "white_king")
+                        return true;
+                }
+
+                GameManager.Inst.DestroyMovePlates();
+            }
+        }
+
+        GameManager.Inst.DestroyMovePlates();
+        return false;
+    }
+
+    public bool KingAndRook(string player, bool isKing)
+    {
+        List<ChessBase> cblist = new List<ChessBase>();
+
+        if (player == "white" && isKing)
+        {
+            if (GetPosition(5, 0) == null && GetPosition(6, 0) == null)
+                return true;
+        }
+
+        else if (player == "white" && !isKing)
+        {
+            if (GetPosition(1, 0) == null && GetPosition(2, 0) == null && GetPosition(3, 0) == null)
+                return true;
+        }
+
+        else if (player == "black" && isKing)
+        {
+            if (GetPosition(5, 7) == null && GetPosition(6, 7) == null)
+                return true;
+        }
+
+        else if (player == "black" && !isKing)
+        {
+            if (GetPosition(1, 7) == null && GetPosition(2, 7) == null && GetPosition(3, 7) == null)
+                return true;
+        }
+
+        return false;
+    }
+
+    public bool CheckMovePlate(string player, int x, int y)
+    {
+        List<GameObject> movePlates;
+
+        if (player == "black")
+        {
+            for (int i = 0; i < playerWhite.Length; i++)
+            {
+                if (playerWhite[i] == null) continue;
+
+                playerWhite[i].MovePlate();
+
+                movePlates = GameManager.Inst.GetMovePlates();
+
+                for (int j = 0; j < movePlates.Count; j++)
+                {
+                    if (movePlates[j].GetComponent<MovePlate>().GetPosX() == x && movePlates[j].GetComponent<MovePlate>().GetPosY() == y)
+                    {
+                        GameManager.Inst.DestroyMovePlates();
+                        return true;
+                    }
+                }
+
+                GameManager.Inst.DestroyMovePlates();
+            }
+        }
+
+        if (player == "white")
+        {
+            for (int i = 0; i < playerBlack.Length; i++)
+            {
+                if (playerBlack[i] == null) continue;
+
+                playerBlack[i].MovePlate();
+
+                movePlates = GameManager.Inst.GetMovePlates();
+
+                for (int j = 0; j < movePlates.Count; j++)
+                {
+                    if (movePlates[j].GetComponent<MovePlate>().GetPosX() == x && movePlates[j].GetComponent<MovePlate>().GetPosY() == y)
+                    {
+                        GameManager.Inst.DestroyMovePlates();
+                        return true;
+                    }
+                }
+
+                GameManager.Inst.DestroyMovePlates();
+            }
+        }
+
+        GameManager.Inst.DestroyMovePlates();
+        return false;
+    }
+
+    public bool Castling(string player, int moveCnt, bool isKing)
+    {
+        if (player == "white" && moveCnt == 0)
+        {
+            if (isKing && KingAndRook("white", true))
+            {
+                if (!CheckMate("white"))
+                {
+                    return true;
+                }
+            }
+
+            else if (!isKing && KingAndRook("white", false))
+            {
+                if (!CheckMate("white"))
+                {
+                    return true;
+                }
+            }
+        }
+
+        else if (player == "black" && moveCnt == 0)
+        {
+            if (isKing && KingAndRook("black", true))
+            {
+                if (!CheckMate("black"))
+                {
+                    return true;
+                }
+            }
+
+            else if (!isKing && KingAndRook("black", false))
+            {
+                if (!CheckMate("black"))
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void RookCastling(string player, bool isKing)
+    {
+        ChessBase rook;
+
+        if (player == "white")
+        {
+            if (isKing)
+            {
+                rook = GetPosition(7, 0);
+                MoveChessPiece(rook, 5, 0);
+            }
+
+            else
+            {
+                rook = GetPosition(0, 0);
+                MoveChessPiece(rook, 3, 0);
+            }
+        }
+
+        else
+        {
+            if (isKing)
+            {
+                rook = GetPosition(7, 7);
+                MoveChessPiece(rook, 5, 7);
+            }
+            else
+            {
+                rook = GetPosition(0, 7);
+                MoveChessPiece(rook, 3, 7);
+            }
+        }
+    }
+
+    private void CastlingKing(ChessBase cp)
+    {
+        if (cp.name == "white_king")
+        {
+            if (cp.GetMoveCnt() == 1)
+            {
+                if (cp.GetXBoard() == 6 && cp.GetYBoard() == 0)
+                    RookCastling("white", true);
+                else if (cp.GetXBoard() == 2 && cp.GetYBoard() == 0)
+                    RookCastling("white", false);
+            }
+        }
+
+        else if (cp.name == "black_king")
+        {
+            if (cp.GetXBoard() == 6 && cp.GetYBoard() == 7)
+                RookCastling("black", true);
+            else if (cp.GetXBoard() == 2 && cp.GetYBoard() == 7)
+                RookCastling("black", false);
+        }
+    }
+
+    private void EnPassant(ChessBase cp, MovePlate mp)
+    {
+        if (cp.name.Contains("pawn") && cp.GetMoveCnt() == 2)
+        {
+            if (mp.GetPosX() == cp.GetXBoard() + 1 || mp.GetPosX() == cp.GetXBoard())
+            {
+                if (cp.name.Contains("white"))
+                    mp.SetCoords(mp.GetPosX(), mp.GetPosY() + 1);
+                else
+                    mp.SetCoords(mp.GetPosX(), mp.GetPosY() - 1);
+            }
+        }
+    }
+
+    private void Promotion(ChessBase cp)
+    {
+        if(cp.name == "white_pawn")
+        {
+            if(cp.GetYBoard() == 7)
+            {
+                promotionUI.SetActive(true);
+                promotionUI.transform.GetChild(1).gameObject.SetActive(true);
+                promotionUI.transform.GetChild(0).gameObject.SetActive(false);
+            }
+        }
+
+        else if(cp.name == "black_pawn")
+        {
+            if (cp.GetYBoard() == 0)
+            {
+                promotionUI.SetActive(true);
+                promotionUI.transform.GetChild(0).gameObject.SetActive(true);
+                promotionUI.transform.GetChild(1).gameObject.SetActive(false);
+            }
+        }
+
+        cpp = cp;
+    }
+
+    public void ClosePromotionUI()
+    {
+        promotionUI.SetActive(false);
+    }
+
+    public void ExecutePromotion(int cp)
+    {
+        UpdateArr(cpp);
+        GameManager.Inst.RemoveAttackings(cpp);
+        Destroy(cpp.gameObject);
+        
+        if(cpp.player == "white")
+        {
+            Creat(white[cp], cpp.GetXBoard(), cpp.GetYBoard());
+        }
+
+        else
+        {
+            Creat(black[cp], cpp.GetXBoard(), cpp.GetYBoard());
+        }
+
+        promotionUI.SetActive(false);
+    }
+}
+>>>>>>> minyoung

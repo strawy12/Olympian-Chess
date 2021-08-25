@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Music : SkillBase
 {
-
     //Music function
     public override void UsingSkill()
     {
@@ -12,6 +11,7 @@ public class Music : SkillBase
         if (selectPiece.name == "black_king" || selectPiece.name == "white_king")
         {
             CardManager.Inst.SetisBreak(true);
+            RemoveSkill();
             return;
         }
         photonView.RPC("MC_UsingSkill", Photon.Pun.RpcTarget.AllBuffered);
@@ -59,6 +59,7 @@ public class Music : SkillBase
             yield return new WaitForSeconds(0.2f);
         }
 
+<<<<<<< HEAD
         photonView.RPC("StopEffect", Photon.Pun.RpcTarget.AllBuffered);
     }
 
@@ -74,6 +75,12 @@ public class Music : SkillBase
             SkillManager.Inst.RemoveDontClickPiece(selectPiece);
         }
         DestroySkill();
+=======
+        // if use of this card is over,
+        // remove this from skill list and destroy this game object
+        SkillManager.Inst.RemoveDontClickPiece(selectPiece);
+        RemoveSkill();
+>>>>>>> minyoung
     }
 
     //Functions setting true or false randomly
@@ -104,5 +111,15 @@ public class Music : SkillBase
         }
         else
             return false;
+    }
+
+    private void RemoveSkill()
+    {
+        SkillManager.Inst.RemoveSkillList(this);
+        if (selectPiece != null)
+        {
+            selectPiece.RemoveChosenSkill(this);
+        }
+        Destroy(gameObject);
     }
 }

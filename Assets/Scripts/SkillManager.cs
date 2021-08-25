@@ -170,8 +170,16 @@ public class SkillManager : MonoBehaviourPunCallbacks
             if (CardManager.Inst.GetSelectCard().name == names[i])
             {
                 SkillBase sb = GetSkillList(names[i])[0];
+                if (sb == null) return;
+                if (sb.selectPiece == null) return;
+
                 skillList.Remove(sb);
+<<<<<<< HEAD
                 sb.RPC_DestroySkill();
+=======
+                sb.selectPiece.RemoveChosenSkill(sb);
+                Destroy(sb.gameObject);
+>>>>>>> minyoung
                 GameManager.Inst.SetUsingSkill(false);
                 GameManager.Inst.SetMoving(true);
             }
@@ -203,6 +211,7 @@ public class SkillManager : MonoBehaviourPunCallbacks
             {
                 if (skillList[i].GetPosX() == x && skillList[i].GetPosY() == y)
                 {
+                    
                     return true;
                 }
 
@@ -217,7 +226,11 @@ public class SkillManager : MonoBehaviourPunCallbacks
         int i;
         for (i = 0; i < _skillList.Count; i++)
         {
+<<<<<<< HEAD
             if (GameManager.Inst.isBacchrs && _skillList[i].GetName() == "바카스")
+=======
+            if (GameManager.Inst.isBacchrs && _skillList[i].name == "바카스")
+>>>>>>> minyoung
             {
                 _skillList[i].SetSelectPiece(cp);
             }
@@ -237,13 +250,23 @@ public class SkillManager : MonoBehaviourPunCallbacks
     public void AttackUsingSkill(MovePlate mp)
     {
         ChessBase cp = ChessManager.Inst.GetPosition(mp.GetPosX(), mp.GetPosY());
+<<<<<<< HEAD
         List<SkillBase> _skillList = cp.GetSkillList("출산,아테나의 방패,에로스의 사랑,길동무");
+=======
+        List<SkillBase> _skillList = cp.GetSkillList("출산,아테나의 방패,에로스의 사랑,동귀어진");
+        Debug.Log(_skillList.Count);
+>>>>>>> minyoung
         for (int i = 0; i < _skillList.Count; i++)
         {
             _skillList[i].SetPosX(mp.Getreference().GetXBoard());
             _skillList[i].SetPosY(mp.Getreference().GetYBoard());
+<<<<<<< HEAD
             _skillList[i].SetMovePlate(mp);
             if (_skillList[i].GetName() == "에로스의 사랑")
+=======
+
+            if(_skillList[i].name == "에로스의 사랑")
+>>>>>>> minyoung
             {
                 _skillList[i].SetPosX(mp.GetChessPiece().GetXBoard());
                 _skillList[i].SetPosY(mp.GetChessPiece().GetYBoard());
@@ -259,8 +282,8 @@ public class SkillManager : MonoBehaviourPunCallbacks
         SkillBase sb = skillList[skillList.Count - 1];
         sb.SetPosX(mp.GetPosX());
         sb.SetPosY(mp.GetPosY());
+        sb.SetSelectPiece(mp.Getreference());
         sb.StandardSkill();
-        sb.SetMovePlate(mp);
 
         CardManager.Inst.SetSelectCard(null);
     }
@@ -333,7 +356,7 @@ public class SkillManager : MonoBehaviourPunCallbacks
                 obj.AddComponent<OceanJail>();
                 break;
 
-            case "질서":
+            case "순보":
                 obj.AddComponent<Law>();
                 break;
 
@@ -349,7 +372,7 @@ public class SkillManager : MonoBehaviourPunCallbacks
                 obj.AddComponent<Music>();
                 break;
 
-            case "돌진":
+            case "신속":
                 obj.AddComponent<Rush>();
                 break;
 
@@ -357,7 +380,7 @@ public class SkillManager : MonoBehaviourPunCallbacks
                 obj.AddComponent<Traveler>();
                 break;
 
-            case "길동무":
+            case "동귀어진":
                 obj.AddComponent<StreetFriend>();
                 break;
 
@@ -383,6 +406,22 @@ public class SkillManager : MonoBehaviourPunCallbacks
 
             case "달빛":
                 obj.AddComponent<MoonLight>();
+                break;
+
+            case "후진":
+                obj.AddComponent<Back>();
+                break;
+
+            case "부활":
+                obj.AddComponent<Ghost>();
+                break;
+
+            case "시간정지":
+                obj.AddComponent<TimeStop>();
+                break;
+
+            case "만취":
+                obj.AddComponent<Drunkenness>();
                 break;
         }
 

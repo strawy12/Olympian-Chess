@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Law : SkillBase
 {
-
     private int turn;
     private int cnt = 0;
     public override void UsingSkill()
@@ -19,16 +18,43 @@ public class Law : SkillBase
 
     public override void ResetSkill()
     {
+<<<<<<< HEAD
         if (turn > skillData.turnCnt) return;
         photonView.RPC("Law_ResetSkill", Photon.Pun.RpcTarget.AllBuffered);
 
+=======
+        if(selectPiece == null)
+        {
+            GameManager.Inst.isBacchrs = false;
+            SkillManager.Inst.RemoveSkillList(this);
+            Destroy(gameObject);
+            return;
+        }
+
+        if (turn <= turnCnt)
+        {
+            selectPiece.spriteRenderer.material.SetColor("_Color", new Color32(0, 0, 0, 0));
+            selectPiece.SetNoneAttack(false);
+            if(selectPiece != null)
+            {
+                selectPiece.RemoveChosenSkill(this);
+            }
+            GameManager.Inst.isBacchrs = false;
+            SkillManager.Inst.RemoveSkillList(this);
+            Destroy(gameObject);
+        }
+>>>>>>> minyoung
     }
 
     [Photon.Pun.PunRPC]
     private void Law_UsingSkill()
     {
         selectPiece.SetNoneAttack(true);
+<<<<<<< HEAD
         turn = skillData.turnCnt + 2;
+=======
+        turn = turnCnt + 1;
+>>>>>>> minyoung
         selectPiece.spriteRenderer.material.SetColor("_Color", new Color32(0, 0, 0, 144));
         skillData.posX = selectPiece.GetXBoard();
         skillData.posY = selectPiece.GetYBoard();

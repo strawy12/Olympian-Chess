@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Wave : SkillBase
 {
-  
     public override void UsingSkill()
     {
         WV_UsingSkill();
@@ -16,7 +15,20 @@ public class Wave : SkillBase
     }
     public override void ResetSkill()
     {
+<<<<<<< HEAD
         WV_ResetSkill();
+=======
+        //TurnManager.Instance.ButtonColor();
+        SkillManager.Inst.RemoveSkillList(this);
+        GameManager.Inst.SetUsingSkill(false);
+        GameManager.Inst.SetMoving(true);
+
+        if (selectPiece != null)
+        {
+            selectPiece.RemoveChosenSkill(this);
+        }
+        Destroy(gameObject);
+>>>>>>> minyoung
     }
 
 
@@ -24,7 +36,7 @@ public class Wave : SkillBase
     {
         GameManager.Inst.SetUsingSkill(true);
         GameManager.Inst.SetMoving(false);
-        TurnManager.Instance.ButtonInactive();
+        //TurnManager.Instance.ButtonInactive();
         WV_MovePlate(selectPiece, selectPiece.GetXBoard(), selectPiece.GetYBoard());
     }
 
@@ -44,7 +56,6 @@ public class Wave : SkillBase
     }
     private void WV_MovePlate(ChessBase chessPiece, int x, int y)
     {
-
         if (CheckNull(true, true, y) > 0 && x != 7) //right
             GameManager.Inst.MovePlateSpawn(x + 1, y, selectPiece);
 
@@ -61,7 +72,12 @@ public class Wave : SkillBase
     private void WaveCheck()
     {
         CardManager.Inst.NotAmolang();
+<<<<<<< HEAD
         if (skillData.posX == selectPiece.GetXBoard() + 1)
+=======
+
+        if (posX == selectPiece.GetXBoard() + 1)
+>>>>>>> minyoung
             WaveMove(true, true);
         else if (skillData.posX == selectPiece.GetXBoard() - 1)
             WaveMove(true, false);
@@ -82,7 +98,6 @@ public class Wave : SkillBase
         List<ChessBase> cmList = new List<ChessBase>();
         int cnt = 0;
         cnt = CheckNull(isXY, isPlma, isXY ? skillData.posY : skillData.posX);
-
 
         if (isXY && isPlma)
         {

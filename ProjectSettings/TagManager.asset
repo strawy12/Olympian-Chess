@@ -10,6 +10,7 @@ TagManager:
   - WinnerText
   - RestartText
   - Area
+  - NestedScrollManager
   layers:
   - Default
   - TransparentFX

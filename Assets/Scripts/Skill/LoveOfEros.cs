@@ -39,7 +39,11 @@ public class LoveOfEros : SkillBase
         CardManager.Inst.NotAmolang();
         isSetting = true;
         attacked = false;
+<<<<<<< HEAD
         selectPieceTo = ChessManager.Inst.GetPosition(skillData.posX, skillData.posY);
+=======
+        selectPieceTo = ChessManager.Inst.GetPosition(posX, posY);
+>>>>>>> minyoung
 
         selectPieceTo.SetAttackSelecting(true);
         selectPiece.SetAttackSelecting(true);
@@ -69,6 +73,7 @@ public class LoveOfEros : SkillBase
             selectPieceTo.spriteRenderer.material.color = new Color32(255, 0, 127, 0);
             selectPiece.spriteRenderer.material.color = Color.clear;
             yield return new WaitForSeconds(0.5f);
+<<<<<<< HEAD
             selectPieceTo.spriteRenderer.material.color = Color.clear;
             selectPiece.spriteRenderer.material.color = new Color32(255, 0, 127, 0);
             yield return new WaitForSeconds(0.5f);
@@ -106,12 +111,39 @@ public class LoveOfEros : SkillBase
             selectPieceTo.RemoveChosenSkill(this);
         }
 
+=======
+            selectPieceTo.spriteRenderer.material.color = new Color32(0, 0, 0, 0);
+            selectPiece.spriteRenderer.material.color = new Color32(255, 0, 127, 0);
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        if(posX == selectPiece.GetXBoard() && posY == selectPiece.GetYBoard())
+        {
+            MoveChessPiece(selectPiece, selectPieceTo.GetXBoard(), selectPieceTo.GetYBoard());
+            ChessManager.Inst.UpdateArr(selectPieceTo);
+            Destroy(selectPieceTo.gameObject);
+            selectPiece.spriteRenderer.material.color = new Color32(0, 0, 0, 0);
+            selectPiece.RemoveChosenSkill(this);
+        }
+
+        else if (posX == selectPieceTo.GetXBoard() && posY == selectPieceTo.GetYBoard())
+        {
+            MoveChessPiece(selectPieceTo, selectPiece.GetXBoard(), selectPiece.GetYBoard());
+            ChessManager.Inst.UpdateArr(selectPiece);
+            Destroy(selectPiece.gameObject);
+            selectPieceTo.spriteRenderer.material.color = new Color32(0, 0, 0, 0);
+            selectPieceTo.RemoveChosenSkill(this);
+        }
+
+        SkillManager.Inst.RemoveSkillList(this);
+>>>>>>> minyoung
 
         if (selectPiece != null)
         {
 
             selectPiece.RemoveChosenSkill(this);
         }
+<<<<<<< HEAD
         if (selectPieceTo != null)
         {
             selectPieceTo.RemoveChosenSkill(this);
@@ -128,6 +160,21 @@ public class LoveOfEros : SkillBase
         cp.PlusMoveCnt();
         ChessManager.Inst.SetPosition(cp);
         cp.SetCoordsAnimation();
+        GameManager.Inst.DestroyMovePlates();
+=======
+
+        Destroy(gameObject);
+>>>>>>> minyoung
+    }
+
+    private void MoveChessPiece(ChessBase cp, int matrixX, int matrixY)
+    {
+        ChessManager.Inst.SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
+        cp.SetXBoard(matrixX);
+        cp.SetYBoard(matrixY);
+        cp.PlusMoveCnt();
+        ChessManager.Inst.SetPosition(cp);
+        StartCoroutine(ChessManager.Inst.SetCoordsAnimation(cp));
         GameManager.Inst.DestroyMovePlates();
     }
 }

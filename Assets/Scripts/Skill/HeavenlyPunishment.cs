@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class HeavenlyPunishment : SkillBase
 {
-
     private bool isBreak = false;
 
     public override void UsingSkill()
@@ -14,23 +13,38 @@ public class HeavenlyPunishment : SkillBase
 
     private void HP_UsingSkill()
     {
-        if (selectPiece.name == "black_king" || selectPiece.name == "white_king")
+        if (selectPiece.name.Contains("king"))
         {
             CardManager.Inst.SetisBreak(true);
+            RemoveSkill();
             return;
         }
 
         // if the opposing team has a rook or rooks,
         //Preventing Queen from being the target of HeavenlyPunishment
-        if (selectPiece.name == "black_queen" || selectPiece.name == "white_queen")
+        if (selectPiece.name.Contains("queen"))
         {
+<<<<<<< HEAD
             if (TurnManager.Instance.CheckPlayer("white"))
+=======
+            if (GameManager.Inst.CheckPlayer("black"))
+            {
+>>>>>>> minyoung
                 isBreak = ChessManager.Inst.CheckArr(false, "black_rook");
+            }
             else
+            {
                 isBreak = ChessManager.Inst.CheckArr(true, "white_rook");
+            }
 
+            Debug.Log(isBreak);
             CardManager.Inst.SetisBreak(isBreak);
-            return;
+
+            if(isBreak)
+            {
+                RemoveSkill();
+                return;
+            }
         }
         photonView.RPC("StartEffect", Photon.Pun.RpcTarget.AllBuffered);
         CardManager.Inst.SetisBreak(false);
@@ -57,15 +71,29 @@ public class HeavenlyPunishment : SkillBase
         }
         // When card time is over, selected pieces turn to original color
 
+<<<<<<< HEAD
         
         
+=======
+        SkillManager.Inst.RemoveDontClickPiece(selectPiece);
+        RemoveSkill();
+    }
+>>>>>>> minyoung
 
+    private void RemoveSkill()
+    {
+        SkillManager.Inst.RemoveSkillList(this);
         if (selectPiece != null)
         {
             selectPiece.RemoveChosenSkill(this);
             SkillManager.Inst.RemoveDontClickPiece(selectPiece);
         }
 
+<<<<<<< HEAD
         photonView.RPC("DestroySkill", Photon.Pun.RpcTarget.AllBuffered);
+=======
+        Destroy(gameObject);
+
+>>>>>>> minyoung
     }
 }

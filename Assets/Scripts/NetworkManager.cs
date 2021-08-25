@@ -118,6 +118,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void DisConnect()
     {
+            
         PhotonNetwork.Disconnect();
     }
 

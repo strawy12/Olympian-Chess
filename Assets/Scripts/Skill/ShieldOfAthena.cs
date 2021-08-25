@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ShieldOfAthena : SkillBase
 {
-
     private bool isAttack = false;
     private int moveCnt = 0;
 
@@ -29,6 +28,7 @@ public class ShieldOfAthena : SkillBase
         if (selectPiece.name.Contains("king"))
         {
             CardManager.Inst.SetisBreak(true);
+            RemoveSkill();
             return;
         }
         moveCnt = selectPiece.GetMoveCnt();
@@ -54,8 +54,26 @@ public class ShieldOfAthena : SkillBase
         selectPiece.SetAttackSelecting(false);
         if (selectPiece != null)
         {
+<<<<<<< HEAD
             selectPiece.RemoveChosenSkill(this);
         }
         DestroySkill();
+=======
+            selectPiece.spriteRenderer.material.SetColor("_Color", new Color(0, 0, 0, 0));
+            selectPiece.SetAttackSelecting(false);
+            SkillManager.Inst.RemoveDontClickPiece(selectPiece);
+            RemoveSkill();
+        }
+    }
+
+    private void RemoveSkill()
+    {
+        SkillManager.Inst.RemoveSkillList(this);
+        if (selectPiece != null)
+        {
+            selectPiece.RemoveChosenSkill(this);
+        }
+        Destroy(gameObject);
+>>>>>>> minyoung
     }
 }

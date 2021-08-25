@@ -1,0 +1,22 @@
+﻿{
+    "gold": 7000,
+    "backGround": "Square",
+    "myDecks": [
+        "",
+        "",
+        "제물",
+        "",
+        "",
+        "",
+        "죽음의 땅",
+        "",
+        "",
+        ""
+    ],
+    "myBackground": [
+        true,
+        true,
+        false,
+        false
+    ]
+}

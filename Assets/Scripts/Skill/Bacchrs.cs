@@ -6,6 +6,7 @@ public class Bacchrs : SkillBase
 {
     ChessBase[] white;
     ChessBase[] black;
+
     public override void UsingSkill()
     {
         photonView.RPC("BC_UsingSkill", Photon.Pun.RpcTarget.AllBuffered);

@@ -53,7 +53,6 @@ public class DraftManager : MonoBehaviour
     [SerializeField] GameObject timeBarobj;
 
     private int setTime = 15;
-    private float countTime = 0f;
     int rand;
 
     public List<Carditem> myCardBuffer;
@@ -710,11 +709,11 @@ public class DraftManager : MonoBehaviour
                 text.color = new Color32(231, 163, 233, 255);
                 break;
 
-            case "길동무":
+            case "동귀어진":
                 text.color = new Color32(165, 148, 209, 255);
                 break;
 
-            case "돌진":
+            case "대쉬":
                 text.color = new Color32(212, 109, 91, 255);
                 break;
 
@@ -765,8 +764,6 @@ public class DraftManager : MonoBehaviour
 
     private IEnumerator CountTime()
     {
-        
-
         setTime = 30;
 
         while (setTime >= 0)

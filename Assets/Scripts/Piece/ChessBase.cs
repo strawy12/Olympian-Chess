@@ -46,7 +46,11 @@ public class ChessBase : MonoBehaviourPunCallbacks
     [SerializeField] private string player;
     protected ChessData chessData;
 
+<<<<<<< HEAD
     private void Awake()
+=======
+    public virtual void Start()
+>>>>>>> minyoung
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         chessData = new ChessData(player, 0, gameObject.name, 0, 0, 0, 0, false, false, false, false, false, new List<SkillData>());

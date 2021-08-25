@@ -1,6 +1,7 @@
 ﻿using DG.Tweening;
 using Photon.Pun;
 using System;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -65,14 +66,21 @@ public class CardManager : MonoBehaviourPunCallbacks
 
     #region Var List
     // Later these var name retouch
+<<<<<<< HEAD
     private List<Carditem> whiteCardBuffer; //white Card Buffer
     private List<Carditem> blackCardBuffer; //Balck Card Buffer
+=======
+    private List<Carditem> myCardBuffer = new List<Carditem>(); //white Card Buffer
+    private List<Carditem> otherCardBuffer = new List<Carditem>(); //Balck Card Buffer
+>>>>>>> minyoung
 
     public List<Carditem> usedCards = new List<Carditem>();
 
     private Vector3 localPosition = Vector3.zero;
     private ChessBase chessPiece;
     private Card selectCard;
+    [SerializeField]
+    private User deck;
     [SerializeField] private GameObject cards;
     private CardbufferManager cardbufferManager;
     private int IDs = 0;
@@ -99,7 +107,7 @@ public class CardManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        cardbufferManager = FindObjectOfType<CardbufferManager>();
+        LoadFromJson();
         SetUpCardBuffer();
     }
 
@@ -186,7 +194,7 @@ public class CardManager : MonoBehaviourPunCallbacks
         }
         else
         {
-            if (CheckCardname("여행자,에로스의 사랑,질서,달빛,제물,아테나의 방패,돌진,길동무")) //Can not be used for other ChessPiece
+            if (CheckCardname("여행자,에로스의 사랑,질서,달빛,제물,아테나의 방패,대쉬,동귀어진,후진,부활")) //Can not be used for other ChessPiece
 
             {
                 isStop = true;
@@ -340,6 +348,7 @@ public class CardManager : MonoBehaviourPunCallbacks
     #region CardSetting
     public Carditem PopCard(bool isMine) // First CardBuffer's Card draw
     {
+<<<<<<< HEAD
         if (isMine)
         {
             Carditem carditem = null;
@@ -349,11 +358,22 @@ public class CardManager : MonoBehaviourPunCallbacks
         }
         else
         {
+=======
+        //if (isMine)
+        //{
+        //    Carditem carditem = null;
+        //    carditem = myCardBuffer[0];
+        //    myCardBuffer.RemoveAt(0);
+        //    return carditem;
+        //}
+        //else
+        //{
+>>>>>>> minyoung
             Carditem carditem = null;
             carditem = blackCardBuffer[0];
             blackCardBuffer.RemoveAt(0);
             return carditem;
-        }
+        //}
 
     }
 
@@ -361,6 +381,7 @@ public class CardManager : MonoBehaviourPunCallbacks
     {
         if (cardbufferManager == null)
         {
+<<<<<<< HEAD
             whiteCardBuffer = new List<Carditem>();
             for (int i = 0; i < cardItemSO.cardItems.Length; i++)
             {
@@ -372,6 +393,21 @@ public class CardManager : MonoBehaviourPunCallbacks
         {
             whiteCardBuffer = cardbufferManager.GetMyCardBuffer();
         } // It does come from Draft Scene, cardbufferManager == null
+=======
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < cardItemSO.cardItems.Length; j++)
+                {
+                    if(deck.myDecks[i] == cardItemSO.cardItems[j].name)
+                    {
+                        myCardBuffer.Add(cardItemSO.cardItems[j]);
+                    }
+                }
+            }
+        }
+        
+        // It does come from Draft Scene, cardbufferManager == null
+>>>>>>> minyoung
           // So, if cardbufferManager == null, my.other CardBuffer is default value
           // CardBufferManager have value from Draft Scene's selectCards
 
@@ -408,6 +444,7 @@ public class CardManager : MonoBehaviourPunCallbacks
         StartCoroutine(CardShareCo());
     }
 
+<<<<<<< HEAD
     private IEnumerator CardShareCo()
     {
         Card[] cds;
@@ -431,6 +468,23 @@ public class CardManager : MonoBehaviourPunCallbacks
             targetCards.Add(cds[i]);
         }
     }
+=======
+    private void LoadFromJson()
+    {
+        string json;
+        string SAVE_PATH = Application.dataPath + "/Save";
+        string SAVE_FILENAME = "/SaveFile.txt";
+
+        if (File.Exists(SAVE_PATH + SAVE_FILENAME))
+        {
+            json = File.ReadAllText(SAVE_PATH + SAVE_FILENAME);
+            deck = JsonUtility.FromJson<User>(json);
+        }
+    }
+
+
+
+>>>>>>> minyoung
     public void AddCard(bool isMine) // CardBuffer value => GameObjectCard conversion
     {
         if (whiteCardBuffer.Count == 0 && blackCardBuffer.Count == 0) return;
@@ -763,7 +817,11 @@ public class CardManager : MonoBehaviourPunCallbacks
                 return false;
             }
             if (CheckCardname("에로스의 사랑,수면,죽음의 땅,파도")) return true;
+<<<<<<< HEAD
             DestroyCard(card);
+=======
+            DestroyCard(card, targetCards);
+>>>>>>> minyoung
             isUse = true;
 
             if (isMine)
@@ -864,7 +922,7 @@ public class CardManager : MonoBehaviourPunCallbacks
         if (eCardState != ECardState.CanMouseDrag || eCardState == ECardState.Nothing)
             return;
         EnlargeCard(false, card);
-        if (CheckCardname("죽음의 땅,시간왜곡,바카스") && !onMyCardArea)
+        if (CheckCardname("죽음의 땅,시간왜곡,바카스,정의구현") && !onMyCardArea)
         {
             isUsed = true;
         }

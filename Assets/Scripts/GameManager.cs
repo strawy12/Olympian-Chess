@@ -55,7 +55,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     private bool moving = true;
     private bool isStop = false;
 
-
     [Multiline(10)]
     [SerializeField] string cheatInfo;
     [SerializeField] private List<GameObject> movePlateList = new List<GameObject>();
@@ -150,8 +149,8 @@ public class GameManager : MonoBehaviourPunCallbacks
             }
         }
 
-        for(int i = 0; i < black.Length; i++)
-        { 
+        for (int i = 0; i < black.Length; i++)
+        {
             if (black[i] == null) continue;
             if (black[i].gameObject.name == "black_pawn")
             {
@@ -173,7 +172,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public GameObject MovePlateSpawn(int matrixX, int matrixY, ChessBase cp)
     {
-        if (SkillManager.Inst.CheckReturnMovePlate(matrixX, matrixY, "¼­Ç³"))
+        if (SkillManager.Inst.CheckReturnMovePlate(matrixX, matrixY, "¼­Ç³") ||
+            (SkillManager.Inst.CheckReturnMovePlate(matrixX, matrixY, "½Ã°£Á¤Áö")))
             return null;
 
         float x = matrixX;
@@ -213,10 +213,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         Debug.Log(matrixX+ ", " + matrixY);
         mpScript.SetCoords(matrixX, matrixY);
         AddMovePlateList(mp);
-
-
     }
-
 
     // Function spawning move plates on each non-empty space
     // that exist parameter value(black or white) color
@@ -297,6 +294,15 @@ public class GameManager : MonoBehaviourPunCallbacks
         //endTurnButton.SetActive(false);
         //resultPanal.Show(isMyWin ? "½Â¸®" : "ÆÐ¹è");
         //cameraEffect.SetGrayScale(true);
+    }
+
+    public void DestroyNonemptyMovePlate()
+    {
+        for(int i = 0; i< movePlateList.Count; i++)
+        {
+            if (movePlateList[i].GetComponent<MovePlate>().Getreference() != null)
+                Destroy(movePlateList[i]);
+        }
     }
     #region
 
@@ -381,7 +387,6 @@ public class GameManager : MonoBehaviourPunCallbacks
             if (attackings[i] == null)
             {
                 attackings.RemoveAt(i);
-                continue;
             }
 
             else
@@ -390,7 +395,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
                 if (attackings[i].GetAttackCnt() > 2)
                 {
-                    attackings.RemoveAt(i);
+                    RemoveAttackings(attackings[i]);
                 }
             }
         }
@@ -400,8 +405,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         return attackings;
     }
-    public void AddAttackings(ChessBase chessBase)
+    public void AddAttackings(ChessBase cp)
     {
+<<<<<<< HEAD
         string jsonData = NetworkManager.Inst.SaveDataToJson(chessBase.GetChessData(), false);
         photonView.RPC("AddAttackings", RpcTarget.AllBuffered, jsonData);
     }
@@ -413,9 +419,14 @@ public class GameManager : MonoBehaviourPunCallbacks
         ChessBase chessBase = ChessManager.Inst.GetChessPiece(chessData);
         attackings.Add(chessBase);
         chessBase.SetIsAttacking(true);
+=======
+        attackings.Add(cp);
+        cp.isAttacking = true;
+>>>>>>> minyoung
     }
-    public void RemoveAttackings(ChessBase chessBase)
+    public void RemoveAttackings(ChessBase cp)
     {
+<<<<<<< HEAD
         string jsonData = NetworkManager.Inst.SaveDataToJson(chessBase.GetChessData(), false);
         photonView.RPC("RemoveAttackings", RpcTarget.AllBuffered, jsonData);
     }
@@ -432,6 +443,21 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         TurnManager.Instance.EndTurn();
     }
+=======
+        if(attackings.Contains(cp))
+        {
+            attackings.Remove(cp);
+>>>>>>> minyoung
 
+            if(cp != null)
+            {
+                cp.attackCount = 0;
+            }
+        }
+    }
+    public List<GameObject> GetMovePlates()
+    {
+        return movePlateList;
+    }
     #endregion
 }

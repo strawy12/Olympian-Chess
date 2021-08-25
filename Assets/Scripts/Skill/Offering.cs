@@ -13,18 +13,29 @@ public class Offering : SkillBase
     {
         var targetCards = skillData.player == "white" ? CardManager.Inst.GetBlackCards() : CardManager.Inst.GetWhiteCards();
         //Preventing Pawns from being the target of Offering
+<<<<<<< HEAD
         if (selectPiece.name == "black_pawn" || selectPiece.name == "white_pawn" || targetCards.Count == 0)
+=======
+        if (selectPiece.name.Contains("pawn") || selectPiece.name.Contains("king") || CardManager.Inst.GetOtherCards().Count == 0)
+>>>>>>> minyoung
         {
+            RemoveSkill();
             CardManager.Inst.SetisBreak(true);
             return;
         }
 
         int rand;
+<<<<<<< HEAD
         rand = Random.Range(0, targetCards.Count);
         CardManager.Inst.RemoveCard(rand, targetCards);
         RemoveSkill();
         photonView.RPC("DestroySkill", Photon.Pun.RpcTarget.AllBuffered);
 
+=======
+        rand = Random.Range(0, CardManager.Inst.GetOtherCards().Count);
+        CardManager.Inst.RemoveCard(rand);
+        RemoveSkill();
+>>>>>>> minyoung
     }
 
     private void RemoveSkill()
