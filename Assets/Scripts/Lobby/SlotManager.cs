@@ -9,7 +9,7 @@ public class SlotManager : MonoBehaviour, IPointerClickHandler
     private Image image = null;
     [SerializeField]
     private Carditem carditem;
-    int currentNum;
+    private int currentNum = -1;
 
     void Start()
     {
@@ -36,9 +36,12 @@ public class SlotManager : MonoBehaviour, IPointerClickHandler
     {
         if (carditem != null)
         {
-            Debug.Log(carditem.name);
             CurrentNum(carditem);
-            DeckManager.Instance.SetIsChosen(currentNum, false);
+
+            if(currentNum != -1)
+            {
+                DeckManager.Instance.SetIsChosen(currentNum, false);
+            }
         }
 
         currentNum = DeckManager.Instance.GetCard();
@@ -62,8 +65,8 @@ public class SlotManager : MonoBehaviour, IPointerClickHandler
             {
                 return i;
             }
-
         }
+
         return 0;
     }
 
@@ -86,7 +89,14 @@ public class SlotManager : MonoBehaviour, IPointerClickHandler
 
         for (int i = 0; i < cards.cardItems.Length; i++)
         {
-            if (cards.cardItems[i].name == carditem.name)
+
+            if(carditem.name == "")
+            {
+                currentNum = -1;
+                break;
+            }
+
+            else if (cards.cardItems[i].name == carditem.name)
             {
                 currentNum = i;
                 Debug.Log(i + cards.cardItems[i].name);

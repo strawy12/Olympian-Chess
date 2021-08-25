@@ -186,7 +186,7 @@ public class DeckManager : MonoBehaviour
 
         if (i == myDeck.Length)
         {
-            Debug.Log("세이브");
+            StartCoroutine(Message("덱이 저장되었습니다!"));
             SaveToJson();
             isSave = true;
         }

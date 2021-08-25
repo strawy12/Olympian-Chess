@@ -6,7 +6,8 @@ using UnityEngine.UI;
 
 public class CardSelect : MonoBehaviour, IPointerClickHandler
 {
-    public int cardNum;//이게 카드를 구분하는 고유 번호
+    [SerializeField]
+    private int cardNum;//이게 카드를 구분하는 고유 번호
     private Image image = null;
     private Carditem carditem;
     private bool isSelect;
