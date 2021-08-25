@@ -385,6 +385,7 @@ MonoBehaviour:
     color: {r: 0, g: 0, b: 0, a: 0}
     info: 
   deck:
+    gold: 0
     myDecks:
     - 
     - 
@@ -7743,15 +7744,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 1845756868}
-  backGroundSprites: []
+  backGroundSprites:
+  - {fileID: 21300000, guid: 62dba4b4187159f4cb185478afa8dcbb, type: 3}
+  - {fileID: 21300000, guid: 2a1e6be4859a24d46adfb73074823417, type: 3}
+  - {fileID: 21300000, guid: 8881aa5c871a3754dbf9c9650ac1dafc, type: 3}
   BGI: {fileID: 0}
-  BG_Shop: {fileID: 0}
-  isBGBought: 
-  isGodBought: 
+  BG_Shop: {fileID: 1634670176}
+  isBGBought: 000000
+  isGodBought: 0000
   GodSprites: []
-  G_Shop: {fileID: 0}
-  BGbutton: {fileID: 0}
-  Godbutton: {fileID: 0}
+  G_Shop: {fileID: 1458523581}
+  BGbutton: {fileID: 243402889}
+  Godbutton: {fileID: 1044890620}
 --- !u!4 &1498547941
 Transform:
   m_ObjectHideFlags: 0

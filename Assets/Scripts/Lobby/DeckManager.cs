@@ -206,6 +206,16 @@ public class DeckManager : MonoBehaviour
         return deck.myDecks;
     }
 
+    public int GetGold()
+    {
+        return deck.gold;
+    }
+
+    public void SetGold(int gold)
+    {
+        deck.gold = gold;
+    }
+
     public CardItemSO GetCardItemSO()
     {
         return cards;
@@ -238,7 +248,7 @@ public class DeckManager : MonoBehaviour
 [System.Serializable]
 public class Deck
 {
+    public int gold = 1000;
     public string[] myDecks = new string[10];
-
 }
 

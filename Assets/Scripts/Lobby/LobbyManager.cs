@@ -6,13 +6,18 @@ using UnityEngine.UI;
 
 public class LobbyManager : MonoBehaviour
 {
-    public Text text;
+    [SerializeField]
+    private Text text;
     private int gold = 1000;
 
-    public Sprite[] backGroundSprites;
-    public Image BGI;
-    public Image BG_Shop;
-    public bool[] isBGBought;
+    [SerializeField]
+    private Sprite[] backGroundSprites;
+    [SerializeField]
+    private Image BGI;
+    [SerializeField]
+    private Image BG_Shop;
+    [SerializeField]
+    private bool[] isBGBought;
 
 
     public bool[] isGodBought;
@@ -42,7 +47,7 @@ public class LobbyManager : MonoBehaviour
 
     private void UpdateUI()
     {
-        text.text = "$" + gold;
+        text.text = "$" + DeckManager.Instance.GetGold();
     }
 
     public void OnClickStart()
@@ -52,11 +57,14 @@ public class LobbyManager : MonoBehaviour
 
     public void BG_Buy(int g)
     {
+         gold = DeckManager.Instance.GetGold();
+
         if (!isBGBought[num])
         {
             gold -= g;
             isBGBought[num] = true;
             BGI.sprite = backGroundSprites[num];
+            DeckManager.Instance.SetGold(gold);
             UpdateUI();
         }
     }
@@ -64,11 +72,13 @@ public class LobbyManager : MonoBehaviour
     private void SetBackGround()
     {
         BG_Shop.sprite = backGroundSprites[num];
+
         if(isBGBought[num])
         {
             BG_Shop.color = new Color(0.3f, 0.3f, 0.3f, 1f);
            BGbutton.image.color = Color.red;
         }
+
         else
         {
             BG_Shop.color = new Color(1f, 1f, 1f, 1f);
@@ -96,10 +106,13 @@ public class LobbyManager : MonoBehaviour
 
     public void God_Buy(int g)
     {
+        gold = DeckManager.Instance.GetGold();
+
         if (!isGodBought[Gnum])
         {
             gold -= g;
             isGodBought[Gnum] = true;
+            DeckManager.Instance.SetGold(gold);
             UpdateUI();
         }
     }
