@@ -1100,7 +1100,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 817492163}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.33333334
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -5631,7 +5631,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80d30bcc70137b642b84bef3e2021a43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Content: {fileID: 0}
+  m_Content: {fileID: 1087704735}
   m_Horizontal: 1
   m_Vertical: 1
   m_MovementType: 1
@@ -6225,11 +6225,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7765748653bf132478aa86e646f6601a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scrollbar: {fileID: 0}
+  scrollbar: {fileID: 110863622}
   contentTr: {fileID: 542049314}
   tabSlider: {fileID: 557813644}
-  BtnRect: []
-  BtnImageRect: []
+  BtnRect:
+  - {fileID: 1331167212}
+  - {fileID: 1157151962}
+  - {fileID: 94279440}
+  BtnImageRect:
+  - {fileID: 1382599302}
+  - {fileID: 1961556780}
+  - {fileID: 1977810065}
 --- !u!1 &1374045508
 GameObject:
   m_ObjectHideFlags: 0
@@ -7091,7 +7097,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a118e25b93db644fab5eb14a44e83e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cards: {fileID: 0}
+  cards: {fileID: 11400000, guid: db0d74c26d4d2164e8380b62e5e5e3d9, type: 2}
 --- !u!1 &1498547939
 GameObject:
   m_ObjectHideFlags: 0
