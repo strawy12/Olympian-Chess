@@ -235,7 +235,7 @@ public class CardManager : MonoBehaviourPunCallbacks
 
     #region System Check
 
-    public void ChangeCarditem(bool isWihte)
+    public void ChangeCardArea(bool isWihte)
     {
         if (isWihte)
         {
@@ -244,7 +244,6 @@ public class CardManager : MonoBehaviourPunCallbacks
         else
         {
             cardArea.transform.position = new Vector2(0f, 3.9f);
-
         }
     }
 

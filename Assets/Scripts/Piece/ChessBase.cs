@@ -136,13 +136,27 @@ public class ChessBase : MonoBehaviourPunCallbacks
     }
     public void AddChosenSkill(SkillBase skill)
     {
+        for (int i = 0; i < chessData.chosenSkill.Count; i++)
+        {
+            if (chessData.chosenSkill[i].ID == skill.GetID())
+            {
+                return;
+            }
+        }
         chessData.chosenSkill.Add(skill.GetSkillData());
         SendChessData();
     }
 
     public void RemoveChosenSkill(SkillBase skill)
     {
-        chessData.chosenSkill.Remove(skill.GetSkillData());
+        for (int i = 0; i < chessData.chosenSkill.Count; i++)
+        {
+            if (chessData.chosenSkill[i].ID == skill.GetID())
+            {
+                chessData.chosenSkill.RemoveAt(i);
+
+            }
+        }
         SendChessData();
     }
 

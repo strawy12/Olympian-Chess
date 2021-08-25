@@ -344,7 +344,6 @@ public class ChessManager : MonoBehaviourPunCallbacks
     {
         bool isWhite = false;
         if (chessData == null) return null;
-        Debug.Log(chessData.ID);
         if (chessData.ID < 200)
         {
             isWhite = true;

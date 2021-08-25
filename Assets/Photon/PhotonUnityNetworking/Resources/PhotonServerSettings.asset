@@ -88,6 +88,10 @@ MonoBehaviour:
   - JT_UsingSkill
   - AddAttackings
   - RemoveAttackings
+  - SOA_ResetSkill
+  - SOA_UsingSkill
+  - BC_UsingSkill
+  - BC_ResetSkill
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

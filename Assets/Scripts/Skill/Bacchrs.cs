@@ -8,18 +8,28 @@ public class Bacchrs : SkillBase
     ChessBase[] black;
     public override void UsingSkill()
     {
+        photonView.RPC("BC_UsingSkill", Photon.Pun.RpcTarget.AllBuffered);
+    }
+
+    [Photon.Pun.PunRPC]
+    private void BC_UsingSkill()
+    {
         GameManager.Inst.isBacchrs = true;
         ChosenSkill(true);
     }
 
     public override void ResetSkill()
     {
-        if (skillData.turnCnt > 1)
-        {
-            SkillManager.Inst.RemoveSkillList(this);
-            ChosenSkill(false);
-            Destroy(gameObject);
-        }
+        if (skillData.turnCnt < 2) return;
+        photonView.RPC("BC_ResetSkill", Photon.Pun.RpcTarget.AllBuffered);
+    }
+
+    [Photon.Pun.PunRPC]
+    private void BC_ResetSkill()
+    {
+        Debug.Log("ÀÀ¾Ö");
+        ChosenSkill(false);
+        DestroySkill();
     }
 
     public override void StandardSkill()
@@ -94,7 +104,6 @@ public class Bacchrs : SkillBase
         for (int i = 0; i < white.Length; i++)
         {
             if (white[i] == null) continue;
-
             if (isAdd)
             {
                 white[i].AddChosenSkill(this);
@@ -102,6 +111,7 @@ public class Bacchrs : SkillBase
 
             if (!isAdd)
             {
+
                 white[i].RemoveChosenSkill(this);
             }
         }
@@ -110,13 +120,14 @@ public class Bacchrs : SkillBase
         {
             if (black[i] == null) continue;
 
-            if(isAdd)
+            if (isAdd)
             {
                 black[i].AddChosenSkill(this);
             }
 
             if (!isAdd)
             {
+
                 black[i].RemoveChosenSkill(this);
             }
         }

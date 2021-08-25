@@ -10,7 +10,7 @@ public class ShieldOfAthena : SkillBase
 
     public override void UsingSkill()
     {
-        SOA_UsingSkill();
+        photonView.RPC("SOA_UsingSkill", Photon.Pun.RpcTarget.AllBuffered);
     }
     public override void StandardSkill()
     {
@@ -18,12 +18,14 @@ public class ShieldOfAthena : SkillBase
     }
     public override void ResetSkill()
     {
-        SOA_ResetSkill();
+        if (selectPiece.GetMoveCnt() == moveCnt && !isAttack) return;
+
+        photonView.RPC("SOA_ResetSkill", Photon.Pun.RpcTarget.AllBuffered);
     }
 
+    [Photon.Pun.PunRPC]
     private void SOA_UsingSkill()
     {
-        Debug.Log(selectPiece);
         if (selectPiece.name.Contains("king"))
         {
             CardManager.Inst.SetisBreak(true);
@@ -42,22 +44,18 @@ public class ShieldOfAthena : SkillBase
         GameManager.Inst.SetIsStop(true);
         GameManager.Inst.DestroyMovePlates();
         TurnManager.Instance.ButtonActive();
-        SOA_ResetSkill();
+        ResetSkill();
     }
 
+    [Photon.Pun.PunRPC]
     public void SOA_ResetSkill()
     {
-        if (selectPiece.GetMoveCnt() != moveCnt || isAttack)
+        selectPiece.spriteRenderer.material.SetColor("_Color", new Color(0, 0, 0, 0));
+        selectPiece.SetAttackSelecting(false);
+        if (selectPiece != null)
         {
-            selectPiece.spriteRenderer.material.SetColor("_Color", new Color(0, 0, 0, 0));
-            SkillManager.Inst.RemoveSkillList(this);
-            selectPiece.SetAttackSelecting(false);
-            SkillManager.Inst.RemoveDontClickPiece(selectPiece);
-            if (selectPiece != null)
-            {
-                selectPiece.RemoveChosenSkill(this);
-            }
-            Destroy(gameObject);
+            selectPiece.RemoveChosenSkill(this);
         }
+        DestroySkill();
     }
 }

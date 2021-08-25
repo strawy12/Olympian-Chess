@@ -119,7 +119,7 @@ public class SkillManager : MonoBehaviourPunCallbacks
     {
         ChessData chessData = cp.GetChessData();
         string jsonData = NetworkManager.Inst.SaveDataToJson(chessData, false);
-        photonView.RPC("AddDontClickPiece", RpcTarget.AllBuffered, jsonData) ;
+        photonView.RPC("AddDontClickPiece", RpcTarget.AllBuffered, jsonData);
        
     }
 
@@ -216,12 +216,11 @@ public class SkillManager : MonoBehaviourPunCallbacks
     {
         List<SkillBase> _skillList = cp.GetSkillList("질서,바카스");
         int i;
-           
         for (i = 0; i < _skillList.Count; i++)
         {
-            if (GameManager.Inst.isBacchrs && skillList[i].name == "바카스")
+            if (GameManager.Inst.isBacchrs && _skillList[i].GetName() == "바카스")
             {
-                skillList[i].SetSelectPiece(cp);
+                _skillList[i].SetSelectPiece(cp);
             }
 
             _skillList[i].StandardSkill();
@@ -243,7 +242,6 @@ public class SkillManager : MonoBehaviourPunCallbacks
         Debug.Log(_skillList.Count);
         for (int i = 0; i < _skillList.Count; i++)
         {
-            Debug.Log(_skillList[i].name);
             _skillList[i].SetPosX(mp.Getreference().GetXBoard());
             _skillList[i].SetPosY(mp.Getreference().GetYBoard());
             _skillList[i].StandardSkill();

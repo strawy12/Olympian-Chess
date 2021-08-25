@@ -123,15 +123,17 @@ public class GameManager : MonoBehaviourPunCallbacks
             blackCamera.enabled = false;
             whiteCamera.enabled = true;
             cv.worldCamera = whiteCamera;
+            CardManager.Inst.ChangeCardArea(true);
         }
         else
         {
             whiteCamera.enabled = false;
             blackCamera.enabled = true;
             cv.worldCamera = blackCamera;
+            CardManager.Inst.ChangeCardArea(false);
         }
-        
-        
+
+
     }
     private void DeletePawn()
     {
