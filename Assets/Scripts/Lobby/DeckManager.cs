@@ -275,13 +275,13 @@ public class DeckManager : MonoBehaviour
         cardInfo.gameObject.SetActive(false);
     }
 
-    public void PointerDown()
+    public void PointerDown(CardSelect cardSelect)
     {
         isInfo = true;
-        StartCoroutine(Info());
+        StartCoroutine(Info(cardSelect.GetCardItem()));
     }
 
-    IEnumerator Info()
+    IEnumerator Info(Carditem carditem)
     {
         while(true)
         {
@@ -290,7 +290,7 @@ public class DeckManager : MonoBehaviour
             if(isInfo)
             {
                 cardInfo.gameObject.SetActive(true);
-                cardInfoText.text = cardSelect.GetCardItem().info;
+                cardInfoText.text = carditem.info;
                 yield break;
             }
 

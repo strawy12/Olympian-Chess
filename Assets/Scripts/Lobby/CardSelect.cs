@@ -54,12 +54,13 @@ public class CardSelect : MonoBehaviour, IPointerClickHandler
 
     public void PointerUp()
     {
-        isSelect = false;
+        DeckManager.Instance.PointerUp();
+
     }
 
     public void PointerDown()
     {
-        DeckManager.Instance.SetCardSelect(this);
+        DeckManager.Instance.PointerDown(this);
     }
 
     private void CardInfo()
