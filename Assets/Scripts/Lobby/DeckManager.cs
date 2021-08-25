@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
+using UnityEngine.UI;
 using System.IO;
 
 public class DeckManager : MonoBehaviour
@@ -25,18 +27,23 @@ public class DeckManager : MonoBehaviour
     private string SAVE_PATH = "";
     private readonly string SAVE_FILENAME = "/SaveFile.txt";
 
-    private int card;
+    private int card = -1;
     public bool isSelected = false;
-    public bool[] isChosen = new bool[23];
+    private bool isSave = false;
+    [SerializeField]
+    private bool[] isChosen = new bool[23];
     private Carditem currentCard;
-    public List<Carditem> myDeck = new List<Carditem>();
+    public Carditem[] myDeck = new Carditem[10];
     [SerializeField]
     private Deck deck;
     [SerializeField]
     private CardItemSO cards;
 
     [SerializeField]
-    CardContents cardContents;
+    private CardContents cardContents;
+    [SerializeField]
+    private Image message;
+    private Text messageText;
 
     //여기서 isChosen[카드 번호]가 true면 그 카드를 선택된거임
     private void Awake()
@@ -56,6 +63,7 @@ public class DeckManager : MonoBehaviour
     {
         ChangeCard();
         SettingMyDeck();
+        messageText = message.gameObject.GetComponentInChildren<Text>();
     }
 
     private void LoadFromJson()
@@ -83,11 +91,12 @@ public class DeckManager : MonoBehaviour
         File.WriteAllText(SAVE_PATH + SAVE_FILENAME, json, System.Text.Encoding.UTF8);
     }
 
+
     private void SettingIsChosen()
     {
         for (int i = 0; i < cards.cardItems.Length; i++)
         {
-            for (int j = 0; j < deck.myDecks.Count; j++)
+            for (int j = 0; j < deck.myDecks.Length; j++)
             {
                 if (cards.cardItems[i].name == deck.myDecks[j])
                 {
@@ -99,13 +108,13 @@ public class DeckManager : MonoBehaviour
 
     private void SettingMyDeck()
     {
-        for(int i = 0; i < deck.myDecks.Count; i++)
+        for (int i = 0; i < deck.myDecks.Length; i++)
         {
-            for(int j = 0; j < cards.cardItems.Length; j++)
+            for (int j = 0; j < cards.cardItems.Length; j++)
             {
-                if(deck.myDecks[i] == cards.cardItems[j].name)
+                if (deck.myDecks[i] == cards.cardItems[j].name)
                 {
-                    myDeck.Add(cards.cardItems[j]);
+                    myDeck[i] = cards.cardItems[j];
                 }
             }
         }
@@ -127,16 +136,17 @@ public class DeckManager : MonoBehaviour
         cardContents.IsClicked();
     }
 
-    public void AddMyDeck(Carditem carditem)
+    public void InsertMyDeck(int index, Carditem carditem)
     {
-        myDeck.Add(carditem);
-        deck.myDecks.Add(carditem.name);
+        myDeck[index] = carditem;
+        deck.myDecks[index] = carditem.name;
     }
 
-    public void RemoveMyDeck(Carditem carditem)
+    public void RemoveMyDeck(int index)
     {
-        myDeck.Remove(carditem);
-        deck.myDecks.Remove(carditem.name);
+        myDeck[index] = null;
+        deck.myDecks[index] = null;
+        Debug.Log("삭제");
     }
 
     public void SetCurrentCard(Carditem carditem)
@@ -166,12 +176,24 @@ public class DeckManager : MonoBehaviour
 
     public void SaveButton()
     {
-        Debug.Log(myDeck.Count);
+        Debug.Log(myDeck.Length);
+        int i;
 
-        if (myDeck.Count != 10) return;
+        for (i = 0; i < myDeck.Length; i++)
+        {
+            if (myDeck[i].name == "") break;
+        }
 
-        Debug.Log("세이브");
-        SaveToJson();
+        if (i == myDeck.Length)
+        {
+            Debug.Log("세이브");
+            SaveToJson();
+            isSave = true;
+        }
+        else
+        {
+            StartCoroutine(Message("선택된 카드가 10장 이하입니다"));
+        }
     }
 
     public string GetDeck(int index)
@@ -179,7 +201,7 @@ public class DeckManager : MonoBehaviour
         return deck.myDecks[index];
     }
 
-    public List<string> GetDeck()
+    public string[] GetDeck()
     {
         return deck.myDecks;
     }
@@ -188,10 +210,33 @@ public class DeckManager : MonoBehaviour
     {
         return cards;
     }
+
+    public Carditem GetMyDeck(int index)
+    {
+        return myDeck[index];
+    }
+
+    public Carditem[] GetMyDeck()
+    {
+        return myDeck;
+    }
+
+    public void SetIsSave(bool isTrue)
+    {
+        isSave = isTrue;
+    }
+
+    IEnumerator Message(string messageText)
+    {
+        message.transform.DOScale(1, 0.3f).SetEase(Ease.InBounce);
+        this.messageText.text = string.Format(messageText);
+        yield return new WaitForSeconds(0.7f);
+        message.transform.DOScale(0, 0.1f);
+    }
 }
 
 [System.Serializable]
 public class Deck
 {
-    public List<string> myDecks = new List<string>();
+    public string[] myDecks = new string[10];
 }

@@ -15,12 +15,12 @@ public class SlotManager : MonoBehaviour, IPointerClickHandler
     {
         image = GetComponent<Image>();
 
-        for (int i = 0; i < DeckManager.Instance.GetDeck().Count; i++)
+        for (int i = 0; i < DeckManager.Instance.GetDeck().Length; i++)
         {
             if(i == Child())
             {
                 ChangeSprite(DeckManager.Instance.GetDeck(i));
-                carditem = DeckManager.Instance.GetCardItemSO().cardItems[i];
+                carditem = DeckManager.Instance.GetMyDeck(i);
             }
         }
     }
@@ -36,16 +36,18 @@ public class SlotManager : MonoBehaviour, IPointerClickHandler
     {
         if (carditem != null)
         {
+            Debug.Log(carditem.name);
             CurrentNum(carditem);
             DeckManager.Instance.SetIsChosen(currentNum, false);
-            DeckManager.Instance.RemoveMyDeck(carditem);
         }
 
         currentNum = DeckManager.Instance.GetCard();
         carditem = DeckManager.Instance.GetCurrentCard();
         image.sprite = carditem.sprite;
 
-        DeckManager.Instance.AddMyDeck(carditem);
+        DeckManager.Instance.SetIsSave(false);
+        DeckManager.Instance.RemoveMyDeck(Child());
+        DeckManager.Instance.InsertMyDeck(Child(),carditem);
         DeckManager.Instance.SetIsSelected(false);
 
         DeckManager.Instance.SetIsChosen(currentNum, true);

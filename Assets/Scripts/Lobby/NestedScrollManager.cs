@@ -21,6 +21,7 @@ public class NestedScrollManager : MonoBehaviour, IBeginDragHandler, IDragHandle
 
     void Start()
     {
+        Debug.Log(gameObject.name);
         scrollbar.value = 0.5f;
         distance = 1f / (SIZE - 1);
         for (int i = 0; i < SIZE; i++)

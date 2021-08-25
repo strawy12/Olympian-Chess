@@ -7,10 +7,11 @@ public class CardContents : MonoBehaviour
     [SerializeField]
     private CardItemSO cards;
     private List<CardSelect> cardSelects = new List<CardSelect>();
+    private bool isUsed = false;
 
     private void Awake()
     {
-        for (int i = 0; i < transform.GetChildCount(); i++)
+        for (int i = 0; i < transform.childCount; i++)
         {
             cardSelects.Add(transform.GetChild(i).GetComponentInChildren<CardSelect>());
             cardSelects[i].SetCardItem(cards.cardItems[i]);
@@ -26,12 +27,13 @@ public class CardContents : MonoBehaviour
             cardSelects[i].ChangeColor(Color.white);
             cardSelects[i].ChangeScale(1.0f);
 
-            if(i == DeckManager.Instance.GetCard() && !DeckManager.Instance.GetIsChosen(i))
+            if (i == DeckManager.Instance.GetCard() && !DeckManager.Instance.GetIsChosen(i))
             {
                 cardSelects[i].ChangeScale(1.2f);
+                isUsed = true;
             }
 
-            else if(DeckManager.Instance.GetIsChosen(i))
+            else if (DeckManager.Instance.GetIsChosen(i))
             {
                 cardSelects[i].ChangeColor(Color.gray);
             }
