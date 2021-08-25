@@ -17,7 +17,7 @@ public class SlotManager : MonoBehaviour, IPointerClickHandler
 
         for (int i = 0; i < DeckManager.Instance.GetDeck().Length; i++)
         {
-            if(i == Child())
+            if (i == Child())
             {
                 ChangeSprite(DeckManager.Instance.GetDeck(i));
                 carditem = DeckManager.Instance.GetMyDeck(i);
@@ -38,7 +38,7 @@ public class SlotManager : MonoBehaviour, IPointerClickHandler
         {
             CurrentNum(carditem);
 
-            if(currentNum != -1)
+            if (currentNum != -1)
             {
                 DeckManager.Instance.SetIsChosen(currentNum, false);
             }
@@ -50,7 +50,7 @@ public class SlotManager : MonoBehaviour, IPointerClickHandler
 
         DeckManager.Instance.SetIsSave(false);
         DeckManager.Instance.RemoveMyDeck(Child());
-        DeckManager.Instance.InsertMyDeck(Child(),carditem);
+        DeckManager.Instance.InsertMyDeck(Child(), carditem);
         DeckManager.Instance.SetIsSelected(false);
 
         DeckManager.Instance.SetIsChosen(currentNum, true);
@@ -74,9 +74,9 @@ public class SlotManager : MonoBehaviour, IPointerClickHandler
     {
         CardItemSO cards = DeckManager.Instance.GetCardItemSO();
 
-        for (int i = 0; i< cards.cardItems.Length; i++)
+        for (int i = 0; i < cards.cardItems.Length; i++)
         {
-            if(cards.cardItems[i].name == card)
+            if (cards.cardItems[i].name == card)
             {
                 image.sprite = cards.cardItems[i].sprite;
             }
@@ -90,7 +90,7 @@ public class SlotManager : MonoBehaviour, IPointerClickHandler
         for (int i = 0; i < cards.cardItems.Length; i++)
         {
 
-            if(carditem.name == "")
+            if (carditem.name == "")
             {
                 currentNum = -1;
                 break;

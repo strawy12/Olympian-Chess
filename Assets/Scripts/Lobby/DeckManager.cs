@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
@@ -30,20 +31,24 @@ public class DeckManager : MonoBehaviour
     private int card = -1;
     public bool isSelected = false;
     private bool isSave = false;
+    private bool isInfo = false;
     [SerializeField]
     private bool[] isChosen = new bool[23];
     private Carditem currentCard;
     public Carditem[] myDeck = new Carditem[10];
-    [SerializeField]
-    private Deck deck;
+    private User user;
     [SerializeField]
     private CardItemSO cards;
+    private CardSelect cardSelect;
 
     [SerializeField]
     private CardContents cardContents;
     [SerializeField]
     private Image message;
+    [SerializeField]
+    private Image cardInfo;
     private Text messageText;
+    private Text cardInfoText;
 
     //여기서 isChosen[카드 번호]가 true면 그 카드를 선택된거임
     private void Awake()
@@ -64,6 +69,7 @@ public class DeckManager : MonoBehaviour
         ChangeCard();
         SettingMyDeck();
         messageText = message.gameObject.GetComponentInChildren<Text>();
+        cardInfoText = cardInfo.gameObject.GetComponentInChildren<Text>();
     }
 
     private void LoadFromJson()
@@ -73,7 +79,7 @@ public class DeckManager : MonoBehaviour
         if (File.Exists(SAVE_PATH + SAVE_FILENAME))
         {
             json = File.ReadAllText(SAVE_PATH + SAVE_FILENAME);
-            deck = JsonUtility.FromJson<Deck>(json);
+            user = JsonUtility.FromJson<User>(json);
         }
 
         else
@@ -87,7 +93,7 @@ public class DeckManager : MonoBehaviour
     {
         SAVE_PATH = Application.dataPath + "/Save";
 
-        string json = JsonUtility.ToJson(deck, true);
+        string json = JsonUtility.ToJson(user, true);
         File.WriteAllText(SAVE_PATH + SAVE_FILENAME, json, System.Text.Encoding.UTF8);
     }
 
@@ -96,9 +102,9 @@ public class DeckManager : MonoBehaviour
     {
         for (int i = 0; i < cards.cardItems.Length; i++)
         {
-            for (int j = 0; j < deck.myDecks.Length; j++)
+            for (int j = 0; j < user.myDecks.Length; j++)
             {
-                if (cards.cardItems[i].name == deck.myDecks[j])
+                if (cards.cardItems[i].name == user.myDecks[j])
                 {
                     SetIsChosen(i, true);
                 }
@@ -108,11 +114,11 @@ public class DeckManager : MonoBehaviour
 
     private void SettingMyDeck()
     {
-        for (int i = 0; i < deck.myDecks.Length; i++)
+        for (int i = 0; i < user.myDecks.Length; i++)
         {
             for (int j = 0; j < cards.cardItems.Length; j++)
             {
-                if (deck.myDecks[i] == cards.cardItems[j].name)
+                if (user.myDecks[i] == cards.cardItems[j].name)
                 {
                     myDeck[i] = cards.cardItems[j];
                 }
@@ -139,13 +145,13 @@ public class DeckManager : MonoBehaviour
     public void InsertMyDeck(int index, Carditem carditem)
     {
         myDeck[index] = carditem;
-        deck.myDecks[index] = carditem.name;
+        user.myDecks[index] = carditem.name;
     }
 
     public void RemoveMyDeck(int index)
     {
         myDeck[index] = null;
-        deck.myDecks[index] = null;
+        user.myDecks[index] = null;
         Debug.Log("삭제");
     }
 
@@ -198,22 +204,22 @@ public class DeckManager : MonoBehaviour
 
     public string GetDeck(int index)
     {
-        return deck.myDecks[index];
+        return user.myDecks[index];
     }
 
     public string[] GetDeck()
     {
-        return deck.myDecks;
+        return user.myDecks;
     }
 
     public int GetGold()
     {
-        return deck.gold;
+        return user.gold;
     }
 
     public void SetGold(int gold)
     {
-        deck.gold = gold;
+        user.gold = gold;
     }
 
     public CardItemSO GetCardItemSO()
@@ -226,9 +232,19 @@ public class DeckManager : MonoBehaviour
         return myDeck[index];
     }
 
-    public Carditem[] GetMyDeck()
+    public void SetBackground(string bg)
     {
-        return myDeck;
+        user.backGround = bg;
+    }
+
+    public string GetBackground()
+    {
+        return user.backGround;
+    }
+
+    public User GetUser()
+    {
+        return user;
     }
 
     public void SetIsSave(bool isTrue)
@@ -243,12 +259,54 @@ public class DeckManager : MonoBehaviour
         yield return new WaitForSeconds(0.7f);
         message.transform.DOScale(0, 0.1f);
     }
+
+    private void OnApplicationQuit()
+    {
+        SaveToJson();
+    }
+
+    public void SetCardSelect(CardSelect card)
+    {
+        cardSelect = card;
+    }
+    public void PointerUp()
+    {
+        isInfo = false;
+        cardInfo.gameObject.SetActive(false);
+    }
+
+    public void PointerDown()
+    {
+        isInfo = true;
+        StartCoroutine(Info());
+    }
+
+    IEnumerator Info()
+    {
+        while(true)
+        {
+            yield return new WaitForSeconds(0.7f);
+
+            if(isInfo)
+            {
+                cardInfo.gameObject.SetActive(true);
+                cardInfoText.text = cardSelect.GetCardItem().info;
+                yield break;
+            }
+
+            else if(!isInfo)
+            {
+                yield break;
+            }
+        }
+    }
 }
 
 [System.Serializable]
-public class Deck
+public class User
 {
     public int gold = 1000;
+    public string backGround;
     public string[] myDecks = new string[10];
+    public bool[] myBackground = new bool[4];
 }
-

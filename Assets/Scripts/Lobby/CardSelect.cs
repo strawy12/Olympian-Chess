@@ -51,4 +51,24 @@ public class CardSelect : MonoBehaviour, IPointerClickHandler
     {
         transform.localScale = new Vector3(scale, scale, 1f);
     }
+
+    public void PointerUp()
+    {
+        isSelect = false;
+    }
+
+    public void PointerDown()
+    {
+        DeckManager.Instance.SetCardSelect(this);
+    }
+
+    private void CardInfo()
+    {
+        Debug.Log(carditem.info);
+    }
+
+    public Carditem GetCardItem()
+    {
+        return carditem;
+    }
 }

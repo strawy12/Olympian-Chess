@@ -74,7 +74,7 @@ public class CardManager : MonoBehaviour
     private ChessBase chessPiece;
     private Card selectCard;
     [SerializeField]
-    private Deck deck;
+    private User deck;
     [SerializeField] private GameObject cards;
     private CardbufferManager cardbufferManager;
 
@@ -397,7 +397,7 @@ public class CardManager : MonoBehaviour
         if (File.Exists(SAVE_PATH + SAVE_FILENAME))
         {
             json = File.ReadAllText(SAVE_PATH + SAVE_FILENAME);
-            deck = JsonUtility.FromJson<Deck>(json);
+            deck = JsonUtility.FromJson<User>(json);
         }
     }
 

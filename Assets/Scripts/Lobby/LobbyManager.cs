@@ -18,7 +18,8 @@ public class LobbyManager : MonoBehaviour
     private Image BG_Shop;
     [SerializeField]
     private bool[] isBGBought;
-
+    [SerializeField]
+    private GameObject checkButton;
 
     public bool[] isGodBought;
     public Sprite[] GodSprites;
@@ -27,22 +28,17 @@ public class LobbyManager : MonoBehaviour
     public Button BGbutton;
     public Button Godbutton;
 
+    User user;
+
     int num = 0;
     int Gnum = 0;
 
     void Start()
     {
-        for (int i = 0; i < isBGBought.Length; i++)
-        {
-            isBGBought[i] = false;
-        }
-
-        for (int i = 0; i < isGodBought.Length; i++)
-        {
-            isGodBought[i] = false;
-        }
+        FirstSetting();
 
         UpdateUI();
+        SetBackGround();
     }
 
     private void UpdateUI()
@@ -57,13 +53,26 @@ public class LobbyManager : MonoBehaviour
 
     public void BG_Buy(int g)
     {
-         gold = DeckManager.Instance.GetGold();
+        gold = DeckManager.Instance.GetGold();
+        user = DeckManager.Instance.GetUser();
 
-        if (!isBGBought[num])
+        if (!user.myBackground[num] && gold - g > -1)
         {
             gold -= g;
-            isBGBought[num] = true;
+            user.myBackground[num] = true;
             BGI.sprite = backGroundSprites[num];
+            DeckManager.Instance.SetGold(gold);
+            UpdateUI();
+            SetBackGround();
+        }
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.A))
+        {
+            gold = DeckManager.Instance.GetGold();
+            gold += 1000;
             DeckManager.Instance.SetGold(gold);
             UpdateUI();
         }
@@ -72,11 +81,12 @@ public class LobbyManager : MonoBehaviour
     private void SetBackGround()
     {
         BG_Shop.sprite = backGroundSprites[num];
+        user = DeckManager.Instance.GetUser();
 
-        if(isBGBought[num])
+        if (user.myBackground[num])
         {
             BG_Shop.color = new Color(0.3f, 0.3f, 0.3f, 1f);
-           BGbutton.image.color = Color.red;
+            BGbutton.image.color = Color.red;
         }
 
         else
@@ -84,24 +94,36 @@ public class LobbyManager : MonoBehaviour
             BG_Shop.color = new Color(1f, 1f, 1f, 1f);
             BGbutton.image.color = Color.white;
         }
+
+        if(user.backGround != backGroundSprites[num].name)
+        {
+            checkButton.transform.GetChild(0).gameObject.SetActive(false);
+        }
+
+        else
+        {
+            checkButton.transform.GetChild(0).gameObject.SetActive(true);
+        }
     }
 
     public void Next()
     {
-        if(!(num - 1 < 1))
-        {
+        if (num + 1 == backGroundSprites.Length)
+            num = 0;
+        else
             num++;
-            SetBackGround();
-        }
+
+        SetBackGround();
     }
 
     public void Recent()
     {
-        if (!(num - 1 < 1))
-        {
+        if (num == 0)
+            num = backGroundSprites.Length - 1;
+        else
             num--;
-            SetBackGround();
-        }
+
+        SetBackGround();
     }
 
     public void God_Buy(int g)
@@ -148,5 +170,26 @@ public class LobbyManager : MonoBehaviour
             Gnum--;
             SetGod();
         }
+    }
+
+    public void CheckBackGround()
+    {
+        user = DeckManager.Instance.GetUser();
+
+        if (user.myBackground[num] && user.backGround != backGroundSprites[num].name)
+        {
+            checkButton.transform.GetChild(0).gameObject.SetActive(true);
+            DeckManager.Instance.SetBackground(backGroundSprites[num].name);
+        }
+    }
+
+    private void FirstSetting()
+    {
+        user = DeckManager.Instance.GetUser();
+
+        if (DeckManager.Instance.GetBackground() == "")
+            DeckManager.Instance.SetBackground(backGroundSprites[0].name);
+
+        user.myBackground[0] = true;
     }
 }
