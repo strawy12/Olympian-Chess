@@ -14,11 +14,6 @@ public class WhitePPawn : MonoBehaviour
     private GameObject MV_M;
     private GameObject MV_O;
 
-
-    void Start()
-    {
-    }
-
     void Update()
     {
         if(TutorialManager.Instance.is2StoryEnd)
@@ -26,11 +21,6 @@ public class WhitePPawn : MonoBehaviour
             InstantiateMV_M();
             InstantiateMV_O();
         }
-    }
-
-    private void OnMouseUp()
-    {
-        
     }
 
     private void InstantiateMV_M()
@@ -62,9 +52,9 @@ public class WhitePPawn : MonoBehaviour
     public IEnumerator PositionMove()
     {
         Vector3 statPos = transform.position;
-        Vector3 endPos = new Vector3(-0.348f, 0.33f, 0f);
+        Vector3 endPos = new Vector3(-0.348f, 0.343f, 0f);
 
-        float t = 0f;
+        //float t = 0f;
 
         //while(t<1f)
         //{

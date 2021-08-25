@@ -18,7 +18,7 @@ public class Stroy : MonoBehaviour
     private bool isTyping = false;
     private bool isTyping_ing = false;
 
-    private WaitForSeconds delayStory = new WaitForSeconds(6f); 
+    private WaitForSeconds delayStory = new WaitForSeconds(4f); 
     void Start()
     {
         SettingStory();
@@ -100,7 +100,6 @@ public class Stroy : MonoBehaviour
     }
     private void story4()
     {
-        //Write conditional code
         if(TutorialManager.Instance.is3Story)
         {
             StartCoroutine((TypingEffect(stroyText, story[3], speed)));
@@ -108,24 +107,29 @@ public class Stroy : MonoBehaviour
     }
     private void story5()
     {
-        //Write conditional code
-        // turn
-        TutorialManager.Instance.is5Story = true;
+        TutorialManager.Instance.is5Story = true;   
         StartCoroutine((TypingEffect(stroyText, story[4], speed)));
     }
     private void story6()
     {
-        //Write conditional code
-        if(TutorialManager.Instance.is5StoryEnd)
+
+        //Write conditional code    
+      
+        if (TutorialManager.Instance.is6Story)
         {
             StartCoroutine((TypingEffect(stroyText, story[5], speed)));
         }
+        
     }
     private void story7()
     {
-        //Write conditional code
+        TutorialManager.Instance.is7Story = true;
 
-        StartCoroutine((TypingEffect(stroyText, story[6], speed)));
+        //Write conditional code
+        if (TutorialManager.Instance.is7Story)
+        {
+            StartCoroutine((TypingEffect(stroyText, story[6], speed)));
+        }
     }
     private void story8()
     {
