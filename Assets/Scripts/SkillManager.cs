@@ -34,7 +34,6 @@ public class SkillManager : MonoBehaviourPunCallbacks
     public bool CheckDontClickPiece(ChessBase cp)
     {
         ChessData chessData = cp.GetChessData();
-        Debug.Log(chessData.ID);
         for (int i = 0; i < dontClickPiece.Count; i++)
         {
             Debug.Log(dontClickPiece[i].ID);
@@ -120,16 +119,16 @@ public class SkillManager : MonoBehaviourPunCallbacks
         ChessData chessData = cp.GetChessData();
         string jsonData = NetworkManager.Inst.SaveDataToJson(chessData, false);
         photonView.RPC("AddDontClickPiece", RpcTarget.AllBuffered, jsonData);
-       
+
     }
 
     [PunRPC]
     private void AddDontClickPiece(string jsonData)
     {
         ChessData chessData = NetworkManager.Inst.LoadDataFromJson<ChessData>(jsonData);
-        for(int i = 0; i < dontClickPiece.Count; i++)
+        for (int i = 0; i < dontClickPiece.Count; i++)
         {
-            if(dontClickPiece[i].ID == chessData.ID)
+            if (dontClickPiece[i].ID == chessData.ID)
             {
                 return;
             }
@@ -151,9 +150,9 @@ public class SkillManager : MonoBehaviourPunCallbacks
 
         ChessData chessData = NetworkManager.Inst.LoadDataFromJson<ChessData>(jsonData);
 
-        for(int i = 0; i < dontClickPiece.Count; i++)
+        for (int i = 0; i < dontClickPiece.Count; i++)
         {
-            if(dontClickPiece[i].ID == chessData.ID)
+            if (dontClickPiece[i].ID == chessData.ID)
             {
                 dontClickPiece.RemoveAt(i);
 
@@ -185,11 +184,11 @@ public class SkillManager : MonoBehaviourPunCallbacks
         for (int i = 0; i < skillList.Count; i++)
         {
 
-                if (skillData.ID == skillList[i].GetID())
-                {
-                    return skillList[i];
-                }
-            
+            if (skillData.ID == skillList[i].GetID())
+            {
+                return skillList[i];
+            }
+
         }
         return null;
     }
@@ -205,7 +204,7 @@ public class SkillManager : MonoBehaviourPunCallbacks
                 if (skillList[i].GetPosX() == x && skillList[i].GetPosY() == y)
                 {
                     return true;
-                }   
+                }
 
             }
         }
@@ -225,7 +224,7 @@ public class SkillManager : MonoBehaviourPunCallbacks
 
             _skillList[i].StandardSkill();
         }
-        if(i != 0)
+        if (i != 0)
         {
             return true;
         }
@@ -244,6 +243,11 @@ public class SkillManager : MonoBehaviourPunCallbacks
         {
             _skillList[i].SetPosX(mp.Getreference().GetXBoard());
             _skillList[i].SetPosY(mp.Getreference().GetYBoard());
+            if (_skillList[i].GetName() == "에로스의 사랑")
+            {
+                _skillList[i].SetPosX(mp.GetChessPiece().GetXBoard());
+                _skillList[i].SetPosY(mp.GetChessPiece().GetYBoard());
+            }
             _skillList[i].StandardSkill();
         }
     }
@@ -381,7 +385,7 @@ public class SkillManager : MonoBehaviourPunCallbacks
                 obj.AddComponent<MoonLight>();
                 break;
         }
-        
+
 
         skillList.Add(obj.GetComponent<SkillBase>());
     }

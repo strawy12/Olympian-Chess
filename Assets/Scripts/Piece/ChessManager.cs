@@ -519,6 +519,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
         SetPosition(cp);
         cp.SetIsMoving(true);
         cp.SetCoordsAnimation();
+        Debug.Log(cp.GetXBoard() + ", " + cp.GetYBoard());
         //StartCoroutine(SetCoordsAnimation());
         TurnManager.Instance.ButtonActive();
         GameManager.Inst.DestroyMovePlates();

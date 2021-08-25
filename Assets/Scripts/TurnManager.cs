@@ -247,7 +247,7 @@ public class TurnManager : MonoBehaviourPunCallbacks
         {
             CardManager.Inst.DestroyCard(CardManager.Inst.GetSelectCard());
         }
-
+        GameManager.Inst.DestroyMovePlates();
         ChessManager.Inst.FalseIsMoving();
         //ChangeButtonTransform();
         ButtonInactive();
