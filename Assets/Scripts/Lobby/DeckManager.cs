@@ -31,7 +31,6 @@ public class DeckManager : MonoBehaviour
     private int card = -1;
     public bool isSelected = false;
     private bool isSave = false;
-    private bool isDrag = false;
     private bool isInfo = false;
     [SerializeField]
     private bool[] isChosen = new bool[23];
