@@ -99,6 +99,10 @@ MonoBehaviour:
   - ChangePiece
   - MC_UsingSkill
   - StopEffect
+  - WW_UsingSkill
+  - WW_ResetSkill
+  - Law_ResetSkill
+  - Law_UsingSkill
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

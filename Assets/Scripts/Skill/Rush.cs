@@ -58,7 +58,6 @@ public class Rush : SkillBase
         {
             selectPiece.RemoveChosenSkill(this);
         }
-        SkillManager.Inst.RemoveSkillList(this);
-        Destroy(gameObject);
+        RPC_DestroySkill();
     }
 }

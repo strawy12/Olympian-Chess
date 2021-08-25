@@ -7,13 +7,14 @@ public class WestWind : SkillBase
     int turn;
     public override void UsingSkill()
     {
-        WW_UsingSkill();
+        photonView.RPC("WW_UsingSkill", Photon.Pun.RpcTarget.AllBuffered);
     }
     public override void ResetSkill()
     {
-        WW_ResetSkill();
+        photonView.RPC("WW_ResetSkill", Photon.Pun.RpcTarget.AllBuffered);
     }
 
+    [Photon.Pun.PunRPC]
     private void WW_UsingSkill()
     {
         selectPiece.spriteRenderer.material.SetColor("_Color", new Color32(215, 199, 176, 144));
@@ -21,9 +22,14 @@ public class WestWind : SkillBase
         skillData.posY = selectPiece.GetYBoard();
         selectPiece.spriteRenderer.sortingOrder = -2;
         selectPiece.gameObject.GetComponent<Collider2D>().enabled = false;
-        ChessManager.Inst.SetPositionEmpty(skillData.posX, skillData.posY);
+        if (photonView.IsMine)
+        {
+            ChessManager.Inst.SetPositionEmpty(skillData.posX, skillData.posY);
+        }
         turn = skillData.turnCnt + 2;
     }
+
+    [Photon.Pun.PunRPC]
     public void WW_ResetSkill()
     {
         if (turn > skillData.turnCnt) return;
@@ -31,11 +37,8 @@ public class WestWind : SkillBase
         selectPiece.gameObject.GetComponent<Collider2D>().enabled = true;
         ChessManager.Inst.SetChessPiecePosition(skillData.posX, skillData.posY, selectPiece);
         selectPiece.spriteRenderer.material.SetColor("_Color", new Color32(0, 0, 0, 0));
-        SkillManager.Inst.RemoveSkillList(this);
-        if (selectPiece != null)
-        {
-            selectPiece.RemoveChosenSkill(this);
-        }
-        Destroy(gameObject);
+        selectPiece.RemoveChosenSkill(this);
+
+        DestroySkill();
     }
 }

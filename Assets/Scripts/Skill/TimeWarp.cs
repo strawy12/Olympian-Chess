@@ -21,8 +21,7 @@ public class TimeWarp : SkillBase
             {
                 selectPiece.RemoveChosenSkill(this);
             }
-            SkillManager.Inst.RemoveSkillList(this);
-            Destroy(gameObject);
+            RPC_DestroySkill();
             return;
         }
 
@@ -35,6 +34,7 @@ public class TimeWarp : SkillBase
         {
             selectPiece.RemoveChosenSkill(this);
         }
-        Destroy(gameObject);
+        RPC_DestroySkill();
+
     }
 }

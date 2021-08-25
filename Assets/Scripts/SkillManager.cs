@@ -80,7 +80,7 @@ public class SkillManager : MonoBehaviourPunCallbacks
         string[] names = name.Split(',');
         for (int i = 0; i < skillList.Count; i++)
         {
-            if (skillList[i].gameObject.name == name)
+            if (skillList[i].GetName() == name)
                 _skillList.Add(skillList[i]);
         }
         return _skillList;

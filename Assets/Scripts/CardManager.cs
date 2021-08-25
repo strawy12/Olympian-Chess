@@ -805,21 +805,22 @@ public class CardManager : MonoBehaviourPunCallbacks
     {
         if (usedCards.Count == 0) return;
 
-        var cardObject = Instantiate(cardPrefab, cardSpawnPoint.position, Utils.QI);
+        var cardObject = NetworkManager.Inst.SpawnObject(cardPrefab);
         cardObject.transform.SetParent(cards.transform);
         var card = cardObject.GetComponent<Card>();
         card.SetUp(usedCards[randomNum], true);
-        whiteCards.Add(card);
+        card.SetPlayer(NetworkManager.Inst.GetPlayer());
+        SetIds(card);
+        card.isFront = isMine;
+        var targetCards = NetworkManager.Inst.GetPlayer() == "white" ? whiteCards : blackCards;
+        targetCards.Add(card);
 
-        CardAlignment(TurnManager.Instance.GetCurrentPlayerTF());
+        SetOriginOrder(true);
+        CardAlignment(true);
     }
 
     public void RemoveCard(int rand, List<Card> targetCards)
     {
-        Debug.Log(targetCards == whiteCards);
-        Debug.Log(targetCards[rand].GetCarditem().name);
-        Debug.Log(targetCards[rand].GetCarditem().player);
-        Debug.Log(targetCards[rand].GetID());
         DestroyCard(targetCards[rand]);
     }
     #endregion

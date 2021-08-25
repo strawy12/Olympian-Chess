@@ -9,7 +9,7 @@ public class Law : SkillBase
     private int cnt = 0;
     public override void UsingSkill()
     {
-        Law_UsingSkill();
+        photonView.RPC("Law_UsingSkill", Photon.Pun.RpcTarget.AllBuffered);
     }
 
     public override void StandardSkill()
@@ -19,20 +19,12 @@ public class Law : SkillBase
 
     public override void ResetSkill()
     {
-        if (turn <= skillData.turnCnt)
-        {
-            selectPiece.spriteRenderer.material.SetColor("_Color", new Color32(0, 0, 0, 0));
-            selectPiece.SetNoneAttack(false);
-            if(selectPiece != null)
-            {
-                selectPiece.RemoveChosenSkill(this);
-            }
-            GameManager.Inst.isBacchrs = false;
-            SkillManager.Inst.RemoveSkillList(this);
-            Destroy(gameObject);
-        }
+        if (turn > skillData.turnCnt) return;
+        photonView.RPC("Law_ResetSkill", Photon.Pun.RpcTarget.AllBuffered);
+
     }
 
+    [Photon.Pun.PunRPC]
     private void Law_UsingSkill()
     {
         selectPiece.SetNoneAttack(true);
@@ -40,6 +32,17 @@ public class Law : SkillBase
         selectPiece.spriteRenderer.material.SetColor("_Color", new Color32(0, 0, 0, 144));
         skillData.posX = selectPiece.GetXBoard();
         skillData.posY = selectPiece.GetYBoard();
+    }
+
+    [Photon.Pun.PunRPC]
+    private void Law_ResetSkill()
+    {
+
+        selectPiece.spriteRenderer.material.SetColor("_Color", new Color32(0, 0, 0, 0));
+        selectPiece.SetNoneAttack(false);
+        selectPiece.RemoveChosenSkill(this);
+        DestroySkill();
+
     }
 
     private void Law_InitiateMovePlates()
