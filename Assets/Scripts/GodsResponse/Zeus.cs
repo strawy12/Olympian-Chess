@@ -43,20 +43,13 @@ public class Zeus : SkillBase
 
         else if (isSetting)
         {
-            Z_StandardSkill();
+            photonView.RPC("Z_StandardSkill", Photon.Pun.RpcTarget.AllBuffered);
             GameManager.Inst.SetUsingSkill(false);
             GameManager.Inst.SetMoving(true);
         }
     }
 
-    public override void ResetSkill()
-    {
-        if (skillData.turnCnt > 3)
-        {
-            SuperSkillManager.Inst.RemoveSuperList(this);
-            Destroy(gameObject);
-        }
-    }
+    [Photon.Pun.PunRPC]
     private void Z_StandardSkill()
     {
         if (skillData.posY == originPosY + 1 || skillData.posY == originPosY - 1)
@@ -80,28 +73,37 @@ public class Zeus : SkillBase
         for (int i = 0; i < cps.Count; i++)
         {
             SkillManager.Inst.AddDontClickPiece(cps[i]);
-            StartCoroutine(Z_SkillEffect(cps[i]));
         }
+        StartCoroutine(Z_SkillEffect());
     }
 
-    private IEnumerator Z_SkillEffect(ChessBase cp)
+    private IEnumerator Z_SkillEffect()
     {
-        int k = 2;
-        if (cp == ChessManager.Inst.GetPosition(originPosX, originPosY))
-        {
-            if (ChessManager.Inst.GetPosition(originPosX, originPosY) == null) yield break;
-            k = 3;
-        }
-
+        int k = skillData.turnCnt + 2;
+        //if (cp == ChessManager.Inst.GetPosition(originPosX, originPosY))
+        //{
+        //    if (ChessManager.Inst.GetPosition(originPosX, originPosY) == null) yield break;
+        //    k = 3;
+        //}
         while (skillData.turnCnt < k)
         {
-            cp.spriteRenderer.material.color = new Color32(255, 228, 0, 0);
+            for(int i = 0; i < cps.Count; i++)
+            {
+                cps[i].spriteRenderer.material.color = new Color32(255, 228, 0, 0);
+            }
             yield return new WaitForSeconds(0.2f);
-            cp.spriteRenderer.material.color = new Color32(0, 0, 0, 0);
+            for (int i = 0; i < cps.Count; i++)
+            {
+                cps[i].spriteRenderer.material.color = new Color32(0, 0, 0, 0);
+            }
             yield return new WaitForSeconds(0.2f);
         }
+        for (int i = 0; i < cps.Count; i++)
+        {
+            SkillManager.Inst.RemoveDontClickPiece(cps[i]);
+        }
 
-        SkillManager.Inst.RemoveDontClickPiece(cp);
-        yield break;
+        SuperSkillManager.Inst.RemoveSuperList(this);
+        Destroy(gameObject);
     }
 }

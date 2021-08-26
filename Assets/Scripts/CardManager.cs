@@ -229,11 +229,11 @@ public class CardManager : MonoBehaviourPunCallbacks
     {
         if (isWihte)
         {
-            cardArea.transform.position = new Vector2(0f, -3.9f);
+            cardArea.transform.position = new Vector2(1.82f, -3.85f);
         }
         else
         {
-            cardArea.transform.position = new Vector2(0f, 3.9f);
+            cardArea.transform.position = new Vector2(-1.82f, 3.85f);
         }
     }
 
@@ -423,7 +423,7 @@ public class CardManager : MonoBehaviourPunCallbacks
 
         yield return new WaitForSeconds(2f);
         cds = FindObjectsOfType<Card>();
-        targetCards = GetTargetCards();
+        targetCards = ComparisonPlayer("white") ? blackCards : whiteCards;
 
         for (int i = 0; i < cds.Length; i++)
         {
@@ -450,7 +450,7 @@ public class CardManager : MonoBehaviourPunCallbacks
             card.isFront = isMine;
             whiteCards.Add(card);
             SetOriginOrder(isMine);
-            StartCoroutine(DontShowCards(whiteCards));
+            StartCoroutine(DontShowCards(whiteCards, true));
         }
         else
         {
@@ -463,7 +463,7 @@ public class CardManager : MonoBehaviourPunCallbacks
             card.isFront = true;
             blackCards.Add(card);
             SetOriginOrder(isMine);
-            StartCoroutine(DontShowCards(blackCards));
+            StartCoroutine(DontShowCards(blackCards, true));
         }
     }
 
@@ -979,7 +979,7 @@ public class CardManager : MonoBehaviourPunCallbacks
 
     }
 
-    public IEnumerator DontShowCards(List<Card> targetCards)
+    public IEnumerator DontShowCards(List<Card> targetCards, bool isSend = false)
     {
         Vector2 targetPos;
         Quaternion targetRot;
@@ -998,7 +998,7 @@ public class CardManager : MonoBehaviourPunCallbacks
         for (int i = 0; i < targetCards.Count; i++)
         {
             if (targetCards[i] == selectCard) continue;
-            targetCards[i].MoveTransform(new PRS(targetPos, targetRot, Vector3.zero), true, false, 0.7f);
+            targetCards[i].MoveTransform(new PRS(targetPos, targetRot, Vector3.zero), true, isSend, 0.7f);
             yield return new WaitForSeconds(0.05f);
         }
     }

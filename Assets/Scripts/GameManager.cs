@@ -76,7 +76,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
     private void Start()
     {
-
+        TurnManager.Instance.StartGame();
+        SetCamera();
     }
     private void Update()
     {

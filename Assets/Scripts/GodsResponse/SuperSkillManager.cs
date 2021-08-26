@@ -1,8 +1,9 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SuperSkillManager : MonoBehaviour
+public class SuperSkillManager : MonoBehaviourPunCallbacks
 {
     #region Singleton
     private static SuperSkillManager inst;
@@ -35,8 +36,8 @@ public class SuperSkillManager : MonoBehaviour
     [SerializeField] Sprite zeus;
     [SerializeField] Sprite poseidon;
 
-    public string whiteGodsRes = "Poseidon";
-    public string blackGodsRes = "Poseidon";
+    public string whiteGodsRes;
+    public string blackGodsRes;
 
     private void Start()
     {
@@ -58,17 +59,26 @@ public class SuperSkillManager : MonoBehaviour
     public GameObject SpawnSkill()
     {
         GameObject obj = null;
+        int skillID;
         SkillBase sb;
-        obj = Instantiate(skillPrefab, transform);
+        obj = NetworkManager.Inst.SpawnObject(skillPrefab);
         obj.transform.SetParent(null);
 
         if (TurnManager.Instance.GetCurrentPlayer() == "white")
+        {
             obj.name = whiteGodsRes;
 
+        }
+
         else
+        {
             obj.name = blackGodsRes;
 
-        AddComponent(obj);
+        }
+
+        skillID = obj.GetPhotonView().ViewID;
+
+        photonView.RPC("AddComponent", RpcTarget.AllBuffered, skillID, obj.name);
         sb = obj.GetComponent<SkillBase>();
         sb.UsingSkill();
         superList.Add(sb);
@@ -96,12 +106,16 @@ public class SuperSkillManager : MonoBehaviour
         }
     }
 
-    private void AddComponent(GameObject obj)
+    [PunRPC]
+    private void AddComponent(int skillID, string name)
     {
-        if (obj.name == "Zeus")
+        GameObject obj = PhotonView.Find(skillID).gameObject;
+        obj.name = name;
+
+        if (name == "Zeus")
             obj.AddComponent<Zeus>();
 
-        else if (obj.name == "Poseidon")
+        else if (name == "Poseidon")
             obj.AddComponent<Poseidon>();
     }
     public void SuperListCntPlus()

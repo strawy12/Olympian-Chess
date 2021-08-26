@@ -103,6 +103,9 @@ MonoBehaviour:
   - WW_ResetSkill
   - Law_ResetSkill
   - Law_UsingSkill
+  - AddComponent
+  - Z_StandardSkill
+  - P_ResetSkill
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

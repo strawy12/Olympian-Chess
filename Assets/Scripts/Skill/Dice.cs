@@ -12,10 +12,6 @@ public class Dice : SkillBase
 
     public override void StandardSkill()
     {
-        if(random == 0)
-        {
-
-        }
         InitiateMovePlates_Dice();
     }
 
@@ -26,7 +22,7 @@ public class Dice : SkillBase
 
         if((skillData.posX + skillData.posY) % 2 == random)
 
-        switch (selectPiece.name)
+        switch (selectPiece.GetChessData().chessPiece)
         {
             case "black_queen":
             case "white_queen":

@@ -102,8 +102,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         print("서버접속완료");
-        TurnManager.Instance.StartGame();
-        GameManager.Inst.SetCamera();
+
 
     }
 
@@ -216,8 +215,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public GameObject SpawnObject(GameObject gobj/*, string player*/)
     {
         //if (player != this.player) return null;
-        //GameObject obj = PhotonNetwork.Instantiate(gobj.name, new Vector3(0, 0, -1), Quaternion.identity);
-        GameObject obj = Instantiate(gobj, new Vector3(0, 0, -1), Quaternion.identity);
+        GameObject obj = PhotonNetwork.Instantiate(gobj.name, new Vector3(0, 0, -1), Quaternion.identity);
+        //GameObject obj = Instantiate(gobj, new Vector3(0, 0, -1), Quaternion.identity);
 
 
         return obj;

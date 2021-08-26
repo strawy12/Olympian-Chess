@@ -14,8 +14,6 @@ public class Poseidon : SkillBase
     public override void StandardSkill()
     {
         PoseidonCheck();
-        SuperSkillManager.Inst.RemoveSuperList(this);
-        Destroy(gameObject);
     }
 
     private void PoseidonCheck()
@@ -31,7 +29,6 @@ public class Poseidon : SkillBase
 
     public override void ResetSkill()
     {
-        SkillManager.Inst.RemoveSkillList(this);
         GameManager.Inst.SetUsingSkill(false);
         GameManager.Inst.SetMoving(true);
 
@@ -39,6 +36,14 @@ public class Poseidon : SkillBase
         {
             selectPiece.RemoveChosenSkill(this);
         }
+
+        photonView.RPC("P_ResetSkill", Photon.Pun.RpcTarget.AllBuffered);
+    }
+
+    [Photon.Pun.PunRPC]
+    private void P_ResetSkill()
+    {
+        SuperSkillManager.Inst.RemoveSuperList(this);
         Destroy(gameObject);
     }
 
