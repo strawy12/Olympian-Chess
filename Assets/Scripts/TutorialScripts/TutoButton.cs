@@ -34,7 +34,6 @@ public class TutoButton : MonoBehaviour
         ActiveButton.SetActive(false);
         UnActiveButton.SetActive(true);
         TutorialManager.Instance.is5StoryEnd = true;
-
         TutorialManager.Instance.is6Story = true;
         //TutorialManager.Instance.is5StoryEnd = true;
     }

@@ -40,4 +40,26 @@ public class WhiteP2 : MonoBehaviour
         TutorialManager.Instance.is7Story  = false;
     }
 
+    public void DestroyMV_O()
+    {
+        Destroy(MV_O);
+    }
+
+    public void DestroyMV_M()
+    {
+        Destroy(MV_M);
+    }
+    public void DestoryBP()
+    {
+        Destroy(BP);
+    }
+
+    public IEnumerator PositionMove()
+    {
+        Vector3 startPos = new Vector3(transform.position.x,transform.position.y,0f);
+        Vector3 endPos = new Vector3(0.336f,1.02f,0f);
+
+        transform.position = endPos;
+        yield return null;
+    }
 }

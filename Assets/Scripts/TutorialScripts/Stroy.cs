@@ -112,13 +112,12 @@ public class Stroy : MonoBehaviour
     }
     private void story6()
     {
-
         //Write conditional code    
-      
-        if (TutorialManager.Instance.is6Story)
-        {
+
+        //if (TutorialManager.Instance.is6Story)
+        //{
             StartCoroutine((TypingEffect(stroyText, story[5], speed)));
-        }
+        //}
         
     }
     private void story7()
@@ -133,7 +132,10 @@ public class Stroy : MonoBehaviour
     }
     private void story8()
     {
-        StartCoroutine((TypingEffect(stroyText, story[7], speed)));
+        if(TutorialManager.Instance.is8Stroy)
+        {
+            StartCoroutine((TypingEffect(stroyText, story[7], speed)));
+        }
     }
     private void story9()
     {
