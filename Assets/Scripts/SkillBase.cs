@@ -63,6 +63,7 @@ public class SkillBase : MonoBehaviourPunCallbacks
 
     public void SetSelectPiece(ChessBase cp)
     {
+        if (cp == null) return;
         string jsonData = NetworkManager.Inst.SaveDataToJson(cp.GetChessData(), false);
         photonView.RPC("SetSelectPiece", RpcTarget.AllBuffered, jsonData);
     }

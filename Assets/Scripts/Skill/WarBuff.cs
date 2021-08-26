@@ -117,18 +117,19 @@ public class WarBuff : SkillBase
 
         for (int i = 0; i< white.Length; i++)
         {
-            if(!SkillManager.Inst.dontClickPiece.Contains(white[i].GetChessData()) && white[i] != selectPiece)
+            if (white[i] == null) continue;
+
+            if (!SkillManager.Inst.dontClickPiece.Contains(white[i].GetChessData()) && white[i] != selectPiece)
             {
-                if (white[i] == null) continue;
                 chessPieces.Add(white[i]);
             }
         }
 
         for (int i = 0; i < black.Length; i++)
         {
+            if (black[i] == null) continue;
             if (!SkillManager.Inst.dontClickPiece.Contains(black[i].GetChessData()) && black[i] != selectPiece)
             {
-                if (black[i] == null) continue;
                 chessPieces.Add(black[i]);
             }
         }

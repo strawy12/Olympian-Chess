@@ -292,6 +292,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 179555843}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: DestroyMovePlates
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &40130749
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1818,6 +1830,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 179555843}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: DestroyMovePlates
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &472732930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1962,7 +1986,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   superList: []
   whiteIcon: {fileID: 891267665}
-  blackIcon: {fileID: 0}
+  blackIcon: {fileID: 327592752}
   skillPrefab: {fileID: 1996141749020464303, guid: d13e829210bf1d64dadb4a0a53432b78,
     type: 3}
   zeus: {fileID: -3115555338532431703, guid: d4d230f1f58838a48889923ecaa9c399, type: 3}
