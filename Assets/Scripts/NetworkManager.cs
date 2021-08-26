@@ -23,7 +23,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     private string nickname;
     private string player = "black";
     private bool isLoaded;
-
+    private string SAVE_PATH = "";
 
     private static NetworkManager inst;
     public static NetworkManager Inst
@@ -51,8 +51,14 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     private void Awake()
     {
         PhotonNetwork.SendRate = 60;
-        PhotonNetwork.SerializationRate = 30;
+        PhotonNetwork.SerializationRate = 30; 
+        SAVE_PATH = Path.Combine(Application.dataPath, "Save");
+        if (!Directory.Exists(SAVE_PATH))
+        {
+            Directory.CreateDirectory(SAVE_PATH);
+        }
         DontDestroyOnLoad(gameObject);
+
     }
 
 
@@ -78,7 +84,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         string jsonData = JsonUtility.ToJson(data, true);
         if(isSave)
         {
-            string path = Path.Combine(Application.persistentDataPath, typeof(T).ToString() + ".json");
+            string path = Path.Combine(SAVE_PATH, typeof(T).ToString() + ".json");
             File.WriteAllText(path, jsonData);
         }
 
@@ -89,8 +95,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         if (jsonData == null)
         {
-            string path = Path.Combine(Application.persistentDataPath, typeof(T).ToString() + ".json");
-            jsonData = File.ReadAllText(path);
+            if (File.Exists(SAVE_PATH + typeof(T).ToString() + ".json"))
+            {
+                string path = Path.Combine(SAVE_PATH, typeof(T).ToString() + ".json");
+                jsonData = File.ReadAllText(path);
+            }
         }
         return JsonUtility.FromJson<T>(jsonData);
     }
