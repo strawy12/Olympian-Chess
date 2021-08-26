@@ -31,9 +31,9 @@ public class Drunkenness : SkillBase
     private void DR_StandardSkill()
     {
         int x, y;
-        List<GameObject> movePlates = GameManager.Inst.GetMovePlates();
+        List<MovePlate> movePlates = GameManager.Inst.GetMovePlates();
         random = Random.Range(0, movePlates.Count + 1);
-        MovePlate movePlate = movePlates[random].GetComponent<MovePlate>();
+        MovePlate movePlate = movePlates[random];
 
         x = movePlate.GetPosX();
         y = movePlate.GetPosY();

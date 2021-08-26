@@ -149,7 +149,6 @@ public class ChessBase : MonoBehaviourPunCallbacks
             }
         }
         chessData.chosenSkill.Add(skill.GetSkillData());
-        Debug.Log("¿¿æ÷");
         SendChessData();
     }
 

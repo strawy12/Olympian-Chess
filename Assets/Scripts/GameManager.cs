@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     [Multiline(10)]
     [SerializeField] string cheatInfo;
-    [SerializeField] private List<GameObject> movePlateList = new List<GameObject>();
+    [SerializeField] private List<MovePlate> movePlateList = new List<MovePlate>();
     [SerializeField] private Text currentPlayerText;
     [SerializeField] private Text networkPlayerText;
 
@@ -76,8 +76,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
     private void Start()
     {
-        TurnManager.Instance.StartGame();
-        SetCamera();
+
     }
     private void Update()
     {
@@ -101,7 +100,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             DeletePawn();
         }
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.W))
         {
             DestroyMovePlates();
         }
@@ -114,7 +113,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
-    private void SetCamera()
+    public void SetCamera()
     {
         Canvas cv = FindObjectOfType<Canvas>();
         if (NetworkManager.Inst.GetPlayer() == "white")
@@ -144,8 +143,9 @@ public class GameManager : MonoBehaviourPunCallbacks
             if (white[i] == null) continue;
             if (white[i].gameObject.name == "white_pawn")
             {
-                Destroy(white[i].gameObject);
                 ChessManager.Inst.UpdateArr(white[i]);
+                Destroy(white[i].gameObject);
+
             }
         }
 
@@ -154,18 +154,21 @@ public class GameManager : MonoBehaviourPunCallbacks
             if (black[i] == null) continue;
             if (black[i].gameObject.name == "black_pawn")
             {
-                Destroy(black[i].gameObject);
                 ChessManager.Inst.UpdateArr(black[i]);
+                Destroy(black[i].gameObject);
+
             }
         }
     }
     public void DestroyMovePlates()
     {
         int cnt = movePlateList.Count;
+        MovePlate movePlate;
         for (int i = 0; i < cnt; i++)
         {
-            Destroy(movePlateList[0]);
-            RemoveMovePlateList(movePlateList[0]);
+            movePlate = movePlateList[0];
+            RemoveMovePlateList(movePlate);
+            Destroy(movePlate.gameObject);
         }
     }
     // Functions checking if the parameter is equal to current player
@@ -189,7 +192,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         MovePlate mpScript = mp.GetComponent<MovePlate>();
         mpScript.Setreference(cp);
         mpScript.SetCoords(matrixX, matrixY);
-        AddMovePlateList(mp);
+        AddMovePlateList(mpScript);
         return mp;
     }
 
@@ -212,7 +215,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         mpScript.Setreference(cp);
         Debug.Log(matrixX+ ", " + matrixY);
         mpScript.SetCoords(matrixX, matrixY);
-        AddMovePlateList(mp);
+        AddMovePlateList(mpScript);
     }
 
     // Function spawning move plates on each non-empty space
@@ -280,6 +283,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             for (int j = 0; j < 8; j++)
             {
                 cp = ChessManager.Inst.GetPosition(i, j);
+                
                 MovePlateSpawn(i, j, cp);
             }
         }
@@ -298,11 +302,24 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void DestroyNonemptyMovePlate()
     {
-        for(int i = 0; i< movePlateList.Count; i++)
+        List<MovePlate> nums = new List<MovePlate>();
+        for (int i = 0; i< movePlateList.Count; i++)
         {
-            if (movePlateList[i].GetComponent<MovePlate>().Getreference() != null)
-                Destroy(movePlateList[i]);
+            if (movePlateList[i].Getreference() != null)
+            {
+                nums.Add(movePlateList[i]);
+            }
         }
+
+
+        for(int i = 0, cnt = nums.Count; i < cnt; i++)
+        {
+            RemoveMovePlateList(nums[0]);
+            Destroy(nums[0].gameObject);;
+            nums.RemoveAt(0);
+        }
+
+
     }
     #region
 
@@ -317,16 +334,15 @@ public class GameManager : MonoBehaviourPunCallbacks
         return isStop;
     }
 
-    public void AddMovePlateList(GameObject mp)
+    public void AddMovePlateList(MovePlate mp)
     {
         movePlateList.Add(mp);
     }
 
     // Function removing cp from dontClickPiece list
-    public void RemoveMovePlateList(GameObject mp)
+    public void RemoveMovePlateList(MovePlate mp)
     {
         movePlateList.Remove(mp);
-
     }
 
     // Function returning gameOver
@@ -361,8 +377,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (gameOver) yield break;
         //RotationBoard.Rotate();
         //CardManager.Inst.ChangeCard(GetCurrentPlayer() == "white");
-        CardManager.Inst.CardAlignment(true);
-        CardManager.Inst.CardAlignment(false);
+        //CardManager.Inst.CardAlignment(true);
+        //CardManager.Inst.CardAlignment(false);
     }
     // Function setting winner
     public void Winner(string playerWinner)
@@ -447,7 +463,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     //        }
     //    }
     //}
-    public List<GameObject> GetMovePlates()
+    public List<MovePlate> GetMovePlates()
     {
         return movePlateList;
     }

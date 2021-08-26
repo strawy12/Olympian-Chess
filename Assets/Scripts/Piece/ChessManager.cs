@@ -54,16 +54,8 @@ public class ChessManager : MonoBehaviourPunCallbacks
 
     [SerializeField] private WaitForSeconds delay = new WaitForSeconds(0.5f);
 
-    private PositionData positionData;
     private bool isLoading;
 
-
-
-
-    void Start()
-    {
-        positionData = new PositionData(new ChessData[,] { });
-    }
 
     private void Update()
     {
@@ -548,7 +540,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
 
     public bool CheckMate(string player)
     {
-        List<GameObject> movePlates = new List<GameObject>();
+        List<MovePlate> movePlates = new List<MovePlate>();
 
         if (player == "black")
         {
@@ -562,9 +554,9 @@ public class ChessManager : MonoBehaviourPunCallbacks
 
                 for (int j = 0; j < movePlates.Count; j++)
                 {
-                    if (movePlates[j].GetComponent<MovePlate>().GetChessPiece() == null) continue;
+                    if (movePlates[j].GetChessPiece() == null) continue;
 
-                    if (movePlates[j].GetComponent<MovePlate>().GetChessPiece().name == "black_king")
+                    if (movePlates[j].GetChessPiece().name == "black_king")
                         return true;
                 }
 
@@ -631,7 +623,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
 
     public bool CheckMovePlate(string player, int x, int y)
     {
-        List<GameObject> movePlates;
+        List<MovePlate> movePlates;
 
         if (player == "black")
         {
@@ -645,7 +637,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
 
                 for (int j = 0; j < movePlates.Count; j++)
                 {
-                    if (movePlates[j].GetComponent<MovePlate>().GetPosX() == x && movePlates[j].GetComponent<MovePlate>().GetPosY() == y)
+                    if (movePlates[j].GetPosX() == x && movePlates[j].GetPosY() == y)
                     {
                         GameManager.Inst.DestroyMovePlates();
                         return true;

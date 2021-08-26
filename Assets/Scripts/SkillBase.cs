@@ -151,12 +151,14 @@ public class SkillBase : MonoBehaviourPunCallbacks
     public void TurnCntPlus()
     {
         skillData.turnCnt++;
+        Debug.Log(123);
         SendSkillData();
     }
 
     public void SetID(int ID)
     {
         skillData.ID = ID;
+        
         SendSkillData();
     }
 

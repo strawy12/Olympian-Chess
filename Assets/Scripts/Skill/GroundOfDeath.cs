@@ -45,7 +45,7 @@ public class GroundOfDeath : SkillBase
         sp.material.SetColor("_Color", new Color32(95, 0, 255, 255));
         sp.sortingOrder -= 10;
         god_Mp.GetComponent<Collider2D>().enabled = false;
-        GameManager.Inst.RemoveMovePlateList(god_Mp);
+        GameManager.Inst.RemoveMovePlateList(god_Mp.GetComponent<MovePlate>());
         GameManager.Inst.DestroyMovePlates();
         GameManager.Inst.SetUsingSkill(false);
         GameManager.Inst.SetMoving(true);

@@ -106,6 +106,20 @@ public class LobbyManager : MonoBehaviour
         }
     }
 
+    public void CheckCardList(GameObject game)
+    {
+        string[] myDecks = DeckManager.Instance.GetUser().myDecks;
+        for (int i = 0; i < myDecks.Length; i++)
+        {
+            if (myDecks[i] == null || myDecks[i] == "")
+            {
+                return;
+            }
+        }
+        NetworkManager.Inst.JoinRandomRoom();
+        game.SetActive(true);
+    }
+
     public void Next()
     {
         if (num + 1 == backGroundSprites.Length)

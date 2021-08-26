@@ -44,12 +44,12 @@ public class HeavenlyPunishment : SkillBase
         }
         photonView.RPC("StartEffect", Photon.Pun.RpcTarget.AllBuffered);
         CardManager.Inst.SetisBreak(false);
-        SkillManager.Inst.AddDontClickPiece(selectPiece);
     }
 
     [Photon.Pun.PunRPC]
     private void StartEffect()
     {
+        SkillManager.Inst.AddDontClickPiece(selectPiece);
         StartCoroutine(HP_SkillEffect());
     }
 
@@ -57,6 +57,8 @@ public class HeavenlyPunishment : SkillBase
     private IEnumerator HP_SkillEffect()
     {
         int k = skillData.turnCnt + 2;
+        Debug.Log(skillData.turnCnt);
+        Debug.Log(k);
         //sparkling effect (yellow)
         while (skillData.turnCnt < k)
         {

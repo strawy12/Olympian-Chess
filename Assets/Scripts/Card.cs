@@ -41,7 +41,7 @@ public class Card : MonoBehaviourPunCallbacks
     {
         if (enabled == false)
             return;
-        if (CardManager.Inst.isMyCardDrag && !CardManager.Inst.onMyCardArea) return;
+        if (CardManager.Inst.isMyCardDrag) return;
 
         if (isFront)
             cardPrame.sprite = cardFornt;

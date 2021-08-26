@@ -14,7 +14,7 @@ public class SlotManager : MonoBehaviour, IPointerClickHandler
     void Start()
     {
         image = GetComponent<Image>();
-
+        if (DeckManager.Instance.GetDeck() == null) return;
         for (int i = 0; i < DeckManager.Instance.GetDeck().Length; i++)
         {
             if (i == Child())

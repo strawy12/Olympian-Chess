@@ -80,8 +80,11 @@ public class SkillManager : MonoBehaviourPunCallbacks
         string[] names = name.Split(',');
         for (int i = 0; i < skillList.Count; i++)
         {
-            if (skillList[i].GetName() == name)
-                _skillList.Add(skillList[i]);
+            for(int j =0; j< names.Length; j++)
+            {
+                if (skillList[i].GetName() == names[j])
+                    _skillList.Add(skillList[i]);
+            }
         }
         return _skillList;
     }
@@ -93,7 +96,9 @@ public class SkillManager : MonoBehaviourPunCallbacks
     {
         for (int i = 0; i < skillList.Count; i++)
         {
+
             skillList[i].TurnCntPlus();
+
             skillList[i].ResetSkill();
         }
     }
@@ -169,14 +174,14 @@ public class SkillManager : MonoBehaviourPunCallbacks
         {
             if (CardManager.Inst.GetSelectCard().name == names[i])
             {
+                if (GetSkillList(names[i]).Count == 0) return;
                 SkillBase sb = GetSkillList(names[i])[0];
-                if (sb == null) return;
-                if (sb.GetSelectPiece() == null) return;
 
-                skillList.Remove(sb);
+                CardManager.Inst.SetSelectCard(null);
                 sb.RPC_DestroySkill();
                 GameManager.Inst.SetUsingSkill(false);
                 GameManager.Inst.SetMoving(true);
+                return;
             }
         }
     }
@@ -206,7 +211,7 @@ public class SkillManager : MonoBehaviourPunCallbacks
             {
                 if (skillList[i].GetPosX() == x && skillList[i].GetPosY() == y)
                 {
-                    
+
                     return true;
                 }
 
@@ -406,8 +411,8 @@ public class SkillManager : MonoBehaviourPunCallbacks
                 break;
         }
 
-
         skillList.Add(obj.GetComponent<SkillBase>());
+
     }
 
     private GameObject CheckSkill(Card card)

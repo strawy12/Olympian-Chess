@@ -66,8 +66,8 @@ public class CardManager : MonoBehaviourPunCallbacks
 
     #region Var List
     // Later these var name retouch
-    private List<Carditem> whiteCardBuffer; //white Card Buffer
-    private List<Carditem> blackCardBuffer; //Balck Card Buffer
+    private List<Carditem> whiteCardBuffer = new List<Carditem>(); //white Card Buffer
+    private List<Carditem> blackCardBuffer = new List<Carditem>(); //Balck Card Buffer
 
 
     public List<Carditem> usedCards = new List<Carditem>();
@@ -75,14 +75,13 @@ public class CardManager : MonoBehaviourPunCallbacks
     private Vector3 localPosition = Vector3.zero;
     private ChessBase chessPiece;
     private Card selectCard;
-    [SerializeField]
-    private User deck;
     [SerializeField] private GameObject cards;
     private CardbufferManager cardbufferManager;
     private int IDs = 0;
 
     public bool isMyCardDrag { get; private set; }
     public bool onMyCardArea { get; private set; }
+    private bool isShow = true;
     private bool isTargeting = false;
     [SerializeField] private bool isMine = false;
     [SerializeField] private bool isBreak = false;
@@ -101,17 +100,13 @@ public class CardManager : MonoBehaviourPunCallbacks
         cardPrefab.GetComponent<Card>().enabled = true;
     }
 
-    private void Start()
-    {
-        LoadFromJson();
-        SetUpCardBuffer();
-    }
-
     private void Update()
     {
         if (TurnManager.Instance.isLoading) return;
         if (isMyCardDrag)
+        {
             CardDrag(); // Dragging
+        }
         if (!TurnManager.Instance.isLoading)
             DetectCardArea(); // When Dragging Check CardArea in out
 
@@ -217,15 +212,6 @@ public class CardManager : MonoBehaviourPunCallbacks
         godImage.sprite = selectCard.carditem.sprite;
     }
 
-    private void DestroyMovePlates()
-    {
-        GameObject[] movePlates = GameObject.FindGameObjectsWithTag("MovePlate");
-        for (int i = 0; i < movePlates.Length; i++)
-        {
-            Destroy(movePlates[i]);
-        }
-    }
-
     void SetECardState() // enum event Setting
     {
         if (TurnManager.Instance.isLoading)
@@ -324,6 +310,19 @@ public class CardManager : MonoBehaviourPunCallbacks
     {
         return blackCards;
     }
+    public List<Card> GetTargetCards()
+    {
+        return ComparisonPlayer("white") ? whiteCards : blackCards;
+    }
+
+    public bool ComparisonPlayer(string player)
+    {
+        if (NetworkManager.Inst.GetPlayer() == player)
+        {
+            return true;
+        }
+        return false;
+    }
 
     public Card GetSelectCard()
     {
@@ -365,525 +364,558 @@ public class CardManager : MonoBehaviourPunCallbacks
 
     void SetUpCardBuffer() // Card Buffer value Get, Set
     {
-        var targetCardBuffer = NetworkManager.Inst.GetPlayer() == "white" ? whiteCardBuffer : blackCardBuffer;
-        for (int i = 0; i < deck.myDecks.Length; i++)
+        var targetCardBuffer = ComparisonPlayer("white") ? whiteCardBuffer : blackCardBuffer;
+        var deck = NetworkManager.Inst.LoadDataFromJson<User>();
+        if (deck == null)
         {
-            for (int j = 0; j < cardItemSO.cardItems.Length; j++)
+            for (int i = 0; i < 10; i++)
             {
-                if (deck.myDecks[i] == cardItemSO.cardItems[j].name)
+                whiteCardBuffer.Add(cardItemSO.cardItems[i]);
+            }
+        }
+        else
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < cardItemSO.cardItems.Length; j++)
                 {
-                    targetCardBuffer.Add(cardItemSO.cardItems[j]);
+                    if (deck.myDecks[i] == cardItemSO.cardItems[j].name)
+                    {
+                        targetCardBuffer.Add(cardItemSO.cardItems[j]);
+                    }
+                }
+            }
+        }
+
+    }
+
+
+
+    public void SetIds(Card card)
+    {
+        if (card.GetCarditem().player == "white")
+        {
+            card.SetID(IDs + 100);
+        }
+        else if (card.GetCarditem().player == "black")
+        {
+            card.SetID(IDs + 200);
+        }
+
+        IDs++;
+    }
+    public void CardShare()
+    {
+        StartCoroutine(CardShareCo());
+    }
+
+    private IEnumerator CardShareCo()
+    {
+        Card[] cds;
+        List<Card> targetCards;
+        SetUpCardBuffer();
+
+        for (int i = 0; i < 10; i++)
+        {
+            yield return new WaitForSeconds(0.05f);
+            AddCard(ComparisonPlayer("white"));
+        }
+
+        yield return new WaitForSeconds(2f);
+        cds = FindObjectsOfType<Card>();
+        targetCards = GetTargetCards();
+
+        for (int i = 0; i < cds.Length; i++)
+        {
+            if (cds[i].GetCarditem().player == NetworkManager.Inst.GetPlayer())
+            {
+                continue;
+            }
+            targetCards.Add(cds[i]);
+        }
+    }
+
+    public void AddCard(bool isMine) // CardBuffer value => GameObjectCard conversion
+    {
+        if (whiteCardBuffer.Count == 0 && blackCardBuffer.Count == 0) return;
+
+        if (isMine)
+        {
+            var cardObject = NetworkManager.Inst.SpawnObject(cardPrefab);
+            cardObject.transform.SetParent(cards.transform);
+            var card = cardObject.GetComponent<Card>();
+            card.SetUp(PopCard(isMine), isMine);
+            card.SetPlayer("white");
+            SetIds(card);
+            card.isFront = isMine;
+            whiteCards.Add(card);
+            SetOriginOrder(isMine);
+            StartCoroutine(DontShowCards(whiteCards));
+        }
+        else
+        {
+            var cardObject = NetworkManager.Inst.SpawnObject(cardPrefab);
+            cardObject.transform.SetParent(cards.transform);
+            var card = cardObject.GetComponent<Card>();
+            card.SetUp(PopCard(false), true);
+            card.SetPlayer("black");
+            SetIds(card);
+            card.isFront = true;
+            blackCards.Add(card);
+            SetOriginOrder(isMine);
+            StartCoroutine(DontShowCards(blackCards));
+        }
+    }
+
+
+    public void NotAmolang()
+    {
+        if (selectCard != null)
+        {
+            DestroyCard(selectCard);
+            isUse = true;
+        }
+    }
+    public Card GetCard(Carditem carditem)
+    {
+
+        if (carditem == null) return null;
+        var targetCards = carditem.ID < 200 ? whiteCards : blackCards;
+
+        for (int i = 0; i < targetCards.Count; i++)
+        {
+
+            if (carditem.ID == targetCards[i].GetID())
+            {
+
+                return targetCards[i];
+            }
+        }
+        return null;
+    }
+    public void DestroyCard(Card card) // Using Card Destroy
+    {
+        if (card == null) return;
+
+        string jsonData = NetworkManager.Inst.SaveDataToJson(card.GetCarditem(), false);
+        photonView.RPC("DestroyCard", RpcTarget.AllBuffered, jsonData);
+    }
+
+    [PunRPC]
+    public void DestroyCard(string jsonData)
+    {
+        bool isSame = false;
+        Carditem carditem = NetworkManager.Inst.LoadDataFromJson<Carditem>(jsonData);
+        var targetCards = carditem.ID < 200 ? whiteCards : blackCards;
+        Card card = GetCard(carditem);
+        if (card == null) return;
+        targetCards.Remove(card);
+        card.transform.DOKill();
+        card.transform.SetParent(GameManager.Inst.pool.transform);
+        card.gameObject.SetActive(false);
+        for (int i = 0; i < usedCards.Count; i++)
+        {
+            if (card.carditem.name == usedCards[i].name)
+                isSame = true;
+        }
+
+        if (!isSame)
+            usedCards.Add(card.carditem);
+    }
+    public void DestroyCards() // All Cards Destroy
+    {
+        for (int i = 0; i < whiteCards.Count; i++)
+        {
+            Destroy(whiteCards[i].gameObject);
+        }
+        for (int i = 0; i < blackCards.Count; i++)
+        {
+            Destroy(blackCards[i].gameObject);
+        }
+    }
+
+
+
+    #endregion
+
+    #region CardObject Setting
+    void SetOriginOrder(bool isMine) // OrderInLayer Setting
+    {
+        if (isMine) // my Cards
+        {
+            int cnt = whiteCards.Count;
+            if (TurnManager.Instance.CheckPlayer("white"))
+            {
+                for (int i = 0; i < cnt; i++)
+                {
+                    var targetCard = whiteCards[i];
+                    targetCard?.GetComponent<Order>().SetOriginOrder(i);
+                }
+            }
+            else
+            {
+                int j = 0;
+                for (int i = cnt - 1; i >= 0; i--)
+                {
+                    var targetCard = whiteCards[i];
+                    targetCard?.GetComponent<Order>().SetOriginOrder(j);
+                    j++;
+                }
+            }
+        }
+        else // other Cards
+        {
+            int cnt = blackCards.Count;
+            if (TurnManager.Instance.CheckPlayer("black"))
+            {
+                for (int i = 0; i < cnt; i++)
+                {
+                    var targetCard = blackCards[i];
+                    targetCard?.GetComponent<Order>().SetOriginOrder(i);
+                }
+            }
+            else
+            {
+                int j = 0;
+                for (int i = cnt - 1; i >= 0; i--)
+                {
+                    var targetCard = blackCards[i];
+                    targetCard?.GetComponent<Order>().SetOriginOrder(j);
+                    j++;
                 }
             }
         }
     }
 
-
-
-public void SetIds(Card card)
-{
-    if (card.GetCarditem().player == "white")
+    public void ShowCardAlignment()
     {
-        card.SetID(IDs + 100);
-    }
-    else if (card.GetCarditem().player == "black")
-    {
-        card.SetID(IDs + 200);
-    }
-
-    IDs++;
-}
-public void CardShare()
-{
-    StartCoroutine(CardShareCo());
-}
-
-private IEnumerator CardShareCo()
-{
-    Card[] cds;
-    List<Card> targetCards;
-    for (int i = 0; i < 10; i++)
-    {
-        yield return new WaitForSeconds(0.05f);
-        AddCard(NetworkManager.Inst.GetPlayer() == "white");
-    }
-
-    yield return new WaitForSeconds(2f);
-    cds = FindObjectsOfType<Card>();
-    targetCards = NetworkManager.Inst.GetPlayer() == "white" ? blackCards : whiteCards;
-
-    for (int i = 0; i < cds.Length; i++)
-    {
-        if (cds[i].GetCarditem().player == NetworkManager.Inst.GetPlayer())
+        List<PRS> originCardPRSs = new List<PRS>();
+        List<Card> targetCards = GetTargetCards();
+        if (isShow)
         {
-            continue;
+            isShow = false;
+            originCardPRSs = ShowCards(targetCards.Count, Vector3.one * 1.9f);
+            StartCoroutine(SetPosition(originCardPRSs, targetCards));
+            SetOriginOrder(true);
         }
-        targetCards.Add(cds[i]);
-    }
-}
-    private void LoadFromJson()
-    {
-        string json;
-        string SAVE_PATH = Application.dataPath + "/Save";
-        string SAVE_FILENAME = "/SaveFile.txt";
-
-        if (File.Exists(SAVE_PATH + SAVE_FILENAME))
+        else
         {
-            json = File.ReadAllText(SAVE_PATH + SAVE_FILENAME);
-            deck = JsonUtility.FromJson<User>(json);
+            isShow = true;
+
+            StartCoroutine(DontShowCards(targetCards));
         }
+
+    }
+    //public void CardAlignment(bool isMine)
+    //{
+    //    if (onMyCardArea) return;
+    //    List<PRS> originCardPRSs = new List<PRS>();
+    //    float zPosition = 0f;
+
+
+    //    if (TurnManager.Instance.CheckPlayer("white"))
+    //    {
+    //        if (isMine)
+    //        {
+    //            originCardPRSs = RoundAlignment(whiteCardLeft, whiteCardRight, whiteCards.Count, 0.5f, Vector3.one * 1.9f);
+    //        }
+    //        else
+    //        {
+    //            originCardPRSs = RoundAlignment(blackCardRight, blackCardLeft, blackCards.Count, -0.5f, Vector3.one * 1.9f);
+    //        }
+    //    }
+
+
+    //    else
+    //    {
+    //        if (isMine)
+    //        {
+    //            originCardPRSs = RoundAlignment(blackCardRight, blackCardLeft, blackCards.Count, -0.5f, Vector3.one * 1.9f);
+
+    //        }
+
+    //        else
+    //        {
+    //            originCardPRSs = RoundAlignment(whiteCardLeft, whiteCardRight, whiteCards.Count, 0.5f, Vector3.one * 1.9f);
+
+    //        }
+    //    }
+
+    //    SetZPosition(isMine, originCardPRSs, zPosition);
+
+    //    SetOriginOrder(isMine);
+    //}
+
+    private IEnumerator SetPosition(List<PRS> originCardPRSs, List<Card> targetCards)
+    {
+        Debug.Log(targetCards.Count);
+        Debug.Log(originCardPRSs.Count);
+        for (int i = 0; i < targetCards.Count; i++)
+        {
+            var targetCard = targetCards[i];
+            targetCard.gameObject.SetActive(true);
+            targetCard.originPRS = originCardPRSs[i];
+            targetCard.MoveTransform(targetCard.originPRS, true, false, 0.7f);
+            yield return new WaitForSeconds(0.05f);
+        }
+
+    }
+    //private List<PRS> RoundAlignment(Transform leftTr, Transform rightTr, int objCnt, float height, Vector3 scale) // practical card sorting (Align the cards using the equation of a circle)
+    //{
+    //    float[] objLerps = new float[objCnt];
+    //    List<PRS> results = new List<PRS>(objCnt);
+
+    //    switch (objCnt)
+    //    {
+    //        case 1: objLerps = new float[] { 0.5f }; break;
+    //        case 2: objLerps = new float[] { 0.27f, 0.73f }; break;
+    //        case 3: objLerps = new float[] { 0.1f, 0.5f, 0.9f }; break;
+    //        default:
+    //            float interval = 1f / (objCnt - 1);
+    //            for (int i = 0; i < objCnt; i++)
+    //                objLerps[i] = interval * i;
+    //            break;
+    //    }
+
+    //    for (int i = 0; i < objCnt; i++)
+    //    {
+    //        var targetPos = Vector3.Lerp(leftTr.position, rightTr.position, objLerps[i]);
+    //        var targetRot = Utils.QI;
+    //        if (objCnt >= 4)
+    //        {
+    //            float curve = Mathf.Sqrt(Mathf.Pow(height, 2) - Mathf.Pow(objLerps[i] - 0.5f, 2));
+    //            curve = height >= 0 ? curve : -curve;
+    //            targetPos.y += curve;
+    //            targetRot = Quaternion.Slerp(leftTr.rotation, rightTr.rotation, objLerps[i]);
+    //        }
+    //        results.Add(new PRS(targetPos, targetRot, scale));
+    //    }
+    //    return results;
+
+    //}
+    //// Code you don't necessarily need to understand
+
+    //private void SetZPosition(bool isMine, List<PRS> originCardPRSs, float zPosition)
+    //{
+    //    int cnt;
+    //    if (TurnManager.Instance.CheckPlayer("white"))
+    //    {
+    //        if (isMine)
+    //        {
+    //            cnt = whiteCards.Count;
+
+    //            for (int i = 0; i < cnt; i++)
+    //            {
+    //                var targetCard = whiteCards[i];
+    //                targetCard.originPRS = originCardPRSs[i];
+    //                targetCard.originPRS.pos.z = originCardPRSs[i].pos.z - zPosition;
+    //                targetCard.MoveTransform(targetCard.originPRS, true, true, 0.7f);
+
+    //                zPosition++;
+    //            }
+    //            return;
+    //        }
+
+    //        else
+    //        {
+    //            cnt = blackCards.Count;
+
+    //            zPosition = 10;
+    //            for (int i = 0; i < cnt; i++)
+    //            {
+    //                var targetCard = blackCards[i];
+    //                targetCard.originPRS = originCardPRSs[i];
+    //                targetCard.originPRS.pos.z = originCardPRSs[i].pos.z - zPosition;
+    //                targetCard.MoveTransform(targetCard.originPRS, true, true, 0.7f);
+
+    //                zPosition--;
+    //            }
+    //            return;
+    //        }
+
+    //    }
+    //    else
+    //    {
+    //        if (isMine)
+    //        {
+    //            cnt = blackCards.Count;
+
+    //            zPosition = 10;
+    //            for (int i = 0; i < cnt; i++)
+    //            {
+    //                var targetCard = blackCards[i];
+    //                targetCard.originPRS = originCardPRSs[i];
+    //                targetCard.originPRS.pos.z = originCardPRSs[i].pos.z - zPosition;
+    //                targetCard.MoveTransform(targetCard.originPRS, true, true, 0.7f);
+
+    //                zPosition--;
+    //            }
+    //            return;
+    //        }
+
+
+    //        else
+    //        {
+    //            cnt = whiteCards.Count;
+
+    //            for (int i = 0; i < cnt; i++)
+    //            {
+    //                var targetCard = whiteCards[i];
+    //                targetCard.originPRS = originCardPRSs[i];
+    //                targetCard.originPRS.pos.z = originCardPRSs[i].pos.z - zPosition;
+    //                targetCard.MoveTransform(targetCard.originPRS, true, true, 0.7f);
+
+    //                zPosition++;
+    //            }
+    //            return;
+    //        }
+    //    }
+    //}
+
+    private bool TryPutCard(bool isMine, bool isUsed) // Executed when using a card
+    {
+        if (isStop) return false;
+        if (isUse) return false;
+        if (isMine && myPutCount >= 1)
+            return false;
+
+        if (!isMine && blackCards.Count <= 0)
+            return false;
+
+        Card card = selectCard;
+        var targetCards = GetTargetCards();
+        if (isUsed)
+        {
+
+            isTargeting = false;
+
+            SkillManager.Inst.SpawnSkillPrefab(card, chessPiece);
+            if (isBreak)
+            {
+                isBreak = false;
+                return false;
+            }
+            if (CheckCardname("에로스의 사랑,수면,죽음의 땅,파도")) return true;
+
+            DestroyCard(card);
+
+            isUse = true;
+
+            if (isMine)
+            {
+                selectCard = null;
+                targetPicker.SetActive(false);
+            }
+            StartCoroutine(DontShowCards(targetCards));
+            return true;
+        }
+
+
+        return false;
     }
 
-public void AddCard(bool isMine) // CardBuffer value => GameObjectCard conversion
-{
-    if (whiteCardBuffer.Count == 0 && blackCardBuffer.Count == 0) return;
-
-    if (isMine)
+    private void EnlargeCard(bool isEnlarge, Card card) // Card enlarged when clicked
     {
+        if (isEnlarge)
+        {
+            if (TurnManager.Instance.CheckPlayer("white"))
+            {
+                Vector3 enlargePos = new Vector3(card.originPRS.pos.x, -3.5f, -10f);
+                card.MoveTransform(new PRS(enlargePos, Utils.QI, Vector3.one * 2.5f), false, false);
+            }
+            else
+            {
+                Vector3 enlargePos = new Vector3(card.originPRS.pos.x, 3.5f, -10f);
+                Quaternion rot = Quaternion.Euler(180f, 180f, 0f);
+                card.MoveTransform(new PRS(enlargePos, rot, Vector3.one * 2.5f), false, false);
+            }
+        }
+        else
+            card.MoveTransform(card.originPRS, false, false);
+
+        card.GetComponent<Order>().SetMostFrontOrder(isEnlarge);
+    }
+
+    public void AddUsedCard(int randomNum) // sacrificial function, Among the used cards, randomly add them back to the CardBuffer
+    {
+        if (usedCards.Count == 0) return;
+
         var cardObject = NetworkManager.Inst.SpawnObject(cardPrefab);
         cardObject.transform.SetParent(cards.transform);
         var card = cardObject.GetComponent<Card>();
-        card.SetUp(PopCard(isMine), isMine);
-        card.SetPlayer("white");
+        card.SetUp(usedCards[randomNum], true);
+        card.SetPlayer(NetworkManager.Inst.GetPlayer());
         SetIds(card);
         card.isFront = isMine;
-        whiteCards.Add(card);
-        SetOriginOrder(isMine);
-        CardAlignment(isMine);
-    }
-    else
-    {
-        var cardObject = NetworkManager.Inst.SpawnObject(cardPrefab);
-        cardObject.transform.SetParent(cards.transform);
-        var card = cardObject.GetComponent<Card>();
-        card.SetUp(PopCard(false), true);
-        card.SetPlayer("black");
-        SetIds(card);
-        card.isFront = true;
-        blackCards.Add(card);
-        SetOriginOrder(isMine);
-        CardAlignment(isMine);
-    }
-}
+        var targetCards = GetTargetCards();
+        targetCards.Add(card);
 
-
-public void NotAmolang()
-{
-    if (selectCard != null)
-    {
-        DestroyCard(selectCard);
-        CardAlignment(true);
-        isUse = true;
-    }
-}
-public Card GetCard(Carditem carditem)
-{
-
-    if (carditem == null) return null;
-    var targetCards = carditem.ID < 200 ? whiteCards : blackCards;
-
-    for (int i = 0; i < targetCards.Count; i++)
-    {
-
-        if (carditem.ID == targetCards[i].GetID())
-        {
-
-            return targetCards[i];
-        }
-    }
-    return null;
-}
-public void DestroyCard(Card card) // Using Card Destroy
-{
-    if (card == null) return;
-
-    string jsonData = NetworkManager.Inst.SaveDataToJson(card.GetCarditem(), false);
-    photonView.RPC("DestroyCard", RpcTarget.AllBuffered, jsonData);
-}
-
-[PunRPC]
-public void DestroyCard(string jsonData)
-{
-    bool isSame = false;
-    Carditem carditem = NetworkManager.Inst.LoadDataFromJson<Carditem>(jsonData);
-    var targetCards = carditem.ID < 200 ? whiteCards : blackCards;
-    Card card = GetCard(carditem);
-    if (card == null) return;
-    targetCards.Remove(card);
-    card.transform.DOKill();
-    card.transform.SetParent(GameManager.Inst.pool.transform);
-    card.gameObject.SetActive(false);
-    if (!TurnManager.Instance.GetCurrentPlayerTF())
-    {
-        CardAlignment(false);
-    }
-    for (int i = 0; i < usedCards.Count; i++)
-    {
-        if (card.carditem.name == usedCards[i].name)
-            isSame = true;
+        SetOriginOrder(true);
+        StartCoroutine(DontShowCards(targetCards));
     }
 
-    if (!isSame)
-        usedCards.Add(card.carditem);
-}
-public void DestroyCards() // All Cards Destroy
-{
-    for (int i = 0; i < whiteCards.Count; i++)
+    public void RemoveCard(int rand, List<Card> targetCards)
     {
-        Destroy(whiteCards[i].gameObject);
+        DestroyCard(targetCards[rand]);
     }
-    for (int i = 0; i < blackCards.Count; i++)
+    #endregion
+
+    #region Card Control
+
+    public void CardMouseOver(Card card)
     {
-        Destroy(blackCards[i].gameObject);
-    }
-}
-
-
-
-#endregion
-
-#region CardObject Setting
-void SetOriginOrder(bool isMine) // OrderInLayer Setting
-{
-    if (isMine) // my Cards
-    {
-        int cnt = whiteCards.Count;
-        if (TurnManager.Instance.CheckPlayer("white"))
-        {
-            for (int i = 0; i < cnt; i++)
-            {
-                var targetCard = whiteCards[i];
-                targetCard?.GetComponent<Order>().SetOriginOrder(i);
-            }
-        }
-        else
-        {
-            int j = 0;
-            for (int i = cnt - 1; i >= 0; i--)
-            {
-                var targetCard = whiteCards[i];
-                targetCard?.GetComponent<Order>().SetOriginOrder(j);
-                j++;
-            }
-        }
-    }
-    else // other Cards
-    {
-        int cnt = blackCards.Count;
-        if (TurnManager.Instance.CheckPlayer("black"))
-        {
-            for (int i = 0; i < cnt; i++)
-            {
-                var targetCard = blackCards[i];
-                targetCard?.GetComponent<Order>().SetOriginOrder(i);
-            }
-        }
-        else
-        {
-            int j = 0;
-            for (int i = cnt - 1; i >= 0; i--)
-            {
-                var targetCard = blackCards[i];
-                targetCard?.GetComponent<Order>().SetOriginOrder(j);
-                j++;
-            }
-        }
-    }
-}
-
-public void CardAlignment(bool isMine)
-{
-    if (onMyCardArea) return;
-    List<PRS> originCardPRSs = new List<PRS>();
-    float zPosition = 0f;
-
-
-    if (TurnManager.Instance.CheckPlayer("white"))
-    {
-        if (isMine)
-        {
-            originCardPRSs = RoundAlignment(whiteCardLeft, whiteCardRight, whiteCards.Count, 0.5f, Vector3.one * 1.9f);
-        }
-        else
-        {
-            originCardPRSs = RoundAlignment(blackCardLeft, blackCardRight, blackCards.Count, -0.5f, Vector3.one * 1.9f);
-        }
-    }
-
-
-    else
-    {
-        if (isMine)
-        {
-            originCardPRSs = RoundAlignment(blackCardLeft, blackCardRight, blackCards.Count, -0.5f, Vector3.one * 1.9f);
-
-        }
-
-        else
-        {
-            originCardPRSs = RoundAlignment(whiteCardLeft, whiteCardRight, whiteCards.Count, 0.5f, Vector3.one * 1.9f);
-
-        }
-    }
-
-    SetZPosition(isMine, originCardPRSs, zPosition);
-
-    SetOriginOrder(isMine);
-}
-
-private List<PRS> RoundAlignment(Transform leftTr, Transform rightTr, int objCnt, float height, Vector3 scale) // practical card sorting (Align the cards using the equation of a circle)
-{
-    float[] objLerps = new float[objCnt];
-    List<PRS> results = new List<PRS>(objCnt);
-
-    switch (objCnt)
-    {
-        case 1: objLerps = new float[] { 0.5f }; break;
-        case 2: objLerps = new float[] { 0.27f, 0.73f }; break;
-        case 3: objLerps = new float[] { 0.1f, 0.5f, 0.9f }; break;
-        default:
-            float interval = 1f / (objCnt - 1);
-            for (int i = 0; i < objCnt; i++)
-                objLerps[i] = interval * i;
-            break;
-    }
-
-    for (int i = 0; i < objCnt; i++)
-    {
-        var targetPos = Vector3.Lerp(leftTr.position, rightTr.position, objLerps[i]);
-        var targetRot = Utils.QI;
-        if (objCnt >= 4)
-        {
-            float curve = Mathf.Sqrt(Mathf.Pow(height, 2) - Mathf.Pow(objLerps[i] - 0.5f, 2));
-            curve = height >= 0 ? curve : -curve;
-            targetPos.y += curve;
-            targetRot = Quaternion.Slerp(leftTr.rotation, rightTr.rotation, objLerps[i]);
-        }
-        results.Add(new PRS(targetPos, targetRot, scale));
-    }
-    return results;
-
-}
-// Code you don't necessarily need to understand
-
-private void SetZPosition(bool isMine, List<PRS> originCardPRSs, float zPosition)
-{
-    int cnt;
-    if (TurnManager.Instance.CheckPlayer("white"))
-    {
-        if (isMine)
-        {
-            cnt = whiteCards.Count;
-
-            for (int i = 0; i < cnt; i++)
-            {
-                var targetCard = whiteCards[i];
-                targetCard.originPRS = originCardPRSs[i];
-                targetCard.originPRS.pos.z = originCardPRSs[i].pos.z - zPosition;
-                targetCard.MoveTransform(targetCard.originPRS, true, true, 0.7f);
-
-                zPosition++;
-            }
+        if (eCardState == ECardState.Nothing)
             return;
-        }
-
-        else
-        {
-            cnt = blackCards.Count;
-
-            zPosition = 10;
-            for (int i = 0; i < cnt; i++)
-            {
-                var targetCard = blackCards[i];
-                targetCard.originPRS = originCardPRSs[i];
-                targetCard.originPRS.pos.z = originCardPRSs[i].pos.z - zPosition;
-                targetCard.MoveTransform(targetCard.originPRS, true, true, 0.7f);
-
-                zPosition--;
-            }
-            return;
-        }
-
+        if (!card.isSelected) return;
+        if (selectCard == null) return;
+        if (card.carditem.name != selectCard.carditem.name) return;
+        if (isMyCardDrag)
+            card.cardPrame.sprite = null;
     }
-    else
+
+    public void CardMouseDown(Card card)
     {
-        if (isMine)
-        {
-            cnt = blackCards.Count;
-
-            zPosition = 10;
-            for (int i = 0; i < cnt; i++)
-            {
-                var targetCard = blackCards[i];
-                targetCard.originPRS = originCardPRSs[i];
-                targetCard.originPRS.pos.z = originCardPRSs[i].pos.z - zPosition;
-                targetCard.MoveTransform(targetCard.originPRS, true, true, 0.7f);
-
-                zPosition--;
-            }
+        if (eCardState != ECardState.CanMouseDrag || eCardState == ECardState.Nothing)
             return;
-        }
+        if (isUse) return;
 
+        GameManager.Inst.DestroyMovePlates();
+        SkillManager.Inst.SetUsingCard(false);
+        SkillManager.Inst.CheckSkillCancel("에로스의 사랑,수면,죽음의 땅,파도");
+        isMyCardDrag = true;
+        selectCard = card;
+        EnlargeCard(true, card);
+        //cardInfo.SetActive(true);
+        StartCoroutine(DontShowCards(GetTargetCards()));
 
-        else
-        {
-            cnt = whiteCards.Count;
-
-            for (int i = 0; i < cnt; i++)
-            {
-                var targetCard = whiteCards[i];
-                targetCard.originPRS = originCardPRSs[i];
-                targetCard.originPRS.pos.z = originCardPRSs[i].pos.z - zPosition;
-                targetCard.MoveTransform(targetCard.originPRS, true, true, 0.7f);
-
-                zPosition++;
-            }
-            return;
-        }
+        //ShowInfo();
     }
-}
 
-private bool TryPutCard(bool isMine, bool isUsed) // Executed when using a card
-{
-    if (isStop) return false;
-    if (isUse) return false;
-    if (isMine && myPutCount >= 1)
-        return false;
-
-    if (!isMine && blackCards.Count <= 0)
-        return false;
-
-    Card card = selectCard;
-    if (isUsed)
+    public void CardMouseUp(Card card)
     {
-
-        isTargeting = false;
-
-        SkillManager.Inst.SpawnSkillPrefab(card, chessPiece);
-        if (isBreak)
+        if (isUse) return;
+        isMyCardDrag = false;
+        isUsed = isTargeting;
+        targetPicker.SetActive(false);
+        cardInfo.SetActive(false);
+        if (eCardState != ECardState.CanMouseDrag || eCardState == ECardState.Nothing)
+            return;
+        EnlargeCard(false, card);
+        if (CheckCardname("죽음의 땅,시간왜곡,바카스,정의구현") && !onMyCardArea)
         {
-            isBreak = false;
-            return false;
+            isUsed = true;
         }
-        if (CheckCardname("에로스의 사랑,수면,죽음의 땅,파도")) return true;
-
-        DestroyCard(card);
-
-        isUse = true;
-
-        if (isMine)
+        if (!TryPutCard(true, isUsed))
         {
             selectCard = null;
-            targetPicker.SetActive(false);
-        }
-
-        CardAlignment(TurnManager.Instance.GetCurrentPlayerTF());
-        return true;
-    }
-    CardAlignment(TurnManager.Instance.GetCurrentPlayerTF());
-    return false;
-}
-
-private void EnlargeCard(bool isEnlarge, Card card) // Card enlarged when clicked
-{
-    if (isEnlarge)
-    {
-        if (TurnManager.Instance.CheckPlayer("white"))
-        {
-            Vector3 enlargePos = new Vector3(card.originPRS.pos.x, -3.5f, -10f);
-            card.MoveTransform(new PRS(enlargePos, Utils.QI, Vector3.one * 2.5f), false, false);
-        }
-        else
-        {
-            Vector3 enlargePos = new Vector3(card.originPRS.pos.x, 3.5f, -10f);
-            Quaternion rot = Quaternion.Euler(180f, 180f, 0f);
-            card.MoveTransform(new PRS(enlargePos, rot, Vector3.one * 2.5f), false, false);
+            StartCoroutine(DontShowCards(GetTargetCards()));
         }
     }
-    else
-        card.MoveTransform(card.originPRS, false, false);
 
-    card.GetComponent<Order>().SetMostFrontOrder(isEnlarge);
-}
-
-public void AddUsedCard(int randomNum) // sacrificial function, Among the used cards, randomly add them back to the CardBuffer
-{
-    if (usedCards.Count == 0) return;
-
-    var cardObject = NetworkManager.Inst.SpawnObject(cardPrefab);
-    cardObject.transform.SetParent(cards.transform);
-    var card = cardObject.GetComponent<Card>();
-    card.SetUp(usedCards[randomNum], true);
-    card.SetPlayer(NetworkManager.Inst.GetPlayer());
-    SetIds(card);
-    card.isFront = isMine;
-    var targetCards = NetworkManager.Inst.GetPlayer() == "white" ? whiteCards : blackCards;
-    targetCards.Add(card);
-
-    SetOriginOrder(true);
-    CardAlignment(true);
-}
-
-public void RemoveCard(int rand, List<Card> targetCards)
-{
-    DestroyCard(targetCards[rand]);
-}
-#endregion
-
-#region Card Control
-
-public void CardMouseOver(Card card)
-{
-    if (eCardState == ECardState.Nothing)
-        return;
-    if (!card.isSelected) return;
-    if (selectCard == null) return;
-    if (card.carditem.name != selectCard.carditem.name) return;
-    if (isMyCardDrag && !onMyCardArea)
-        card.cardPrame.sprite = null;
-}
-
-public void CardMouseDown(Card card)
-{
-    if (eCardState != ECardState.CanMouseDrag || eCardState == ECardState.Nothing)
-        return;
-    if (isUse) return;
-
-    DestroyMovePlates();
-    SkillManager.Inst.SetUsingCard(false);
-    SkillManager.Inst.CheckSkillCancel("에로스의 사랑,수면,죽음의 땅,파도");
-    isMyCardDrag = true;
-    selectCard = card;
-    EnlargeCard(true, card);
-    cardInfo.SetActive(true);
-    ShowInfo();
-}
-
-public void CardMouseUp(Card card)
-{
-    if (isUse) return;
-    isMyCardDrag = false;
-    isUsed = isTargeting;
-    targetPicker.SetActive(false);
-    cardInfo.SetActive(false);
-    if (eCardState != ECardState.CanMouseDrag || eCardState == ECardState.Nothing)
-        return;
-    EnlargeCard(false, card);
-    if (CheckCardname("죽음의 땅,시간왜곡,바카스,정의구현") && !onMyCardArea)
+    private void CardDrag()
     {
-        isUsed = true;
-    }
-    if (!TryPutCard(true, isUsed))
-    {
-        selectCard = null;
-    }
-}
+        TargetingChessPiece();
 
-private void CardDrag()
-{
-    TargetingChessPiece();
-    if (!onMyCardArea)
-    {
         if (TurnManager.Instance.CheckPlayer("white"))
         {
             selectCard.MoveTransform(new PRS(Utils.MousePos, Utils.QI, selectCard.originPRS.scale), false, false);
@@ -893,8 +925,83 @@ private void CardDrag()
             selectCard.MoveTransform(new PRS(Utils.MousePos, Quaternion.Euler(0f, 0f, 180f), selectCard.originPRS.scale), false, false);
         }
         cardInfo.SetActive(false);
+
     }
-}
+
+    public List<PRS> ShowCards(int objCnt, Vector3 scale)
+    {
+        float[] objYpos = new float[0];
+        float[] objLerps = new float[objCnt];
+        float interval = 1f / 3;
+        List<PRS> results = new List<PRS>(objCnt);
+        Vector3 targetPos;
+        Quaternion targetRot;
+        if (ComparisonPlayer("white"))
+        {
+            switch (Mathf.CeilToInt((float)objCnt / 4))
+            {
+                case 1: objYpos = new float[1] { 1.85f }; break;
+                case 2: objYpos = new float[2] { 0.16f, 1.85f }; break;
+                case 3: objYpos = new float[3] { -1.63f, 0.16f, 1.85f }; break;
+            }
+            targetRot = Utils.QI;
+        }
+        else
+        {
+            switch (Mathf.CeilToInt((float)objCnt / 4))
+            {
+                case 1: objYpos = new float[1] { -1.63f }; break;
+                case 2: objYpos = new float[2] { 0.16f, -1.63f }; break;
+                case 3: objYpos = new float[3] { 1.85f, 0.16f, -1.63f }; break;
+            }
+            targetRot = Quaternion.Euler(0f, 0f, 180f);
+
+        }
+
+
+
+
+        for (int i = objYpos.Length - 1; i >= 0; i--)
+        {
+
+            if (objCnt == 0) break;
+
+            for (int j = 0, k = objCnt > 4 ? 4 : objCnt; j < k; j++)
+            {
+                if (objCnt == 0) break;
+                objCnt--;
+                targetPos = Vector3.Lerp(new Vector2(-2.1f, objYpos[i]), new Vector2(2.1f, objYpos[i]), interval * j);
+                results.Add(new PRS(targetPos, targetRot, scale));
+            }
+        }
+        return results;
+
+
+    }
+
+    public IEnumerator DontShowCards(List<Card> targetCards)
+    {
+        Vector2 targetPos;
+        Quaternion targetRot;
+        if (ComparisonPlayer("white"))
+        {
+            targetPos = new Vector2(2f, -4f);
+            targetRot = Utils.QI;
+        }
+
+        else
+        {
+            targetPos = new Vector2(-2f, 4f);
+            targetRot = Quaternion.Euler(0f, 0f, 180f);
+        }
+
+        for (int i = 0; i < targetCards.Count; i++)
+        {
+            if (targetCards[i] == selectCard) continue;
+            targetCards[i].MoveTransform(new PRS(targetPos, targetRot, Vector3.zero), true, false, 0.7f);
+            yield return new WaitForSeconds(0.05f);
+        }
+    }
 
     #endregion
 }

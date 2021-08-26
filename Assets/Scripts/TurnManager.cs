@@ -20,7 +20,7 @@ public class TurnManager : MonoBehaviourPunCallbacks
             if (_instance == null)
             {
                 _instance = FindObjectOfType<TurnManager>();
-                if(_instance==null)
+                if (_instance == null)
                 {
                     _instance = new GameObject("TurnManager").AddComponent<TurnManager>();
                 }
@@ -49,11 +49,11 @@ public class TurnManager : MonoBehaviourPunCallbacks
     [Header("상대와 나의 버튼 위치")]
     [SerializeField] Transform posUp; // Opponent's button position
     [SerializeField] Transform posDown; // button position of the current player
-    [SerializeField] GameObject loadingDisplay; 
+    [SerializeField] GameObject loadingDisplay;
 
     private bool isActive = false;
 
-    [SerializeField]private string currentPlayer = "white";
+    [SerializeField] private string currentPlayer = "white";
 
     [Header("속성")]
     public bool isLoading;
@@ -69,7 +69,7 @@ public class TurnManager : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             isActive = !isActive;
         }
@@ -77,6 +77,11 @@ public class TurnManager : MonoBehaviourPunCallbacks
     public void StartGame()
     {
         loadingDisplay.SetActive(true);
+        if (NetworkManager.Inst.GetPlayer() == "black")
+        {
+            loadingDisplay.transform.Rotate(0f, 0f, 180f);
+        }
+
         StartCoroutine(TurnSetting());
     }
 
@@ -128,7 +133,7 @@ public class TurnManager : MonoBehaviourPunCallbacks
         loadingDisplay.SetActive(false);
         CardManager.Inst.CardShare();
         yield return new WaitForSeconds(2f);
-        
+
 
         isLoading = false;
     }
@@ -159,7 +164,7 @@ public class TurnManager : MonoBehaviourPunCallbacks
         yield return delay07;
 
         isLoading = false;
-                 
+
         OnTurnStarted?.Invoke(GetCurrentPlayerTF());
         #region 위 문법이랑 같은 뜻
         /*if(OnTurnStarted!=null)
@@ -185,7 +190,7 @@ public class TurnManager : MonoBehaviourPunCallbacks
         }
     }
 
-   // Re Active
+    // Re Active
     public bool GetIsActive()
     {
         return isActive;
@@ -203,7 +208,7 @@ public class TurnManager : MonoBehaviourPunCallbacks
         if (GetCurrentPlayerTF())
             buttonWhite.image.sprite = buttonActive;
 
-        else if(GetCurrentPlayerTF())
+        else if (GetCurrentPlayerTF())
             buttonBlack.image.sprite = buttonActive;
 
         isActive = true;
@@ -263,7 +268,6 @@ public class TurnManager : MonoBehaviourPunCallbacks
         GameManager.Inst.SetMoving(true);
         GameManager.Inst.SetIsStop(false);
 
-        SkillManager.Inst.SkillListCntPlus();
 
         StartCoroutine(StartTurnCo());
         //WinOrLose();

@@ -25,9 +25,6 @@ public class DeckManager : MonoBehaviour
         }
     }
 
-    private string SAVE_PATH = "";
-    private readonly string SAVE_FILENAME = "/SaveFile.txt";
-
     private int card = -1;
     public bool isSelected = false;
     private bool isSave = false;
@@ -56,14 +53,12 @@ public class DeckManager : MonoBehaviour
     //여기서 isChosen[카드 번호]가 true면 그 카드를 선택된거임
     private void Awake()
     {
-        SAVE_PATH = Application.dataPath + "/Save";
-        //Application.persistentDataPath (나중에 안드로이드)
-        if (!Directory.Exists(SAVE_PATH))
+        user = NetworkManager.Inst.LoadDataFromJson<User>();
+        if (user == null)
         {
-            Directory.CreateDirectory(SAVE_PATH);
-        }
+            user = new User(10000, "", new string[10], new bool[4]);
 
-        LoadFromJson();
+        }
         SettingIsChosen();
     }
 
@@ -74,38 +69,19 @@ public class DeckManager : MonoBehaviour
         messageText = message.gameObject.GetComponentInChildren<Text>();
         cardInfoText = cardInfo.gameObject.GetComponentInChildren<Text>();
     }
-    private void LoadFromJson()
-    {
-        string json;
 
-        if (File.Exists(SAVE_PATH + SAVE_FILENAME))
-        {
-            json = File.ReadAllText(SAVE_PATH + SAVE_FILENAME);
-            user = JsonUtility.FromJson<User>(json);
-        }
-
-        else
-        {
-            SaveToJson();
-            LoadFromJson();
-        }
-    }
-
-    private void SaveToJson()
-    {
-        SAVE_PATH = Application.dataPath + "/Save";
-
-        string json = JsonUtility.ToJson(user, true);
-        File.WriteAllText(SAVE_PATH + SAVE_FILENAME, json, System.Text.Encoding.UTF8);
-    }
 
 
     private void SettingIsChosen()
     {
+        if (user == null || user.myDecks == null) return;
         for (int i = 0; i < cards.cardItems.Length; i++)
         {
             for (int j = 0; j < user.myDecks.Length; j++)
             {
+                if (user.myDecks[j] == null)
+                    continue;
+
                 if (cards.cardItems[i].name == user.myDecks[j])
                 {
                     SetIsChosen(i, true);
@@ -116,10 +92,14 @@ public class DeckManager : MonoBehaviour
 
     private void SettingMyDeck()
     {
+        if (user == null || user.myDecks == null) return;
         for (int i = 0; i < user.myDecks.Length; i++)
         {
+            if (user.myDecks[i] == "")
+                continue;
             for (int j = 0; j < cards.cardItems.Length; j++)
             {
+
                 if (user.myDecks[i] == cards.cardItems[j].name)
                 {
                     myDeck[i] = cards.cardItems[j];
@@ -154,7 +134,6 @@ public class DeckManager : MonoBehaviour
     {
         myDeck[index] = null;
         user.myDecks[index] = null;
-        Debug.Log("삭제");
     }
 
     public void SetCurrentCard(Carditem carditem)
@@ -184,7 +163,6 @@ public class DeckManager : MonoBehaviour
 
     public void SaveButton()
     {
-        Debug.Log(myDeck.Length);
         int i;
 
         for (i = 0; i < myDeck.Length; i++)
@@ -195,7 +173,7 @@ public class DeckManager : MonoBehaviour
         if (i == myDeck.Length)
         {
             StartCoroutine(Message("덱이 저장되었습니다!"));
-            SaveToJson();
+            NetworkManager.Inst.SaveDataToJson(user, true);
             isSave = true;
         }
         else
@@ -256,6 +234,7 @@ public class DeckManager : MonoBehaviour
 
     IEnumerator Message(string messageText)
     {
+        Debug.Log(messageText);
         message.transform.DOScale(1, 0.3f).SetEase(Ease.InBounce);
         this.messageText.text = string.Format(messageText);
         yield return new WaitForSeconds(0.7f);
@@ -264,7 +243,7 @@ public class DeckManager : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        SaveToJson();
+        NetworkManager.Inst.SaveDataToJson(user, true);
     }
 
     public void SetCardSelect(CardSelect card)
@@ -296,12 +275,12 @@ public class DeckManager : MonoBehaviour
         Debug.Log("dd");
         yield return new WaitForSeconds(0.7f);
 
-        if (isInfo&& !isDrag)
+        if (isInfo && !isDrag)
         {
             cardInfo.gameObject.SetActive(true);
             cardInfoText.text = carditem.info;
         }
-        if(!isInfo)
+        if (!isInfo)
         {
             cardInfo.gameObject.SetActive(false);
         }
@@ -313,8 +292,16 @@ public class DeckManager : MonoBehaviour
 [System.Serializable]
 public class User
 {
-    public int gold = 1000;
+    public int gold;
     public string backGround;
-    public string[] myDecks = new string[10];
-    public bool[] myBackground = new bool[4];
+    public string[] myDecks;
+    public bool[] myBackground;
+
+    public User(int gold, string backGround, string[] myDecks, bool[] myBackground)
+    {
+        this.gold = gold;
+        this.backGround = backGround;
+        this.myDecks = myDecks;
+        this.myBackground = myBackground;
+    }
 }

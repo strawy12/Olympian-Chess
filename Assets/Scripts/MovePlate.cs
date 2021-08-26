@@ -108,7 +108,6 @@ public class MovePlate : MonoBehaviour
     {
         matrixX = x;
         matrixY = y;
-        Debug.Log(matrixX + ", " + matrixY);
     }
 
     public int GetPosX()

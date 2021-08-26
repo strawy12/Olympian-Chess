@@ -1,29 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using Hashtable = ExitGames.Client.Photon.Hashtable;
 using System.IO;
 
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
-
-    [SerializeField] private Text statusText = null;
-    [SerializeField] private Text playerText = null;
-    [SerializeField] private Text nicknameText = null;
-    [SerializeField] private InputField roomInput, nicknameInput;
-    [SerializeField] private GameObject nicknamePanal = null;
+    [SerializeField] private Text statusText;
+    [SerializeField] private InputField roomInput;
     [SerializeField] private GameObject friendlyMatchPanal = null;
 
     private string roomname;
     private string user_ID;
-    private string nickname;
-    private string player = "black";
+    private string player = "white";
     private bool isLoaded;
-    private string SAVE_PATH = "";
+    private string SAVE_PATH;
+    private int nicknameCnt = 0;
 
     private static NetworkManager inst;
     public static NetworkManager Inst
@@ -51,8 +44,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     private void Awake()
     {
         PhotonNetwork.SendRate = 60;
-        PhotonNetwork.SerializationRate = 30; 
-        SAVE_PATH = Path.Combine(Application.dataPath, "Save");
+        PhotonNetwork.SerializationRate = 30;
+
+        SAVE_PATH = Path.Combine(Application.persistentDataPath, "Save");
+
         if (!Directory.Exists(SAVE_PATH))
         {
             Directory.CreateDirectory(SAVE_PATH);
@@ -61,28 +56,22 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     }
 
-
-    private void Update()
+    private void Start()
     {
-        if (statusText != null)
-        {
-            statusText.text = PhotonNetwork.NetworkClientState.ToString();
-        }
+        Connect();
     }
 
     public void Connect()
     {
-        if (nickname == null)
-        {
-            nicknamePanal.SetActive(true);
-        }
         PhotonNetwork.ConnectUsingSettings();
     }
 
     public string SaveDataToJson<T>(T data, bool isSave)
     {
+        SAVE_PATH = Path.Combine(Application.persistentDataPath, "Save");
+
         string jsonData = JsonUtility.ToJson(data, true);
-        if(isSave)
+        if (isSave)
         {
             string path = Path.Combine(SAVE_PATH, typeof(T).ToString() + ".json");
             File.WriteAllText(path, jsonData);
@@ -91,15 +80,16 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         return jsonData;
     }
 
-    public T LoadDataFromJson<T>(string jsonData)
+    public T LoadDataFromJson<T>(string jsonData = null)
     {
+        SAVE_PATH = Path.Combine(Application.persistentDataPath, "Save");
+
         if (jsonData == null)
         {
-            if (File.Exists(SAVE_PATH + typeof(T).ToString() + ".json"))
-            {
-                string path = Path.Combine(SAVE_PATH, typeof(T).ToString() + ".json");
+            string path = Path.Combine(SAVE_PATH, typeof(T).ToString() + ".json");
+            if (File.Exists(path))
                 jsonData = File.ReadAllText(path);
-            }
+
         }
         return JsonUtility.FromJson<T>(jsonData);
     }
@@ -109,25 +99,17 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         friendlyMatchPanal.SetActive(true);
     }
 
-    public void SetNickname()
-    {
-        if (nicknameInput.text == "") return;
-
-        nickname = nicknameInput.text;
-        PhotonNetwork.LocalPlayer.NickName = nickname;
-
-        nicknamePanal.SetActive(false);
-    }
-
     public override void OnConnectedToMaster()
     {
         print("서버접속완료");
+        TurnManager.Instance.StartGame();
+        GameManager.Inst.SetCamera();
 
     }
 
     public void DisConnect()
     {
-            
+
         PhotonNetwork.Disconnect();
     }
 
@@ -142,8 +124,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void CreateRoom()
     {
-        roomname = nickname + "'s room.";
-        Debug.Log(roomname);
+        roomname = PhotonNetwork.LocalPlayer.NickName + "'s room.";
         PhotonNetwork.CreateRoom(roomname, new RoomOptions { MaxPlayers = 2 });
     }
 
@@ -154,12 +135,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void JoinOrCrerateRoom()
     {
+        Rename();
         roomname = roomInput.text;
+        if (roomname == "") return;
         PhotonNetwork.JoinOrCreateRoom(roomname, new RoomOptions { MaxPlayers = 2 }, null);
     }
 
     public void JoinRandomRoom()
     {
+        Rename();
         if (!PhotonNetwork.JoinRandomRoom())
         {
             CreateRoom();
@@ -180,23 +164,29 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
-
         print("방 참가 완료");
+    }
+
+    [PunRPC]
+    private void Rename()
+    {
+        PhotonNetwork.LocalPlayer.NickName = "player" + nicknameCnt.ToString();
+        nicknameCnt++;
+        Debug.Log(PhotonNetwork.LocalPlayer.NickName);
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         if (PhotonNetwork.PlayerList.Length == 2)
         {
-            if (newPlayer.NickName == nickname)
+            if (newPlayer.NickName == PhotonNetwork.LocalPlayer.NickName)
             {
-                photonView.RPC("Rename", RpcTarget.Others);
-                return;
+                Rename();
             }
 
             int i;
             i = Random.Range(0, 2);
-            photonView.RPC("SetPlayer", RpcTarget.All, i);
+            photonView.RPC("SetPlayer", RpcTarget.AllBuffered, i);
 
             PhotonNetwork.LoadLevel("Game");
 
@@ -221,31 +211,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         return player;
     }
-    public void Click()
-    {
-        SceneManager.LoadScene("Game");
-    }
-
-    public bool CheckSameNickname()
-    {
-        Debug.Log(PhotonNetwork.PlayerListOthers.Length);
-        for (int i = 0; i < PhotonNetwork.PlayerListOthers.Length; i++)
-        {
-            if (PhotonNetwork.PlayerListOthers[i].NickName == nickname)
-            {
-
-                return true;
-            }
-        }
-        return false;
-    }
-
 
 
     public GameObject SpawnObject(GameObject gobj/*, string player*/)
     {
         //if (player != this.player) return null;
-        GameObject obj = PhotonNetwork.Instantiate(gobj.name, new Vector3(0, 0, -1), Quaternion.identity);
+        //GameObject obj = PhotonNetwork.Instantiate(gobj.name, new Vector3(0, 0, -1), Quaternion.identity);
+        GameObject obj = Instantiate(gobj, new Vector3(0, 0, -1), Quaternion.identity);
 
 
         return obj;
@@ -257,9 +229,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void SetPlayer(int i)
     {
-        nicknameText.text = PhotonNetwork.PlayerList[i].NickName;
-
-        if (PhotonNetwork.PlayerList[i].NickName == nickname)
+        if (PhotonNetwork.PlayerList[i].NickName == PhotonNetwork.LocalPlayer.NickName)
         {
             player = "white";
         }
@@ -267,18 +237,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         {
             player = "black";
         }
-        playerText.text = player;
-        Debug.Log("씬 바꾼다ㅏㅏ아ㅏ아");
-        //SceneManager.LoadScene("Game");
     }
 
-    [PunRPC]
-    private void Rename()
-    {
-        
-        LeaveRoom();
-        nicknamePanal.SetActive(true);
-    }
+
 
 }
 

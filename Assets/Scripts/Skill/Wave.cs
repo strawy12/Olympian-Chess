@@ -29,7 +29,7 @@ public class Wave : SkillBase
 
     private void WV_ResetSkill()
     {
-        TurnManager.Instance.ButtonActive();
+        TurnManager.Instance.ButtonInactive();
         GameManager.Inst.SetUsingSkill(false);
         GameManager.Inst.SetMoving(true);
 

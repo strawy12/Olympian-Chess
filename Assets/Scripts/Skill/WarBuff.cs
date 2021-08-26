@@ -35,7 +35,6 @@ public class WarBuff : SkillBase
         {
             cnt++;
             TurnManager.Instance.ButtonInactive();
-            cnt++; 
         }
     }
 
