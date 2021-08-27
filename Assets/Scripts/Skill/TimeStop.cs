@@ -19,7 +19,6 @@ public class TimeStop : SkillBase
 
         if (skillData.turnCnt > 2)
         {
-
             if (selectPiece != null)
             {
                 selectPiece.spriteRenderer.material.SetColor("_Color", Color.clear);
@@ -34,6 +33,7 @@ public class TimeStop : SkillBase
         }
     }
 
+    [Photon.Pun.PunRPC]
     private void Inv_UsingSkill()
     {
         selectPiece.spriteRenderer.material.SetColor("_Color", new Color32(225, 123, 0, 225));

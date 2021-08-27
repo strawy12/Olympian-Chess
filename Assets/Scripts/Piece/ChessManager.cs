@@ -204,7 +204,6 @@ public class ChessManager : MonoBehaviourPunCallbacks
             {
                 GameManager.Inst.MovePlateAttackSpawn(x, y, cp);
             }
-
         }
     }
     public void FalseIsMoving()

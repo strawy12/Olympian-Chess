@@ -18,9 +18,13 @@ public class Justice : SkillBase
         for (int i = 0; i < attacking.Count; i++)
         {
             if (attacking[i] == null) continue;
-            justiceCP.Add(attacking[i]);
-            SkillManager.Inst.AddDontClickPiece(attacking[i]);
-            attacking[i].spriteRenderer.material.color = new Color32(70, 60, 0, 0);
+            if(attacking[i].name.Contains(skillData.player))
+            {
+                justiceCP.Add(attacking[i]);
+            }
+
+            SkillManager.Inst.AddDontClickPiece(justiceCP[i]);
+            justiceCP[i].spriteRenderer.material.color = new Color32(70, 60, 0, 0);
         }
     }
     public override void ResetSkill()
