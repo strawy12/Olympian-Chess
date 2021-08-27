@@ -140,7 +140,6 @@ public class ChessManager : MonoBehaviourPunCallbacks
             if (cbs[i].GetChessData().player == player)
             {
                 AddArr(cbs[i]);
-
             }
         }
         yield return new WaitForSeconds(1f);

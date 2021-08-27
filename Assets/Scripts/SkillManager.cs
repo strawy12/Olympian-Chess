@@ -114,17 +114,30 @@ public class SkillManager : MonoBehaviourPunCallbacks
     public void RemoveSkillList(SkillBase sb)
     {
         skillList.Remove(sb);
-        Destroy(sb.gameObject);
     }
 
 
 
     // Function adding the cp to dontClickPiece list
-    public void AddDontClickPiece(ChessBase cp)
+    public void AddDontClickPiece(ChessBase cp, bool isSend = false)
     {
-        ChessData chessData = cp.GetChessData();
-        string jsonData = NetworkManager.Inst.SaveDataToJson(chessData, false);
-        photonView.RPC("AddDontClickPiece", RpcTarget.AllBuffered, jsonData);
+        if(isSend)
+        {
+            ChessData chessData = cp.GetChessData();
+            string jsonData = NetworkManager.Inst.SaveDataToJson(chessData, false);
+            photonView.RPC("AddDontClickPiece", RpcTarget.AllBuffered, jsonData);
+        }
+        else
+        {
+            for (int i = 0; i < dontClickPiece.Count; i++)
+            {
+                if (dontClickPiece[i].ID == cp.GetChessData().ID)
+                {
+                    return;
+                }
+            }
+            dontClickPiece.Add(cp.GetChessData());
+        }
 
     }
 
@@ -143,11 +156,24 @@ public class SkillManager : MonoBehaviourPunCallbacks
     }
 
     // Function removing cp from dontClickPiece list
-    public void RemoveDontClickPiece(ChessBase cp)
+    public void RemoveDontClickPiece(ChessBase cp, bool isSend = false)
     {
-        ChessData chessData = cp.GetChessData();
-        string jsonData = NetworkManager.Inst.SaveDataToJson(chessData, false);
-        photonView.RPC("RemoveDontClickPiece", RpcTarget.AllBuffered, jsonData);
+        if (isSend)
+        {
+            ChessData chessData = cp.GetChessData();
+            string jsonData = NetworkManager.Inst.SaveDataToJson(chessData, false);
+            photonView.RPC("RemoveDontClickPiece", RpcTarget.AllBuffered, jsonData);
+        }
+        else
+        {
+            for (int i = 0; i < dontClickPiece.Count; i++)
+            {
+                if (dontClickPiece[i].ID == cp.GetChessData().ID)
+                {
+                    dontClickPiece.RemoveAt(i);
+                }
+            }
+        }
     }
 
     [PunRPC]

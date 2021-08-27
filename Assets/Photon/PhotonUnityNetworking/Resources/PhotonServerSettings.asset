@@ -110,6 +110,9 @@ MonoBehaviour:
   - AddGodPieces
   - RemoveGodPieces
   - Gho_UsingSkill
+  - DR_ResetSkill
+  - Inv_UsingSkill
+  - TW_ResetSkill
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

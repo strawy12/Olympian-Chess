@@ -139,7 +139,7 @@ public class ChessBase : MonoBehaviourPunCallbacks
         if (chessData.noneAttack && ChessManager.Inst.GetPosition(x, y).name.Contains("king")) return true;
         else return false;
     }
-    public void AddChosenSkill(SkillBase skill)
+    public void AddChosenSkill(SkillBase skill, bool isSend = true)
     {
         for (int i = 0; i < chessData.chosenSkill.Count; i++)
         {
@@ -149,20 +149,27 @@ public class ChessBase : MonoBehaviourPunCallbacks
             }
         }
         chessData.chosenSkill.Add(skill.GetSkillData());
-        SendChessData();
+
+        if (isSend)
+        {
+            SendChessData();
+        }
     }
 
-    public void RemoveChosenSkill(SkillBase skill)
+    public void RemoveChosenSkill(SkillBase skill, bool isSend = false)
     {
         for (int i = 0; i < chessData.chosenSkill.Count; i++)
         {
             if (chessData.chosenSkill[i].ID == skill.GetID())
             {
                 chessData.chosenSkill.RemoveAt(i);
-
             }
         }
-        SendChessData();
+
+        if(isSend)
+        {
+            SendChessData();
+        }
     }
 
     public bool CheckIsMine()

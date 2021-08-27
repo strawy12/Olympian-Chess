@@ -15,17 +15,22 @@ public class Drunkenness : SkillBase
     {
         if(skillData.turnCnt > 1)
         {
-            if(selectPiece != null)
-            {
-                selectPiece.RemoveChosenSkill(this);
-            }
-            SkillManager.Inst.RemoveSkillList(this);
-            Destroy(gameObject);
+            photonView.RPC("DR_ResetSkill", Photon.Pun.RpcTarget.AllBuffered);
             return;
         }
 
         GameManager.Inst.SetMoving(false);
         GameManager.Inst.SetUsingSkill(true);
+    }
+
+    [Photon.Pun.PunRPC]
+    private void DR_ResetSkill()
+    {
+        if (selectPiece != null)
+        {
+            selectPiece.RemoveChosenSkill(this);
+        }
+        DestroySkill();
     }
 
     private void DR_StandardSkill()

@@ -107,7 +107,7 @@ public class Bacchrs : SkillBase
             if (white[i] == null) continue;
             if (isAdd)
             {
-                white[i].AddChosenSkill(this);
+                white[i].AddChosenSkill(this, false);
             }
 
             if (!isAdd)
@@ -123,7 +123,7 @@ public class Bacchrs : SkillBase
 
             if (isAdd)
             {
-                black[i].AddChosenSkill(this);
+                black[i].AddChosenSkill(this, false);
             }
 
             if (!isAdd)

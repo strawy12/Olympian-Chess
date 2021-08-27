@@ -108,7 +108,7 @@ public class Zeus : SkillBase
         }
         for (int i = 0; i < cps.Count; i++)
         {
-            SkillManager.Inst.RemoveDontClickPiece(cps[i]);
+            SkillManager.Inst.RemoveDontClickPiece(cps[i], false);
         }
 
         SuperSkillManager.Inst.RemoveSuperList(this);

@@ -8,7 +8,7 @@ public class WarBuff : SkillBase
     private List<ChessBase> chessPieces = new List<ChessBase>();
     public override void UsingSkill()
     {
-        
+
         WB_UsingSkill();
     }
 
@@ -84,28 +84,23 @@ public class WarBuff : SkillBase
         ChessManager.Inst.SetPositionEmpty(selectPiece.GetXBoard(), selectPiece.GetYBoard());
         ChessManager.Inst.UpdateArr(selectPiece);
         Destroy(selectPiece.gameObject);
-        SkillManager.Inst.RemoveSkillList(this);
+        selectPiece.RemoveChosenSkill(this);
 
-        if (selectPiece != null)
-        {
-            selectPiece.RemoveChosenSkill(this);
-        }
-
-        Destroy(gameObject);
+        DestroySkill();
     }
 
     private void DontMoveOthercp(bool isAdd)
     {
-        for(int i = 0; i< chessPieces.Count; i++)
+        for (int i = 0; i < chessPieces.Count; i++)
         {
-            if(isAdd)
+            if (isAdd)
             {
-                SkillManager.Inst.AddDontClickPiece(chessPieces[i]);
+                SkillManager.Inst.AddDontClickPiece(chessPieces[i], true);
             }
 
-            if(!isAdd)
+            if (!isAdd)
             {
-                SkillManager.Inst.RemoveDontClickPiece(chessPieces[i]);
+                SkillManager.Inst.RemoveDontClickPiece(chessPieces[i], true);
             }
         }
     }
@@ -115,7 +110,7 @@ public class WarBuff : SkillBase
         ChessBase[] white = ChessManager.Inst.GetPlayerWhite();
         ChessBase[] black = ChessManager.Inst.GetPlayerBlack();
 
-        for (int i = 0; i< white.Length; i++)
+        for (int i = 0; i < white.Length; i++)
         {
             if (white[i] == null) continue;
 
