@@ -83,6 +83,7 @@ public class WarBuff : SkillBase
 
         ChessManager.Inst.SetPositionEmpty(selectPiece.GetXBoard(), selectPiece.GetYBoard());
         ChessManager.Inst.UpdateArr(selectPiece);
+        SkillManager.Inst.AddGodPieces(selectPiece);
         Destroy(selectPiece.gameObject);
         SkillManager.Inst.RemoveSkillList(this);
 

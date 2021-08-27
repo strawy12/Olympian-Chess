@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CardItemSO
   m_EditorClassIdentifier: 
   cardItems:
-  - name: "\uCC9C\uBC8C"
+  - name: "\uB9DD\uB839"
     className: HeavenlyPunishment
     god: "\uC81C\uC6B0\uC2A4"
     sprite: {fileID: -533655650184955271, guid: 4454062fe2a78614587b7e6f430aaafe,
@@ -22,6 +22,8 @@ MonoBehaviour:
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC0C1\uB300  \uC9C0\uC18D\uC2DC\uAC04: 1\uD134\n\uCC9C\uB465\uC758
       \uD798\uC744 \uBE4C\uB824 \uC0C1\uB300\uB97C \uD55C\uD134 \uB3D9\uC548 \uB9C8\uBE44
       \uC0C1\uD0DC\uC5D0 \uBE60\uD2B8\uB9BD\uB2C8\uB2E4."
+    ID: 0
+    player: 
   - name: "\uC8FD\uC74C\uC758 \uB545"
     className: GroundOfDeath
     god: "\uD558\uB370\uC2A4"
@@ -30,6 +32,8 @@ MonoBehaviour:
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC601\uC5ED  \uC9C0\uC18D\uC2DC\uAC04: \uC601\uAD6C\uC9C0\uC18D\n\uB4E4\uC5B4\uC624\uB294
       \uBAA8\uB4E0 \uAC83\uC744 \uC8FD\uC774\uB294 \uC8FD\uC74C\uC758 \uB545\uC744
       \uB9CC\uB4ED\uB2C8\uB2E4."
+    ID: 0
+    player: 
   - name: "\uC81C\uBB3C"
     className: Offering
     god: "\uD558\uB370\uC2A4"
@@ -39,6 +43,8 @@ MonoBehaviour:
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC544\uAD70  \uC9C0\uC18D\uC2DC\uAC04: \uC989\uC2DC\n\uC544\uAD70\uC758
       \uB9D0\uC744 \uC81C\uBB3C\uB85C \uBC1B\uD600 \uC0C1\uB300\uC758 \uB79C\uB364
       \uCE74\uB4DC \uD55C\uC7A5\uC744 \uC81C\uAC70\uD569\uB2C8\uB2E4."
+    ID: 0
+    player: 
   - name: "\uC218\uC911\uAC10\uC625"
     className: OceanJail
     god: "\uD3EC\uC138\uC774\uB3C8"
@@ -49,6 +55,8 @@ MonoBehaviour:
       \uC0DD\uC131\uD558\uC5EC \uAC00\uB461\uB2C8\uB2E4. \uC218\uC911\uAC10\uC625\uC5D0\uC11C
       \uB098\uC628 \uB9D0\uC5D0\uAC8C \uC8FD\uC744 \uC218\uB3C4 \uC788\uC73C\uB2C8
       \uC8FC\uC758\uD558\uC138\uC694."
+    ID: 0
+    player: 
   - name: "\uC218\uBA74"
     className: Sleep
     god: "\uD788\uD504\uB178\uC2A4"
@@ -57,6 +65,8 @@ MonoBehaviour:
     color: {r: 1, g: 0.7372549, b: 0.6509804, a: 1}
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC0C1\uB300  \uC9C0\uC18D\uC2DC\uAC04: 1\uD134\n\uC6C0\uC9C1\uC774\uC9C0
       \uC54A\uC73C\uBA74 \uC218\uBA74\uC5D0 \uBE60\uC9C0\uAC8C \uD569\uB2C8\uB2E4."
+    ID: 0
+    player: 
   - name: "\uD30C\uB3C4"
     className: Wave
     god: "\uD3EC\uC138\uC774\uB3C8"
@@ -66,6 +76,8 @@ MonoBehaviour:
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC544\uBB34 \uB9D0  \uC9C0\uC18D\uC2DC\uAC04:
       \uC989\uC2DC\n\uD30C\uB3C4\uB97C \uC77C\uC73C\uCF1C \uD55C \uC904\uC5D0 \uC788\uB294
       \uBAA8\uB4E0 \uB9D0\uB4E4\uC744 \uB4A4\uB85C \uBC00\uC5B4\uB0C5\uB2C8\uB2E4."
+    ID: 0
+    player: 
   - name: "\uB2EC\uBE5B"
     className: MoonLight
     god: "\uC544\uB974\uD14C\uBBF8\uC2A4"
@@ -74,6 +86,8 @@ MonoBehaviour:
     color: {r: 0.9254902, g: 0.9607843, b: 0.96862745, a: 1}
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC544\uAD70  \uC9C0\uC18D\uC2DC\uAC04: \uC774\uB3D9\uD560\uB54C(2\uD134)\n\uB2EC\uBE5B
       \uC18D\uC5D0\uC11C \uC740\uC2E0\uD569\uB2C8\uB2E4."
+    ID: 0
+    player: 
   - name: "\uC804\uC7C1\uAD11"
     className: WarBuff
     god: "\uC544\uB808\uC2A4"
@@ -83,6 +97,8 @@ MonoBehaviour:
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC544\uAD70  \uC9C0\uC18D\uC2DC\uAC04: \uC774\uB3D9\uD560\uB54C(2\uD134)\n\uC804\uC7C1\uC758
       \uBBF8\uCCD0 2\uBC88 \uC774\uB3D9 \uD560 \uC218 \uC788\uB3C4\uB85D \uD569\uB2C8\uB2E4.
       \uADF8 \uD6C4, \uB9D0\uC740 \uC8FD\uC2B5\uB2C8\uB2E4."
+    ID: 0
+    player: 
   - name: "\uC815\uC758\uAD6C\uD604"
     className: Justice
     god: "\uC544\uD14C\uB098"
@@ -92,6 +108,8 @@ MonoBehaviour:
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC870\uAC74\uB300\uC0C1  \uC9C0\uC18D\uC2DC\uAC04:
       1\uD134\n\uC0B4\uC0DD\uC744 \uD55C \uB9D0\uB4E4\uC744 \uCC98\uBC8C\uD558\uC5EC
       \uC774\uB3D9\uBD88\uAC00 \uC0C1\uD0DC\uB85C \uB9CC\uB4ED\uB2C8\uB2E4."
+    ID: 0
+    player: 
   - name: "\uC544\uD14C\uB098\uC758 \uBC29\uD328"
     className: AthenaShield
     god: "\uC544\uD14C\uB098"
@@ -101,6 +119,8 @@ MonoBehaviour:
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC544\uAD70  \uC9C0\uC18D\uC2DC\uAC04: \uC774\uB3D9\uD560
       \uB54C\n\uC544\uD14C\uB098\uC758 \uBC29\uD328\uB85C \uC8FD\uC74C\uC73C\uB85C\uBD80\uD130
       \uBCF4\uD638 \uC2DC\uD0B5\uB2C8\uB2E4."
+    ID: 0
+    player: 
   - name: "\uC21C\uBCF4"
     className: Order
     god: "\uB370\uBBF8\uD14C\uB974"
@@ -110,6 +130,8 @@ MonoBehaviour:
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC544\uAD70  \uC9C0\uC18D\uC2DC\uAC04: 1\n\uC55E\uC5D0
       \uC788\uB294 \uB9D0\uC774 \uC9C8\uC11C\uB97C \uC9C0\uCF1C \uB118\uC5B4 \uAC08
       \uC218 \uC788\uAC8C \uD574 \uC90D\uB2C8\uB2E4.\t"
+    ID: 0
+    player: 
   - name: "\uBC14\uCE74\uC2A4"
     className: 
     god: "\uB514\uC624\uB2C8\uC18C\uC2A4"
@@ -119,6 +141,8 @@ MonoBehaviour:
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uBAA8\uB4E0\uB9D0  \uC9C0\uC18D\uC2DC\uAC04:
       1\uD134\n\uCDE8\uAE30\uC5D0 \uBAA8\uB4E0 \uB9D0\uB4E4\uC774 \uC6C0\uC9C1\uC774\uAE30
       \uBD88\uD3B8\uD574 \uC9D1\uB2C8\uB2E4."
+    ID: 0
+    player: 
   - name: "\uC5D0\uB85C\uC2A4\uC758 \uC0AC\uB791"
     className: LoveOfEros
     god: "\uD5E4\uB77C"
@@ -128,6 +152,8 @@ MonoBehaviour:
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC544\uAD70  \uC9C0\uC18D\uC2DC\uAC04: \uB9D0\uC774
       \uC8FD\uC744\uB54C\n\uC544\uAD70\uC758 \uB9D0\uC774 \uC11C\uB85C\uB97C \uC0AC\uB791\uD558\uC5EC
       \uB300\uC2E0 \uC8FD\uC5B4\uC90D\uB2C8\uB2E4."
+    ID: 0
+    player: 
   - name: "\uCD9C\uC0B0"
     className: GiveBirth
     god: "\uD5E4\uB77C"
@@ -137,6 +163,8 @@ MonoBehaviour:
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC544\uAD70  \uC9C0\uC18D\uC2DC\uAC04: \uB9D0\uC774
       \uC8FD\uC744\uB54C\n\uB9D0\uC774 \uD3F0\uC744 \uCD9C\uC0B0\uC744 \uD558\uACE0
       \uB5A0\uB0A9\uB2C8\uB2E4."
+    ID: 0
+    player: 
   - name: "\uC74C\uC545"
     className: Music
     god: "\uD5E4\uB77C"
@@ -146,6 +174,8 @@ MonoBehaviour:
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC0C1\uB300  \uC9C0\uC18D\uC2DC\uAC04: 1~3\uD134\n\uC0C1\uB300\uB97C
       \uC74C\uC545\uC5D0 \uBE60\uC9C0\uAC8C \uD558\uC5EC \uC6C0\uC9C1\uC774\uC9C0
       \uBABB\uD558\uAC8C \uD569\uB2C8\uB2E4."
+    ID: 0
+    player: 
   - name: "\uB3D9\uADC0\uC5B4\uC9C4"
     className: StreetFriend
     god: "\uD0C0\uB098\uD1A0\uC2A4"
@@ -155,6 +185,8 @@ MonoBehaviour:
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC544\uAD70  \uC9C0\uC18D\uC2DC\uAC04: \uB9D0\uC774
       \uC8FD\uC744\uB54C\n\uC790\uC2E0\uC774 \uC8FD\uC740 \uC801\uACFC \uD568\uAED8
       \uC8FD\uC2B5\uB2C8\uB2E4."
+    ID: 0
+    player: 
   - name: "\uC2E0\uC18D"
     className: Rush
     god: "\uD30C\uC6B0\uB204\uC2A4"
@@ -163,6 +195,8 @@ MonoBehaviour:
     color: {r: 0.83137256, g: 0.42745098, b: 0.35686275, a: 1}
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC544\uAD70  \uC9C0\uC18D\uC2DC\uAC04: 1\uD134\n1\uCE78
       \uB354 \uB3CC\uC9C4\uD569\uB2C8\uB2E4."
+    ID: 0
+    player: 
   - name: "\uC11C\uD48D"
     className: WestWind
     god: "\uC6B0\uB77C\uB178\uC2A4"
@@ -172,6 +206,8 @@ MonoBehaviour:
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC0C1\uB300  \uC9C0\uC18D\uC2DC\uAC04: 2\uD134\n\uB300\uC0C1\uC744
       \uACF5\uC911\uC5D0 \uB744\uC6B0\uACE0 \uB2E4\uB978 \uB9D0\uC740 \uBABB\uB4E4\uC5B4\uC624\uB294
       \uAC15\uB825\uD55C \uC11C\uD48D\uC744 \uC0DD\uC131\uD569\uB2C8\uB2E4."
+    ID: 0
+    player: 
   - name: "\uC5EC\uD589\uC790"
     className: Traveler
     god: "\uD5E4\uB974\uBA54\uC2A4"
@@ -180,6 +216,8 @@ MonoBehaviour:
     color: {r: 0.8392157, g: 0.72156864, b: 0.60784316, a: 1}
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC0C1\uB300  \uC9C0\uC18D\uC2DC\uAC04: 2\uD134\n\uD3F0\uC774
       \uACF3\uACF3\uC744 \uC5EC\uD589\uD569\uB2C8\uB2E4."
+    ID: 0
+    player: 
   - name: "\uC2DC\uAC04\uC65C\uACE1"
     className: TimeWarp
     god: "\uD06C\uB85C\uB178\uC2A4"
@@ -188,6 +226,8 @@ MonoBehaviour:
     color: {r: 0.16862746, g: 0.25882354, b: 0.2784314, a: 1}
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC0C1\uB300  \uC9C0\uC18D\uC2DC\uAC04: 2\uD134\n\uACFC\uAC70\uB85C
       \uAC00\uC11C \uCE74\uB4DC\uB97C \uB4E4\uACE0 \uC635\uB2C8\uB2E4."
+    ID: 0
+    player: 
   - name: "\uB9DD\uB839"
     className: Ghost
     god: "\uD06C\uB85C\uB178\uC2A4"
@@ -195,6 +235,8 @@ MonoBehaviour:
       type: 3}
     color: {r: 0.16862746, g: 0.25882354, b: 0.2784314, a: 1}
     info: "\uC8FD\uC740 \uD3F0\uC744 \uBD80\uD65C\uC2DC\uD0B5\uB2C8\uB2E4."
+    ID: 0
+    player: 
   - name: "\uC2DC\uAC04\uC815\uC9C0"
     className: TimeStop
     god: "\uD06C\uB85C\uB178\uC2A4"
@@ -202,6 +244,8 @@ MonoBehaviour:
       type: 3}
     color: {r: 0.16862746, g: 0.25882354, b: 0.2784314, a: 1}
     info: "\uBB34\uC801 \uC0C1\uD0DC\uB85C \uBCC0\uD569\uB2C8\uB2E4."
+    ID: 0
+    player: 
   - name: "\uB9CC\uCDE8"
     className: Drunkeness
     god: "\uD06C\uB85C\uB178\uC2A4"
@@ -209,6 +253,8 @@ MonoBehaviour:
       type: 3}
     color: {r: 0.16862746, g: 0.25882354, b: 0.2784314, a: 1}
     info: "\uC0C1\uB300\uBC29\uC744 \uCDE8\uD558\uAC8C \uB9CC\uB4ED\uB2C8\uB2E4."
+    ID: 0
+    player: 
   - name: "\uD154\uB808\uD30C\uC2DC"
     className: Telepathy
     god: "\uD06C\uB85C\uB178\uC2A4"
@@ -217,6 +263,8 @@ MonoBehaviour:
     color: {r: 0.16862746, g: 0.25882354, b: 0.2784314, a: 1}
     info: "\uB0B4 \uC544\uAD70\uC744 \uC801\uC774 \uB530\uB77C\uD558\uAC70\uB098
       \uC801\uC744 \uC544\uAD70\uC774 \uB530\uB77C\uD569\uB2C8\uB2E4."
+    ID: 0
+    player: 
   - name: "\uC720\uCCB4 \uC774\uD0C8"
     className: OutOfBody
     god: "\uD06C\uB85C\uB178\uC2A4"
@@ -224,6 +272,8 @@ MonoBehaviour:
       type: 3}
     color: {r: 0.16862746, g: 0.25882354, b: 0.2784314, a: 1}
     info: "\uC0C1\uB300\uBC29\uC758 \uBAB8\uC73C\uB85C \uB4E4\uC5B4\uAC11\uB2C8\uB2E4."
+    ID: 0
+    player: 
   - name: "\uD6C4\uC9C4"
     className: Back
     god: "\uD06C\uB85C\uB178\uC2A4"
@@ -231,6 +281,8 @@ MonoBehaviour:
       type: 3}
     color: {r: 0.16862746, g: 0.25882354, b: 0.2784314, a: 1}
     info: "\uB4A4\uB85C \uD55C\uCE78 \uD6C4\uC9C4\uD569\uB2C8\uB2E4."
+    ID: 0
+    player: 
   - name: "\uC8FC\uC0AC\uC704"
     className: Dice
     god: "\uD06C\uB85C\uB178\uC2A4"
@@ -239,3 +291,5 @@ MonoBehaviour:
     color: {r: 0.16862746, g: 0.25882354, b: 0.2784314, a: 1}
     info: "\uC0C1\uB300\uAC00 50%\uC758 \uD655\uB960\uB85C \uC9DD\uC218, 50%\uC758
       \uD655\uB960\uB85C \uD640\uC218\uCE78\uB9CC \uC774\uB3D9 \uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
+    ID: 0
+    player: 

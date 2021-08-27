@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,16 +9,16 @@ public class Ghost : SkillBase
 
     public override void UsingSkill()
     {
-        Gho_UsingSkill();
+        photonView.RPC("Gho_UsingSkill", RpcTarget.AllBuffered);
     }
 
+    [PunRPC]
     private void Gho_UsingSkill()
     {
         if (skillData.player == "white")
         {
-            if (CheckChessPieceCnt("white_pawn") == 8)
+            if (CheckChessPieceCnt("white_pawn") == 8 && SkillManager.Inst.GetGodPieces().Count == 0)
             {
-                Debug.Log("°É¸²");
                 CardManager.Inst.SetisBreak(true);
                 RemoveSkill();
                 return;
@@ -88,8 +89,8 @@ public class Ghost : SkillBase
                 {
                     if (ChessManager.Inst.GetPosition(j, i) == null)
                     {
-                        cp = ChessManager.Inst.Creat(ChessManager.Inst.GetWhiteObject()[0], j, i);
-                        ChessManager.Inst.SetPosition(cp);
+                        cp = ChessManager.Inst.Creat(ChessManager.Inst.GetWhiteObject()[Selecting()], j, i);
+                        photonView.RPC("ChangePiece", RpcTarget.AllBuffered, cp.gameObject.GetPhotonView().ViewID);
                         ChessManager.Inst.AddArr(cp);
                         isMake = true;
                         break;
@@ -108,8 +109,8 @@ public class Ghost : SkillBase
                 {
                     if (ChessManager.Inst.GetPosition(j, i) == null)
                     {
-                        cp = ChessManager.Inst.Creat(ChessManager.Inst.GetBlackObject()[0], j, i);
-                        ChessManager.Inst.SetPosition(cp);
+                        cp = ChessManager.Inst.Creat(ChessManager.Inst.GetBlackObject()[Selecting()], j, i);
+                        photonView.RPC("ChangePiece", RpcTarget.AllBuffered, cp.gameObject.GetPhotonView().ViewID);
                         ChessManager.Inst.AddArr(cp);
                         isMake = true;
                         break;
@@ -121,6 +122,13 @@ public class Ghost : SkillBase
         RemoveSkill();
     }
 
+    [PunRPC]
+    private void ChangePiece(int num)
+    {
+        if (NetworkManager.Inst.GetPlayer() == "white") return;
+        PhotonView.Find(num).gameObject.transform.Rotate(0f, 0f, 180f);
+    }
+
     private void RemoveSkill()
     {
         if (selectPiece != null)
@@ -129,5 +137,63 @@ public class Ghost : SkillBase
         }
         SkillManager.Inst.RemoveSkillList(this);
         Destroy(gameObject);
+    }
+
+    private ChessData SelectInGodPieces()
+    {
+        List<ChessData> godPieces = SkillManager.Inst.GetGodPieces();
+        int random = Random.Range(0, godPieces.Count);
+
+        return godPieces[random];
+    }
+
+    private int Selecting()
+    {
+        if (skillData.player == "white")
+        {
+            if (!(CheckChessPieceCnt("white_pawn") == 8) && (SkillManager.Inst.GetGodPieces().Count == 0))
+                return 0;
+            else if ((CheckChessPieceCnt("white_pawn") == 8) && !(SkillManager.Inst.GetGodPieces().Count == 0))
+                return GODobject();
+            else if (!(CheckChessPieceCnt("white_pawn") == 8) && !(SkillManager.Inst.GetGodPieces().Count == 0))
+                return GodOrPawn();
+        }
+
+        else
+        {
+            if (!(CheckChessPieceCnt("black_pawn") == 8) && (SkillManager.Inst.GetGodPieces().Count == 0))
+                return 0;
+            else if ((CheckChessPieceCnt("black_pawn") == 8) && !(SkillManager.Inst.GetGodPieces().Count == 0))
+                return GODobject();
+            else if (!(CheckChessPieceCnt("black_pawn") == 8) && !(SkillManager.Inst.GetGodPieces().Count == 0))
+                return GodOrPawn();
+        }
+
+        return 0;
+    }
+
+    private int GODobject()
+    {
+        GameObject[] cps = skillData.player == "white" ? ChessManager.Inst.GetWhiteObject() : ChessManager.Inst.GetBlackObject();
+        string cpName = SelectInGodPieces().chessPiece;
+
+        for (int i = 0; i < 6; i++)
+        {
+            if (cps[i].name == cpName)
+            {
+                return i;
+            }
+        }
+        return 0;
+    }
+
+    private int GodOrPawn()
+    {
+        int rand = Random.Range(0, 2);
+
+        if (rand == 0)
+            return 0;
+        else
+            return GODobject();
     }
 }

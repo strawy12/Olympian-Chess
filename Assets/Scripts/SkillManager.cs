@@ -21,6 +21,7 @@ public class SkillManager : MonoBehaviourPunCallbacks
     #region Var List
     // List of non-clickable chess pieces
     public List<ChessData> dontClickPiece = new List<ChessData>();
+    public List<ChessData> godPieces = new List<ChessData>();
     private SkillBase selectingSkill;
     private bool isUsingCard = false;
     private int IDs = 0;
@@ -152,7 +153,6 @@ public class SkillManager : MonoBehaviourPunCallbacks
     [PunRPC]
     public void RemoveDontClickPiece(string jsonData)
     {
-
         ChessData chessData = NetworkManager.Inst.LoadDataFromJson<ChessData>(jsonData);
 
         for (int i = 0; i < dontClickPiece.Count; i++)
@@ -160,9 +160,57 @@ public class SkillManager : MonoBehaviourPunCallbacks
             if (dontClickPiece[i].ID == chessData.ID)
             {
                 dontClickPiece.RemoveAt(i);
+            }
+        }
+    }
+
+    public void AddGodPieces(ChessBase cp)
+    {
+        ChessData chessData = cp.GetChessData();
+        string jsonData = NetworkManager.Inst.SaveDataToJson(chessData, false);
+        photonView.RPC("AddGodPieces", RpcTarget.AllBuffered, jsonData);
+
+    }
+
+    [PunRPC]
+    private void AddGodPieces(string jsonData)
+    {
+        ChessData chessData = NetworkManager.Inst.LoadDataFromJson<ChessData>(jsonData);
+        for (int i = 0; i < godPieces.Count; i++)
+        {
+            if (godPieces[i].ID == chessData.ID)
+            {
+                return;
+            }
+        }
+        godPieces.Add(chessData);
+    }
+
+    public void RemoveGodPieces(ChessBase cp)
+    {
+        ChessData chessData = cp.GetChessData();
+        string jsonData = NetworkManager.Inst.SaveDataToJson(chessData, false);
+        photonView.RPC("RemoveGodPieces", RpcTarget.AllBuffered, jsonData);
+    }
+
+    [PunRPC]
+    public void RemoveGodPieces(string jsonData)
+    {
+        ChessData chessData = NetworkManager.Inst.LoadDataFromJson<ChessData>(jsonData);
+
+        for (int i = 0; i < godPieces.Count; i++)
+        {
+            if (godPieces[i].ID == chessData.ID)
+            {
+                godPieces.RemoveAt(i);
 
             }
         }
+    }
+
+    public List<ChessData> GetGodPieces()
+    {
+        return godPieces;
     }
 
     public void CheckSkillCancel(string name)
@@ -233,14 +281,12 @@ public class SkillManager : MonoBehaviourPunCallbacks
 
             _skillList[i].StandardSkill();
         }
+
         if (i != 0)
-        {
             return true;
-        }
+
         else
-        {
             return false;
-        }
     }
 
     public void AttackUsingSkill(MovePlate mp)
@@ -252,11 +298,13 @@ public class SkillManager : MonoBehaviourPunCallbacks
             _skillList[i].SetPosX(mp.Getreference().GetXBoard());
             _skillList[i].SetPosY(mp.Getreference().GetYBoard());
             _skillList[i].SetMovePlate(mp);
+
             if (_skillList[i].GetName() == "¿¡·Î½ºÀÇ »ç¶û")
             {
                 _skillList[i].SetPosX(mp.GetChessPiece().GetXBoard());
                 _skillList[i].SetPosY(mp.GetChessPiece().GetYBoard());
             }
+
             _skillList[i].StandardSkill();
         }
     }
@@ -277,13 +325,10 @@ public class SkillManager : MonoBehaviourPunCallbacks
     public void SetIds(SkillBase sk)
     {
         if (sk.GetSkillData().player == "white")
-        {
             sk.SetID(IDs + 100);
-        }
+
         else if (sk.GetSkillData().player == "black")
-        {
             sk.SetID(IDs + 200);
-        }
 
         IDs++;
     }
@@ -298,11 +343,13 @@ public class SkillManager : MonoBehaviourPunCallbacks
         sb.SetName(card.carditem.name);
         SetIds(sb);
         selectingSkill = sb;
+
         if (chessPiece != null)
         {
             chessPiece.AddChosenSkill(sb);
             sb.SetSelectPiece(chessPiece);
         }
+
         sb.UsingSkill();
 
         return sb;
@@ -398,7 +445,7 @@ public class SkillManager : MonoBehaviourPunCallbacks
                 obj.AddComponent<Back>();
                 break;
 
-            case "ºÎÈ°":
+            case "¸Á·É":
                 obj.AddComponent<Ghost>();
                 break;
 
@@ -412,7 +459,6 @@ public class SkillManager : MonoBehaviourPunCallbacks
         }
 
         skillList.Add(obj.GetComponent<SkillBase>());
-
     }
 
     private GameObject CheckSkill(Card card)
@@ -430,5 +476,4 @@ public class SkillManager : MonoBehaviourPunCallbacks
     }
 
     #endregion
-
 }

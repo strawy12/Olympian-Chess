@@ -91,9 +91,6 @@ public class ChessManager : MonoBehaviourPunCallbacks
 
         StartCoroutine(SetPlayerArr());
         //SetPlayerArr(jsonData);
-
-
-
     }
 
     private void SpawnWhiteChessPiece()
