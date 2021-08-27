@@ -109,6 +109,7 @@ MonoBehaviour:
   - Z_SettingOriginPos
   - AddGodPieces
   - RemoveGodPieces
+  - Gho_UsingSkill
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

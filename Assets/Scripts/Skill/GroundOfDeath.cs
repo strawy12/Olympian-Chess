@@ -77,6 +77,7 @@ public class GroundOfDeath : SkillBase
                 chosen_CP.spriteRenderer.material.SetColor("_Color", new Color(0, 0, 0, 0));
                 yield return new WaitForSeconds(0.05f);
             }
+            SkillManager.Inst.AddGodPieces(chosen_CP);
             Destroy(chosen_CP.gameObject);
             ChessManager.Inst.SetPositionEmpty(skillData.posX, skillData.posY);
             god_Mp.SetActive(false);

@@ -186,9 +186,8 @@ public class SkillManager : MonoBehaviourPunCallbacks
         godPieces.Add(chessData);
     }
 
-    public void RemoveGodPieces(ChessBase cp)
+    public void RemoveGodPieces(ChessData chessData)
     {
-        ChessData chessData = cp.GetChessData();
         string jsonData = NetworkManager.Inst.SaveDataToJson(chessData, false);
         photonView.RPC("RemoveGodPieces", RpcTarget.AllBuffered, jsonData);
     }

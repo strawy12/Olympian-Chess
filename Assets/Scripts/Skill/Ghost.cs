@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Ghost : SkillBase
 {
-    private bool isMake = false;
+    List<ChessData> godList = new List<ChessData>();
 
     public override void UsingSkill()
     {
@@ -15,9 +15,27 @@ public class Ghost : SkillBase
     [PunRPC]
     private void Gho_UsingSkill()
     {
+        List<ChessData> cps = SkillManager.Inst.GetGodPieces();
+
+        for (int i = 0; i < cps.Count; i++)
+        {
+            if (skillData.player == "white" && cps[i].player == "white")
+            {
+                godList.Add(cps[i]);
+            }
+        }
+
+        for (int i = 0; i < cps.Count; i++)
+        {
+            if (skillData.player == "black" && cps[i].player == "black")
+            {
+                godList.Add(cps[i]);
+            }
+        }
+
         if (skillData.player == "white")
         {
-            if (CheckChessPieceCnt("white_pawn") == 8 && SkillManager.Inst.GetGodPieces().Count == 0)
+            if (CheckChessPieceCnt("white_pawn") == 8 && godList.Count == 0)
             {
                 CardManager.Inst.SetisBreak(true);
                 RemoveSkill();
@@ -27,12 +45,13 @@ public class Ghost : SkillBase
             else
             {
                 PutChesspiece();
+                return;
             }
         }
 
         else if (skillData.player == "black")
         {
-            if (CheckChessPieceCnt("black_pawn") == 8)
+            if (CheckChessPieceCnt("black_pawn") == 8 && godList.Count == 0)
             {
                 CardManager.Inst.SetisBreak(true);
                 RemoveSkill();
@@ -42,6 +61,7 @@ public class Ghost : SkillBase
             else
             {
                 PutChesspiece();
+                return;
             }
         }
     }
@@ -78,22 +98,27 @@ public class Ghost : SkillBase
     private void PutChesspiece()
     {
         ChessBase cp;
+        if (skillData.player != NetworkManager.Inst.GetPlayer())
+        {
+            RemoveSkill();
+            return;
+        } 
 
         if (skillData.player == "white")
         {
             for (int i = 1; i < 7; i++)
             {
-                if (isMake) break;
-
                 for (int j = 0; j < 8; j++)
                 {
                     if (ChessManager.Inst.GetPosition(j, i) == null)
                     {
+                        Debug.Log("ÇÑ¹ø¸¸");
                         cp = ChessManager.Inst.Creat(ChessManager.Inst.GetWhiteObject()[Selecting()], j, i);
-                        photonView.RPC("ChangePiece", RpcTarget.AllBuffered, cp.gameObject.GetPhotonView().ViewID);
+                        ChessManager.Inst.SetPosition(cp);
                         ChessManager.Inst.AddArr(cp);
-                        isMake = true;
-                        break;
+                        photonView.RPC("ChangePiece", RpcTarget.AllBuffered, cp.gameObject.GetPhotonView().ViewID);
+                        RemoveSkill();
+                        return;
                     }
                 }
             }
@@ -103,23 +128,20 @@ public class Ghost : SkillBase
         {
             for (int i = 6; i >= 0; i--)
             {
-                if (isMake) break;
-
                 for (int j = 7; j >= 0; j--)
                 {
                     if (ChessManager.Inst.GetPosition(j, i) == null)
                     {
                         cp = ChessManager.Inst.Creat(ChessManager.Inst.GetBlackObject()[Selecting()], j, i);
-                        photonView.RPC("ChangePiece", RpcTarget.AllBuffered, cp.gameObject.GetPhotonView().ViewID);
+                        ChessManager.Inst.SetPosition(cp);
                         ChessManager.Inst.AddArr(cp);
-                        isMake = true;
-                        break;
+                        photonView.RPC("ChangePiece", RpcTarget.AllBuffered, cp.gameObject.GetPhotonView().ViewID);
+                        RemoveSkill();
+                        return;
                     }
                 }
             }
         }
-
-        RemoveSkill();
     }
 
     [PunRPC]
@@ -141,16 +163,17 @@ public class Ghost : SkillBase
 
     private ChessData SelectInGodPieces()
     {
-        List<ChessData> godPieces = SkillManager.Inst.GetGodPieces();
-        int random = Random.Range(0, godPieces.Count);
+        int random = Random.Range(0, godList.Count);
 
-        return godPieces[random];
+        return godList[random];
     }
 
     private int Selecting()
     {
-        if (skillData.player == "white")
+        if (skillData.player == "white" && skillData.player == TurnManager.Instance.GetCurrentPlayer())
         {
+            Debug.Log(CheckChessPieceCnt("white_pawn"));
+
             if (!(CheckChessPieceCnt("white_pawn") == 8) && (SkillManager.Inst.GetGodPieces().Count == 0))
                 return 0;
             else if ((CheckChessPieceCnt("white_pawn") == 8) && !(SkillManager.Inst.GetGodPieces().Count == 0))
@@ -159,8 +182,11 @@ public class Ghost : SkillBase
                 return GodOrPawn();
         }
 
-        else
+        else if (skillData.player == "black" && skillData.player == TurnManager.Instance.GetCurrentPlayer())
         {
+            Debug.Log(CheckChessPieceCnt("black_pawn"));
+            Debug.Log(SkillManager.Inst.GetGodPieces().Count);
+
             if (!(CheckChessPieceCnt("black_pawn") == 8) && (SkillManager.Inst.GetGodPieces().Count == 0))
                 return 0;
             else if ((CheckChessPieceCnt("black_pawn") == 8) && !(SkillManager.Inst.GetGodPieces().Count == 0))
@@ -176,12 +202,19 @@ public class Ghost : SkillBase
     {
         GameObject[] cps = skillData.player == "white" ? ChessManager.Inst.GetWhiteObject() : ChessManager.Inst.GetBlackObject();
         string cpName = SelectInGodPieces().chessPiece;
+        int num;
+        Debug.Log(cpName);
 
         for (int i = 0; i < 6; i++)
         {
-            if (cps[i].name == cpName)
+            Debug.Log(cps[i].name);
+
+            if (cpName.Contains(cps[i].name))
             {
-                return i;
+                SkillManager.Inst.RemoveGodPieces(SelectInGodPieces());
+                Debug.Log("sdf");
+                num = i;
+                return num;
             }
         }
         return 0;
