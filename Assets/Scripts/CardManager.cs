@@ -817,10 +817,6 @@ public class CardManager : MonoBehaviourPunCallbacks
             {
                 card.cardPrame.enabled = false;
                 card.card.enabled = false;
-<<<<<<< HEAD
-=======
-                card.col.enabled = false;
->>>>>>> photon
                 return true;
             }
             DestroyCard(card);
