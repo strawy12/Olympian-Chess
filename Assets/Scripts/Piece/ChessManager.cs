@@ -140,7 +140,6 @@ public class ChessManager : MonoBehaviourPunCallbacks
             if (cbs[i].GetChessData().player == player)
             {
                 AddArr(cbs[i]);
-
             }
         }
         yield return new WaitForSeconds(1f);
@@ -204,6 +203,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
             {
                 GameManager.Inst.MovePlateAttackSpawn(x, y, cp);
             }
+
         }
     }
     public void FalseIsMoving()

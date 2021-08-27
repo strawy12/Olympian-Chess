@@ -83,6 +83,9 @@ public class CardManager : MonoBehaviourPunCallbacks
     public bool onMyCardArea { get; private set; }
     private bool isShow = true;
     private bool isTargeting = false;
+    private bool isClick = false;
+
+    private float pointDownTime = 0f;
     [SerializeField] private bool isMine = false;
     [SerializeField] private bool isBreak = false;
     [SerializeField] private bool isStop = false;
@@ -103,6 +106,17 @@ public class CardManager : MonoBehaviourPunCallbacks
     private void Update()
     {
         if (TurnManager.Instance.isLoading) return;
+
+        if(isClick)
+        {
+            if(pointDownTime > 1f)
+            {
+                isMyCardDrag = true;
+            }
+
+                pointDownTime += Time.deltaTime;
+            
+        }
         if (isMyCardDrag)
         {
             CardDrag(); // Dragging
@@ -331,6 +345,10 @@ public class CardManager : MonoBehaviourPunCallbacks
     public void SetSelectCard(Card card)
     {
         selectCard = card;
+    }
+    public void SetSelectCardNull()
+    {
+        selectCard = null;
     }
 
     public void ChangeIsUse(bool _isUse)// retouch SetIsUse 
@@ -795,8 +813,12 @@ public class CardManager : MonoBehaviourPunCallbacks
                 isBreak = false;
                 return false;
             }
-            if (CheckCardname("에로스의 사랑,수면,죽음의 땅,파도")) return true;
-
+            if (CheckCardname("에로스의 사랑,수면,죽음의 땅,파도"))
+            {
+                card.cardPrame.enabled = false;
+                card.card.enabled = false;
+                return true;
+            }
             DestroyCard(card);
 
             isUse = true;
@@ -820,13 +842,13 @@ public class CardManager : MonoBehaviourPunCallbacks
         {
             if (TurnManager.Instance.CheckPlayer("white"))
             {
-                Vector3 enlargePos = new Vector3(card.originPRS.pos.x, -3.5f, -10f);
+                Vector3 enlargePos = new Vector3(card.originPRS.pos.x, card.originPRS.pos.y, -10f);
                 card.MoveTransform(new PRS(enlargePos, Utils.QI, Vector3.one * 2.5f), false, false);
             }
             else
             {
-                Vector3 enlargePos = new Vector3(card.originPRS.pos.x, 3.5f, -10f);
-                Quaternion rot = Quaternion.Euler(180f, 180f, 0f);
+                Vector3 enlargePos = new Vector3(card.originPRS.pos.x, card.originPRS.pos.y, -10f);
+                Quaternion rot = Quaternion.Euler(0f, 0f, 180f);
                 card.MoveTransform(new PRS(enlargePos, rot, Vector3.one * 2.5f), false, false);
             }
         }
@@ -878,11 +900,12 @@ public class CardManager : MonoBehaviourPunCallbacks
         if (eCardState != ECardState.CanMouseDrag || eCardState == ECardState.Nothing)
             return;
         if (isUse) return;
-
+        
+        isClick = true;
+        cardInfo.SetActive(false);
         GameManager.Inst.DestroyMovePlates();
         SkillManager.Inst.SetUsingCard(false);
         SkillManager.Inst.CheckSkillCancel("에로스의 사랑,수면,죽음의 땅,파도");
-        isMyCardDrag = true;
         selectCard = card;
         EnlargeCard(true, card);
         //cardInfo.SetActive(true);
@@ -894,14 +917,29 @@ public class CardManager : MonoBehaviourPunCallbacks
     public void CardMouseUp(Card card)
     {
         if (isUse) return;
+
+        if(pointDownTime < 1.25f)
+        {   
+            var targetRot = ComparisonPlayer("white") ? Utils.QI : Quaternion.Euler(0f, 0f, 180f);
+            StartCoroutine(DontShowCards(GetTargetCards()));
+            cardInfo.SetActive(true);
+            ShowInfo();
+            isMyCardDrag = false;
+            isClick = false;
+            pointDownTime = 0f;
+            card.MoveTransform(new PRS(new Vector2(1.7f, 0.7f), targetRot, Vector3.one * 1.9f), true, false, 0.5f);
+            return;
+        }
+
         isMyCardDrag = false;
+        isClick = false;
+        pointDownTime = 0f;
         isUsed = isTargeting;
         targetPicker.SetActive(false);
-        cardInfo.SetActive(false);
         if (eCardState != ECardState.CanMouseDrag || eCardState == ECardState.Nothing)
             return;
         EnlargeCard(false, card);
-        if (CheckCardname("죽음의 땅,시간왜곡,바카스,정의구현") && !onMyCardArea)
+        if (CheckCardname("죽음의 땅,시간왜곡,바카스,정의구현,망령") && !onMyCardArea)
         {
             isUsed = true;
         }
@@ -1001,6 +1039,7 @@ public class CardManager : MonoBehaviourPunCallbacks
             targetCards[i].MoveTransform(new PRS(targetPos, targetRot, Vector3.zero), true, isSend, 0.7f);
             yield return new WaitForSeconds(0.05f);
         }
+        isShow = true;
     }
 
     #endregion

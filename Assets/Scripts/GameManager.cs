@@ -200,6 +200,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void MovePlateAttackSpawn(int matrixX, int matrixY, ChessBase cp)
     {
         if (cp.IsAttackSpawn(matrixX, matrixY)) return;
+        if (cp.NonAttackPiece(matrixX, matrixY)) return;
+
         float x = matrixX;
         float y = matrixY;
 

@@ -21,7 +21,7 @@ public class ChessData
     public bool attackSelecting;
 
     public List<SkillData> chosenSkill;
-    public ChessData(string player,int ID, string chessPiece, int moveCnt, int attackCount, int xBoard, int yBoard,bool isMoving, bool isAttacking, bool noneAttack, bool isSelecting, bool attackSelecting, List<SkillData> chosenSkill)
+    public ChessData(string player, int ID, string chessPiece, int moveCnt, int attackCount, int xBoard, int yBoard, bool isMoving, bool isAttacking, bool noneAttack, bool isSelecting, bool attackSelecting, List<SkillData> chosenSkill)
     {
         this.chessPiece = chessPiece;
         this.player = player;
@@ -65,7 +65,7 @@ public class ChessBase : MonoBehaviourPunCallbacks
     {
         string jsonData = NetworkManager.Inst.SaveDataToJson(chessData, true);
         photonView.RPC("SetChessData", RpcTarget.OthersBuffered, jsonData);
-        
+
     }
 
     [PunRPC]
@@ -100,7 +100,6 @@ public class ChessBase : MonoBehaviourPunCallbacks
         }
 
         MovePlate(); // Instatiate
-
     }
     public SkillData CheckSkillList(string name)
     {
@@ -111,6 +110,7 @@ public class ChessBase : MonoBehaviourPunCallbacks
                 return chessData.chosenSkill[i];
             }
         }
+
         return null;
     }
 
@@ -132,14 +132,19 @@ public class ChessBase : MonoBehaviourPunCallbacks
         return _skillList;
     }
 
-
-
     public bool IsAttackSpawn(int x, int y)
     {
         if (chessData.noneAttack && ChessManager.Inst.GetPosition(x, y).name.Contains("king")) return true;
         else return false;
     }
-    public void AddChosenSkill(SkillBase skill)
+    public bool NonAttackPiece(int x, int y)
+    {
+        ChessBase cp = ChessManager.Inst.GetPosition(x, y);
+
+        if (cp.CheckSkillList("시간정지") != null) return true;
+        return false;
+    }
+    public void AddChosenSkill(SkillBase skill, bool isSend = true)
     {
         for (int i = 0; i < chessData.chosenSkill.Count; i++)
         {
@@ -149,20 +154,27 @@ public class ChessBase : MonoBehaviourPunCallbacks
             }
         }
         chessData.chosenSkill.Add(skill.GetSkillData());
-        SendChessData();
+
+        if (isSend)
+        {
+            SendChessData();
+        }
     }
 
-    public void RemoveChosenSkill(SkillBase skill)
+    public void RemoveChosenSkill(SkillBase skill, bool isSend = false)
     {
         for (int i = 0; i < chessData.chosenSkill.Count; i++)
         {
             if (chessData.chosenSkill[i].ID == skill.GetID())
             {
                 chessData.chosenSkill.RemoveAt(i);
-
             }
         }
-        SendChessData();
+
+        if (isSend)
+        {
+            SendChessData();
+        }
     }
 
     public bool CheckIsMine()
@@ -297,7 +309,7 @@ public class ChessBase : MonoBehaviourPunCallbacks
     public void SetAttackSelecting(bool attackSelecting, bool isSend = false)
     {
         chessData.attackSelecting = attackSelecting;
-        if(isSend)
+        if (isSend)
         {
             SendChessData();
         }
@@ -365,7 +377,7 @@ public class ChessBase : MonoBehaviourPunCallbacks
     public bool GetNoneAttack()
     {
         return chessData.noneAttack;
-    }    
+    }
     public bool GetIsMoving()
     {
         return chessData.isMoving;

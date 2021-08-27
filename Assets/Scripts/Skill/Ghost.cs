@@ -9,10 +9,9 @@ public class Ghost : SkillBase
 
     public override void UsingSkill()
     {
-        photonView.RPC("Gho_UsingSkill", RpcTarget.AllBuffered);
+        Gho_UsingSkill();
     }
 
-    [PunRPC]
     private void Gho_UsingSkill()
     {
         List<ChessData> cps = SkillManager.Inst.GetGodPieces();
@@ -112,10 +111,8 @@ public class Ghost : SkillBase
                 {
                     if (ChessManager.Inst.GetPosition(j, i) == null)
                     {
-                        Debug.Log("ÇÑ¹ø¸¸");
                         cp = ChessManager.Inst.Creat(ChessManager.Inst.GetWhiteObject()[Selecting()], j, i);
                         ChessManager.Inst.SetPosition(cp);
-                        ChessManager.Inst.AddArr(cp);
                         photonView.RPC("ChangePiece", RpcTarget.AllBuffered, cp.gameObject.GetPhotonView().ViewID);
                         RemoveSkill();
                         return;
@@ -134,7 +131,6 @@ public class Ghost : SkillBase
                     {
                         cp = ChessManager.Inst.Creat(ChessManager.Inst.GetBlackObject()[Selecting()], j, i);
                         ChessManager.Inst.SetPosition(cp);
-                        ChessManager.Inst.AddArr(cp);
                         photonView.RPC("ChangePiece", RpcTarget.AllBuffered, cp.gameObject.GetPhotonView().ViewID);
                         RemoveSkill();
                         return;
@@ -147,8 +143,10 @@ public class Ghost : SkillBase
     [PunRPC]
     private void ChangePiece(int num)
     {
+        GameObject obj = PhotonView.Find(num).gameObject;
+        ChessManager.Inst.AddArr(obj.GetComponent<ChessBase>());
         if (NetworkManager.Inst.GetPlayer() == "white") return;
-        PhotonView.Find(num).gameObject.transform.Rotate(0f, 0f, 180f);
+        obj.transform.Rotate(0f, 0f, 180f);
     }
 
     private void RemoveSkill()
@@ -157,8 +155,7 @@ public class Ghost : SkillBase
         {
             selectPiece.RemoveChosenSkill(this);
         }
-        SkillManager.Inst.RemoveSkillList(this);
-        Destroy(gameObject);
+        RPC_DestroySkill();
     }
 
     private ChessData SelectInGodPieces()

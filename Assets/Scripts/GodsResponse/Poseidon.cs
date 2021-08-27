@@ -32,10 +32,7 @@ public class Poseidon : SkillBase
         GameManager.Inst.SetUsingSkill(false);
         GameManager.Inst.SetMoving(true);
 
-        if (selectPiece != null)
-        {
-            selectPiece.RemoveChosenSkill(this);
-        }
+        selectPiece.RemoveChosenSkill(this, true);
 
         photonView.RPC("P_ResetSkill", Photon.Pun.RpcTarget.AllBuffered);
     }

@@ -41,7 +41,6 @@ public class GiveBirth : SkillBase
         }
         photonView.RPC("ChangePiece", RpcTarget.AllBuffered, baby.gameObject.GetPhotonView().ViewID);
         ChessManager.Inst.SetPosition(baby);
-        ChessManager.Inst.AddArr(baby);
 
         if (selectPiece != null)
         {
@@ -55,8 +54,10 @@ public class GiveBirth : SkillBase
     [PunRPC]
     private void ChangePiece(int num)
     {
+        GameObject obj = PhotonView.Find(num).gameObject;
+        ChessManager.Inst.AddArr(obj.GetComponent<ChessBase>());
         if (NetworkManager.Inst.GetPlayer() == "white") return;
-        PhotonView.Find(num).gameObject.transform.Rotate(0f, 0f, 180f);
+        obj.transform.Rotate(0f, 0f, 180f);
     }
 
 

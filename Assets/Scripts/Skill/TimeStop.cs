@@ -6,7 +6,7 @@ public class TimeStop : SkillBase
 {
     public override void UsingSkill()
     {
-        Inv_UsingSkill();
+        photonView.RPC("Inv_UsingSkill", Photon.Pun.RpcTarget.AllBuffered);
     }
 
     public override void ResetSkill()
@@ -21,16 +21,19 @@ public class TimeStop : SkillBase
         {
             if (selectPiece != null)
             {
-                selectPiece.spriteRenderer.material.SetColor("_Color", Color.clear);
-                SkillManager.Inst.RemoveDontClickPiece(selectPiece);
-                selectPiece.gameObject.GetComponent<Collider2D>().enabled = true;
-                ChessManager.Inst.SetChessPiecePosition(skillData.posX, skillData.posY, selectPiece);
+                photonView.RPC("TW_ResetSkill", Photon.Pun.RpcTarget.AllBuffered);
             }
-
-            SkillManager.Inst.RemoveSkillList(this);
-            selectPiece.RemoveChosenSkill(this);
-            Destroy(gameObject);
         }
+    }
+
+    [Photon.Pun.PunRPC]
+    private void TW_ResetSkill()
+    {
+        selectPiece.spriteRenderer.material.SetColor("_Color", Color.clear);
+        SkillManager.Inst.RemoveDontClickPiece(selectPiece);
+        ChessManager.Inst.SetChessPiecePosition(skillData.posX, skillData.posY, selectPiece);
+        selectPiece.RemoveChosenSkill(this);
+        DestroySkill();
     }
 
     [Photon.Pun.PunRPC]
@@ -42,17 +45,6 @@ public class TimeStop : SkillBase
         skillData.posY = selectPiece.GetYBoard();
 
         SkillManager.Inst.AddDontClickPiece(selectPiece);
-
-        selectPiece.gameObject.GetComponent<Collider2D>().enabled = false;
-
-        if (selectPiece.GetPlayer() == TurnManager.Instance.GetCurrentPlayer())
-        {
-            ChessManager.Inst.SetChessPiecePosition(skillData.posX, skillData.posY, selectPiece);
-        }
-
-        else
-        {
-            ChessManager.Inst.SetPositionEmpty(skillData.posX, skillData.posY);
-        }
+        ChessManager.Inst.SetChessPiecePosition(skillData.posX, skillData.posY, selectPiece);
     }
 }
