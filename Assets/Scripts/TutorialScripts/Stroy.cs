@@ -17,6 +17,7 @@ public class Stroy : MonoBehaviour
 
     private bool isTyping = true;
     private bool isTyping_ing = true;
+    private bool deckClicked = true; //deckClicked를 false로 바꿔주세용
 
     private int index = 1;
 
@@ -29,9 +30,11 @@ public class Stroy : MonoBehaviour
 
     private IEnumerator StoryStart()
     {
-        story1();
-        yield return delayStory;
-
+        if(isTyping && index == 1)
+        {
+            story1();
+            yield return delayStory;
+        }
         if (isTyping && index == 2)
         {
             story2();
@@ -107,32 +110,33 @@ public class Stroy : MonoBehaviour
 
     private void story2()
     {
+        isTyping = false;
         StartCoroutine((TypingEffect(stroyText, story[1], speed)));
     }
 
     private void story3()
     {
+        isTyping = false;
         StartCoroutine((TypingEffect(stroyText, story[2], speed)));
         TutorialManager.Instance.is2StoryEnd = true;
     }
     private void story4()
     {
-        //Write conditional code
-        if (TutorialManager.Instance.is3Story)
-        {
-            StartCoroutine((TypingEffect(stroyText, story[3], speed)));
-        }
+        isTyping = false;
+        StartCoroutine((TypingEffect(stroyText, story[3], speed)));
     }
     private void story5()
     {
         //Write conditional code
         // turn
+        isTyping = false;
         TutorialManager.Instance.is5Story = true;
         StartCoroutine((TypingEffect(stroyText, story[4], speed)));
     }
     private void story6()
     {
         //Write conditional code
+        isTyping = false;
         if (TutorialManager.Instance.is5StoryEnd)
         {
             StartCoroutine((TypingEffect(stroyText, story[5], speed)));
@@ -142,23 +146,33 @@ public class Stroy : MonoBehaviour
     {
         //Write conditional code
 
+        isTyping = false;
         StartCoroutine((TypingEffect(stroyText, story[6], speed)));
     }
     private void story8()
     {
+        isTyping = false;
         StartCoroutine((TypingEffect(stroyText, story[7], speed)));
     }
     private void story9()
     {
+        isTyping = false;
         StartCoroutine((TypingEffect(stroyText, story[8], speed)));
     }
     private void OnMouseDown()
     {
-        Debug.Log(isTyping_ing);
-        Debug.Log(isTyping);
-        Debug.Log(index);
 
-        if (index != 5)
+        if(index == 3)
+        {
+            if (!isTyping_ing && TutorialManager.Instance.is3Story)
+            {
+                index++;
+                isTyping = true;
+                isTyping_ing = true;
+                StartCoroutine(StoryStart());
+            }
+        }
+        else if(index == 5 && TutorialManager.Instance.isClicked) //천벌을 사용하면 deckClicked를 true로 바꿔주세용 화이팅!!
         {
             if (!isTyping_ing)
             {
@@ -176,6 +190,9 @@ public class Stroy : MonoBehaviour
                 isTyping_ing = true;
             }
         }
+        Debug.Log(isTyping_ing);
+        Debug.Log(isTyping);
+        Debug.Log(index);
     }
     #endregion
 

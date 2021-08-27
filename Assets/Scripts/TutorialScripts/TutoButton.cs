@@ -1,19 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TutoButton : MonoBehaviour
 {
     [SerializeField]
     private GameObject ActiveButton;
+
     [SerializeField]
     private GameObject UnActiveButton;
+    bool allowClick = false;
 
-    void Start()
+    public Sprite activeSprite;
+    public Sprite unactiveSprite;
+
+    Image image;
+
+    private void Start()
     {
-        
+        image = GetComponent<Image>();
     }
-
     void Update()
     {
         ActiveButtono();
@@ -23,18 +30,21 @@ public class TutoButton : MonoBehaviour
     {
         if(TutorialManager.Instance.is5Story)
         {
-            UnActiveButton.SetActive(false);
-            ActiveButton.SetActive(true);
+            image.sprite = activeSprite;
             TutorialManager.Instance.is5Story = false;
+            allowClick = true;
         }
     }
 
     public void isClickedActiveButton()
     {
-        ActiveButton.SetActive(false);
-        UnActiveButton.SetActive(true);
-        TutorialManager.Instance.is5StoryEnd = true;
-        TutorialManager.Instance.is6Story = true;
-        //TutorialManager.Instance.is5StoryEnd = true;
+        if (allowClick)
+        {
+            TutorialManager.Instance.turnEnd = true;
+            image.sprite = unactiveSprite;
+            TutorialManager.Instance.is5StoryEnd = true;
+            TutorialManager.Instance.is6Story = true;
+            //TutorialManager.Instance.is5StoryEnd = true;
+        }
     }
 }

@@ -12,33 +12,40 @@ public class BlackPawn : MonoBehaviour
     
     private GameObject MV_M;
 
+    bool once = true;
     void Update()
     {
         InstantiateYellow();
+        Knight_();
     }
 
     private void InstantiateYellow()
     {
-        if(TutorialManager.Instance.is5StoryEnd)
+        if(TutorialManager.Instance.isClicked && once)
         {
-            TutorialManager.Instance.is5StoryEnd = false;
             Debug.Log("Move1");
-            MV_M=Instantiate(movePlate_me, transform.position, Quaternion.identity);
-
+            once = false;
+            MV_M =Instantiate(movePlate_me, transform.position, Quaternion.identity);
+        }
+    }
+    private void Knight_()
+    {
+        if (TutorialManager.Instance.turnEnd)
+        {
             StartCoroutine(KnightMove());
         }
     }
-
     private IEnumerator KnightMove()
     {
-        yield return new WaitForSeconds(5f);
-        Vector3 startPos = knight.transform.position;
-        Vector3 endPos = new Vector3(1.02f, 1.02f, 0f);
+            Debug.Log("now");
+            yield return new WaitForSeconds(2f);
+            Vector3 startPos = knight.transform.position;
+            Vector3 endPos = new Vector3(1.02f, 1.02f, 0f);
+        TutorialManager.Instance.turnEnd = false;
+            Destroy(MV_M);
+            knight.transform.position = endPos;
 
-        Destroy(MV_M);
-        knight.transform.position = endPos;
-
-        TutorialManager.Instance.is6StoryEnd = true;
-        yield return null;
+            TutorialManager.Instance.is6StoryEnd = true;
+            yield return null;
     }
 }

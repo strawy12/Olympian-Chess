@@ -32,6 +32,17 @@ public class TutorialManager : MonoBehaviour
     [HideInInspector]
     public bool is8Stroy = false;
 
+    [HideInInspector]
+    public bool isClicked = false;
+    [HideInInspector]
+    public bool isUsed = false;
+    [HideInInspector]
+    public bool turnEnd = false;
+
+
+
+
+
     #region ΩÃ±€≈Ê
 
     private static TutorialManager _instance;
@@ -57,10 +68,6 @@ public class TutorialManager : MonoBehaviour
         StartSoundPlay();
     }
 
-    void Update()
-    {
-        
-    }
 
     private void StartSoundPlay()
     {
