@@ -15,59 +15,76 @@ public class Stroy : MonoBehaviour
     [SerializeField]
     private float speed = 0.4f;
 
-    private bool isTyping = false;
-    private bool isTyping_ing = false;
+    private bool isTyping = true;
+    private bool isTyping_ing = true;
 
-    private WaitForSeconds delayStory = new WaitForSeconds(6f); 
+    private int index = 1;
+
+    private WaitForSeconds delayStory = new WaitForSeconds(6f);
     void Start()
     {
-        SettingStory();
-    }
-
-    private void SettingStory()
-    {
         StartCoroutine(StoryStart());
+        isTyping = true;
     }
 
     private IEnumerator StoryStart()
     {
-        isTyping = true;
         story1();
         yield return delayStory;
 
-        story2();
-        yield return delayStory;
+        if (isTyping && index == 2)
+        {
+            story2();
+            yield return delayStory;
+        }
 
-        story3();
-        yield return delayStory;
+        if (isTyping && index == 3)
+        {
+            story3();
+            yield return delayStory;
+        }
 
-        story4();
-        yield return delayStory;
-
-        story5();
-        yield return delayStory;
-
-        story6();
-        yield return delayStory;
-
-        story7();
-        yield return delayStory;
-
-        story8();
-        yield return delayStory;
-
-        story9();
-        yield return delayStory;
+        if (isTyping && index == 4)
+        {
+            story4();
+            yield return delayStory;
+        }
+        if (isTyping && index == 5)
+        {
+            story5();
+            yield return delayStory;
+        }
+        if (isTyping && index == 6)
+        {
+            story6();
+            yield return delayStory;
+        }
+        if (isTyping && index == 7)
+        {
+            story7();
+            yield return delayStory;
+        }
+        if (isTyping && index == 8)
+        {
+            story8();
+            yield return delayStory;
+        }
+        if (isTyping && index == 9)
+        {
+            story9();
+            yield return delayStory;
+        }
         isTyping = false;
     }
 
-    private IEnumerator TypingEffect(Text _typingText,string _message,float _speed)
+    private IEnumerator TypingEffect(Text _typingText, string _message, float _speed)
     {
         for (int i = 0; i < _message.Length; i++)
         {
             _typingText.text = _message.Substring(0, i + 1);
             yield return new WaitForSeconds(speed);
         }
+        isTyping_ing = false;
     }
 
     //private void Sound()
@@ -82,10 +99,10 @@ public class Stroy : MonoBehaviour
     //}
 
     #region 스토리진행
-
     private void story1()
     {
         StartCoroutine((TypingEffect(stroyText, story[0], speed)));
+        isTyping = false;
     }
 
     private void story2()
@@ -101,7 +118,7 @@ public class Stroy : MonoBehaviour
     private void story4()
     {
         //Write conditional code
-        if(TutorialManager.Instance.is3Story)
+        if (TutorialManager.Instance.is3Story)
         {
             StartCoroutine((TypingEffect(stroyText, story[3], speed)));
         }
@@ -116,7 +133,7 @@ public class Stroy : MonoBehaviour
     private void story6()
     {
         //Write conditional code
-        if(TutorialManager.Instance.is5StoryEnd)
+        if (TutorialManager.Instance.is5StoryEnd)
         {
             StartCoroutine((TypingEffect(stroyText, story[5], speed)));
         }
@@ -134,6 +151,31 @@ public class Stroy : MonoBehaviour
     private void story9()
     {
         StartCoroutine((TypingEffect(stroyText, story[8], speed)));
+    }
+    private void OnMouseDown()
+    {
+        Debug.Log(isTyping_ing);
+        Debug.Log(isTyping);
+        Debug.Log(index);
+
+        if (index != 5)
+        {
+            if (!isTyping_ing)
+            {
+                index++;
+                isTyping = true;
+                isTyping_ing = true;
+            }
+        }
+        else
+        {
+            if (!isTyping_ing)
+            {
+                index++;
+                isTyping = true;
+                isTyping_ing = true;
+            }
+        }
     }
     #endregion
 
