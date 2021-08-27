@@ -2413,7 +2413,7 @@ MonoBehaviour:
     type: 3}
   movePlate_other: {fileID: 8741413462831854637, guid: 3934a4caa3d58e7419057524014be623,
     type: 3}
-  BP: {fileID: 1030460029}
+  BP: {fileID: 2065084679}
 --- !u!1 &1201852546
 GameObject:
   m_ObjectHideFlags: 0

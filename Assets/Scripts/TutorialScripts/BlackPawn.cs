@@ -33,7 +33,7 @@ public class BlackPawn : MonoBehaviour
     {
         yield return new WaitForSeconds(5f);
         Vector3 startPos = knight.transform.position;
-        Vector3 endPos = new Vector3(0.336f, 0.33f, 0f);
+        Vector3 endPos = new Vector3(1.02f, 1.02f, 0f);
 
         Destroy(MV_M);
         knight.transform.position = endPos;
