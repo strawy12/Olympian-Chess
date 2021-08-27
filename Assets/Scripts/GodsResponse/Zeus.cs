@@ -38,6 +38,7 @@ public class Zeus : SkillBase
             else
                 GameManager.Inst.MovePlateSpawn(skillData.posX, skillData.posY + 1, null);
 
+            photonView.RPC("Z_SettingOriginPos", Photon.Pun.RpcTarget.Others, originPosX, originPosY);
             isSetting = true;
         }
 
@@ -47,6 +48,13 @@ public class Zeus : SkillBase
             GameManager.Inst.SetUsingSkill(false);
             GameManager.Inst.SetMoving(true);
         }
+    }
+
+    [Photon.Pun.PunRPC]
+    private void Z_SettingOriginPos(int posX, int PosY)
+    {
+        originPosX = posX;
+        originPosY = PosY;
     }
 
     [Photon.Pun.PunRPC]
