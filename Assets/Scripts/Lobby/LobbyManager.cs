@@ -109,11 +109,12 @@ public class LobbyManager : MonoBehaviour
     public void CheckCardList(GameObject game)
     {
         string[] myDecks = DeckManager.Instance.GetUser().myDecks;
+        int cnt = 0;
         for (int i = 0; i < myDecks.Length; i++)
         {
-            if (myDecks[i] == null || myDecks[i] == "")
+            if (myDecks[i] != null || myDecks[i] != "")
             {
-                return;
+                cnt++;
             }
         }
         NetworkManager.Inst.JoinRandomRoom();

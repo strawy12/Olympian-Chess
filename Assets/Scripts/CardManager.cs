@@ -346,6 +346,10 @@ public class CardManager : MonoBehaviourPunCallbacks
     {
         selectCard = card;
     }
+    public void SetSelectCardNull()
+    {
+        selectCard = null;
+    }
 
     public void ChangeIsUse(bool _isUse)// retouch SetIsUse 
     {
