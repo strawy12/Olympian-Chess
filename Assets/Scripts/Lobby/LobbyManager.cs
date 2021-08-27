@@ -23,10 +23,8 @@ public class LobbyManager : MonoBehaviour
 
     public bool[] isGodBought;
     public Sprite[] GodSprites;
-    public Image G_Shop;
 
     public Button BGbutton;
-    public Button Godbutton;
 
     User user;
 
@@ -151,39 +149,6 @@ public class LobbyManager : MonoBehaviour
             isGodBought[Gnum] = true;
             DeckManager.Instance.SetGold(gold);
             UpdateUI();
-        }
-    }
-
-    private void SetGod()
-    {
-        G_Shop.sprite = GodSprites[Gnum];
-        if (isGodBought[Gnum])
-        {
-            G_Shop.color = new Color(0.3f, 0.3f, 0.3f, 1f);
-            Godbutton.image.color = Color.red;
-        }
-        else
-        {
-            G_Shop.color = new Color(1f, 1f, 1f, 1f);
-            Godbutton.image.color = Color.white;
-        }
-    }
-
-    public void GNext()
-    {
-        if (!(Gnum - 1 < 1))
-        {
-            Gnum++;
-            SetGod();
-        }
-    }
-
-    public void GRecent()
-    {
-        if (!(Gnum - 1 < 1))
-        {
-            Gnum--;
-            SetGod();
         }
     }
 
