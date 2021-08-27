@@ -67,13 +67,11 @@ public class SuperSkillManager : MonoBehaviourPunCallbacks
         if (TurnManager.Instance.GetCurrentPlayer() == "white")
         {
             obj.name = whiteGodsRes;
-
         }
 
         else
         {
             obj.name = blackGodsRes;
-
         }
 
         skillID = obj.GetPhotonView().ViewID;
@@ -84,6 +82,13 @@ public class SuperSkillManager : MonoBehaviourPunCallbacks
         superList.Add(sb);
         return obj;
     }
+
+    public void SetActive(bool isActive)
+    {
+        whiteIcon.gameObject.SetActive(isActive);
+        blackIcon.gameObject.SetActive(isActive);
+    }
+
 
     private void SetGodsResponse()
     {

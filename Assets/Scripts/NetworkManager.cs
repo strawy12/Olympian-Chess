@@ -153,6 +153,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public void LeaveRoom()
     {
         PhotonNetwork.LeaveRoom();
+        SceneManager.LoadScene("Lobby");
     }
 
     public override void OnCreatedRoom()
@@ -174,6 +175,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         Debug.Log(PhotonNetwork.LocalPlayer.NickName);
     }
 
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        LeaveRoom();
+    }
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         if (PhotonNetwork.PlayerList.Length == 2)

@@ -152,6 +152,7 @@ MonoBehaviour:
     type: 3}
   cardPrame: {fileID: 1306375242828518994}
   card: {fileID: 5359609414508250856}
+  col: {fileID: 0}
   isFront: 0
   isSelected: 0
   carditem:

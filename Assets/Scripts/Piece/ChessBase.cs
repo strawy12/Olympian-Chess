@@ -137,6 +137,7 @@ public class ChessBase : MonoBehaviourPunCallbacks
         if (chessData.noneAttack && ChessManager.Inst.GetPosition(x, y).name.Contains("king")) return true;
         else return false;
     }
+<<<<<<< HEAD
     public bool NonAttackPiece(int x, int y)
     {
         ChessBase cp = ChessManager.Inst.GetPosition(x, y);
@@ -144,6 +145,8 @@ public class ChessBase : MonoBehaviourPunCallbacks
         if (cp.CheckSkillList("시간정지") != null) return true;
         return false;
     }
+=======
+>>>>>>> photon
     public void AddChosenSkill(SkillBase skill, bool isSend = true)
     {
         for (int i = 0; i < chessData.chosenSkill.Count; i++)
@@ -171,7 +174,11 @@ public class ChessBase : MonoBehaviourPunCallbacks
             }
         }
 
+<<<<<<< HEAD
         if (isSend)
+=======
+        if(isSend)
+>>>>>>> photon
         {
             SendChessData();
         }

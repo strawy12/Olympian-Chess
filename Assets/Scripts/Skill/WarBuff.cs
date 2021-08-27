@@ -62,23 +62,12 @@ public class WarBuff : SkillBase
 
     private IEnumerator WB_SkillEffect()
     {
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 5; i++)
         {
             selectPiece.spriteRenderer.material.SetColor("_Color", new Color(255, 0, 0, 0));
             yield return new WaitForSeconds(0.1f);
-            selectPiece.spriteRenderer.material.SetColor("_Color", new Color(255, 94, 0, 0));
+            selectPiece.spriteRenderer.material.SetColor("_Color", Color.clear);
             yield return new WaitForSeconds(0.1f);
-            selectPiece.spriteRenderer.material.SetColor("_Color", new Color(255, 228, 0, 0));
-            yield return new WaitForSeconds(0.1f);
-            selectPiece.spriteRenderer.material.SetColor("_Color", new Color(29, 219, 22, 0));
-            yield return new WaitForSeconds(0.1f);
-            selectPiece.spriteRenderer.material.SetColor("_Color", new Color(0, 84, 255, 0));
-            yield return new WaitForSeconds(0.1f);
-            selectPiece.spriteRenderer.material.SetColor("_Color", new Color(0, 0, 183, 0));
-            yield return new WaitForSeconds(0.1f);
-            selectPiece.spriteRenderer.material.SetColor("_Color", new Color(167, 72, 255, 0));
-            yield return new WaitForSeconds(0.1f);
-
         }
 
         ChessManager.Inst.SetPositionEmpty(selectPiece.GetXBoard(), selectPiece.GetYBoard());

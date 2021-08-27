@@ -59,21 +59,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     [SerializeField] string cheatInfo;
     [SerializeField] private List<MovePlate> movePlateList = new List<MovePlate>();
     [SerializeField] private Text currentPlayerText;
-    [SerializeField] private Text networkPlayerText;
+
 
     WaitForSeconds delay2 = new WaitForSeconds(2);
-    private void Awake()
-    {
-        // remove another gamemanager object if it exists
-        var objs = FindObjectsOfType<GameManager>();
-        if (objs.Length != 1)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        DontDestroyOnLoad(gameObject);
-        pool = FindObjectOfType<PoolManager>();
-    }
     private void Start()
     {
         TurnManager.Instance.StartGame();
@@ -82,7 +70,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     private void Update()
     {
         InputCheatKey();
-        
+        currentPlayerText.text = TurnManager.Instance.GetCurrentPlayer();
+
+
     }
     // Functions including cheatkey
     void InputCheatKey()
@@ -123,6 +113,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             whiteCamera.enabled = true;
             cv.worldCamera = whiteCamera;
             CardManager.Inst.ChangeCardArea(true);
+
         }
         else
         {
@@ -130,6 +121,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             blackCamera.enabled = true;
             cv.worldCamera = blackCamera;
             CardManager.Inst.ChangeCardArea(false);
+
         }
 
 
@@ -161,6 +153,14 @@ public class GameManager : MonoBehaviourPunCallbacks
             }
         }
     }
+
+    public void LeavingRoom()
+    {
+        NetworkManager.Inst.LeaveRoom();
+    }
+
+
+
     public void DestroyMovePlates()
     {
         int cnt = movePlateList.Count;

@@ -142,7 +142,7 @@ public class CardManager : MonoBehaviourPunCallbacks
                 isTargeting = true;
                 localPosition = hit.collider.transform.position;
 
-                if (CheckCardname("여행자") || (CheckCardname("전쟁광") && !TurnManager.Instance.CheckPlayer(hit.collider.name))) // Only Pawn Targeting
+                if (CheckCardname("여행자")) // Only Pawn Targeting
                 {
                     if (CheckPawn(hit.collider.name))
                     {
@@ -817,6 +817,10 @@ public class CardManager : MonoBehaviourPunCallbacks
             {
                 card.cardPrame.enabled = false;
                 card.card.enabled = false;
+<<<<<<< HEAD
+=======
+                card.col.enabled = false;
+>>>>>>> photon
                 return true;
             }
             DestroyCard(card);

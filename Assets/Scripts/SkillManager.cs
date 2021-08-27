@@ -249,6 +249,7 @@ public class SkillManager : MonoBehaviourPunCallbacks
             {
                 CardManager.Inst.GetSelectCard().cardPrame.enabled = true;
                 CardManager.Inst.GetSelectCard().card.enabled = true;
+                CardManager.Inst.GetSelectCard().col.enabled = true;
                 if (GetSkillList(names[i]).Count == 0) return;
                 SkillBase sb = GetSkillList(names[i])[0];
 
