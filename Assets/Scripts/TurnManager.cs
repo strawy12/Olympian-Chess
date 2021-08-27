@@ -39,8 +39,7 @@ public class TurnManager : MonoBehaviourPunCallbacks
     [SerializeField] [Tooltip("시작 카드 개수를 정합니다.")] int startCardCount;
 
     [Header("상대와 나의 버튼")]
-    [SerializeField] Button buttonWhite; // player's button
-    [SerializeField] Button buttonBlack; // opponent's button
+    [SerializeField] Button button; // player's button
 
     [Header("활성화,비활성화 버튼 이미지")]
     [SerializeField] Sprite buttonActive; // Activated button image
@@ -210,11 +209,7 @@ public class TurnManager : MonoBehaviourPunCallbacks
     // Change my button or someone else's button to the active button image depending on context
     public void ButtonActive()
     {
-        if (GetCurrentPlayerTF())
-            buttonWhite.image.sprite = buttonActive;
-
-        else if (GetCurrentPlayerTF())
-            buttonBlack.image.sprite = buttonActive;
+        button.image.sprite = buttonActive;
 
         isActive = true;
     }
@@ -222,29 +217,10 @@ public class TurnManager : MonoBehaviourPunCallbacks
     // Change the other party and my button to a disabled button image
     public void ButtonInactive()
     {
-        buttonWhite.image.sprite = buttonInactive;
-        buttonBlack.image.sprite = buttonInactive;
+        button.image.sprite = buttonInactive;
 
         isActive = false;
     }
-
-    // Changing the position of the button according to the turn
-    private void ChangeButtonTransform()
-    {
-        // If the current player is white, set the position of your button and the opposing team's button
-        if (CheckPlayer("white"))
-        {
-            buttonWhite.transform.position = new Vector2(posUp.position.x, posUp.position.y);
-            buttonBlack.transform.position = new Vector2(posDown.position.x, posDown.position.y);
-        }
-        // else, set the position of your button and the opposing team's button
-        else
-        {
-            buttonWhite.transform.position = new Vector2(posDown.position.x, posDown.position.y);
-            buttonBlack.transform.position = new Vector2(posUp.position.x, posUp.position.y);
-        }
-    }
-
 
     // There are so many functions referenced elsewhere here that it is impossible to interpret
     public void EndTurn()

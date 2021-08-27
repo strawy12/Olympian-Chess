@@ -232,7 +232,7 @@ public class DeckManager : MonoBehaviour
         isSave = isTrue;
     }
 
-    IEnumerator Message(string messageText)
+    public IEnumerator Message(string messageText)
     {
         Debug.Log(messageText);
         message.transform.DOScale(1, 0.3f).SetEase(Ease.InBounce);

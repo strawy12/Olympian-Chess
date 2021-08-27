@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -76,6 +77,10 @@ public class LobbyManager : MonoBehaviour
             DeckManager.Instance.SetGold(gold);
             UpdateUI();
         }
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
     }
 
     private void SetBackGround()
@@ -119,10 +124,14 @@ public class LobbyManager : MonoBehaviour
         }
         if (cnt != 10)
         {
-            //StartCoroutine(Message("덱이 저장되었습니다!"));
+            StartCoroutine(DeckManager.Instance.Message("카드가 10장보다 부족합니다"));
             return;
         }
-        NetworkManager.Inst.JoinRandomRoom();
+        if(game.name.Contains("Match"))
+        {
+            NetworkManager.Inst.JoinRandomRoom();
+        }
+
         game.SetActive(true);
     }
 
