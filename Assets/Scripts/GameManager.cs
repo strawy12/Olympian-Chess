@@ -41,6 +41,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     [SerializeField] GameObject movePlate;
     [SerializeField] Camera blackCamera;
     [SerializeField] Camera whiteCamera;
+    [SerializeField] UnityEngine.UI.Button cardButton_White;
+    [SerializeField] UnityEngine.UI.Button CardButton_Black;
 
     enum ECardState { Moving, Skill, MovingAndSkill }
 
@@ -60,6 +62,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     [SerializeField] private List<MovePlate> movePlateList = new List<MovePlate>();
     [SerializeField] private Text currentPlayerText;
     [SerializeField] private Text networkPlayerText;
+
 
     WaitForSeconds delay2 = new WaitForSeconds(2);
     private void Awake()
@@ -123,6 +126,8 @@ public class GameManager : MonoBehaviourPunCallbacks
             whiteCamera.enabled = true;
             cv.worldCamera = whiteCamera;
             CardManager.Inst.ChangeCardArea(true);
+            CardButton_Black.enabled = false;
+
         }
         else
         {
@@ -130,6 +135,8 @@ public class GameManager : MonoBehaviourPunCallbacks
             blackCamera.enabled = true;
             cv.worldCamera = blackCamera;
             CardManager.Inst.ChangeCardArea(false);
+            cardButton_White.enabled = false;
+
         }
 
 

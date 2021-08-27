@@ -50,6 +50,7 @@ public class TurnManager : MonoBehaviourPunCallbacks
     [SerializeField] Transform posUp; // Opponent's button position
     [SerializeField] Transform posDown; // button position of the current player
     [SerializeField] GameObject loadingDisplay;
+    [SerializeField] GameObject uiObject;
 
     private bool isActive = false;
 
@@ -77,6 +78,8 @@ public class TurnManager : MonoBehaviourPunCallbacks
     public void StartGame()
     {
         loadingDisplay.SetActive(true);
+        uiObject.SetActive(false);
+        SuperSkillManager.Inst.SetActive(false);
         if (NetworkManager.Inst.GetPlayer() == "black")
         {
             loadingDisplay.transform.Rotate(0f, 0f, 180f);
@@ -131,6 +134,8 @@ public class TurnManager : MonoBehaviourPunCallbacks
         ChessManager.Inst.SettingGame();
         yield return new WaitForSeconds(3f);
         loadingDisplay.SetActive(false);
+        SuperSkillManager.Inst.SetActive(true);
+        uiObject.SetActive(true);
         CardManager.Inst.CardShare();
         yield return new WaitForSeconds(2f);
 

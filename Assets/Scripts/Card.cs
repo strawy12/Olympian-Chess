@@ -16,6 +16,7 @@ public class Card : MonoBehaviourPunCallbacks
     public SpriteRenderer cardPrame;
     public SpriteRenderer card;
     private SpriteRenderer spriteRenderer = null;
+    public Collider2D col = null;
     private PhotonView pv;
 
     
@@ -33,6 +34,7 @@ public class Card : MonoBehaviourPunCallbacks
         if (enabled == false) // DraftCard Script overlap Prevention 
             return;
         spriteRenderer = GetComponent<SpriteRenderer>();
+        col = GetComponent<Collider2D>();
         pv = GetComponent<PhotonView>();
         //pv.enabled = false;
     }

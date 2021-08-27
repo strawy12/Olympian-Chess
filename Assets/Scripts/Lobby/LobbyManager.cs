@@ -117,6 +117,11 @@ public class LobbyManager : MonoBehaviour
                 cnt++;
             }
         }
+        if (cnt != 10)
+        {
+            //StartCoroutine(Message("덱이 저장되었습니다!"));
+            return;
+        }
         NetworkManager.Inst.JoinRandomRoom();
         game.SetActive(true);
     }
