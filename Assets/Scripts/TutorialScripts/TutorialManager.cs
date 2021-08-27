@@ -20,6 +20,18 @@ public class TutorialManager : MonoBehaviour
     [HideInInspector]
     public bool is5StoryEnd = false;
 
+    //[HideInInspector]
+    public bool is6Story = false;
+
+    [HideInInspector]
+    public bool is6StoryEnd = false;
+
+    [HideInInspector]
+    public bool is7Story = false;
+
+    [HideInInspector]
+    public bool is8Stroy = false;
+
     #region ΩÃ±€≈Ê
 
     private static TutorialManager _instance;

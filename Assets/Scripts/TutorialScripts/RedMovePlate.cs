@@ -11,14 +11,8 @@ public class RedMovePlate : MonoBehaviour
         WP = FindObjectOfType<WhitePPawn>();
     }
 
-    void Update()
-    {
-        
-    }
-
     private void OnMouseUp()
     {
-        Debug.Log("qweqwe");
         Ready();
         TutorialManager.Instance.is3Story = true;
     }
