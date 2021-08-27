@@ -67,7 +67,9 @@ public class Card : MonoBehaviourPunCallbacks
         // reselection Prevention 
         isSelected = true;
         if (isFront)
+        {
             CardManager.Inst.CardMouseDown(this);
+        }
 
     }
 
@@ -78,8 +80,12 @@ public class Card : MonoBehaviourPunCallbacks
 
         isSelected = false;
         if (isFront)
+        {
             CardManager.Inst.CardMouseUp(this);
-
+            cardPrame.sprite = cardFornt;
+        }
+        else
+            cardPrame.sprite = cardBack;
     }
     public bool CheckClickCard()
     {
@@ -145,6 +151,7 @@ public class Card : MonoBehaviourPunCallbacks
     public void SetMoveTransform(string prs_ToJson, bool useDotween, float dotweemTime = 0) // Card Move
     {
         PRS prs = NetworkManager.Inst.LoadDataFromJson<PRS>(prs_ToJson);
+        originPRS = prs;
         //pv.enabled = true;
         if (useDotween)
         {
