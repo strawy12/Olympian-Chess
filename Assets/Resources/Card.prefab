@@ -225,16 +225,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cab18fe9bfd64149af947e93c206261, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardFornt: {fileID: 7458371095103671374, guid: 4454062fe2a78614587b7e6f430aaafe,
-    type: 3}
   cardBack: {fileID: 8111903966538437689, guid: 4454062fe2a78614587b7e6f430aaafe,
     type: 3}
-  emptySprite: {fileID: 0}
-  cardDefault: {fileID: 7458371095103671374, guid: 4454062fe2a78614587b7e6f430aaafe,
-    type: 3}
-  cardPrame: {fileID: 1306375242828518994}
-  card: {fileID: 5359609414508250856}
-  col: {fileID: 0}
   isFront: 0
   isSelected: 0
   carditem:
@@ -340,14 +332,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 6352706402464596295, guid: 4454062fe2a78614587b7e6f430aaafe,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.27, y: 0.18}
+  m_Size: {x: 0.3, y: 0.17}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0

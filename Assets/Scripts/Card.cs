@@ -6,20 +6,17 @@ public class Card : MonoBehaviourPunCallbacks
 {
 
     #region SerializeField Var
-    [SerializeField] Sprite cardFornt;
+    Sprite cardFornt;
     [SerializeField] Sprite cardBack;
-    [SerializeField] Sprite emptySprite;
-    [SerializeField] Sprite cardDefault;
     #endregion
 
     #region Var List
-    public SpriteRenderer cardPrame;
-    public SpriteRenderer card;
-    private SpriteRenderer spriteRenderer = null;
-    public Collider2D col = null;
+    public SpriteRenderer spriteRenderer { get; private set; }
+    public SpriteRenderer cardIcon { get; private set; }
+    public Collider2D col { get; private set; }
     private PhotonView pv;
 
-    
+
     public bool isFront = false;
     public bool isSelected;
 
@@ -31,39 +28,15 @@ public class Card : MonoBehaviourPunCallbacks
     #region System
     private void Awake()
     {
-        if (enabled == false) // DraftCard Script overlap Prevention 
-            return;
         spriteRenderer = GetComponent<SpriteRenderer>();
         col = GetComponent<Collider2D>();
         pv = GetComponent<PhotonView>();
-        //pv.enabled = false;
-    }
-
-    private void Update()
-    {
-        if (enabled == false)
-            return;
-        if (CardManager.Inst.isMyCardDrag) return;
-
-        if (isFront)
-            cardPrame.sprite = cardFornt;
-        else
-            cardPrame.sprite = cardBack;
-    }
-
-    private void OnMouseOver()
-    {
-        //if (PilSalGi.Inst.GetisUsePilSalGi()) return; // Card cannot be used while using PilSalGi
-        if (enabled == false)
-            return;
-        if (TurnManager.Instance.isLoading) return; // when Turn Loading Card cannot be used
-        CardManager.Inst.CardMouseOver(this);
+        cardIcon = transform.GetChild(0).GetComponent<SpriteRenderer>();
+        cardIcon.enabled = false;
     }
 
     void OnMouseDown()
     {
-        //if (PilSalGi.Inst.GetisUsePilSalGi()) return;
-
         if (CheckClickCard()) return;
         if (isSelected) return;
         // reselection Prevention 
@@ -84,10 +57,19 @@ public class Card : MonoBehaviourPunCallbacks
         if (isFront)
         {
             CardManager.Inst.CardMouseUp(this);
-            cardPrame.sprite = cardFornt;
         }
-        else
-            cardPrame.sprite = cardBack;
+    }
+
+    public void SelectingCard()
+    {
+        spriteRenderer.enabled = false;
+        cardIcon.enabled = true;
+    }
+
+    public void ReloadCard()
+    {
+        spriteRenderer.enabled = true;
+        cardIcon.enabled = false;
     }
     public bool CheckClickCard()
     {
@@ -123,18 +105,27 @@ public class Card : MonoBehaviourPunCallbacks
 
         if (this.isFront)
         {
-            cardPrame.sprite = cardFornt;
-            card.sprite = carditem.sprite;
+            cardFornt = carditem.sprite;
+            spriteRenderer.sprite = cardFornt;
+            //cardIcon.sprite = carditem.icon;
             gameObject.name = carditem.name;
         }
         else
         {
-            cardPrame.sprite = cardBack;
-            card.sprite = null;
+            cardFornt = carditem.sprite;
+            spriteRenderer.sprite = cardBack;
+            //cardIcon.sprite = carditem.icon;
             gameObject.name = carditem.name;
         }
     }
 
+    public void SetActive(bool isActive)
+    {
+        spriteRenderer.enabled = isActive;
+        cardIcon.enabled = isActive;
+        col.enabled = isActive;
+
+    }
     public void MoveTransform(PRS prs, bool useDotween, bool isSend, float dotweemTime = 0)
     {
         string prs_ToJson = NetworkManager.Inst.SaveDataToJson(prs, false);
@@ -169,15 +160,6 @@ public class Card : MonoBehaviourPunCallbacks
         }
         //pv.enabled = false;
 
-    }
-
-
-    public void ChangePrime(bool isMine)
-    {
-        if (isMine)
-            cardPrame.sprite = cardFornt;
-        else
-            cardPrame.sprite = emptySprite;
     }
     public void SetID(int ID)
     {

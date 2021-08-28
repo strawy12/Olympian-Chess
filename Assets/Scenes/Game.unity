@@ -233,8 +233,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -397, y: -581}
-  m_SizeDelta: {x: 163.0128, y: 105.8307}
+  m_AnchoredPosition: {x: -357.48993, y: -573.89}
+  m_SizeDelta: {x: 210, y: 123}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &41160475
 MonoBehaviour:
@@ -312,7 +312,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1763989116612304091, guid: 8cbc40f3e3e0fcf4e95a6fc1dc3f4421,
+  m_Sprite: {fileID: 2530564911472380330, guid: 8deb18f6e5824664ab894d3fd83b9433,
     type: 3}
   m_Type: 0
   m_PreserveAspect: 0
@@ -730,9 +730,9 @@ MonoBehaviour:
   fastMode: 1
   startCardCount: 10
   button: {fileID: 41160475}
-  buttonActive: {fileID: 2530564911472380330, guid: 8cbc40f3e3e0fcf4e95a6fc1dc3f4421,
+  buttonActive: {fileID: 2530564911472380330, guid: 8deb18f6e5824664ab894d3fd83b9433,
     type: 3}
-  buttonInactive: {fileID: 1763989116612304091, guid: 8cbc40f3e3e0fcf4e95a6fc1dc3f4421,
+  buttonInactive: {fileID: 1763989116612304091, guid: 8deb18f6e5824664ab894d3fd83b9433,
     type: 3}
   posUp: {fileID: 808238689}
   posDown: {fileID: 1512220577}
@@ -1046,8 +1046,8 @@ GameObject:
   m_Component:
   - component: {fileID: 327592755}
   - component: {fileID: 327592754}
-  - component: {fileID: 327592753}
   - component: {fileID: 327592752}
+  - component: {fileID: 327592753}
   m_Layer: 0
   m_Name: PillSalKiIcon_Black
   m_TagString: Untagged
@@ -1078,12 +1078,12 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.16
 --- !u!212 &327592754
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1124,7 +1124,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 30
-  m_Sprite: {fileID: 21300000, guid: 3e5b57c22ae53c64ebaee0a07a42d5e4, type: 3}
+  m_Sprite: {fileID: -1046235983541312885, guid: 01d5889c5c1493a4ea729b6dc19cbc4f,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1144,7 +1145,7 @@ Transform:
   m_GameObject: {fileID: 327592751}
   m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
   m_LocalPosition: {x: 0, y: 4.5, z: 0}
-  m_LocalScale: {x: 0.6712, y: 0.6712, z: 0.6712}
+  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 17
@@ -1211,7 +1212,7 @@ RectTransform:
   m_Children:
   - {fileID: 1728665771}
   m_Father: {fileID: 2116978885}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -1278,6 +1279,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 443159219}
+        m_TargetAssemblyTypeName: CardManager, Assembly-CSharp
+        m_MethodName: SetSelectCardNull
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1442,7 +1455,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 447, y: 668}
-  m_SizeDelta: {x: 163.0128, y: 105.8307}
+  m_SizeDelta: {x: 210, y: 123}
   m_Pivot: {x: 0.5000001, y: 0.5}
 --- !u!222 &373757190
 CanvasRenderer:
@@ -1472,7 +1485,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1763989116612304091, guid: 8cbc40f3e3e0fcf4e95a6fc1dc3f4421,
+  m_Sprite: {fileID: 2530564911472380330, guid: 8deb18f6e5824664ab894d3fd83b9433,
     type: 3}
   m_Type: 0
   m_PreserveAspect: 0
@@ -1659,7 +1672,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2116978885}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1771,7 +1784,7 @@ MonoBehaviour:
   infoText: {fileID: 666164921}
   nameText: {fileID: 1316750624}
   godText: {fileID: 417723384}
-  godImage: {fileID: 1715859911}
+  godImage: {fileID: 2116978886}
   usedCards: []
   cards: {fileID: 398568243}
   isMine: 0
@@ -2032,18 +2045,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 443159219}
-        m_TargetAssemblyTypeName: CardManager, Assembly-CSharp
-        m_MethodName: SetSelectCardNull
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 1323315331}
         m_TargetAssemblyTypeName: SkillManager, Assembly-CSharp
         m_MethodName: CheckSkillCancel
@@ -2055,6 +2056,18 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: "\uC5D0\uB85C\uC2A4\uC758 \uC0AC\uB791,\uC218\uBA74,\uC8FD\uC74C\uC758
             \uB545,\uD30C\uB3C4"
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2116978884}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &472732930
@@ -2217,8 +2230,13 @@ MonoBehaviour:
   blackIcon: {fileID: 327592752}
   skillPrefab: {fileID: 1996141749020464303, guid: d13e829210bf1d64dadb4a0a53432b78,
     type: 3}
-  zeus: {fileID: -3115555338532431703, guid: d4d230f1f58838a48889923ecaa9c399, type: 3}
-  poseidon: {fileID: 21300000, guid: 3e5b57c22ae53c64ebaee0a07a42d5e4, type: 3}
+  zeus: {fileID: 5300486964875216075, guid: 01d5889c5c1493a4ea729b6dc19cbc4f, type: 3}
+  zeusUsing: {fileID: 6844011494742300698, guid: 01d5889c5c1493a4ea729b6dc19cbc4f,
+    type: 3}
+  poseidon: {fileID: -1046235983541312885, guid: 01d5889c5c1493a4ea729b6dc19cbc4f,
+    type: 3}
+  poseidonUsing: {fileID: 5035219797950637097, guid: 01d5889c5c1493a4ea729b6dc19cbc4f,
+    type: 3}
   whiteGodsRes: Zeus
   blackGodsRes: Poseidon
 --- !u!4 &533094387
@@ -2288,7 +2306,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2116978885}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3105,8 +3123,8 @@ GameObject:
   m_Component:
   - component: {fileID: 891267664}
   - component: {fileID: 891267663}
-  - component: {fileID: 891267666}
   - component: {fileID: 891267665}
+  - component: {fileID: 891267666}
   m_Layer: 0
   m_Name: PillSalKiIcon_White
   m_TagString: Untagged
@@ -3154,7 +3172,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 30
-  m_Sprite: {fileID: -3115555338532431703, guid: d4d230f1f58838a48889923ecaa9c399,
+  m_Sprite: {fileID: 5300486964875216075, guid: 01d5889c5c1493a4ea729b6dc19cbc4f,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -3174,8 +3192,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 891267662}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -4.5, z: 0}
-  m_LocalScale: {x: 0.6712, y: 0.6712, z: 0.6712}
+  m_LocalPosition: {x: -0.017, y: -4.5, z: 0}
+  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 16
@@ -3203,12 +3221,12 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.15999998
 --- !u!1 &900654461
 GameObject:
   m_ObjectHideFlags: 0
@@ -3890,7 +3908,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -100
   m_Sprite: {fileID: 21300000, guid: d5adfd8aff839b043bbc9c7d14783271, type: 3}
-  m_Color: {r: 1, g: 0.7607843, b: 0.7607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -4034,7 +4052,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1265652730
 Transform:
   m_ObjectHideFlags: 0
@@ -4162,7 +4180,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2116978885}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -5434,82 +5452,6 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1690424241}
-  m_CullTransparentMesh: 1
---- !u!1 &1715859909
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1715859910}
-  - component: {fileID: 1715859912}
-  - component: {fileID: 1715859911}
-  m_Layer: 5
-  m_Name: Image
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1715859910
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1715859909}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 2116978885}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -4.4, y: 92.6}
-  m_SizeDelta: {x: 259.5, y: 176.8}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1715859911
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1715859909}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: -5575379494814502858, guid: 4454062fe2a78614587b7e6f430aaafe,
-    type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &1715859912
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1715859909}
   m_CullTransparentMesh: 1
 --- !u!1 &1728665770
 GameObject:
@@ -6948,7 +6890,6 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1715859910}
   - {fileID: 666164919}
   - {fileID: 417723383}
   - {fileID: 1316750622}

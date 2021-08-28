@@ -69,6 +69,7 @@ public class CardManager : MonoBehaviourPunCallbacks
     private List<Carditem> whiteCardBuffer = new List<Carditem>(); //white Card Buffer
     private List<Carditem> blackCardBuffer = new List<Carditem>(); //Balck Card Buffer
 
+
     public List<Carditem> usedCards = new List<Carditem>();
 
     private Vector3 localPosition = Vector3.zero;
@@ -92,9 +93,6 @@ public class CardManager : MonoBehaviourPunCallbacks
 
     int myPutCount = 0;
     [SerializeField] private bool isUsed;
-    [SerializeField] private Image card;
-    [SerializeField] private Image cardCancelImage;
-    private Image cardCancel;
 
     enum ECardState { Nothing, CanMouseDrag }
     #endregion
@@ -103,7 +101,6 @@ public class CardManager : MonoBehaviourPunCallbacks
     void Awake()
     {
         cardPrefab.GetComponent<Card>().enabled = true;
-        cardCancel = cardCancelImage.transform.GetChild(0).GetComponent<Image>();
     }
 
     private void Update()
@@ -112,7 +109,7 @@ public class CardManager : MonoBehaviourPunCallbacks
 
         if (isClick)
         {
-            if (pointDownTime > 1f)
+            if (pointDownTime > 0.75f)
             {
                 isMyCardDrag = true;
             }
@@ -217,7 +214,7 @@ public class CardManager : MonoBehaviourPunCallbacks
         targetPicker.SetActive(isShow);
     }
 
-    private void ShowInfo() // When Card MouseDown, Show CardInfo
+    public void ShowInfo() // When Card MouseDown, Show CardInfo
     {
         if (selectCard == null) return;
 
@@ -254,6 +251,7 @@ public class CardManager : MonoBehaviourPunCallbacks
         }
     }
 
+
     void DetectCardArea() // CardArea in out Check
     {
         RaycastHit2D[] hits = Physics2D.RaycastAll(Utils.MousePos, Vector3.forward);
@@ -287,6 +285,8 @@ public class CardManager : MonoBehaviourPunCallbacks
         }
         return false;
     }
+
+
 
     private bool CheckPawn(string name) // argument value == pawn Check
     {
@@ -369,9 +369,9 @@ public class CardManager : MonoBehaviourPunCallbacks
             whiteCardBuffer.RemoveAt(0);
             return carditem;
         }
-
         else
         {
+
             Carditem carditem = null;
             carditem = blackCardBuffer[0];
             blackCardBuffer.RemoveAt(0);
@@ -406,6 +406,8 @@ public class CardManager : MonoBehaviourPunCallbacks
         }
 
     }
+
+
 
     public void SetIds(Card card)
     {
@@ -813,8 +815,7 @@ public class CardManager : MonoBehaviourPunCallbacks
             }
             if (CheckCardname("에로스의 사랑,수면,죽음의 땅,파도"))
             {
-                card.cardPrame.enabled = false;
-                card.card.enabled = false;
+                card.SetActive(false);
                 return true;
             }
             DestroyCard(card);
@@ -882,17 +883,6 @@ public class CardManager : MonoBehaviourPunCallbacks
 
     #region Card Control
 
-    public void CardMouseOver(Card card)
-    {
-        if (eCardState == ECardState.Nothing)
-            return;
-        if (!card.isSelected) return;
-        if (selectCard == null) return;
-        if (card.carditem.name != selectCard.carditem.name) return;
-        if (isMyCardDrag)
-            card.cardPrame.sprite = null;
-    }
-
     public void CardMouseDown(Card card)
     {
         if (eCardState != ECardState.CanMouseDrag || eCardState == ECardState.Nothing)
@@ -908,7 +898,6 @@ public class CardManager : MonoBehaviourPunCallbacks
         EnlargeCard(true, card);
         //cardInfo.SetActive(true);
         StartCoroutine(DontShowCards(GetTargetCards()));
-        CardCancelEffect();
 
         //ShowInfo();
     }
@@ -916,8 +905,8 @@ public class CardManager : MonoBehaviourPunCallbacks
     public void CardMouseUp(Card card)
     {
         if (isUse) return;
-
-        if (pointDownTime < 1.25f)
+        selectCard.ReloadCard();
+        if (pointDownTime < 0.75f)
         {
             var targetRot = ComparisonPlayer("white") ? Utils.QI : Quaternion.Euler(0f, 0f, 180f);
             StartCoroutine(DontShowCards(GetTargetCards()));
@@ -930,7 +919,6 @@ public class CardManager : MonoBehaviourPunCallbacks
             return;
         }
 
-        cardCancel.enabled = false;
         isMyCardDrag = false;
         isClick = false;
         pointDownTime = 0f;
@@ -952,8 +940,8 @@ public class CardManager : MonoBehaviourPunCallbacks
 
     private void CardDrag()
     {
+        selectCard.SelectingCard();
         TargetingChessPiece();
-        cardCancel.enabled = true;
 
         if (TurnManager.Instance.CheckPlayer("white"))
         {
@@ -963,14 +951,8 @@ public class CardManager : MonoBehaviourPunCallbacks
         {
             selectCard.MoveTransform(new PRS(Utils.MousePos, Quaternion.Euler(0f, 0f, 180f), selectCard.originPRS.scale), false, false);
         }
-
         cardInfo.SetActive(false);
-    }
 
-    public void CardCancelEffect()
-    {
-        if (isMyCardDrag)
-            cardCancel.enabled = true;
     }
 
     public List<PRS> ShowCards(int objCnt, Vector3 scale)
@@ -1000,7 +982,11 @@ public class CardManager : MonoBehaviourPunCallbacks
                 case 3: objYpos = new float[3] { 1.85f, 0.16f, -1.63f }; break;
             }
             targetRot = Quaternion.Euler(0f, 0f, 180f);
+
         }
+
+
+
 
         for (int i = objYpos.Length - 1; i >= 0; i--)
         {
@@ -1016,6 +1002,8 @@ public class CardManager : MonoBehaviourPunCallbacks
             }
         }
         return results;
+
+
     }
 
     public IEnumerator DontShowCards(List<Card> targetCards, bool isSend = false)

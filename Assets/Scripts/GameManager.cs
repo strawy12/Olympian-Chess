@@ -66,6 +66,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         TurnManager.Instance.StartGame();
         SetCamera();
+        pool = FindObjectOfType<PoolManager>();
     }
     private void Update()
     {
@@ -112,6 +113,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             blackCamera.enabled = false;
             whiteCamera.enabled = true;
             cv.worldCamera = whiteCamera;
+            whiteCamera.gameObject.AddComponent<CameraResolution>();
             CardManager.Inst.ChangeCardArea(true);
 
         }
@@ -120,6 +122,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             whiteCamera.enabled = false;
             blackCamera.enabled = true;
             cv.worldCamera = blackCamera;
+            blackCamera.gameObject.AddComponent<CameraResolution>();
             CardManager.Inst.ChangeCardArea(false);
 
         }

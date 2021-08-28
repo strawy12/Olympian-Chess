@@ -10,11 +10,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private Text statusText;
     [SerializeField] private InputField roomInput;
     [SerializeField] private GameObject friendlyMatchPanal = null;
+    [SerializeField] private GameObject lodingDisplay = null;
 
     private string roomname;
     private string user_ID;
     private string player = "white";
-    private bool isLoaded;
     private string SAVE_PATH;
     private int nicknameCnt = 0;
 
@@ -63,6 +63,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void Connect()
     {
+        lodingDisplay.SetActive(true);
         PhotonNetwork.ConnectUsingSettings();
     }
 
@@ -102,8 +103,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         print("서버접속완료");
-
-
+        PhotonNetwork.JoinLobby();
+    }
+    public override void OnJoinedLobby()
+    {
+        lodingDisplay.SetActive(false);
     }
 
     public void DisConnect()
@@ -116,15 +120,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         print("연결끊김");
     }
-    public override void OnJoinedLobby()
-    {
 
-    }
 
     public void CreateRoom()
     {
-        roomname = PhotonNetwork.LocalPlayer.NickName + "'s room.";
-        PhotonNetwork.CreateRoom(roomname, new RoomOptions { MaxPlayers = 2 });
+        PhotonNetwork.CreateRoom("", new RoomOptions { MaxPlayers = 2 });
     }
 
     public void JoinRoom()
@@ -134,7 +134,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void JoinOrCrerateRoom()
     {
-        Rename();
         roomname = roomInput.text;
         if (roomname == "") return;
         PhotonNetwork.JoinOrCreateRoom(roomname, new RoomOptions { MaxPlayers = 2 }, null);
@@ -142,7 +141,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void JoinRandomRoom()
     {
-        Rename();
         if (!PhotonNetwork.JoinRandomRoom())
         {
             CreateRoom();
@@ -164,10 +162,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
+
+        
         print("방 참가 완료");
     }
 
-    [PunRPC]
     private void Rename()
     {
         PhotonNetwork.LocalPlayer.NickName = "player" + nicknameCnt.ToString();
@@ -183,11 +182,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.PlayerList.Length == 2)
         {
-            if (newPlayer.NickName == PhotonNetwork.LocalPlayer.NickName)
-            {
-                Rename();
-            }
-
             int i;
             i = Random.Range(0, 2);
             photonView.RPC("SetPlayer", RpcTarget.AllBuffered, i);
@@ -233,7 +227,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void SetPlayer(int i)
     {
-        if (PhotonNetwork.PlayerList[i].NickName == PhotonNetwork.LocalPlayer.NickName)
+
+        if (PhotonNetwork.PlayerList[i].UserId == PhotonNetwork.LocalPlayer.UserId)
         {
             player = "white";
         }
