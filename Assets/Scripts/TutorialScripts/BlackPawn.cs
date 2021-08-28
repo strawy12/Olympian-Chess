@@ -9,43 +9,49 @@ public class BlackPawn : MonoBehaviour
 
     [SerializeField]
     private GameObject knight;
-    
+
     private GameObject MV_M;
 
     bool once = true;
     void Update()
     {
-        InstantiateYellow();
+        //InstantiateYellow();
         Knight_();
     }
 
     private void InstantiateYellow()
     {
-        if(TutorialManager.Instance.isClicked && once)
+        if (TutorialManager.Instance.isClicked && once)
         {
             Debug.Log("Move1");
             once = false;
-            MV_M =Instantiate(movePlate_me, transform.position, Quaternion.identity);
+            MV_M = Instantiate(movePlate_me, transform.position, Quaternion.identity);
         }
     }
     private void Knight_()
     {
-        if (TutorialManager.Instance.turnEnd)
+        if (TutorialManager.Instance.is6Story)
         {
+            MV_M = Instantiate(movePlate_me, transform.position, Quaternion.identity);
             StartCoroutine(KnightMove());
+            TutorialManager.Instance.is6Story = false;
+
         }
     }
     private IEnumerator KnightMove()
     {
-            Debug.Log("now");
-            yield return new WaitForSeconds(2f);
-            Vector3 startPos = knight.transform.position;
-            Vector3 endPos = new Vector3(1.02f, 1.02f, 0f);
-        TutorialManager.Instance.turnEnd = false;
-            Destroy(MV_M);
-            knight.transform.position = endPos;
+        Debug.Log("now");
+        yield return new WaitForSeconds(3.5f);
 
-            TutorialManager.Instance.is6StoryEnd = true;
-            yield return null;
+        Vector3 startPos = knight.transform.position;
+        Vector3 endPos = new Vector3(1.02f, 1.02f, 0f);
+
+        TutorialManager.Instance.turnEnd = false;
+        Destroy(MV_M);
+        
+        knight.transform.position = endPos;
+
+        
+        yield return null;
     }
 }

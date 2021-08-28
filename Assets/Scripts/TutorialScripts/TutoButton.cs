@@ -6,16 +6,14 @@ using UnityEngine.UI;
 public class TutoButton : MonoBehaviour
 {
     [SerializeField]
-    private GameObject ActiveButton;
+    private Sprite activeSprite;
 
     [SerializeField]
-    private GameObject UnActiveButton;
-    bool allowClick = false;
+    private Sprite unactiveSprite;
 
-    public Sprite activeSprite;
-    public Sprite unactiveSprite;
+    private Image image;
 
-    Image image;
+    private bool allowClick = false;
 
     private void Start()
     {
@@ -42,8 +40,6 @@ public class TutoButton : MonoBehaviour
         {
             TutorialManager.Instance.turnEnd = true;
             image.sprite = unactiveSprite;
-            TutorialManager.Instance.is5StoryEnd = true;
-            TutorialManager.Instance.is6Story = true;
             //TutorialManager.Instance.is5StoryEnd = true;
         }
     }

@@ -30,7 +30,7 @@ public class Stroy : MonoBehaviour
 
     private IEnumerator StoryStart()
     {
-        if(isTyping && index == 1)
+        if (isTyping && index == 1)
         {
             story1();
             yield return delayStory;
@@ -98,8 +98,6 @@ public class Stroy : MonoBehaviour
     //        isTyping_ing = true;
     //        if (isTyping_ing) return;
     //        SoundManager.Instance.SoundPlay("typing", typingSound);
-    //    }
-    //}
 
     #region 스토리진행
     private void story1()
@@ -117,8 +115,8 @@ public class Stroy : MonoBehaviour
     private void story3()
     {
         isTyping = false;
+        TutorialManager.Instance.is3Story = true;
         StartCoroutine((TypingEffect(stroyText, story[2], speed)));
-        TutorialManager.Instance.is2StoryEnd = true;
     }
     private void story4()
     {
@@ -127,26 +125,22 @@ public class Stroy : MonoBehaviour
     }
     private void story5()
     {
-        //Write conditional code
-        // turn
         isTyping = false;
         TutorialManager.Instance.is5Story = true;
         StartCoroutine((TypingEffect(stroyText, story[4], speed)));
     }
     private void story6()
     {
-        //Write conditional code
         isTyping = false;
-        if (TutorialManager.Instance.is5StoryEnd)
-        {
-            StartCoroutine((TypingEffect(stroyText, story[5], speed)));
-        }
+        TutorialManager.Instance.is6Story = true;
+        StartCoroutine((TypingEffect(stroyText, story[5], speed)));
     }
     private void story7()
     {
         //Write conditional code
 
         isTyping = false;
+        TutorialManager.Instance.is7Story = true;   
         StartCoroutine((TypingEffect(stroyText, story[6], speed)));
     }
     private void story8()
@@ -159,7 +153,7 @@ public class Stroy : MonoBehaviour
         isTyping = false;
         StartCoroutine((TypingEffect(stroyText, story[8], speed)));
     }
-    private void OnMouseDown()
+    private void OnMouseUp()
     {
 
         if(index == 3)

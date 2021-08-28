@@ -20,6 +20,5 @@ public class RedMoveP22222 : MonoBehaviour
         wp.DestroyMV_O();
         wp.DestroyMV_M();
         StartCoroutine(wp.PositionMove());
-        TutorialManager.Instance.is8Stroy = true;
     }
 }

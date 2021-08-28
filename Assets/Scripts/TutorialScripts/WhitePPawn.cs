@@ -16,10 +16,11 @@ public class WhitePPawn : MonoBehaviour
 
     void Update()
     {
-        if(TutorialManager.Instance.is2StoryEnd)
+        if(TutorialManager.Instance.is3Story)
         {
             InstantiateMV_M();
             InstantiateMV_O();
+            TutorialManager.Instance.is3Story = false; 
         }
     }
 
@@ -31,7 +32,6 @@ public class WhitePPawn : MonoBehaviour
     private void InstantiateMV_O()
     {
         MV_O=Instantiate(movePlate_other);
-        TutorialManager.Instance.is2StoryEnd = false;
     }
 
     public void DestroyMV_M()
@@ -56,9 +56,8 @@ public class WhitePPawn : MonoBehaviour
 
         //float t = 0f;
 
-        //while(t<1f)
+        //while (t < 1f)
         //{
-        //    Debug.Log("qweqwe");
         //    transform.position = Vector3.Lerp(statPos, endPos, t);
         //    yield return null;
         //}

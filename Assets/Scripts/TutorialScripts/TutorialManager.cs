@@ -7,9 +7,9 @@ public class TutorialManager : MonoBehaviour
     [Header("게임 시작 사운드")]
     [SerializeField]
     private AudioClip startSound;
-
-    [HideInInspector]
-    public bool is2StoryEnd = false;
+    
+    //[HideInInspector]
+    //public bool is2StoryEnd = false;
 
     [HideInInspector]
     public bool is3Story = false;
@@ -17,20 +17,20 @@ public class TutorialManager : MonoBehaviour
     [HideInInspector]
     public bool is5Story = false;
 
-    [HideInInspector]
-    public bool is5StoryEnd = false;
-
     //[HideInInspector]
+    //public bool is5StoryEnd = false;
+
+    [HideInInspector]
     public bool is6Story = false;
 
-    [HideInInspector]
-    public bool is6StoryEnd = false;
+    //[HideInInspector]
+    //public bool is6StoryEnd = false;
 
     [HideInInspector]
     public bool is7Story = false;
 
-    [HideInInspector]
-    public bool is8Stroy = false;
+    //[HideInInspector]
+    //public bool is8Stroy = false;
 
     [HideInInspector]
     public bool isClicked = false;

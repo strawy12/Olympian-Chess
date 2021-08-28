@@ -21,10 +21,11 @@ public class WhiteP2 : MonoBehaviour
 
     void Update()
     {
-        if(TutorialManager.Instance.is7Story)
+        if (TutorialManager.Instance.is7Story)
         {
             InstantiateMV_M();
             InstantiateMV_O();
+            TutorialManager.Instance.is7Story = false;
         }
     }
     private void InstantiateMV_M()
@@ -37,7 +38,6 @@ public class WhiteP2 : MonoBehaviour
     {
         Vector3 pos = new Vector3(0.342f, 1.026f, 0f);
         MV_O = Instantiate(movePlate_other,pos,Quaternion.identity);
-        TutorialManager.Instance.is7Story  = false;
     }
 
     public void DestroyMV_O()

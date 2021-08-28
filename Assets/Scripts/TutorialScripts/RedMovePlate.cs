@@ -14,7 +14,6 @@ public class RedMovePlate : MonoBehaviour
     private void OnMouseUp()
     {
         Ready();
-        TutorialManager.Instance.is3Story = true;
     }
 
     private void Ready()
