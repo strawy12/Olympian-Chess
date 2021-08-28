@@ -5,6 +5,7 @@ using UnityEngine;
 public class RedMoveP22222 : MonoBehaviour
 {
     private WhiteP2 wp;
+
     void Start()
     {
         wp = FindObjectOfType<WhiteP2>();
@@ -14,6 +15,7 @@ public class RedMoveP22222 : MonoBehaviour
     {
         Ready();
     }
+
     private void Ready()
     {
         wp.DestoryBP();
