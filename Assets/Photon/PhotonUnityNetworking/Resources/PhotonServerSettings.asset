@@ -113,6 +113,8 @@ MonoBehaviour:
   - DR_ResetSkill
   - Inv_UsingSkill
   - TW_ResetSkill
+  - ChangeDefaultSprite
+  - ChangeUsingSprite
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

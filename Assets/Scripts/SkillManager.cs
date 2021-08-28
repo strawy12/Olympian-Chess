@@ -251,13 +251,14 @@ public class SkillManager : MonoBehaviourPunCallbacks
                 if (GetSkillList(names[i]).Count == 0) return;
                 SkillBase sb = GetSkillList(names[i])[0];
 
-                CardManager.Inst.SetSelectCard(null);
+                CardManager.Inst.SetSelectCardNull();
                 sb.RPC_DestroySkill();
                 GameManager.Inst.SetUsingSkill(false);
                 GameManager.Inst.SetMoving(true);
                 return;
             }
         }
+        CardManager.Inst.SetSelectCardNull();
     }
     public SkillBase GetSkill(SkillData skillData)
     {
@@ -362,6 +363,7 @@ public class SkillManager : MonoBehaviourPunCallbacks
     // Function spawning skill prefab
     public SkillBase SpawnSkillPrefab(Card card, ChessBase chessPiece)
     {
+        card.SetActive(false);
         SkillBase sb = CheckSkill(card).GetComponent<SkillBase>();
         if (sb == null) return null;
 

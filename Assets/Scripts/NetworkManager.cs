@@ -10,11 +10,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private Text statusText;
     [SerializeField] private InputField roomInput;
     [SerializeField] private GameObject friendlyMatchPanal = null;
+    [SerializeField] private GameObject lodingDisplay = null;
 
     private string roomname;
     private string user_ID;
     private string player = "white";
-    private bool isLoaded;
     private string SAVE_PATH;
     private int nicknameCnt = 0;
 
@@ -63,6 +63,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void Connect()
     {
+        lodingDisplay.SetActive(true);
         PhotonNetwork.ConnectUsingSettings();
     }
 
@@ -102,8 +103,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         print("서버접속완료");
-
-
+        PhotonNetwork.JoinLobby();
+    }
+    public override void OnJoinedLobby()
+    {
+        lodingDisplay.SetActive(false);
     }
 
     public void DisConnect()
@@ -116,10 +120,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         print("연결끊김");
     }
-    public override void OnJoinedLobby()
-    {
 
-    }
 
     public void CreateRoom()
     {
@@ -182,15 +183,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.PlayerList.Length == 2)
         {
-            Debug.Log(PhotonNetwork.LocalPlayer.NickName);
-            Debug.Log(newPlayer.NickName);
 
             if (newPlayer.NickName == PhotonNetwork.LocalPlayer.NickName)
             {
-                Debug.Log("응애");
                 Rename();
-                Debug.Log(PhotonNetwork.LocalPlayer.NickName);
-                Debug.Log(newPlayer.NickName);
             }
 
             int i;

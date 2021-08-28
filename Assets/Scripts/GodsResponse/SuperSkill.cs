@@ -7,6 +7,8 @@ public class SuperSkill : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Collider2D col;
     [SerializeField] private string player;
+    private Sprite defaultSprite;
+    private Sprite usingSprite;
     private bool isUsed;
 
     private void Awake()
@@ -23,14 +25,16 @@ public class SuperSkill : MonoBehaviour
 
     private void OnMouseUp()
     {
+        if (NetworkManager.Inst.GetPlayer() != player) return;
         if(!isUsed)
         {
-            SuperSkillManager.Inst.SpawnSkill();
+            SuperSkillManager.Inst.SpawnSkill(this);
             spriteRenderer.color = Color.gray;
             col.enabled = false;
             isUsed = true;
         }
     }
+
 
     public void CheckSkill()
     {
@@ -125,9 +129,24 @@ public class SuperSkill : MonoBehaviour
             }
         }
     }
+    public void UsingSkill()
+    {
+        spriteRenderer.sprite = usingSprite;
+    }
 
-    public void ChangeSprite(Sprite sprite)
+    public void UnUsingSkill()
+    {
+        spriteRenderer.sprite = defaultSprite;
+    }
+
+    public string GetPlayer()
+    {
+        return player;
+    }
+    public void ChangeSprite(Sprite sprite, Sprite sprite2)
     {
         spriteRenderer.sprite = sprite;
+        defaultSprite = sprite;
+        usingSprite = sprite2;
     }
 }

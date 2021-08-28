@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: CardItemSO
   m_EditorClassIdentifier: 
   cardItems:
-  - name: "\uC2DC\uAC04\uC815\uC9C0"
+  - name: "\uCC9C\uBC8C"
     className: HeavenlyPunishment
     god: "\uC81C\uC6B0\uC2A4"
-    sprite: {fileID: -533655650184955271, guid: 4454062fe2a78614587b7e6f430aaafe,
+    sprite: {fileID: 3806863597479257152, guid: aa6a388efbd618443847682ef28c8a32,
       type: 3}
     color: {r: 0.8392157, g: 0.6313726, b: 0.10980392, a: 1}
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC0C1\uB300  \uC9C0\uC18D\uC2DC\uAC04: 1\uD134\n\uCC9C\uB465\uC758
@@ -27,7 +27,8 @@ MonoBehaviour:
   - name: "\uC8FD\uC74C\uC758 \uB545"
     className: GroundOfDeath
     god: "\uD558\uB370\uC2A4"
-    sprite: {fileID: 288311869226211982, guid: 4454062fe2a78614587b7e6f430aaafe, type: 3}
+    sprite: {fileID: -9148138991637899029, guid: aa6a388efbd618443847682ef28c8a32,
+      type: 3}
     color: {r: 0.8039216, g: 0.8509804, b: 0.7607843, a: 1}
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC601\uC5ED  \uC9C0\uC18D\uC2DC\uAC04: \uC601\uAD6C\uC9C0\uC18D\n\uB4E4\uC5B4\uC624\uB294
       \uBAA8\uB4E0 \uAC83\uC744 \uC8FD\uC774\uB294 \uC8FD\uC74C\uC758 \uB545\uC744
@@ -37,8 +38,7 @@ MonoBehaviour:
   - name: "\uC81C\uBB3C"
     className: Offering
     god: "\uD558\uB370\uC2A4"
-    sprite: {fileID: 5184140531708663575, guid: 4454062fe2a78614587b7e6f430aaafe,
-      type: 3}
+    sprite: {fileID: 517893246982642034, guid: aa6a388efbd618443847682ef28c8a32, type: 3}
     color: {r: 0.8039216, g: 0.8509804, b: 0.7607843, a: 1}
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC544\uAD70  \uC9C0\uC18D\uC2DC\uAC04: \uC989\uC2DC\n\uC544\uAD70\uC758
       \uB9D0\uC744 \uC81C\uBB3C\uB85C \uBC1B\uD600 \uC0C1\uB300\uC758 \uB79C\uB364
@@ -48,7 +48,7 @@ MonoBehaviour:
   - name: "\uC218\uC911\uAC10\uC625"
     className: OceanJail
     god: "\uD3EC\uC138\uC774\uB3C8"
-    sprite: {fileID: 1874605397469896423, guid: 4454062fe2a78614587b7e6f430aaafe,
+    sprite: {fileID: 2330094949270191781, guid: aa6a388efbd618443847682ef28c8a32,
       type: 3}
     color: {r: 0.6784314, g: 0.7058824, b: 1, a: 1}
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC544\uAD70  \uC9C0\uC18D\uC2DC\uAC04: 1\uD134\n\uC218\uC911\uAC10\uC625\uC744
@@ -60,7 +60,7 @@ MonoBehaviour:
   - name: "\uC218\uBA74"
     className: Sleep
     god: "\uD788\uD504\uB178\uC2A4"
-    sprite: {fileID: 2242647959389591976, guid: 4454062fe2a78614587b7e6f430aaafe,
+    sprite: {fileID: -9147675139175820674, guid: aa6a388efbd618443847682ef28c8a32,
       type: 3}
     color: {r: 1, g: 0.7372549, b: 0.6509804, a: 1}
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC0C1\uB300  \uC9C0\uC18D\uC2DC\uAC04: 1\uD134\n\uC6C0\uC9C1\uC774\uC9C0
@@ -70,7 +70,7 @@ MonoBehaviour:
   - name: "\uD30C\uB3C4"
     className: Wave
     god: "\uD3EC\uC138\uC774\uB3C8"
-    sprite: {fileID: 3357908773177276807, guid: 4454062fe2a78614587b7e6f430aaafe,
+    sprite: {fileID: 5406700177803471016, guid: aa6a388efbd618443847682ef28c8a32,
       type: 3}
     color: {r: 0.6784314, g: 0.7058824, b: 1, a: 1}
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC544\uBB34 \uB9D0  \uC9C0\uC18D\uC2DC\uAC04:
@@ -81,7 +81,7 @@ MonoBehaviour:
   - name: "\uB2EC\uBE5B"
     className: MoonLight
     god: "\uC544\uB974\uD14C\uBBF8\uC2A4"
-    sprite: {fileID: 6352706402464596295, guid: 4454062fe2a78614587b7e6f430aaafe,
+    sprite: {fileID: 8711889190542290919, guid: aa6a388efbd618443847682ef28c8a32,
       type: 3}
     color: {r: 0.9254902, g: 0.9607843, b: 0.96862745, a: 1}
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC544\uAD70  \uC9C0\uC18D\uC2DC\uAC04: \uC774\uB3D9\uD560\uB54C(2\uD134)\n\uB2EC\uBE5B
@@ -91,7 +91,7 @@ MonoBehaviour:
   - name: "\uC804\uC7C1\uAD11"
     className: WarBuff
     god: "\uC544\uB808\uC2A4"
-    sprite: {fileID: -5575379494814502858, guid: 4454062fe2a78614587b7e6f430aaafe,
+    sprite: {fileID: -2379393903746547246, guid: aa6a388efbd618443847682ef28c8a32,
       type: 3}
     color: {r: 0.9019608, g: 0.30588236, b: 0.42745098, a: 1}
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC544\uAD70  \uC9C0\uC18D\uC2DC\uAC04: \uC774\uB3D9\uD560\uB54C(2\uD134)\n\uC804\uC7C1\uC758
@@ -102,7 +102,7 @@ MonoBehaviour:
   - name: "\uC815\uC758\uAD6C\uD604"
     className: Justice
     god: "\uC544\uD14C\uB098"
-    sprite: {fileID: 8713842005784037069, guid: 4454062fe2a78614587b7e6f430aaafe,
+    sprite: {fileID: -7974315464008883648, guid: aa6a388efbd618443847682ef28c8a32,
       type: 3}
     color: {r: 1, g: 0.9607843, b: 0.627451, a: 1}
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC870\uAC74\uB300\uC0C1  \uC9C0\uC18D\uC2DC\uAC04:
@@ -113,7 +113,7 @@ MonoBehaviour:
   - name: "\uC544\uD14C\uB098\uC758 \uBC29\uD328"
     className: AthenaShield
     god: "\uC544\uD14C\uB098"
-    sprite: {fileID: -3662950376928585174, guid: 4454062fe2a78614587b7e6f430aaafe,
+    sprite: {fileID: 2578938142422200531, guid: aa6a388efbd618443847682ef28c8a32,
       type: 3}
     color: {r: 1, g: 0.9607843, b: 0.627451, a: 1}
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC544\uAD70  \uC9C0\uC18D\uC2DC\uAC04: \uC774\uB3D9\uD560
@@ -124,7 +124,7 @@ MonoBehaviour:
   - name: "\uC21C\uBCF4"
     className: Order
     god: "\uB370\uBBF8\uD14C\uB974"
-    sprite: {fileID: 6759782793127277833, guid: 4454062fe2a78614587b7e6f430aaafe,
+    sprite: {fileID: 5120733840656742383, guid: aa6a388efbd618443847682ef28c8a32,
       type: 3}
     color: {r: 0.38431373, g: 0.92156863, b: 0.6784314, a: 1}
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC544\uAD70  \uC9C0\uC18D\uC2DC\uAC04: 1\n\uC55E\uC5D0
@@ -135,7 +135,7 @@ MonoBehaviour:
   - name: "\uBC14\uCE74\uC2A4"
     className: 
     god: "\uB514\uC624\uB2C8\uC18C\uC2A4"
-    sprite: {fileID: -8881772293097203296, guid: 4454062fe2a78614587b7e6f430aaafe,
+    sprite: {fileID: -8195633402699738626, guid: aa6a388efbd618443847682ef28c8a32,
       type: 3}
     color: {r: 0.27058825, g: 0.38431373, b: 0.9019608, a: 1}
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uBAA8\uB4E0\uB9D0  \uC9C0\uC18D\uC2DC\uAC04:
@@ -146,7 +146,7 @@ MonoBehaviour:
   - name: "\uC5D0\uB85C\uC2A4\uC758 \uC0AC\uB791"
     className: LoveOfEros
     god: "\uD5E4\uB77C"
-    sprite: {fileID: 4377211301867728294, guid: 4454062fe2a78614587b7e6f430aaafe,
+    sprite: {fileID: 3089120643377540687, guid: aa6a388efbd618443847682ef28c8a32,
       type: 3}
     color: {r: 0.90588236, g: 0.6392157, b: 0.9137255, a: 1}
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC544\uAD70  \uC9C0\uC18D\uC2DC\uAC04: \uB9D0\uC774
@@ -157,7 +157,7 @@ MonoBehaviour:
   - name: "\uCD9C\uC0B0"
     className: GiveBirth
     god: "\uD5E4\uB77C"
-    sprite: {fileID: -7733277330374266041, guid: 4454062fe2a78614587b7e6f430aaafe,
+    sprite: {fileID: -6889725079372615617, guid: aa6a388efbd618443847682ef28c8a32,
       type: 3}
     color: {r: 0.90588236, g: 0.6392157, b: 0.9137255, a: 1}
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC544\uAD70  \uC9C0\uC18D\uC2DC\uAC04: \uB9D0\uC774
@@ -168,7 +168,7 @@ MonoBehaviour:
   - name: "\uC74C\uC545"
     className: Music
     god: "\uD5E4\uB77C"
-    sprite: {fileID: -4597402790068737863, guid: 4454062fe2a78614587b7e6f430aaafe,
+    sprite: {fileID: 1399789482796898413, guid: aa6a388efbd618443847682ef28c8a32,
       type: 3}
     color: {r: 0.90588236, g: 0.6392157, b: 0.9137255, a: 1}
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC0C1\uB300  \uC9C0\uC18D\uC2DC\uAC04: 1~3\uD134\n\uC0C1\uB300\uB97C
@@ -179,7 +179,7 @@ MonoBehaviour:
   - name: "\uB3D9\uADC0\uC5B4\uC9C4"
     className: StreetFriend
     god: "\uD0C0\uB098\uD1A0\uC2A4"
-    sprite: {fileID: -5150909702134055488, guid: 4454062fe2a78614587b7e6f430aaafe,
+    sprite: {fileID: 3236912610149954627, guid: aa6a388efbd618443847682ef28c8a32,
       type: 3}
     color: {r: 0.64705884, g: 0.5803922, b: 0.81960785, a: 1}
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC544\uAD70  \uC9C0\uC18D\uC2DC\uAC04: \uB9D0\uC774
@@ -190,7 +190,7 @@ MonoBehaviour:
   - name: "\uC2E0\uC18D"
     className: Rush
     god: "\uD30C\uC6B0\uB204\uC2A4"
-    sprite: {fileID: 5394022533433988051, guid: 4454062fe2a78614587b7e6f430aaafe,
+    sprite: {fileID: 6038406766267777105, guid: aa6a388efbd618443847682ef28c8a32,
       type: 3}
     color: {r: 0.83137256, g: 0.42745098, b: 0.35686275, a: 1}
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC544\uAD70  \uC9C0\uC18D\uC2DC\uAC04: 1\uD134\n1\uCE78
@@ -200,7 +200,7 @@ MonoBehaviour:
   - name: "\uC11C\uD48D"
     className: WestWind
     god: "\uC6B0\uB77C\uB178\uC2A4"
-    sprite: {fileID: -7065897798621633364, guid: 4454062fe2a78614587b7e6f430aaafe,
+    sprite: {fileID: 8534404793641785330, guid: aa6a388efbd618443847682ef28c8a32,
       type: 3}
     color: {r: 0.5529412, g: 0.73333335, b: 0.92156863, a: 1}
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC0C1\uB300  \uC9C0\uC18D\uC2DC\uAC04: 2\uD134\n\uB300\uC0C1\uC744
@@ -211,7 +211,7 @@ MonoBehaviour:
   - name: "\uC5EC\uD589\uC790"
     className: Traveler
     god: "\uD5E4\uB974\uBA54\uC2A4"
-    sprite: {fileID: -8491534248698147650, guid: 4454062fe2a78614587b7e6f430aaafe,
+    sprite: {fileID: 7178379584843225544, guid: aa6a388efbd618443847682ef28c8a32,
       type: 3}
     color: {r: 0.8392157, g: 0.72156864, b: 0.60784316, a: 1}
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC0C1\uB300  \uC9C0\uC18D\uC2DC\uAC04: 2\uD134\n\uD3F0\uC774
@@ -221,8 +221,7 @@ MonoBehaviour:
   - name: "\uC2DC\uAC04\uC65C\uACE1"
     className: TimeWarp
     god: "\uD06C\uB85C\uB178\uC2A4"
-    sprite: {fileID: -7837417378511994517, guid: 4454062fe2a78614587b7e6f430aaafe,
-      type: 3}
+    sprite: {fileID: 491730280158355159, guid: aa6a388efbd618443847682ef28c8a32, type: 3}
     color: {r: 0.16862746, g: 0.25882354, b: 0.2784314, a: 1}
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC0C1\uB300  \uC9C0\uC18D\uC2DC\uAC04: 2\uD134\n\uACFC\uAC70\uB85C
       \uAC00\uC11C \uCE74\uB4DC\uB97C \uB4E4\uACE0 \uC635\uB2C8\uB2E4."
@@ -231,7 +230,7 @@ MonoBehaviour:
   - name: "\uB9DD\uB839"
     className: Ghost
     god: "\uD06C\uB85C\uB178\uC2A4"
-    sprite: {fileID: -7837417378511994517, guid: 4454062fe2a78614587b7e6f430aaafe,
+    sprite: {fileID: -6562938403480689630, guid: aa6a388efbd618443847682ef28c8a32,
       type: 3}
     color: {r: 0.16862746, g: 0.25882354, b: 0.2784314, a: 1}
     info: "\uC8FD\uC740 \uD3F0\uC744 \uBD80\uD65C\uC2DC\uD0B5\uB2C8\uB2E4."
@@ -240,7 +239,7 @@ MonoBehaviour:
   - name: "\uC2DC\uAC04\uC815\uC9C0"
     className: TimeStop
     god: "\uD06C\uB85C\uB178\uC2A4"
-    sprite: {fileID: -7837417378511994517, guid: 4454062fe2a78614587b7e6f430aaafe,
+    sprite: {fileID: -7614906831618604383, guid: aa6a388efbd618443847682ef28c8a32,
       type: 3}
     color: {r: 0.16862746, g: 0.25882354, b: 0.2784314, a: 1}
     info: "\uBB34\uC801 \uC0C1\uD0DC\uB85C \uBCC0\uD569\uB2C8\uB2E4."
@@ -249,7 +248,7 @@ MonoBehaviour:
   - name: "\uB9CC\uCDE8"
     className: Drunkeness
     god: "\uD06C\uB85C\uB178\uC2A4"
-    sprite: {fileID: -7837417378511994517, guid: 4454062fe2a78614587b7e6f430aaafe,
+    sprite: {fileID: -2940201672509823235, guid: aa6a388efbd618443847682ef28c8a32,
       type: 3}
     color: {r: 0.16862746, g: 0.25882354, b: 0.2784314, a: 1}
     info: "\uC0C1\uB300\uBC29\uC744 \uCDE8\uD558\uAC8C \uB9CC\uB4ED\uB2C8\uB2E4."

@@ -107,15 +107,15 @@ public class CardManager : MonoBehaviourPunCallbacks
     {
         if (TurnManager.Instance.isLoading) return;
 
-        if(isClick)
+        if (isClick)
         {
-            if(pointDownTime > 1f)
+            if (pointDownTime > 0.75f)
             {
                 isMyCardDrag = true;
             }
 
-                pointDownTime += Time.deltaTime;
-            
+            pointDownTime += Time.deltaTime;
+
         }
         if (isMyCardDrag)
         {
@@ -214,7 +214,7 @@ public class CardManager : MonoBehaviourPunCallbacks
         targetPicker.SetActive(isShow);
     }
 
-    private void ShowInfo() // When Card MouseDown, Show CardInfo
+    public void ShowInfo() // When Card MouseDown, Show CardInfo
     {
         if (selectCard == null) return;
 
@@ -883,23 +883,12 @@ public class CardManager : MonoBehaviourPunCallbacks
 
     #region Card Control
 
-    public void CardMouseOver(Card card)
-    {
-        if (eCardState == ECardState.Nothing)
-            return;
-        if (!card.isSelected) return;
-        if (selectCard == null) return;
-        if (card.carditem.name != selectCard.carditem.name) return;
-        if (isMyCardDrag)
-            card.cardPrame.sprite = null;
-    }
-
     public void CardMouseDown(Card card)
     {
         if (eCardState != ECardState.CanMouseDrag || eCardState == ECardState.Nothing)
             return;
         if (isUse) return;
-        
+
         isClick = true;
         cardInfo.SetActive(false);
         GameManager.Inst.DestroyMovePlates();
@@ -916,9 +905,9 @@ public class CardManager : MonoBehaviourPunCallbacks
     public void CardMouseUp(Card card)
     {
         if (isUse) return;
-
-        if(pointDownTime < 1.25f)
-        {   
+        selectCard.ReloadCard();
+        if (pointDownTime < 0.75f)
+        {
             var targetRot = ComparisonPlayer("white") ? Utils.QI : Quaternion.Euler(0f, 0f, 180f);
             StartCoroutine(DontShowCards(GetTargetCards()));
             cardInfo.SetActive(true);
@@ -927,7 +916,6 @@ public class CardManager : MonoBehaviourPunCallbacks
             isClick = false;
             pointDownTime = 0f;
             card.MoveTransform(new PRS(new Vector2(1.7f, 0.7f), targetRot, Vector3.one * 1.9f), true, false, 0.5f);
-            SetSelectCardNull();
             return;
         }
 
@@ -952,6 +940,7 @@ public class CardManager : MonoBehaviourPunCallbacks
 
     private void CardDrag()
     {
+        selectCard.SelectingCard();
         TargetingChessPiece();
 
         if (TurnManager.Instance.CheckPlayer("white"))

@@ -34,7 +34,9 @@ public class SuperSkillManager : MonoBehaviourPunCallbacks
     [SerializeField] SuperSkill blackIcon;
     [SerializeField] GameObject skillPrefab;
     [SerializeField] Sprite zeus;
+    [SerializeField] Sprite zeusUsing;
     [SerializeField] Sprite poseidon;
+    [SerializeField] Sprite poseidonUsing;
 
     public string whiteGodsRes;
     public string blackGodsRes;
@@ -56,11 +58,13 @@ public class SuperSkillManager : MonoBehaviourPunCallbacks
         CardManager.Inst.SetSelectCard(null);
     }
 
-    public GameObject SpawnSkill()
+    public GameObject SpawnSkill(SuperSkill superSkill)
     {
         GameObject obj = null;
         int skillID;
         SkillBase sb;
+        photonView.RPC("ChangeUsingSprite", RpcTarget.AllBuffered, superSkill.GetPlayer());
+
         obj = NetworkManager.Inst.SpawnObject(skillPrefab);
         obj.transform.SetParent(null);
 
@@ -83,6 +87,39 @@ public class SuperSkillManager : MonoBehaviourPunCallbacks
         return obj;
     }
 
+    [Photon.Pun.PunRPC]
+    private void ChangeUsingSprite(string name)
+    {
+        if(name == "white")
+        {
+            whiteIcon.UsingSkill();
+        }
+        else
+        {
+            blackIcon.UsingSkill();
+        }
+    }
+
+    public void UnUsingSkill(string name)
+    {
+        photonView.RPC("ChangeDefaultSprite", RpcTarget.AllBuffered, name);
+    }
+
+
+    [Photon.Pun.PunRPC]
+    private void ChangeDefaultSprite(string name)
+    {
+        if (name == whiteGodsRes)
+        {
+            whiteIcon.UnUsingSkill();
+        }
+        else
+        {
+            blackIcon.UnUsingSkill();
+        }
+    }
+
+
     public void SetActive(bool isActive)
     {
         whiteIcon.gameObject.SetActive(isActive);
@@ -102,12 +139,12 @@ public class SuperSkillManager : MonoBehaviourPunCallbacks
     {
         if (response == "Zeus")
         {
-            icon.ChangeSprite(zeus);
+            icon.ChangeSprite(zeus, zeusUsing);
         }
 
         else
         {
-            icon.ChangeSprite(poseidon);
+            icon.ChangeSprite(poseidon, poseidonUsing);
         }
     }
 
