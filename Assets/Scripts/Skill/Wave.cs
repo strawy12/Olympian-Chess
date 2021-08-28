@@ -37,7 +37,7 @@ public class Wave : SkillBase
         {
             selectPiece.RemoveChosenSkill(this);
         }
-        DestroySkill();
+        RPC_DestroySkill();
 
 
     }

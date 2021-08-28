@@ -123,8 +123,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void CreateRoom()
     {
-        roomname = PhotonNetwork.LocalPlayer.NickName + "'s room.";
-        PhotonNetwork.CreateRoom(roomname, new RoomOptions { MaxPlayers = 2 });
+        PhotonNetwork.CreateRoom("", new RoomOptions { MaxPlayers = 2 });
     }
 
     public void JoinRoom()
@@ -183,9 +182,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.PlayerList.Length == 2)
         {
+            Debug.Log(PhotonNetwork.LocalPlayer.NickName);
+            Debug.Log(newPlayer.NickName);
+
             if (newPlayer.NickName == PhotonNetwork.LocalPlayer.NickName)
             {
+                Debug.Log("¿¿æ÷");
                 Rename();
+                Debug.Log(PhotonNetwork.LocalPlayer.NickName);
+                Debug.Log(newPlayer.NickName);
             }
 
             int i;
@@ -233,6 +238,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void SetPlayer(int i)
     {
+        Debug.Log(PhotonNetwork.LocalPlayer.NickName);
         if (PhotonNetwork.PlayerList[i].NickName == PhotonNetwork.LocalPlayer.NickName)
         {
             player = "white";

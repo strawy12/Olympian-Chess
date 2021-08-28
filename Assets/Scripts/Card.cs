@@ -135,6 +135,13 @@ public class Card : MonoBehaviourPunCallbacks
         }
     }
 
+    public void SetActive(bool isActive)
+    {
+        cardPrame.enabled = isActive;
+        card.enabled = isActive;
+        col.enabled = isActive;
+
+    }
     public void MoveTransform(PRS prs, bool useDotween, bool isSend, float dotweemTime = 0)
     {
         string prs_ToJson = NetworkManager.Inst.SaveDataToJson(prs, false);

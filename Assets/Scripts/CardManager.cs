@@ -815,8 +815,7 @@ public class CardManager : MonoBehaviourPunCallbacks
             }
             if (CheckCardname("에로스의 사랑,수면,죽음의 땅,파도"))
             {
-                card.cardPrame.enabled = false;
-                card.card.enabled = false;
+                card.SetActive(false);
                 return true;
             }
             DestroyCard(card);
@@ -928,6 +927,7 @@ public class CardManager : MonoBehaviourPunCallbacks
             isClick = false;
             pointDownTime = 0f;
             card.MoveTransform(new PRS(new Vector2(1.7f, 0.7f), targetRot, Vector3.one * 1.9f), true, false, 0.5f);
+            SetSelectCardNull();
             return;
         }
 
