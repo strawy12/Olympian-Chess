@@ -140,8 +140,10 @@ public class Stroy : MonoBehaviour
         //Write conditional code
 
         isTyping = false;
-        TutorialManager.Instance.is7Story = true;   
+        TutorialManager.Instance.is7Story = true;
         StartCoroutine((TypingEffect(stroyText, story[6], speed)));
+        isTyping = false;
+
     }
     private void story8()
     {
@@ -156,7 +158,7 @@ public class Stroy : MonoBehaviour
     private void OnMouseUp()
     {
 
-        if(index == 3)
+        if (index == 3)
         {
             if (!isTyping_ing && !TutorialManager.Instance.blackPawn)
             {
@@ -166,10 +168,20 @@ public class Stroy : MonoBehaviour
                 StartCoroutine(StoryStart());
             }
         }
-        else if(index == 5 && TutorialManager.Instance.isClicked) //천벌을 사용하면 deckClicked를 true로 바꿔주세용 화이팅!!
+        else if (index == 5)
         {
-            if (!isTyping_ing)
+            if (!isTyping_ing) //천벌을 사용하면 deckClicked를 true로 바꿔주세용 화이팅!!
             {
+                index++;
+                isTyping = true;
+                isTyping_ing = true;
+            }
+        }
+        else if (index == 7)
+        {
+            if (!isTyping_ing && !TutorialManager.Instance.blackPawn2)
+            {
+                Debug.Log("7" + TutorialManager.Instance.blackPawn2);
                 index++;
                 isTyping = true;
                 isTyping_ing = true;
@@ -189,5 +201,4 @@ public class Stroy : MonoBehaviour
         Debug.Log(index);
     }
     #endregion
-
 }

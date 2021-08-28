@@ -14,10 +14,6 @@ public class WhiteP2 : MonoBehaviour
     private GameObject MV_M;
     private GameObject MV_O;
 
-    void Start()
-    {
-        
-    }
 
     void Update()
     {
@@ -52,6 +48,8 @@ public class WhiteP2 : MonoBehaviour
     public void DestoryBP()
     {
         Destroy(BP);
+        Debug.Log("now");
+        TutorialManager.Instance.blackPawn2 = false;
     }
 
     public IEnumerator PositionMove()
