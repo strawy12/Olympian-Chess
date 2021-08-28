@@ -59,6 +59,7 @@ public class WhiteP2 : MonoBehaviour
         Vector3 startPos = new Vector3(transform.position.x,transform.position.y,0f);
         Vector3 endPos = new Vector3(0.336f,1.02f,0f);
 
+        TutorialManager.Instance.MoveChessSound();
         transform.position = endPos;
         yield return null;
     }

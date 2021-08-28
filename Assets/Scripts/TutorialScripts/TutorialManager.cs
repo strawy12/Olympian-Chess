@@ -7,6 +7,20 @@ public class TutorialManager : MonoBehaviour
     [Header("게임 시작 사운드")]
     [SerializeField]
     private AudioClip startSound;
+
+    [Header("체스말 움직일 떄 사운드")]
+    [SerializeField]
+    private AudioClip moveSound;
+
+    [Header("체스말 죽을 때 사운드")]
+    [SerializeField]
+    private AudioClip deadSound;
+
+    [Header("타이핑 사운드")]
+    [SerializeField]
+    private AudioClip typingSound;
+
+    public bool isTyiingSound;
     
     //[HideInInspector]
     //public bool is2StoryEnd = false;
@@ -67,12 +81,27 @@ public class TutorialManager : MonoBehaviour
     #endregion
     void Start()
     {
+        TypingSound();
         StartSoundPlay();
     }
-
 
     private void StartSoundPlay()
     {
         SoundManager.Instance.SoundPlay("StartSound", startSound);
+    }
+
+    public void MoveChessSound()
+    {
+        SoundManager.Instance.SoundPlay("MoveChess", moveSound);
+    }
+
+    public void DeadChessSound()
+    {
+        SoundManager.Instance.SoundPlay("DeadSound", deadSound);
+    }
+
+    public void TypingSound()
+    {
+        SoundManager.Instance.TypingSound("TypingSound", typingSound);
     }
 }
