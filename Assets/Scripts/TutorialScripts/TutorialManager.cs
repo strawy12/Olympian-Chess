@@ -54,6 +54,8 @@ public class TutorialManager : MonoBehaviour
     public bool turnEnd = false;
     [HideInInspector]
     public bool blackPawn = true;
+    [HideInInspector]
+    public bool blackPawn2 = true;
 
     //우수안 화이팅
 

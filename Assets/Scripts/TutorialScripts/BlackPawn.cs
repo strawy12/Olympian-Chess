@@ -40,7 +40,6 @@ public class BlackPawn : MonoBehaviour
     }
     private IEnumerator KnightMove()
     {
-        Debug.Log("now");
         yield return new WaitForSeconds(3.5f);
 
         Vector3 startPos = knight.transform.position;
