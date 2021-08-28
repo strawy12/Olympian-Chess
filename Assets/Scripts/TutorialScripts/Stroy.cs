@@ -13,7 +13,7 @@ public class Stroy : MonoBehaviour
     [SerializeField]
     private string[] story;
     [SerializeField]
-    private float speed = 0.4f;
+    private float speed;
 
     private bool isTyping = true;
     private bool isTyping_ing = true;
@@ -24,64 +24,55 @@ public class Stroy : MonoBehaviour
     private WaitForSeconds delayStory = new WaitForSeconds(6f);
     void Start()
     {
-        StartCoroutine(StoryStart());
-        isTyping = true;
+        StartStory(index);
     }
 
-    private IEnumerator StoryStart()
+
+    private void StartStory(int num)
     {
-        if (isTyping && index == 1)
+        switch (num)
         {
-            story1();
-            yield return delayStory;
-        }
-        if (isTyping && index == 2)
-        {
-            story2();
-            yield return delayStory;
-        }
+            case 1:
+                story1();
+                break;
 
-        if (isTyping && index == 3)
-        {
-            story3();
-            yield return delayStory;
-        }
+            case 2:
+                story2();
+                break;
 
-        if (isTyping && index == 4)
-        {
-            story4();
-            yield return delayStory;
+            case 3:
+                story3();
+                break;
+
+            case 4:
+                story4();
+                break;
+
+            case 5:
+                story5();
+                break;
+
+            case 6:
+                story6();
+                break;
+
+            case 7:
+                story7();
+                break;
+
+            case 8:
+                story8();
+                break;
+
+            case 9:
+                story9();
+                break;
         }
-        if (isTyping && index == 5)
-        {
-            story5();
-            yield return delayStory;
-        }
-        if (isTyping && index == 6)
-        {
-            story6();
-            yield return delayStory;
-        }
-        if (isTyping && index == 7)
-        {
-            story7();
-            yield return delayStory;
-        }
-        if (isTyping && index == 8)
-        {
-            story8();
-            yield return delayStory;
-        }
-        if (isTyping && index == 9)
-        {
-            story9();
-            yield return delayStory;
-        }
-        isTyping = false;
     }
 
     private IEnumerator TypingEffect(Text _typingText, string _message, float _speed)
     {
+        isTyping_ing = true;
         TutorialManager.Instance.isTyiingSound = true;
         for (int i = 0; i < _message.Length; i++)
         {
@@ -89,8 +80,9 @@ public class Stroy : MonoBehaviour
             yield return new WaitForSeconds(speed);
         }
         TutorialManager.Instance.isTyiingSound = false;
-
+        speed = 0.1f;
         isTyping_ing = false;
+        isTyping = false;
     }
 
     //private void Sound()
@@ -106,101 +98,97 @@ public class Stroy : MonoBehaviour
     private void story1()
     {
         StartCoroutine((TypingEffect(stroyText, story[0], speed)));
-        isTyping = false;
     }
 
     private void story2()
     {
-        isTyping = false;
         StartCoroutine((TypingEffect(stroyText, story[1], speed)));
     }
 
     private void story3()
     {
-        isTyping = false;
-        TutorialManager.Instance.is3Story = true;
+        if (TutorialManager.Instance.blackPawn) return;
+        TutorialManager.Instance.blackPawn = false;
         StartCoroutine((TypingEffect(stroyText, story[2], speed)));
     }
     private void story4()
     {
-        isTyping = false;
         StartCoroutine((TypingEffect(stroyText, story[3], speed)));
     }
     private void story5()
     {
-        isTyping = false;
-        TutorialManager.Instance.is5Story = true;
+        if (TutorialManager.Instance.card) return;
+        TutorialManager.Instance.card = false;
+
         StartCoroutine((TypingEffect(stroyText, story[4], speed)));
     }
     private void story6()
     {
-        isTyping = false;
-        TutorialManager.Instance.is6Story = true;
+
         StartCoroutine((TypingEffect(stroyText, story[5], speed)));
     }
     private void story7()
     {
         //Write conditional code
-
-        isTyping = false;
-        TutorialManager.Instance.is7Story = true;
+        if (TutorialManager.Instance.blackPawn2) return;
+        TutorialManager.Instance.blackPawn2 = false;
         StartCoroutine((TypingEffect(stroyText, story[6], speed)));
-        isTyping = false;
 
     }
     private void story8()
     {
-        isTyping = false;
         StartCoroutine((TypingEffect(stroyText, story[7], speed)));
     }
     private void story9()
     {
-        isTyping = false;
         StartCoroutine((TypingEffect(stroyText, story[8], speed)));
     }
     private void OnMouseUp()
     {
+        if (!isTyping)
+        {
+            if (index == 3)
+            {
+                if (!TutorialManager.Instance.blackPawn)
+                {
+                    index++;
+                    isTyping = true;
+                }
+            }
+            else if (index == 5)
+            {
+                //천벌을 사용하면 deckClicked를 true로 바꿔주세용 화이팅!!
 
-        if (index == 3)
-        {
-            if (!isTyping_ing && !TutorialManager.Instance.blackPawn)
-            {
                 index++;
                 isTyping = true;
-                isTyping_ing = true;
-                StartCoroutine(StoryStart());
+                TutorialManager.Instance.card = false;
+
             }
-        }
-        else if (index == 5)
-        {
-            if (!isTyping_ing) //천벌을 사용하면 deckClicked를 true로 바꿔주세용 화이팅!!
+            else if (index == 7)
             {
-                index++;
-                isTyping = true;
-                isTyping_ing = true;
+                if (!TutorialManager.Instance.blackPawn2)
+                {
+                    Debug.Log("7" + TutorialManager.Instance.blackPawn2);
+                    index++;
+                    isTyping = true;
+                }
             }
-        }
-        else if (index == 7)
-        {
-            if (!isTyping_ing && !TutorialManager.Instance.blackPawn2)
+            else
             {
-                Debug.Log("7" + TutorialManager.Instance.blackPawn2);
-                index++;
                 isTyping = true;
-                isTyping_ing = true;
+                index++;
             }
+
+            StartStory(index);
+
         }
         else
         {
-            if (!isTyping_ing)
-            {
-                index++;
-                isTyping = true;
-                isTyping_ing = true;
-            }
+            speed = 0.04f;
         }
-        Debug.Log(isTyping_ing);
-        Debug.Log(isTyping);
+
+
+
         Debug.Log(index);
     }
     #endregion
