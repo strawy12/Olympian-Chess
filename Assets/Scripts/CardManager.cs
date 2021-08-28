@@ -369,9 +369,9 @@ public class CardManager : MonoBehaviourPunCallbacks
             whiteCardBuffer.RemoveAt(0);
             return carditem;
         }
+
         else
         {
-
             Carditem carditem = null;
             carditem = blackCardBuffer[0];
             blackCardBuffer.RemoveAt(0);
@@ -406,8 +406,6 @@ public class CardManager : MonoBehaviourPunCallbacks
         }
 
     }
-
-
 
     public void SetIds(Card card)
     {
@@ -972,9 +970,7 @@ public class CardManager : MonoBehaviourPunCallbacks
     public void CardCancelEffect()
     {
         if (isMyCardDrag)
-        {
             cardCancel.enabled = true;
-        }
     }
 
     public List<PRS> ShowCards(int objCnt, Vector3 scale)
@@ -1004,11 +1000,7 @@ public class CardManager : MonoBehaviourPunCallbacks
                 case 3: objYpos = new float[3] { 1.85f, 0.16f, -1.63f }; break;
             }
             targetRot = Quaternion.Euler(0f, 0f, 180f);
-
         }
-
-
-
 
         for (int i = objYpos.Length - 1; i >= 0; i--)
         {
@@ -1024,8 +1016,6 @@ public class CardManager : MonoBehaviourPunCallbacks
             }
         }
         return results;
-
-
     }
 
     public IEnumerator DontShowCards(List<Card> targetCards, bool isSend = false)
