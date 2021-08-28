@@ -20,7 +20,9 @@ public class TutorialManager : MonoBehaviour
     [SerializeField]
     private AudioClip typingSound;
 
-    public bool isTyiingSound;
+    public bool isTypingSound_ing = false;
+
+    public bool isTypingSound = false;
     
     //[HideInInspector]
     //public bool is2StoryEnd = false;
@@ -83,8 +85,13 @@ public class TutorialManager : MonoBehaviour
     #endregion
     void Start()
     {
-        TypingSound();
+        TypingSound("qwe",typingSound);
         StartSoundPlay();
+    }
+
+    private void Update()
+    {
+        Debug.Log(isTypingSound);
     }
 
     private void StartSoundPlay()
@@ -105,5 +112,27 @@ public class TutorialManager : MonoBehaviour
     public void TypingSound()
     {
         SoundManager.Instance.TypingSound("TypingSound", typingSound);
+    }
+
+    public void TypingSound(string name, AudioClip clip)
+    {
+        //Debug.Log(name + "Sound");
+        GameObject go = new GameObject(name + "Sound");
+        AudioSource audioSource = go.AddComponent<AudioSource>();
+        audioSource.clip = clip;
+        if (isTypingSound)
+        {
+            isTypingSound_ing = true;
+            if (isTypingSound_ing) return;
+            audioSource.Play();
+            isTypingSound_ing = false;
+
+
+        }
+        else
+        {
+            Destroy(go);
+            isTypingSound_ing = false;
+        }
     }
 }

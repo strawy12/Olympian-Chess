@@ -82,13 +82,13 @@ public class Stroy : MonoBehaviour
 
     private IEnumerator TypingEffect(Text _typingText, string _message, float _speed)
     {
-        TutorialManager.Instance.isTyiingSound = true;
+        TutorialManager.Instance.isTypingSound = true;
         for (int i = 0; i < _message.Length; i++)
         {
             _typingText.text = _message.Substring(0, i + 1);
             yield return new WaitForSeconds(speed);
         }
-        TutorialManager.Instance.isTyiingSound = false;
+        TutorialManager.Instance.isTypingSound = false;
 
         isTyping_ing = false;
     }

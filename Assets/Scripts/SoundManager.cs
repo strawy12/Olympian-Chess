@@ -42,16 +42,19 @@ public class SoundManager : MonoBehaviour
         GameObject go = new GameObject(name + "Sound");
         AudioSource audioSource = go.AddComponent<AudioSource>();
         audioSource.clip = clip;
-        if(TutorialManager.Instance.isTyiingSound)
+        if(TutorialManager.Instance.isTypingSound)
         {
-            if (TutorialManager.Instance.isTyiingSound) return;
+            TutorialManager.Instance.isTypingSound_ing = true;
+            if (TutorialManager.Instance.isTypingSound_ing) return;
             audioSource.Play();
+            TutorialManager.Instance.isTypingSound_ing = false;
+
 
         }
         else
         {
             Destroy(go);
-
+            TutorialManager.Instance.isTypingSound_ing = false;
         }
     }
 }
