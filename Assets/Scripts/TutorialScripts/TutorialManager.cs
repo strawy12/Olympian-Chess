@@ -33,8 +33,8 @@ public class TutorialManager : MonoBehaviour
     [HideInInspector]
     public bool is5Story = false;
 
-    //[HideInInspector]
-    //public bool is5StoryEnd = false;
+    [HideInInspector]
+    public bool is4Story = false;
 
     [HideInInspector]
     public bool is6Story = false;
@@ -53,12 +53,9 @@ public class TutorialManager : MonoBehaviour
     [HideInInspector]
     public bool isUsed = false;
     [HideInInspector]
-    public bool turnEnd = false;
-    [HideInInspector]
+    public bool turnEnd = true;
     public bool blackPawn = false;
-    [HideInInspector]
     public bool blackPawn2 = false;
-    [HideInInspector]
     public bool card = false;
 
     //우수안 화이팅
@@ -93,7 +90,6 @@ public class TutorialManager : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(isTypingSound);
     }
 
     private void StartSoundPlay()

@@ -72,24 +72,16 @@ public class Stroy : MonoBehaviour
 
     private IEnumerator TypingEffect(Text _typingText, string _message, float _speed)
     {
-<<<<<<< HEAD
         isTyping_ing = true;
-        TutorialManager.Instance.isTyiingSound = true;
-=======
+        isTyping = true;
         TutorialManager.Instance.isTypingSound = true;
->>>>>>> 6fc081d378c699f2b1c6734d4dfa56063b71ad9d
         for (int i = 0; i < _message.Length; i++)
         {
             _typingText.text = _message.Substring(0, i + 1);
             yield return new WaitForSeconds(speed);
         }
-<<<<<<< HEAD
-        TutorialManager.Instance.isTyiingSound = false;
-        speed = 0.1f;
-=======
         TutorialManager.Instance.isTypingSound = false;
-
->>>>>>> 6fc081d378c699f2b1c6734d4dfa56063b71ad9d
+        speed = 0.1f;
         isTyping_ing = false;
         isTyping = false;
     }
@@ -117,22 +109,30 @@ public class Stroy : MonoBehaviour
     private void story3()
     {
         if (TutorialManager.Instance.blackPawn) return;
-        TutorialManager.Instance.blackPawn = false;
+        TutorialManager.Instance.is3Story = true;
+        TutorialManager.Instance.blackPawn = true;
+
         StartCoroutine((TypingEffect(stroyText, story[2], speed)));
     }
     private void story4()
     {
+        if (TutorialManager.Instance.card) return;
+        TutorialManager.Instance.card = true;
+
         StartCoroutine((TypingEffect(stroyText, story[3], speed)));
     }
     private void story5()
     {
-        if (TutorialManager.Instance.card) return;
-        TutorialManager.Instance.card = false;
-
+        if (TutorialManager.Instance.is5Story) return;
+        TutorialManager.Instance.is5Story = true;
         StartCoroutine((TypingEffect(stroyText, story[4], speed)));
     }
     private void story6()
     {
+
+        if (!TutorialManager.Instance.turnEnd) return;
+        TutorialManager.Instance.turnEnd = false;
+        TutorialManager.Instance.is6Story = true;
 
         StartCoroutine((TypingEffect(stroyText, story[5], speed)));
     }
@@ -140,7 +140,8 @@ public class Stroy : MonoBehaviour
     {
         //Write conditional code
         if (TutorialManager.Instance.blackPawn2) return;
-        TutorialManager.Instance.blackPawn2 = false;
+        TutorialManager.Instance.blackPawn2 = true;
+        TutorialManager.Instance.is7Story = true;
         StartCoroutine((TypingEffect(stroyText, story[6], speed)));
 
     }
@@ -161,33 +162,37 @@ public class Stroy : MonoBehaviour
                 if (!TutorialManager.Instance.blackPawn)
                 {
                     index++;
-                    isTyping = true;
+                    Debug.Log("ddd");
                 }
+
             }
             else if (index == 5)
             {
                 //천벌을 사용하면 deckClicked를 true로 바꿔주세용 화이팅!!
-
                 index++;
-                isTyping = true;
                 TutorialManager.Instance.card = false;
 
             }
+            else if (index == 6)
+            {
+                if (TutorialManager.Instance.turnEnd)
+                {
+                    index++;
+                }
+            }
+
             else if (index == 7)
             {
                 if (!TutorialManager.Instance.blackPawn2)
                 {
                     Debug.Log("7" + TutorialManager.Instance.blackPawn2);
                     index++;
-                    isTyping = true;
                 }
             }
             else
             {
-                isTyping = true;
                 index++;
             }
-
             StartStory(index);
 
         }

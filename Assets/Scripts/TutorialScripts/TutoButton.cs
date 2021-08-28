@@ -21,17 +21,20 @@ public class TutoButton : MonoBehaviour
     }
     void Update()
     {
-        ActiveButtono();
+        if (TutorialManager.Instance.is5Story)
+        {
+            ActiveButtono();
+
+        }
     }
 
     private void ActiveButtono()
     {
-        if(TutorialManager.Instance.is5Story)
-        {
+
             image.sprite = activeSprite;
             TutorialManager.Instance.is5Story = false;
             allowClick = true;
-        }
+        
     }
 
     public void isClickedActiveButton()
