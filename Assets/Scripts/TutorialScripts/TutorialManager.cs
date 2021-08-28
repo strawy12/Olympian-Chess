@@ -38,8 +38,10 @@ public class TutorialManager : MonoBehaviour
     public bool isUsed = false;
     [HideInInspector]
     public bool turnEnd = false;
+    [HideInInspector]
+    public bool blackPawn = true;
 
-
+    //우수안 화이팅
 
 
 

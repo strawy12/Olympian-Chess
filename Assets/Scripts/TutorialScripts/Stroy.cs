@@ -158,7 +158,7 @@ public class Stroy : MonoBehaviour
 
         if(index == 3)
         {
-            if (!isTyping_ing && TutorialManager.Instance.is3Story)
+            if (!isTyping_ing && !TutorialManager.Instance.blackPawn)
             {
                 index++;
                 isTyping = true;
