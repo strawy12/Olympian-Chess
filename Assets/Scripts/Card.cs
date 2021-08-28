@@ -8,11 +8,14 @@ public class Card : MonoBehaviourPunCallbacks
     #region SerializeField Var
     Sprite cardFornt;
     [SerializeField] Sprite cardBack;
+    [SerializeField] Sprite enable;
+    [SerializeField] Sprite unable;
     #endregion
 
     #region Var List
     public SpriteRenderer spriteRenderer { get; private set; }
     public SpriteRenderer cardIcon { get; private set; }
+    private SpriteRenderer cardEnable;
     public Collider2D col { get; private set; }
     private PhotonView pv;
 
@@ -32,6 +35,7 @@ public class Card : MonoBehaviourPunCallbacks
         col = GetComponent<Collider2D>();
         pv = GetComponent<PhotonView>();
         cardIcon = transform.GetChild(0).GetComponent<SpriteRenderer>();
+        cardEnable = transform.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>();
         cardIcon.enabled = false;
     }
 
@@ -64,12 +68,14 @@ public class Card : MonoBehaviourPunCallbacks
     {
         spriteRenderer.enabled = false;
         cardIcon.enabled = true;
+        cardEnable.enabled = true;
     }
 
     public void ReloadCard()
     {
         spriteRenderer.enabled = true;
         cardIcon.enabled = false;
+        cardEnable.enabled = false;
     }
     public bool CheckClickCard()
     {
@@ -122,9 +128,7 @@ public class Card : MonoBehaviourPunCallbacks
     public void SetActive(bool isActive)
     {
         spriteRenderer.enabled = isActive;
-        cardIcon.enabled = isActive;
         col.enabled = isActive;
-
     }
     public void MoveTransform(PRS prs, bool useDotween, bool isSend, float dotweemTime = 0)
     {
@@ -137,7 +141,6 @@ public class Card : MonoBehaviourPunCallbacks
         {
             SetMoveTransform(prs_ToJson, useDotween, dotweemTime);
         }
-
     }
 
     [PunRPC]
@@ -180,6 +183,19 @@ public class Card : MonoBehaviourPunCallbacks
     public Carditem GetCarditem()
     {
         return carditem;
+    }
+
+    public void CardEnable(bool isEnable)
+    {
+        if (isEnable)
+        {
+            cardEnable.sprite = enable;
+        }
+
+        else
+        {
+            cardEnable.sprite = unable;
+        }
     }
     #endregion
 

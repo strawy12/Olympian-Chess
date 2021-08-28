@@ -31,7 +31,6 @@ public class SkillManager : MonoBehaviourPunCallbacks
 
     // Function returning whether the cp is in the dontClickPiece list.
     // if there is return true
-
     public bool CheckDontClickPiece(ChessBase cp)
     {
         ChessData chessData = cp.GetChessData();
@@ -54,8 +53,6 @@ public class SkillManager : MonoBehaviourPunCallbacks
         }
         return false;
     }
-
-
     #endregion
 
     #region Script Access 

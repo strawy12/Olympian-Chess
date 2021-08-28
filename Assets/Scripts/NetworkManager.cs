@@ -37,12 +37,19 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                     inst = newObj;
                 }
             }
+
             return inst;
         }
     }
 
     private void Awake()
     {
+        NetworkManager[] nms = FindObjectsOfType<NetworkManager>();
+        if (nms.Length != 1)
+        {
+            Destroy(gameObject);
+        }
+
         PhotonNetwork.SendRate = 60;
         PhotonNetwork.SerializationRate = 30;
 

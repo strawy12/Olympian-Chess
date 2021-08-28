@@ -312,7 +312,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 2530564911472380330, guid: 8deb18f6e5824664ab894d3fd83b9433,
+  m_Sprite: {fileID: 1763989116612304091, guid: 8deb18f6e5824664ab894d3fd83b9433,
     type: 3}
   m_Type: 0
   m_PreserveAspect: 0
@@ -932,7 +932,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: dsaa
+  m_Text: white
 --- !u!222 &285764079
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1485,7 +1485,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 2530564911472380330, guid: 8deb18f6e5824664ab894d3fd83b9433,
+  m_Sprite: {fileID: 1763989116612304091, guid: 8deb18f6e5824664ab894d3fd83b9433,
     type: 3}
   m_Type: 0
   m_PreserveAspect: 0
@@ -1792,8 +1792,6 @@ MonoBehaviour:
   isStop: 0
   isUse: 0
   isUsed: 0
-  card: {fileID: 0}
-  cardCancelImage: {fileID: 472732930}
 --- !u!114 &443159220
 MonoBehaviour:
   m_ObjectHideFlags: 0

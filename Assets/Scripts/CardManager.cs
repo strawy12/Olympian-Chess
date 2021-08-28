@@ -69,7 +69,6 @@ public class CardManager : MonoBehaviourPunCallbacks
     private List<Carditem> whiteCardBuffer = new List<Carditem>(); //white Card Buffer
     private List<Carditem> blackCardBuffer = new List<Carditem>(); //Balck Card Buffer
 
-
     public List<Carditem> usedCards = new List<Carditem>();
 
     private Vector3 localPosition = Vector3.zero;
@@ -134,7 +133,6 @@ public class CardManager : MonoBehaviourPunCallbacks
     {
         foreach (RaycastHit2D hit in Physics2D.RaycastAll(Utils.MousePos, Vector3.forward))
         {
-
             if (hit.collider.CompareTag("ChessPiece"))
             {
                 chessPiece = hit.collider.gameObject.GetComponent<ChessBase>();
@@ -147,11 +145,14 @@ public class CardManager : MonoBehaviourPunCallbacks
                     if (CheckPawn(hit.collider.name))
                     {
                         SpawnTargetPicker(isTargeting, isMine);
+                        selectCard.CardEnable(isTargeting);
                         break;
                     }
+
                     else
                     {
                         isStop = true;
+                        selectCard.CardEnable(false);
                         return;
                     }
                 }
@@ -161,6 +162,7 @@ public class CardManager : MonoBehaviourPunCallbacks
                     if (CheckPawn(hit.collider.name))
                     {
                         isStop = true;
+                        selectCard.CardEnable(false);
                         return;
                     }
                     else
@@ -182,12 +184,13 @@ public class CardManager : MonoBehaviourPunCallbacks
 
     public void SpawnTargetPicker(bool isShow, bool isMine)
     {
-
         targetPicker.transform.position = localPosition;
+
         if (isMine)
         {
             if (CheckCardname("음악,천벌,수면,서풍")) // Can not be used for my ChessPiece
             {
+                selectCard.CardEnable(false);
                 isStop = true;
                 return;
             }
@@ -199,9 +202,9 @@ public class CardManager : MonoBehaviourPunCallbacks
         }
         else
         {
-            if (CheckCardname("여행자,에로스의 사랑,질서,달빛,제물,아테나의 방패,대쉬,동귀어진,후진,부활")) //Can not be used for other ChessPiece
-
+            if (CheckCardname("여행자,에로스의 사랑,질서,달빛,제물,아테나의 방패,대쉬,동귀어진,후진,부활,전쟁광")) //Can not be used for other ChessPiece
             {
+                selectCard.CardEnable(false);
                 isStop = true;
                 return;
             }
@@ -212,6 +215,7 @@ public class CardManager : MonoBehaviourPunCallbacks
             targetPicker.GetComponent<SpriteRenderer>().material.SetColor("_Color", new Color(1, 0, 0, 1));
         }
         targetPicker.SetActive(isShow);
+        selectCard.CardEnable(isShow);
     }
 
     public void ShowInfo() // When Card MouseDown, Show CardInfo
@@ -361,7 +365,6 @@ public class CardManager : MonoBehaviourPunCallbacks
     #region CardSetting
     public Carditem PopCard(bool isMine) // First CardBuffer's Card draw
     {
-
         if (isMine)
         {
             Carditem carditem = null;
@@ -369,15 +372,14 @@ public class CardManager : MonoBehaviourPunCallbacks
             whiteCardBuffer.RemoveAt(0);
             return carditem;
         }
+
         else
         {
-
             Carditem carditem = null;
             carditem = blackCardBuffer[0];
             blackCardBuffer.RemoveAt(0);
             return carditem;
         }
-
     }
 
     void SetUpCardBuffer() // Card Buffer value Get, Set
@@ -391,6 +393,7 @@ public class CardManager : MonoBehaviourPunCallbacks
                 whiteCardBuffer.Add(cardItemSO.cardItems[i]);
             }
         }
+
         else
         {
             for (int i = 0; i < 10; i++)
@@ -404,10 +407,7 @@ public class CardManager : MonoBehaviourPunCallbacks
                 }
             }
         }
-
     }
-
-
 
     public void SetIds(Card card)
     {
@@ -415,6 +415,7 @@ public class CardManager : MonoBehaviourPunCallbacks
         {
             card.SetID(IDs + 100);
         }
+
         else if (card.GetCarditem().player == "black")
         {
             card.SetID(IDs + 200);
@@ -485,7 +486,6 @@ public class CardManager : MonoBehaviourPunCallbacks
         }
     }
 
-
     public void NotAmolang()
     {
         if (selectCard != null)
@@ -494,9 +494,9 @@ public class CardManager : MonoBehaviourPunCallbacks
             isUse = true;
         }
     }
+
     public Card GetCard(Carditem carditem)
     {
-
         if (carditem == null) return null;
         var targetCards = carditem.ID < 200 ? whiteCards : blackCards;
 
@@ -551,8 +551,6 @@ public class CardManager : MonoBehaviourPunCallbacks
             Destroy(blackCards[i].gameObject);
         }
     }
-
-
 
     #endregion
 
@@ -676,8 +674,8 @@ public class CardManager : MonoBehaviourPunCallbacks
             targetCard.MoveTransform(targetCard.originPRS, true, false, 0.7f);
             yield return new WaitForSeconds(0.05f);
         }
-
     }
+    #region
     //private List<PRS> RoundAlignment(Transform leftTr, Transform rightTr, int objCnt, float height, Vector3 scale) // practical card sorting (Align the cards using the equation of a circle)
     //{
     //    float[] objLerps = new float[objCnt];
@@ -789,7 +787,7 @@ public class CardManager : MonoBehaviourPunCallbacks
     //        }
     //    }
     //}
-
+    #endregion
     private bool TryPutCard(bool isMine, bool isUsed) // Executed when using a card
     {
         if (isStop) return false;
@@ -804,7 +802,6 @@ public class CardManager : MonoBehaviourPunCallbacks
         var targetCards = GetTargetCards();
         if (isUsed)
         {
-
             isTargeting = false;
 
             SkillManager.Inst.SpawnSkillPrefab(card, chessPiece);
@@ -933,6 +930,7 @@ public class CardManager : MonoBehaviourPunCallbacks
         }
         if (!TryPutCard(true, isUsed))
         {
+            selectCard.CardEnable(false);
             selectCard = null;
             StartCoroutine(DontShowCards(GetTargetCards()));
         }
@@ -943,6 +941,11 @@ public class CardManager : MonoBehaviourPunCallbacks
         selectCard.SelectingCard();
         TargetingChessPiece();
 
+        if(CheckCardname("죽음의 땅,시간왜곡,바카스,정의구현,망령"))
+        {
+            selectCard.CardEnable(true);
+        }
+
         if (TurnManager.Instance.CheckPlayer("white"))
         {
             selectCard.MoveTransform(new PRS(Utils.MousePos, Utils.QI, selectCard.originPRS.scale), false, false);
@@ -951,8 +954,8 @@ public class CardManager : MonoBehaviourPunCallbacks
         {
             selectCard.MoveTransform(new PRS(Utils.MousePos, Quaternion.Euler(0f, 0f, 180f), selectCard.originPRS.scale), false, false);
         }
-        cardInfo.SetActive(false);
 
+        cardInfo.SetActive(false);
     }
 
     public List<PRS> ShowCards(int objCnt, Vector3 scale)
@@ -985,9 +988,6 @@ public class CardManager : MonoBehaviourPunCallbacks
 
         }
 
-
-
-
         for (int i = objYpos.Length - 1; i >= 0; i--)
         {
 
@@ -1002,8 +1002,6 @@ public class CardManager : MonoBehaviourPunCallbacks
             }
         }
         return results;
-
-
     }
 
     public IEnumerator DontShowCards(List<Card> targetCards, bool isSend = false)

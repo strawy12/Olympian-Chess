@@ -14,12 +14,11 @@ public class Order : MonoBehaviour
         SetOrder(originOrder);
     }
 
-
-
     public void SetMostFrontOrder(bool isMostFront)
     {
         SetOrder(isMostFront ? 100 : originOrder);
     }
+
     public void SetOrder(int order)
     {
         int mulOrder = order * 10;
@@ -29,11 +28,11 @@ public class Order : MonoBehaviour
             renderer.sortingLayerName = sortingLayerName;
             renderer.sortingOrder = mulOrder;
         }
+
         foreach (var renderer in middleRenderers)
         {
             renderer.sortingLayerName = sortingLayerName;
-            renderer.sortingOrder = mulOrder + 1;
+            renderer.sortingOrder = ++mulOrder;
         }
-
     }
 }
