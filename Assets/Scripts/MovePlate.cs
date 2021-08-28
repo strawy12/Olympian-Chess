@@ -48,21 +48,18 @@ public class MovePlate : MonoBehaviour
 
         if (eChessState == EChessState.Moving)
         {
-            Debug.Log(matrixX + ", " + matrixY);
+            //Debug.Log(matrixX + ", " + matrixY);
             ChessManager.Inst.MoveChessPiece(reference, matrixX, matrixY);
-            
         }
 
         else if (eChessState == EChessState.Skill)
         {
             SkillManager.Inst.UsingSkill(this);
             SuperSkillManager.Inst.UsingSkill(this);
-
         }
 
         else if (eChessState == EChessState.MovingAndSkill)
         {
-
             ChessManager.Inst.MoveChessPiece(reference, matrixX, matrixY);
             SkillManager.Inst.UsingSkill(this);
         }
@@ -71,7 +68,6 @@ public class MovePlate : MonoBehaviour
         {
             return;
         }
-        
     }
 
     public void OnMouseUp()

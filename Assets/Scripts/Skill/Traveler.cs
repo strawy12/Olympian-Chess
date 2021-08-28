@@ -15,10 +15,13 @@ public class Traveler : SkillBase
         if (selectPiece.name == "white_pawn" || selectPiece.name == "black_pawn")
         {
             int randomX, randomY;
+            int cnt = 0;
 
             // randomly set a location(x,y)
             do
             {
+                cnt++;
+                Debug.Log(cnt);
                 randomX = Random.Range(0, 8);
                 randomY = Random.Range(0, 8);
             } while (ChessManager.Inst.GetPosition(randomX, randomY) != null);

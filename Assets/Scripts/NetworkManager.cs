@@ -152,7 +152,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         {
             CreateRoom();
         }
-
     }
 
     public void LeaveRoom()
@@ -169,15 +168,27 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
-
-        
+        Rename();
         print("방 참가 완료");
     }
 
     private void Rename()
     {
-        PhotonNetwork.LocalPlayer.NickName = "player" + nicknameCnt.ToString();
-        nicknameCnt++;
+        if (PhotonNetwork.PlayerListOthers.Length != 0)
+        {
+            while (PhotonNetwork.PlayerListOthers[0].NickName == PhotonNetwork.LocalPlayer.NickName)
+            {
+                PhotonNetwork.LocalPlayer.NickName = "player" + nicknameCnt.ToString();
+                nicknameCnt++;
+            }
+        }
+
+        else
+        {
+            PhotonNetwork.LocalPlayer.NickName = "player" + nicknameCnt.ToString();
+            nicknameCnt++;
+        }
+
         Debug.Log(PhotonNetwork.LocalPlayer.NickName);
     }
 
@@ -190,11 +201,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.PlayerList.Length == 2)
         {
             int i;
+
             i = Random.Range(0, 2);
             photonView.RPC("SetPlayer", RpcTarget.AllBuffered, i);
 
             PhotonNetwork.LoadLevel("Game");
-
         }
     }
 
@@ -217,25 +228,24 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         return player;
     }
 
-
     public GameObject SpawnObject(GameObject gobj/*, string player*/)
     {
         //if (player != this.player) return null;
         GameObject obj = PhotonNetwork.Instantiate(gobj.name, new Vector3(0, 0, -1), Quaternion.identity);
         //GameObject obj = Instantiate(gobj, new Vector3(0, 0, -1), Quaternion.identity);
 
-
         return obj;
     }
-
-
-
 
     [PunRPC]
     private void SetPlayer(int i)
     {
-
-        if (PhotonNetwork.PlayerList[i].UserId == PhotonNetwork.LocalPlayer.UserId)
+        Debug.Log(PhotonNetwork.LocalPlayer.NickName);
+        Debug.Log(PhotonNetwork.PlayerList.Length);
+        Debug.Log(PhotonNetwork.PlayerList[i].NickName);
+        Debug.Log(PhotonNetwork.PlayerList[0].NickName);
+        Debug.Log(PhotonNetwork.PlayerList[1].NickName);
+        if (PhotonNetwork.PlayerList[i].NickName == PhotonNetwork.LocalPlayer.NickName)
         {
             player = "white";
         }
@@ -244,10 +254,4 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             player = "black";
         }
     }
-
-
-
 }
-
-
-

@@ -219,7 +219,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         MovePlate mpScript = mp.GetComponent<MovePlate>();
         mpScript.attack = true;
         mpScript.Setreference(cp);
-        Debug.Log(matrixX+ ", " + matrixY);
+        //Debug.Log(matrixX+ ", " + matrixY);
         mpScript.SetCoords(matrixX, matrixY);
         AddMovePlateList(mpScript);
     }

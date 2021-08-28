@@ -32,38 +32,38 @@ public class Pawn : ChessBase
     }
     public void PawnMovePlate(int x, int y)
     {
+        if (!isEnpassant)
+        {
+            if (chessData.moveCnt == 2 && chessData.xBoard == originPosX)
+            {
+                isEnpassant = true;
+                if (chessData.player == "white" && chessData.yBoard == 4) { y -= 1; }
+                else if (chessData.player == "black" && chessData.yBoard == 3) { y += 1; }
+
+                else return;
+
+                if (ChessManager.Inst.PositionOnBoard(x + 1, y) && ChessManager.Inst.GetPosition(x + 1, y) != null &&
+               ChessManager.Inst.GetPosition(x + 1, y).GetComponent<ChessBase>().GetPlayer() != chessData.player &&
+               ChessManager.Inst.GetPosition(x + 1, y).name.Contains("pawn"))
+                {
+                    GameManager.Inst.MovePlateAttackSpawn(x + 1, y, this);
+                }
+
+                if (ChessManager.Inst.PositionOnBoard(x - 1, y) && ChessManager.Inst.GetPosition(x - 1, y) != null &&
+               ChessManager.Inst.GetPosition(x - 1, y).GetComponent<ChessBase>().GetPlayer() != chessData.player &&
+               ChessManager.Inst.GetPosition(x - 1, y).name.Contains("pawn"))
+                {
+                    GameManager.Inst.MovePlateAttackSpawn(x - 1, y, this);
+                }
+            }
+        }
+
         if (ChessManager.Inst.PositionOnBoard(x, y))
         {
             if (ChessManager.Inst.GetPosition(x, y) == null)
             {
                 if (chessData.moveCnt != 0)
                     GameManager.Inst.MovePlateSpawn(x, y, this);
-
-                if (GameManager.Inst.isBacchrs) return;
-
-                if (!isEnpassant)
-                {
-                    if (chessData.moveCnt == 2 && chessData.xBoard == originPosX)
-                    {
-                        isEnpassant = true;
-                        if (chessData.player == "white" && chessData.yBoard == 4) { y -= 1; }
-                        else if (chessData.player == "black" && chessData.yBoard == 3) { y += 1; }
-
-                        else return;
-
-                        if (ChessManager.Inst.PositionOnBoard(x + 1, y) && ChessManager.Inst.GetPosition(x + 1, y) != null &&
-                       ChessManager.Inst.GetPosition(x + 1, y).GetComponent<ChessBase>().GetPlayer() != chessData.player)
-                        {
-                            GameManager.Inst.MovePlateAttackSpawn(x + 1, y, this);
-                        }
-
-                        if (ChessManager.Inst.PositionOnBoard(x - 1, y) && ChessManager.Inst.GetPosition(x - 1, y) != null &&
-                       ChessManager.Inst.GetPosition(x - 1, y).GetComponent<ChessBase>().GetPlayer() != chessData.player)
-                        {
-                            GameManager.Inst.MovePlateAttackSpawn(x - 1, y, this);
-                        }
-                    }
-                }
 
                 if (GameManager.Inst.isBacchrs) return;
 
@@ -84,6 +84,7 @@ public class Pawn : ChessBase
                     }
                 }
             }
+
             if (ChessManager.Inst.PositionOnBoard(x + 1, y) && ChessManager.Inst.GetPosition(x + 1, y) != null &&
                ChessManager.Inst.GetPosition(x + 1, y).GetChessData().player != chessData.player)
             {
@@ -96,7 +97,5 @@ public class Pawn : ChessBase
                 GameManager.Inst.MovePlateAttackSpawn(x - 1, y, this);
             }
         }
-
-        
     }
 }

@@ -59,12 +59,12 @@ public class ChessManager : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
-            
-            for(int i = 0; i < 8; i++)
+
+            for (int i = 0; i < 8; i++)
             {
-                for(int j = 0; j < 8; j++)
+                for (int j = 0; j < 8; j++)
                 {
                     if (position[i, j] == null)
                         continue;
@@ -131,7 +131,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
         }
         for (int i = 0; i < cbs.Length; i++)
         {
-            
+
             if (isBlack)
             {
                 cbs[i].transform.rotation = Quaternion.Euler(0f, 0f, 180f);
@@ -312,13 +312,10 @@ public class ChessManager : MonoBehaviourPunCallbacks
         if (isSend)
         {
             photonView.RPC("SetPositionEmpty", RpcTarget.OthersBuffered, x, y, false);
-
         }
 
         position[x, y] = null;
-
     }
-
 
 
     public ChessData CheckPosition(int x, int y)
@@ -350,7 +347,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
             }
             else
             {
-                
+
                 if (playerBlack[i] == null)
                 {
                     continue;
@@ -358,7 +355,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
 
                 if (chessData.ID == playerBlack[i].GetID())
                 {
-                    
+
                     return playerBlack[i];
                 }
             }
@@ -370,15 +367,15 @@ public class ChessManager : MonoBehaviourPunCallbacks
     {
         if (position[x, y] == null) return null;
         bool isWhite = false;
-        
 
-        if(position[x, y].ID < 200)
+
+        if (position[x, y].ID < 200)
         {
             isWhite = true;
         }
         for (int i = 0; i < 16; i++)
         {
-            if(isWhite)
+            if (isWhite)
             {
                 if (playerWhite[i] == null)
                 {
@@ -485,7 +482,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
         ChessBase cp = GetChessPiece(chessData);
         UpdateArr(cp);
         SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
-        if(SkillManager.Inst.CheckDontClickPiece(cp))
+        if (SkillManager.Inst.CheckDontClickPiece(cp))
         {
             SkillManager.Inst.RemoveDontClickPiece(cp);
         }
@@ -771,23 +768,37 @@ public class ChessManager : MonoBehaviourPunCallbacks
 
     private void EnPassant(ChessBase cp, MovePlate mp)
     {
-        if (cp.name.Contains("pawn") && cp.GetMoveCnt() == 2)
+        int x, y;
+        int x2, y2;
+
+        if (cp.name.Contains("pawn") && cp.GetMoveCnt() == 2 && mp.GetChessPiece().name.Contains("pawn"))
         {
-            if (mp.GetPosX() == cp.GetXBoard() + 1 || mp.GetPosX() == cp.GetXBoard())
+            if (mp.GetPosX() == cp.GetXBoard() + 1 || mp.GetPosX() == cp.GetXBoard() - 1)
             {
-                if (cp.name.Contains("white"))
-                    mp.SetCoords(mp.GetPosX(), mp.GetPosY() + 1);
+                x = mp.GetPosX();
+                y = cp.name.Contains("white") ? mp.GetPosY() + 1 : mp.GetPosY() - 1;
+                x2 = x == cp.GetXBoard() + 1 ? x - 2 : x + 2;
+
+                if (PositionOnBoard(x, y) && GetPosition(x, y) == null)
+                    mp.SetCoords(x, y);
+
+                else if (PositionOnBoard(x2, y) && GetPosition(x2, y) == null)
+                    mp.SetCoords(x2, y);
+
+                else if (PositionOnBoard(cp.GetXBoard(), y) && GetPosition(cp.GetXBoard(), y) == null)
+                    mp.SetCoords(cp.GetXBoard(), y);
+
                 else
-                    mp.SetCoords(mp.GetPosX(), mp.GetPosY() - 1);
+                    mp.SetCoords(cp.GetXBoard(), cp.GetYBoard());
             }
         }
     }
 
     private void Promotion(ChessBase cp)
     {
-        if(cp.name == "white_pawn")
+        if (cp.name == "white_pawn")
         {
-            if(cp.GetYBoard() == 7)
+            if (cp.GetYBoard() == 7)
             {
                 promotionUI.SetActive(true);
                 promotionUI.transform.GetChild(1).gameObject.SetActive(true);
@@ -795,7 +806,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
             }
         }
 
-        else if(cp.name == "black_pawn")
+        else if (cp.name == "black_pawn")
         {
             if (cp.GetYBoard() == 0)
             {
@@ -808,18 +819,13 @@ public class ChessManager : MonoBehaviourPunCallbacks
         cpp = cp;
     }
 
-    public void ClosePromotionUI()
-    {
-        promotionUI.SetActive(false);
-    }
-
     public void ExecutePromotion(int cp)
     {
         UpdateArr(cpp);
         GameManager.Inst.RemoveAttackings(cpp);
         Destroy(cpp.gameObject);
-        
-        if(cpp.GetPlayer() == "white")
+
+        if (cpp.GetPlayer() == "white")
         {
             Creat(white[cp], cpp.GetXBoard(), cpp.GetYBoard());
         }
@@ -828,7 +834,5 @@ public class ChessManager : MonoBehaviourPunCallbacks
         {
             Creat(black[cp], cpp.GetXBoard(), cpp.GetYBoard());
         }
-
-        promotionUI.SetActive(false);
     }
 }

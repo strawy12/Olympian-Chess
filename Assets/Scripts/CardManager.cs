@@ -671,7 +671,7 @@ public class CardManager : MonoBehaviourPunCallbacks
             var targetCard = targetCards[i];
             targetCard.gameObject.SetActive(true);
             targetCard.originPRS = originCardPRSs[i];
-            targetCard.MoveTransform(targetCard.originPRS, true, false, 0.7f);
+            targetCard.MoveTransform(targetCard.originPRS, true, false, 0.3f);
             yield return new WaitForSeconds(0.05f);
         }
     }
@@ -1023,7 +1023,7 @@ public class CardManager : MonoBehaviourPunCallbacks
         for (int i = 0; i < targetCards.Count; i++)
         {
             if (targetCards[i] == selectCard) continue;
-            targetCards[i].MoveTransform(new PRS(targetPos, targetRot, Vector3.zero), true, isSend, 0.7f);
+            targetCards[i].MoveTransform(new PRS(targetPos, targetRot, Vector3.zero), true, isSend, 0.3f);
             yield return new WaitForSeconds(0.05f);
         }
         isShow = true;
