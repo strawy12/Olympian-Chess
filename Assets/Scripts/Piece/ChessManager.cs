@@ -675,17 +675,13 @@ public class ChessManager : MonoBehaviourPunCallbacks
             if (isKing && KingAndRook("white", true))
             {
                 if (!CheckMate("white"))
-                {
                     return true;
-                }
             }
 
             else if (!isKing && KingAndRook("white", false))
             {
                 if (!CheckMate("white"))
-                {
                     return true;
-                }
             }
         }
 
@@ -694,17 +690,13 @@ public class ChessManager : MonoBehaviourPunCallbacks
             if (isKing && KingAndRook("black", true))
             {
                 if (!CheckMate("black"))
-                {
                     return true;
-                }
             }
 
             else if (!isKing && KingAndRook("black", false))
             {
                 if (!CheckMate("black"))
-                {
                     return true;
-                }
             }
         }
         return false;
@@ -769,7 +761,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
     private void EnPassant(ChessBase cp, MovePlate mp)
     {
         int x, y;
-        int x2, y2;
+        int x2;
 
         if (cp.name.Contains("pawn") && cp.GetMoveCnt() == 2 && mp.GetChessPiece().name.Contains("pawn"))
         {

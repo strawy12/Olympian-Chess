@@ -54,6 +54,7 @@ public class Traveler : SkillBase
         ChessManager.Inst.SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
         cp.SetXBoard(matrixX);
         cp.SetYBoard(matrixY);
+        cp.SetCoords();
         cp.PlusMoveCnt();
         ChessManager.Inst.SetPosition(cp);
         cp.SetCoordsAnimation();
