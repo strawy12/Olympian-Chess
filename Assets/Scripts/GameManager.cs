@@ -159,9 +159,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void LeavingRoom()
     {
-        NetworkManager.Inst.LeaveRoom();
+        photonView.RPC("GoLobby", RpcTarget.MasterClient);
     }
-
 
 
     public void DestroyMovePlates()

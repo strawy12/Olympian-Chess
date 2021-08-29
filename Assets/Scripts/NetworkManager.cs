@@ -15,7 +15,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     private string roomname;
     private string user_ID;
-    private string player = "white";
+    private string player = "qwer";
     private string SAVE_PATH;
     private int nicknameCnt = 0;
 
@@ -49,14 +49,17 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
         if (nms.Length != 1)
         {
-            for (int i = 1; i < nms.Length; i++)
+            for(int i = 0; i < nms.Length; i++)
             {
-                Destroy(nms[i].gameObject);
+                if(nms[i] == this)
+                {
+                    Destroy(nms[i].gameObject);
+                }
             }
         }
-        DontDestroyOnLoad(nms[0].gameObject);
+        DontDestroyOnLoad(gameObject);
 
-
+        Debug.Log("wdaad");
 
         PhotonNetwork.SendRate = 60;
         PhotonNetwork.SerializationRate = 30;
@@ -164,12 +167,16 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public void LeaveRoom()
     {
         PhotonNetwork.LeaveRoom();
-        SceneManager.LoadScene("Lobby");
     }
 
     public override void OnCreatedRoom()
     {
         print("방 만들기 완료");
+    }
+
+    public override void OnLeftRoom()
+    {
+        
     }
 
     public override void OnJoinedRoom()
@@ -201,6 +208,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
+        PhotonNetwork.LoadLevel("Lobby");
         LeaveRoom();
     }
     public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -245,6 +253,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     private void SetPlayer(int i)
     {
+        Debug.Log("실러");
+
         if (i == 0)
         {
             player = "white";
@@ -260,6 +270,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void SetPlayer(string player)
     {
+        Debug.Log("실러");
         this.player = player;
     }
     private IEnumerator Startgame()

@@ -35,6 +35,7 @@ public class WarBuff : SkillBase
         {
             cnt++;
             TurnManager.Instance.ButtonActive();
+            ChessManager.Inst.SetIsMoving(false);
         }
     }
 
@@ -44,6 +45,7 @@ public class WarBuff : SkillBase
         {
             cnt++;
             TurnManager.Instance.ButtonActive();
+            ChessManager.Inst.SetIsMoving(false);
             return;
         }
         else
