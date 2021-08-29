@@ -235,6 +235,7 @@ public class TurnManager : MonoBehaviourPunCallbacks
         }
         GameManager.Inst.DestroyMovePlates();
         ChessManager.Inst.FalseIsMoving();
+        ChessManager.Inst.SetIsMoving(false);
         //ChangeButtonTransform();
         ButtonInactive();
 
@@ -248,7 +249,6 @@ public class TurnManager : MonoBehaviourPunCallbacks
         GameManager.Inst.SetUsingSkill(false);
         GameManager.Inst.SetMoving(true);
         GameManager.Inst.SetIsStop(false);
-
 
         StartCoroutine(StartTurnCo());
         //WinOrLose();

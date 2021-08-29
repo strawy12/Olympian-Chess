@@ -34,7 +34,7 @@ public class WarBuff : SkillBase
         if (selectPiece.GetIsMoving())
         {
             cnt++;
-            TurnManager.Instance.ButtonInactive();
+            TurnManager.Instance.ButtonActive();
         }
     }
 
@@ -43,7 +43,7 @@ public class WarBuff : SkillBase
         if (cnt == 0)
         {
             cnt++;
-            TurnManager.Instance.ButtonInactive();
+            TurnManager.Instance.ButtonActive();
             return;
         }
         else

@@ -19,12 +19,12 @@ public class Offering : SkillBase
             CardManager.Inst.SetisBreak(true);
             return;
         }
+        ChessManager.Inst.DestroyChessPiece(selectPiece.GetChessData());
 
         int rand;
         rand = Random.Range(0, targetCards.Count);
         CardManager.Inst.RemoveCard(rand, targetCards);
-        RemoveSkill();
-        photonView.RPC("DestroySkill", Photon.Pun.RpcTarget.AllBuffered);
+        RPC_DestroySkill();
     }
 
     private void RemoveSkill()
@@ -33,6 +33,5 @@ public class Offering : SkillBase
         {
             selectPiece.RemoveChosenSkill(this);
         }
-        Destroy(selectPiece.gameObject);
     }
 }

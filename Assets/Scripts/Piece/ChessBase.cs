@@ -78,7 +78,8 @@ public class ChessBase : MonoBehaviourPunCallbacks
 
     public bool CheckClickChessPiece()
     {
-        if (TurnManager.Instance.GetIsActive()) return true;
+        if (ChessManager.Inst.GetIsMoving()) return true;
+        //if (TurnManager.Instance.GetIsActive()) return true;
         if (TurnManager.Instance.isLoading) return true;
         if (SkillManager.Inst.CheckDontClickPiece(this)) return true;
         if (GameManager.Inst.IsGameOver()) return true;

@@ -55,6 +55,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
     [SerializeField] private WaitForSeconds delay = new WaitForSeconds(0.5f);
 
     private bool isLoading;
+    private bool isMoving;
 
     private void Update()
     {
@@ -505,6 +506,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
         cp.SetCoordsAnimation();
         TurnManager.Instance.ButtonActive();
         GameManager.Inst.DestroyMovePlates();
+        isMoving = true;
         CastlingKing(cp);
         Promotion(cp);
     }
@@ -793,5 +795,14 @@ public class ChessManager : MonoBehaviourPunCallbacks
         AddArr(obj.GetComponent<ChessBase>());
         if (NetworkManager.Inst.GetPlayer() == "white") return;
         obj.transform.Rotate(0f, 0f, 180f);
+    }
+
+    public void SetIsMoving(bool isTrue)
+    {
+        isMoving = isTrue;
+    }
+    public bool GetIsMoving()
+    {
+        return isMoving;
     }
 }
