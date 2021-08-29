@@ -45,7 +45,7 @@ public class GiveBirth : SkillBase
         if (selectPiece != null)
         {
             selectPiece.RemoveChosenSkill(this);
-            selectPiece.SetAttackSelecting(false, true);
+            selectPiece.SetAttackSelecting(false);
         }
        
         RPC_DestroySkill();

@@ -222,6 +222,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
 
     public void UpdateArr(ChessBase chessPiece)
     {
+        Debug.Log(cpp);
         ChessData chessData = chessPiece.GetChessData();
         string jsonData = NetworkManager.Inst.SaveDataToJson(chessData, false);
         photonView.RPC("UpdateArr_Pun", RpcTarget.All, jsonData);
@@ -425,28 +426,23 @@ public class ChessManager : MonoBehaviourPunCallbacks
     {
         if (cp == null) return;
         ChessData chessData = cp.GetChessData();
+        string jsonData = NetworkManager.Inst.SaveDataToJson(chessData, true);
+        photonView.RPC("SetPosition", RpcTarget.OthersBuffered, jsonData);
+
+
         int x = chessData.xBoard;
         int y = chessData.yBoard;
         position[x, y] = chessData;
-        //Debug.Log(x + "," + y + position[x, y].chessPiece);
 
-        SendPositionData(chessData);
-    }
-
-    private void SendPositionData(ChessData chessData)
-    {
-        string jsonData = NetworkManager.Inst.SaveDataToJson(chessData, true);
-        photonView.RPC("SetPositionData", RpcTarget.OthersBuffered, jsonData);
     }
 
     [PunRPC]
-    private void SetPositionData(string jsonData)
+    private void SetPosition(string jsonData)
     {
         ChessData chessData = NetworkManager.Inst.LoadDataFromJson<ChessData>(jsonData);
         int x = chessData.xBoard;
         int y = chessData.yBoard;
         position[x, y] = chessData;
-        //Debug.Log(x + "," + y + position[x, y].chessPiece);
     }
     #endregion
 
@@ -535,8 +531,6 @@ public class ChessManager : MonoBehaviourPunCallbacks
 
     public bool CheckMate(string player)
     {
-        Debug.Log("체크메이트");
-
         List<MovePlate> movePlates;
         string king = player == "black" ? "black_king" : "white_king";
         ChessBase[] cps = player == "black" ? playerWhite : playerBlack;
@@ -551,10 +545,17 @@ public class ChessManager : MonoBehaviourPunCallbacks
 
             for (int j = 0; j < movePlates.Count; j++)
             {
-                if (movePlates[j].GetChessPiece() == null) continue;
+                if (movePlates[j].GetChessPiece() == null)
+                {
+                    GameManager.Inst.DestroyMovePlates();
+                    continue;
+                }
 
                 if (movePlates[j].GetChessPiece().name.Contains(king))
+                {
+                    GameManager.Inst.DestroyMovePlates();
                     return true;
+                }
             }
 
             GameManager.Inst.DestroyMovePlates();
@@ -566,8 +567,6 @@ public class ChessManager : MonoBehaviourPunCallbacks
 
     public bool KingAndRook(string player, bool isKing)
     {
-        Debug.Log("킹과 룩 사이에 무엇이 있는가");
-
         if (player == "white" && isKing)
         {
             if (GetPosition(5, 0) == null && GetPosition(6, 0) == null)
@@ -576,9 +575,6 @@ public class ChessManager : MonoBehaviourPunCallbacks
 
         else if (player == "white" && !isKing)
         {
-            Debug.Log(GetPosition(1, 0) == null);
-            Debug.Log(GetPosition(2, 0) == null);
-            Debug.Log(GetPosition(3, 0) == null);
             if (GetPosition(1, 0) == null && GetPosition(2, 0) == null && GetPosition(3, 0) == null)
                 return true;
         }
@@ -600,7 +596,6 @@ public class ChessManager : MonoBehaviourPunCallbacks
 
     public bool CheckMovePlate(string player, int x, int y)
     {
-        Debug.Log("체크무브플레이트");
         List<MovePlate> movePlates;
         ChessBase[] chessPieces = player == "black" ? playerWhite : playerBlack;
         string king = player == "black" ? "black_king" : "white_king";
@@ -631,9 +626,6 @@ public class ChessManager : MonoBehaviourPunCallbacks
 
     public bool Castling(string player, int moveCnt, bool isKing)
     {
-        Debug.Log("캐슬링 판별");
-        //화이틑 
-
         if (player == "white" && moveCnt == 0)
         {
             if (isKing && KingAndRook(player, true))
@@ -704,8 +696,6 @@ public class ChessManager : MonoBehaviourPunCallbacks
 
     private void CastlingKing(ChessBase cp)
     {
-        Debug.Log("움직일 때 캐슬링");
-
         if (cp.name == "white_king")
         {
             if (cp.GetMoveCnt() == 1)
@@ -775,24 +765,33 @@ public class ChessManager : MonoBehaviourPunCallbacks
                 promotionUI.transform.GetChild(1).gameObject.SetActive(false);
             }
         }
-
         cpp = cp;
     }
 
     public void ExecutePromotion(int cp)
     {
-        UpdateArr(cpp);
+        ChessBase promotion;
 
         if (cpp.GetPlayer() == "white")
         {
-            Creat(white[cp], cpp.GetXBoard(), cpp.GetYBoard());
+            promotion = Creat(white[cp], cpp.GetXBoard(), cpp.GetYBoard());
         }
 
         else
         {
-            Creat(black[cp], cpp.GetXBoard(), cpp.GetYBoard());
+            promotion = Creat(black[cp], cpp.GetXBoard(), cpp.GetYBoard());
         }
 
         DestroyChessPiece(cpp.GetChessData());
+        photonView.RPC("ChangePiece", RpcTarget.AllBuffered, promotion.gameObject.GetPhotonView().ViewID);
+    }
+
+    [PunRPC]
+    private void ChangePiece(int num)
+    {
+        GameObject obj = PhotonView.Find(num).gameObject;
+        AddArr(obj.GetComponent<ChessBase>());
+        if (NetworkManager.Inst.GetPlayer() == "white") return;
+        obj.transform.Rotate(0f, 0f, 180f);
     }
 }

@@ -25,7 +25,7 @@ public class WarBuff : SkillBase
     {
         GameManager.Inst.SetMoving(true);
         GameManager.Inst.SetUsingSkill(true);
-        selectPiece.SetNoneAttack(true, true);
+        selectPiece.SetNoneAttack(true);
         GetOtherPieces();
         DontMoveOthercp(true);
 
