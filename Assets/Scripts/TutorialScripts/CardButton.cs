@@ -51,7 +51,6 @@ public class CardButton : MonoBehaviour
             image.sprite = unactiveSprite;
             hp_Card = cards[0];
             ShowCardAlignment();
-            //TutorialManager.Instance.is5StoryEnd = true;
         }
     }
 

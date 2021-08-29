@@ -85,6 +85,7 @@ public class Stroy : MonoBehaviour
             yield return new WaitForSeconds(speed);
         }
         TutorialManager.Instance.isTypingSound = false;
+        TutorialManager.Instance.isSpeedTypingSound = false;
         speed = 0.1f;
         isTyping_ing = false;
         isTyping = false;
@@ -112,7 +113,7 @@ public class Stroy : MonoBehaviour
 
     private void story3()
     {
-        //if (TutorialManager.Instance.blackPawn) return;
+       if (TutorialManager.Instance.blackPawn) return;
         TutorialManager.Instance.is3Story = true;
         TutorialManager.Instance.blackPawn = true;
 
@@ -170,11 +171,17 @@ public class Stroy : MonoBehaviour
                 }
 
             }
+            else if(index == 4)
+            {
+                if(!TutorialManager.Instance.card)
+                {
+                    index++;
+                }
+            }
             else if (index == 5)
             {
                 //천벌을 사용하면 deckClicked를 true로 바꿔주세용 화이팅!!
                 index++;
-                TutorialManager.Instance.card = false;
 
             }
             else if (index == 6)
@@ -203,6 +210,8 @@ public class Stroy : MonoBehaviour
         }
         else
         {
+            TutorialManager.Instance.isSpeedTypingSound = true;
+
             speed = 0.07f;
         }
 

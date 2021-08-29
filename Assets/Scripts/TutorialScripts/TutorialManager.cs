@@ -28,7 +28,10 @@ public class TutorialManager : MonoBehaviour
 
     [HideInInspector]
     public bool isTypingSound = false;
-    
+
+    [HideInInspector]
+    public bool isSpeedTypingSound = false;
+
     [HideInInspector]
     public bool is3Story = false;
 
