@@ -13,6 +13,7 @@ public class CardSelect : MonoBehaviour, IPointerClickHandler, IPointerDownHandl
     private bool isSelect;
     [SerializeField]
     private ScrollRect scroll;
+    private bool isDrag;
 
     void Awake()
     {
@@ -25,6 +26,8 @@ public class CardSelect : MonoBehaviour, IPointerClickHandler, IPointerDownHandl
     }
     public void OnPointerClick(PointerEventData eventData)
     {
+        if (isDrag) return;
+
         if(!DeckManager.Instance.GetIsChosen(cardNum))
         {
             Select();
@@ -54,12 +57,6 @@ public class CardSelect : MonoBehaviour, IPointerClickHandler, IPointerDownHandl
         transform.localScale = new Vector3(scale, scale, 1f);
     }
 
-
-    private void CardInfo()
-    {
-        Debug.Log(carditem.info);
-    }
-
     public Carditem GetCardItem()
     {
         return carditem;
@@ -67,17 +64,20 @@ public class CardSelect : MonoBehaviour, IPointerClickHandler, IPointerDownHandl
     public void OnBeginDrag(PointerEventData eventData)
     {
         scroll.OnBeginDrag(eventData);
+        isDrag = true;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
         DeckManager.Instance.Drag();
         scroll.OnDrag(eventData);
+        isDrag = true;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
         scroll.OnEndDrag(eventData);
+        isDrag = false;
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -88,6 +88,5 @@ public class CardSelect : MonoBehaviour, IPointerClickHandler, IPointerDownHandl
     public void OnPointerUp(PointerEventData eventData)
     {
         DeckManager.Instance.PointerUp();
-
     }
 }
