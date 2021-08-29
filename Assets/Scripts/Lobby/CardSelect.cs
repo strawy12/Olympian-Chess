@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CardSelect : MonoBehaviour, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler ,IBeginDragHandler, IDragHandler, IEndDragHandler
+public class CardSelect : MonoBehaviour, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     [SerializeField]
     private int cardNum;//이게 카드를 구분하는 고유 번호
@@ -13,6 +13,7 @@ public class CardSelect : MonoBehaviour, IPointerClickHandler, IPointerDownHandl
     private bool isSelect;
     [SerializeField]
     private ScrollRect scroll;
+    private bool isDrag;
 
     void Awake()
     {
@@ -25,7 +26,9 @@ public class CardSelect : MonoBehaviour, IPointerClickHandler, IPointerDownHandl
     }
     public void OnPointerClick(PointerEventData eventData)
     {
-        if(!DeckManager.Instance.GetIsChosen(cardNum))
+        if (isDrag) return;
+
+        if (!DeckManager.Instance.GetIsChosen(cardNum))
         {
             Select();
         }
@@ -54,12 +57,6 @@ public class CardSelect : MonoBehaviour, IPointerClickHandler, IPointerDownHandl
         transform.localScale = new Vector3(scale, scale, 1f);
     }
 
-
-    private void CardInfo()
-    {
-        Debug.Log(carditem.info);
-    }
-
     public Carditem GetCardItem()
     {
         return carditem;
@@ -67,27 +64,31 @@ public class CardSelect : MonoBehaviour, IPointerClickHandler, IPointerDownHandl
     public void OnBeginDrag(PointerEventData eventData)
     {
         scroll.OnBeginDrag(eventData);
+        isDrag = true;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
         DeckManager.Instance.Drag();
         scroll.OnDrag(eventData);
+        isDrag = true;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
         scroll.OnEndDrag(eventData);
+        isDrag = false;
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        DeckManager.Instance.PointerDown(this);
+        if (Input.GetMouseButtonDown(0))
+            DeckManager.Instance.PointerDown(this);
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        DeckManager.Instance.PointerUp();
-
+        if (Input.GetMouseButtonUp(0))
+            DeckManager.Instance.PointerUp();
     }
 }
