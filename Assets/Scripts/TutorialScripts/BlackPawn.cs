@@ -15,24 +15,14 @@ public class BlackPawn : MonoBehaviour
     bool once = true;
     void Update()
     {
-        //InstantiateYellow();
         Knight_();
     }
 
-    private void InstantiateYellow()
-    {
-        if (TutorialManager.Instance.isClicked && once)
-        {
-            Debug.Log("Move1");
-            once = false;
-            MV_M = Instantiate(movePlate_me, transform.position, Quaternion.identity);
-        }
-    }
     private void Knight_()
     {
         if (TutorialManager.Instance.is6Story)
         {
-            //MV_M = Instantiate(movePlate_me, transform.position, Quaternion.identity);
+            MV_M = Instantiate(movePlate_me, transform.position, Quaternion.identity);
             StartCoroutine(KnightMove());
             TutorialManager.Instance.is6Story = false;
 

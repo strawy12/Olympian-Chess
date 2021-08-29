@@ -13,14 +13,15 @@ public class RedMoveP22222 : MonoBehaviour
 
     private void OnMouseUp()
     {
+        Debug.Log("qweqwe");
         Ready();
     }
 
     private void Ready()
     {
-        wp.DestoryBP();
         wp.DestroyMV_O();
         wp.DestroyMV_M();
         StartCoroutine(wp.PositionMove());
+        wp.DestoryBP();
     }
 }

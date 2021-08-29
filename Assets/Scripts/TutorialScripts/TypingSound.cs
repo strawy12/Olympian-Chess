@@ -25,14 +25,14 @@ public class TypingSound : MonoBehaviour
         {
             if (_audioSource.mute) return;
             _audioSource.mute = true;
-            Debug.Log("음소거");
+            //Debug.Log("음소거");
         }
         else
         {
 
             if (_audioSource.mute == false) return;
             _audioSource.mute = false;
-            Debug.Log("재생");
+            //Debug.Log("재생");
         }
         
     }

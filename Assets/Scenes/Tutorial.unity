@@ -1552,6 +1552,8 @@ MonoBehaviour:
   isTypingSound_ing: 0
   isTypingSound: 0
   isSpeedTypingSound: 0
+  isFirst: 0
+  isSecond: 0
   is3Story: 0
   is5Story: 0
   is6Story: 0
@@ -2284,6 +2286,36 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &951390434
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 951390435}
+  m_Layer: 0
+  m_Name: ======[Cards]======
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &951390435
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 951390434}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1008492931
 GameObject:
   m_ObjectHideFlags: 0
@@ -2905,7 +2937,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movePlate_me: {fileID: 4507493580993485107, guid: df2737c117e275f4685e9fe49790d06d,
     type: 3}
-  movePlate_other: {fileID: 8741413462831854637, guid: 3934a4caa3d58e7419057524014be623,
+  movePlate_other: {fileID: 8741413462831854637, guid: 237f3d1117ff22744806e32eddce43af,
     type: 3}
   BP: {fileID: 2065084679}
 --- !u!1 &1201852546
@@ -3139,7 +3171,7 @@ Transform:
   - {fileID: 1259130852}
   - {fileID: 1577071163}
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1229129001
 GameObject:
@@ -3221,7 +3253,7 @@ Transform:
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1248058171
 GameObject:

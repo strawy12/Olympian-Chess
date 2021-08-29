@@ -91,15 +91,6 @@ public class Stroy : MonoBehaviour
         isTyping = false;
     }
 
-    //private void Sound()
-    //{
-    //    if(isTyping)
-    //    {
-    //        Debug.Log("ytpyip");
-    //        isTyping_ing = true;
-    //        if (isTyping_ing) return;
-    //        SoundManager.Instance.SoundPlay("typing", typingSound);
-
     #region 스토리진행
     private void story1()
     {
@@ -143,8 +134,9 @@ public class Stroy : MonoBehaviour
     private void story7()
     {
         if (TutorialManager.Instance.blackPawn2) return;
-        TutorialManager.Instance.blackPawn2 = true;
         TutorialManager.Instance.is7Story = true;
+        TutorialManager.Instance.blackPawn2 = true;
+
         StartCoroutine((TypingEffect(stroyText, story[6], speed)));
 
     }
@@ -214,7 +206,7 @@ public class Stroy : MonoBehaviour
             speed = 0.04f;
         }
 
-        Debug.Log(index);
+        //Debug.Log(index);
     }
     #endregion
 }

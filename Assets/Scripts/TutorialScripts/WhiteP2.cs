@@ -22,6 +22,7 @@ public class WhiteP2 : MonoBehaviour
             InstantiateMV_M();
             InstantiateMV_O();
             TutorialManager.Instance.is7Story = false;
+            TutorialManager.Instance.isSecond = true;
         }
     }
     private void InstantiateMV_M()

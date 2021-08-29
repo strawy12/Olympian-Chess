@@ -32,6 +32,13 @@ public class TutorialManager : MonoBehaviour
     [HideInInspector]
     public bool isSpeedTypingSound = false;
 
+    #region 빨간 무브플레이트 변수
+
+    public bool isFirst = false;
+    public bool isSecond = false;
+
+    #endregion
+
     [HideInInspector]
     public bool is3Story = false;
 

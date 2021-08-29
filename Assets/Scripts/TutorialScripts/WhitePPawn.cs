@@ -20,7 +20,8 @@ public class WhitePPawn : MonoBehaviour
         {
             InstantiateMV_M();
             InstantiateMV_O();
-            TutorialManager.Instance.is3Story = false; 
+            TutorialManager.Instance.is3Story = false;
+            TutorialManager.Instance.isFirst = true;
         }
     }
 
@@ -31,7 +32,8 @@ public class WhitePPawn : MonoBehaviour
 
     private void InstantiateMV_O()
     {
-        MV_O=Instantiate(movePlate_other);
+        //movePlate_other.SetActive(true);
+        MV_O = Instantiate(movePlate_other);
     }
 
     public void DestroyMV_M()
@@ -41,6 +43,7 @@ public class WhitePPawn : MonoBehaviour
 
     public void DestroyMV_O()
     {
+        //movePlate_other.SetActive(false);
         Destroy(MV_O);
     }
 
