@@ -118,7 +118,7 @@ public class Stroy : MonoBehaviour
     {
         if (TutorialManager.Instance.card) return;
         TutorialManager.Instance.card = true;
-
+        TutorialManager.Instance.is4Story = true;
         StartCoroutine((TypingEffect(stroyText, story[3], speed)));
     }
     private void story5()

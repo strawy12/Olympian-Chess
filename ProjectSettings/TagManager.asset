@@ -47,11 +47,11 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Card
-    uniqueID: 594765651
-    locked: 0
   - name: ChessPiece
     uniqueID: 3125683151
+    locked: 0
+  - name: Card
+    uniqueID: 594765651
     locked: 0
   - name: BackGround
     uniqueID: 1588600629
