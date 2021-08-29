@@ -32,7 +32,7 @@ public class BlackPawn : MonoBehaviour
     {
         if (TutorialManager.Instance.is6Story)
         {
-            MV_M = Instantiate(movePlate_me, transform.position, Quaternion.identity);
+            //MV_M = Instantiate(movePlate_me, transform.position, Quaternion.identity);
             StartCoroutine(KnightMove());
             TutorialManager.Instance.is6Story = false;
 
@@ -45,7 +45,7 @@ public class BlackPawn : MonoBehaviour
         Vector3 startPos = knight.transform.position;
         Vector3 endPos = new Vector3(1.02f, 1.02f, 0f);
 
-        TutorialManager.Instance.turnEnd = false;
+        TutorialManager.Instance.turnEnd = true;
         Destroy(MV_M);
 
         TutorialManager.Instance.MoveChessSound();

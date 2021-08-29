@@ -24,7 +24,6 @@ public class TutoButton : MonoBehaviour
         if (TutorialManager.Instance.is5Story)
         {
             ActiveButtono();
-
         }
     }
 
@@ -41,7 +40,7 @@ public class TutoButton : MonoBehaviour
     {
         if (allowClick)
         {
-            TutorialManager.Instance.turnEnd = true;
+            TutorialManager.Instance.clickturnBtn = true;
             TutorialManager.Instance.ButtonClickSound();
             image.sprite = unactiveSprite;
             //TutorialManager.Instance.is5StoryEnd = true;

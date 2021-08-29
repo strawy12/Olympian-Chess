@@ -13,18 +13,28 @@ public class TypingSound : MonoBehaviour
 
     void Update()
     {
-        if(TutorialManager.Instance.isTypingSound==false)
+        if (TutorialManager.Instance.isSpeedTypingSound)
+        {
+            _audioSource.pitch = 1.65f;
+        }
+        else
+        {
+            _audioSource.pitch = 1f;
+        }
+        if (TutorialManager.Instance.isTypingSound == false)
         {
             if (_audioSource.mute) return;
-            _audioSource.mute=true;
+            _audioSource.mute = true;
             Debug.Log("음소거");
         }
         else
         {
+
             if (_audioSource.mute == false) return;
             _audioSource.mute = false;
             Debug.Log("재생");
         }
+        
     }
 
     

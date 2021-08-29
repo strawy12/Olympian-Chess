@@ -28,15 +28,15 @@ public class TutorialManager : MonoBehaviour
 
     [HideInInspector]
     public bool isTypingSound = false;
-    
+
+    [HideInInspector]
+    public bool isSpeedTypingSound = false;
+
     [HideInInspector]
     public bool is3Story = false;
 
     [HideInInspector]
     public bool is5Story = false;
-
-    [HideInInspector]
-    public bool is4Story = false;
 
     [HideInInspector]
     public bool is6Story = false;
@@ -48,8 +48,8 @@ public class TutorialManager : MonoBehaviour
     public bool isClicked = false;
     [HideInInspector]
     public bool isUsed = false;
-    [HideInInspector]
     public bool turnEnd = true;
+    public bool clickturnBtn = false;
     public bool blackPawn = false;
     public bool blackPawn2 = false;
     public bool card = false;

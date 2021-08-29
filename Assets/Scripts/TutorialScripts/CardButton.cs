@@ -28,30 +28,13 @@ public class CardButton : MonoBehaviour
         StartCoroutine(DontShowCards());
     }
 
-    void Update()
-    {
-        if (TutorialManager.Instance.is4Story)
-        {
-            ActiveButtono();
-        }
-    }
-    private void ActiveButtono()
-    {
-        // 스프라ㅣ트 넣어도 오류나서 주석해놓음
-        //image.sprite = activeSprite;
-        TutorialManager.Instance.is4Story = false;
-        allowClick = true;
-
-    }
-
     public void isClickedActiveButton()
     {
-        if (allowClick)
+        if (TutorialManager.Instance.card)
         {
             image.sprite = unactiveSprite;
             hp_Card = cards[0];
             ShowCardAlignment();
-            //TutorialManager.Instance.is5StoryEnd = true;
         }
     }
 

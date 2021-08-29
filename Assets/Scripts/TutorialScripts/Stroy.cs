@@ -85,6 +85,7 @@ public class Stroy : MonoBehaviour
             yield return new WaitForSeconds(speed);
         }
         TutorialManager.Instance.isTypingSound = false;
+        TutorialManager.Instance.isSpeedTypingSound = false;
         speed = 0.1f;
         isTyping_ing = false;
         isTyping = false;
@@ -112,7 +113,7 @@ public class Stroy : MonoBehaviour
 
     private void story3()
     {
-        //if (TutorialManager.Instance.blackPawn) return;
+       if (TutorialManager.Instance.blackPawn) return;
         TutorialManager.Instance.is3Story = true;
         TutorialManager.Instance.blackPawn = true;
 
@@ -122,18 +123,17 @@ public class Stroy : MonoBehaviour
     {
         if (TutorialManager.Instance.card) return;
         TutorialManager.Instance.card = true;
-        TutorialManager.Instance.is4Story = true;
         StartCoroutine((TypingEffect(stroyText, story[3], speed)));
     }
     private void story5()
     {
-        if (TutorialManager.Instance.is5Story) return;
+        if (!TutorialManager.Instance.clickturnBtn) return;
+        TutorialManager.Instance.clickturnBtn = false;
         TutorialManager.Instance.is5Story = true;
         StartCoroutine((TypingEffect(stroyText, story[4], speed)));
     }
     private void story6()
     {
-
         if (!TutorialManager.Instance.turnEnd) return;
         TutorialManager.Instance.turnEnd = false;
         TutorialManager.Instance.is6Story = true;
@@ -142,7 +142,7 @@ public class Stroy : MonoBehaviour
     }
     private void story7()
     {
-        //if (TutorialManager.Instance.blackPawn2) return;
+        if (TutorialManager.Instance.blackPawn2) return;
         TutorialManager.Instance.blackPawn2 = true;
         TutorialManager.Instance.is7Story = true;
         StartCoroutine((TypingEffect(stroyText, story[6], speed)));
@@ -166,23 +166,30 @@ public class Stroy : MonoBehaviour
                 if (!TutorialManager.Instance.blackPawn)
                 {
                     index++;
-                    Debug.Log("ddd");
                 }
 
             }
+            else if(index == 4)
+            {
+                if(!TutorialManager.Instance.card)
+                {
+                    index++;
+                }
+            }
             else if (index == 5)
             {
-                //천벌을 사용하면 deckClicked를 true로 바꿔주세용 화이팅!!
-                index++;
-                TutorialManager.Instance.card = false;
+                if(TutorialManager.Instance.clickturnBtn)
+                {
+                    index++;
 
+                }
             }
             else if (index == 6)
             {
-                index++;
 
                 if (TutorialManager.Instance.turnEnd)
                 {
+                    index++;
                 }
             }
 
@@ -190,7 +197,6 @@ public class Stroy : MonoBehaviour
             {
                 if (!TutorialManager.Instance.blackPawn2)
                 {
-                    Debug.Log("7" + TutorialManager.Instance.blackPawn2);
                     index++;
                 }
             }
@@ -203,7 +209,9 @@ public class Stroy : MonoBehaviour
         }
         else
         {
-            speed = 0.07f;
+            TutorialManager.Instance.isSpeedTypingSound = true;
+
+            speed = 0.04f;
         }
 
         Debug.Log(index);
