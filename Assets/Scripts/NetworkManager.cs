@@ -4,6 +4,7 @@ using Photon.Realtime;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.IO;
+using System.Collections;
 
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
@@ -45,10 +46,17 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     private void Awake()
     {
         NetworkManager[] nms = FindObjectsOfType<NetworkManager>();
+
         if (nms.Length != 1)
         {
-            Destroy(gameObject);
+            for (int i = 1; i < nms.Length; i++)
+            {
+                Destroy(nms[i].gameObject);
+            }
         }
+        DontDestroyOnLoad(nms[0].gameObject);
+
+
 
         PhotonNetwork.SendRate = 60;
         PhotonNetwork.SerializationRate = 30;
@@ -59,7 +67,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         {
             Directory.CreateDirectory(SAVE_PATH);
         }
-        DontDestroyOnLoad(gameObject);
 
     }
 
@@ -203,9 +210,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             int i;
 
             i = Random.Range(0, 2);
-            photonView.RPC("SetPlayer", RpcTarget.AllBuffered, i);
-
-            PhotonNetwork.LoadLevel("Game");
+            SetPlayer(i);
+            StartCoroutine(Startgame());
         }
     }
 
@@ -237,28 +243,28 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         return obj;
     }
 
-    [PunRPC]
     private void SetPlayer(int i)
     {
-        Debug.Log(PhotonNetwork.LocalPlayer.NickName);
-        Debug.Log(PhotonNetwork.PlayerList.Length);
-        Debug.Log(PhotonNetwork.PlayerList[i].NickName);
-        Debug.Log(PhotonNetwork.PlayerList[0].NickName);
-        Debug.Log(PhotonNetwork.PlayerList[1].NickName);
-
-        //if (PhotonNetwork.PlayerList[i].NickName == PhotonNetwork.LocalPlayer.NickName)
-        //{
-        //    player = "white";
-        //}
-        //else
-        //{
-        //    player = "black";
-        //}
-        if (PhotonNetwork.IsMasterClient)
+        if (i == 0)
         {
             player = "white";
+            photonView.RPC("SetPlayer", RpcTarget.OthersBuffered, "black");
         }
-        else
+        else if (i == 1)
+        {
             player = "black";
+            photonView.RPC("SetPlayer", RpcTarget.OthersBuffered, "white");
+        }
+    }
+
+    [PunRPC]
+    private void SetPlayer(string player)
+    {
+        this.player = player;
+    }
+    private IEnumerator Startgame()
+    {
+        yield return new WaitForSeconds(5f);
+        PhotonNetwork.LoadLevel("Game");
     }
 }
