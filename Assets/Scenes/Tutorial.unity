@@ -1713,6 +1713,7 @@ MonoBehaviour:
   moveSound: {fileID: 8300000, guid: 9614bd20cc551634c8f90907592327b2, type: 3}
   deadSound: {fileID: 8300000, guid: be0282cca2b30a84484cbae9818b145d, type: 3}
   buttonClick: {fileID: 8300000, guid: b5a96ff68d47a474a9b1e7fff0bec7f3, type: 3}
+  isFadeOut: 0
   isTypingSound_ing: 0
   isTypingSound: 0
   is3Story: 0
@@ -1879,7 +1880,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: c11fad08e14843b4b818982af2662e3e, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 0.253
   m_Pitch: 0.9
   Loop: 0
@@ -1990,6 +1991,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d9685f91de51bc4b91a2323516b2406, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fadeInSeconds: 0.6
 --- !u!1 &837286219
 GameObject:
   m_ObjectHideFlags: 0
