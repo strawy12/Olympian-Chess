@@ -6,24 +6,22 @@ using UnityEngine.UI;
 
 public class Card_TuTo : MonoBehaviour
 {
-    private bool isClick = false;
     private bool isMyCardDrag = false;
+    private bool targeting = false;
     private float pointDownTime = 0f;
     private Vector3 localPosition;
-   [SerializeField] private GameObject cardInfo;
     [SerializeField]private GameObject targetPicker;
+    [SerializeField]private CardButton cardButton;
+    [SerializeField]private SpriteRenderer blackPiece;
+    [SerializeField]private SpriteRenderer cardIcon;
+    private SpriteRenderer spriteRenderer;
+
+    private void Start()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
     private void Update()
     {
-        if (isClick)
-        {
-            if (pointDownTime > 1f)
-            {
-                isMyCardDrag = true;
-            }
-
-            pointDownTime += Time.deltaTime;
-
-        }
 
         if(isMyCardDrag)
         {
@@ -34,7 +32,9 @@ public class Card_TuTo : MonoBehaviour
     {
         if(TutorialManager.Instance.card)
         {
-            isClick = true;
+            isMyCardDrag = true;
+            StartCoroutine(cardButton.DontShowCards());
+
         }
     }
 
@@ -42,9 +42,10 @@ public class Card_TuTo : MonoBehaviour
     {
         if (TutorialManager.Instance.card)
         {
-            isClick = false;
-            TutorialManager.Instance.card = false;
-
+            isMyCardDrag = false;
+            spriteRenderer.enabled = true;
+            StartCoroutine(cardButton.DontShowCards());
+            TryPutCard();
         }
     }
     public void TargetingChessPiece()
@@ -60,11 +61,13 @@ public class Card_TuTo : MonoBehaviour
                 {
                     localPosition = hit.collider.transform.position;
                     SpawnTargetPicker(true);
+                    targeting = true;
                 }
 
             }
             else
             {
+                targeting = false;
                 SpawnTargetPicker(false);
             }
         }
@@ -77,9 +80,42 @@ public class Card_TuTo : MonoBehaviour
     }
     private void CardDrag()
     {
-        TargetingChessPiece();
-        transform.DOMove(Utils.MousePos, 0.7f);
+        spriteRenderer.enabled = false;
+        cardIcon.enabled = true;
 
-        cardInfo.SetActive(false);
+        TargetingChessPiece();
+        transform.DOMove(Utils.MousePos, 0.1f);
+    }
+
+    private void TryPutCard()
+    {
+        if(targeting)
+        {
+            TutorialManager.Instance.card = false;
+            StartCoroutine(HP_SkillEffect());
+            spriteRenderer.enabled = false;
+            cardIcon.enabled = false;
+            targetPicker.SetActive(false);
+
+        }
+        else
+        {
+            transform.DOMove(new Vector2(2f, -4f), 0.3f);
+            transform.DORotateQuaternion(Utils.QI, 0.3f);
+            transform.DOScale(Vector3.zero, 0.3f);
+
+        }
+    }
+
+    private IEnumerator HP_SkillEffect()
+    {
+        while(!TutorialManager.Instance.blackPawn2)
+        {
+            blackPiece.material.color = new Color32(255, 228, 0, 0);
+            yield return new WaitForSeconds(0.2f);
+            blackPiece.material.color = new Color32(0, 0, 0, 0);
+            yield return new WaitForSeconds(0.2f);
+        }
+
     }
 }

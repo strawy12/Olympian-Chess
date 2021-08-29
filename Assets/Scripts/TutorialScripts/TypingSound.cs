@@ -15,7 +15,7 @@ public class TypingSound : MonoBehaviour
     {
         if (TutorialManager.Instance.isSpeedTypingSound)
         {
-            _audioSource.pitch = 1.3f;
+            _audioSource.pitch = 1.65f;
         }
         else
         {
