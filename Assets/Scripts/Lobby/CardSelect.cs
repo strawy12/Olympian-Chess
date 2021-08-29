@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CardSelect : MonoBehaviour, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler ,IBeginDragHandler, IDragHandler, IEndDragHandler
+public class CardSelect : MonoBehaviour, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     [SerializeField]
     private int cardNum;//이게 카드를 구분하는 고유 번호
@@ -28,7 +28,7 @@ public class CardSelect : MonoBehaviour, IPointerClickHandler, IPointerDownHandl
     {
         if (isDrag) return;
 
-        if(!DeckManager.Instance.GetIsChosen(cardNum))
+        if (!DeckManager.Instance.GetIsChosen(cardNum))
         {
             Select();
         }
@@ -82,11 +82,13 @@ public class CardSelect : MonoBehaviour, IPointerClickHandler, IPointerDownHandl
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        DeckManager.Instance.PointerDown(this);
+        if (Input.GetMouseButtonDown(0))
+            DeckManager.Instance.PointerDown(this);
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        DeckManager.Instance.PointerUp();
+        if (Input.GetMouseButtonUp(0))
+            DeckManager.Instance.PointerUp();
     }
 }
