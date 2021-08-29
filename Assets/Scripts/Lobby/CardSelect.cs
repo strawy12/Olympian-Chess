@@ -26,12 +26,7 @@ public class CardSelect : MonoBehaviour, IPointerClickHandler, IPointerDownHandl
     }
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (isDrag) return;
 
-        if (!DeckManager.Instance.GetIsChosen(cardNum))
-        {
-            Select();
-        }
     }
 
     private void Select()
@@ -88,7 +83,13 @@ public class CardSelect : MonoBehaviour, IPointerClickHandler, IPointerDownHandl
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        if (Input.GetMouseButtonUp(0))
-            DeckManager.Instance.PointerUp();
+        DeckManager.Instance.PointerUp();
+
+        if (isDrag) return;
+
+        if (!DeckManager.Instance.GetIsChosen(cardNum) && Input.GetMouseButtonUp(0))
+        {
+            Select();
+        }
     }
 }
