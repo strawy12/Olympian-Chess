@@ -245,13 +245,20 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         Debug.Log(PhotonNetwork.PlayerList[i].NickName);
         Debug.Log(PhotonNetwork.PlayerList[0].NickName);
         Debug.Log(PhotonNetwork.PlayerList[1].NickName);
-        if (PhotonNetwork.PlayerList[i].NickName == PhotonNetwork.LocalPlayer.NickName)
+
+        //if (PhotonNetwork.PlayerList[i].NickName == PhotonNetwork.LocalPlayer.NickName)
+        //{
+        //    player = "white";
+        //}
+        //else
+        //{
+        //    player = "black";
+        //}
+        if (PhotonNetwork.IsMasterClient)
         {
             player = "white";
         }
         else
-        {
             player = "black";
-        }
     }
 }
