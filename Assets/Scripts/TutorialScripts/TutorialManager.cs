@@ -16,17 +16,10 @@ public class TutorialManager : MonoBehaviour
     [SerializeField]
     private AudioClip deadSound;
 
-    [Header("타이핑 사운드")]
-    [SerializeField]
-    private AudioClip typingSound;
-
     public bool isTypingSound_ing = false;
 
     public bool isTypingSound = false;
     
-    //[HideInInspector]
-    //public bool is2StoryEnd = false;
-
     [HideInInspector]
     public bool is3Story = false;
 
@@ -39,14 +32,8 @@ public class TutorialManager : MonoBehaviour
     [HideInInspector]
     public bool is6Story = false;
 
-    //[HideInInspector]
-    //public bool is6StoryEnd = false;
-
     [HideInInspector]
     public bool is7Story = false;
-
-    //[HideInInspector]
-    //public bool is8Stroy = false;
 
     [HideInInspector]
     public bool isClicked = false;
@@ -84,14 +71,9 @@ public class TutorialManager : MonoBehaviour
     #endregion
     void Start()
     {
-        TypingSound("qwe",typingSound);
         StartSoundPlay();
-    }
 
-    private void Update()
-    {
     }
-
     private void StartSoundPlay()
     {
         SoundManager.Instance.SoundPlay("StartSound", startSound);
@@ -107,30 +89,25 @@ public class TutorialManager : MonoBehaviour
         SoundManager.Instance.SoundPlay("DeadSound", deadSound);
     }
 
-    public void TypingSound()
-    {
-        SoundManager.Instance.TypingSound("TypingSound", typingSound);
-    }
-
-    public void TypingSound(string name, AudioClip clip)
-    {
-        //Debug.Log(name + "Sound");
-        GameObject go = new GameObject(name + "Sound");
-        AudioSource audioSource = go.AddComponent<AudioSource>();
-        audioSource.clip = clip;
-        if (isTypingSound)
-        {
-            isTypingSound_ing = true;
-            if (isTypingSound_ing) return;
-            audioSource.Play();
-            isTypingSound_ing = false;
+    //public void TypingSound(string name, AudioClip clip)
+    //{
+    //    //Debug.Log(name + "Sound");
+    //    GameObject go = new GameObject(name + "Sound");
+    //    AudioSource audioSource = go.AddComponent<AudioSource>();
+    //    audioSource.clip = clip;
+    //    if (isTypingSound)
+    //    {
+    //        isTypingSound_ing = true;
+    //        if (isTypingSound_ing) return;
+    //        audioSource.Play();
+    //        isTypingSound_ing = false;
 
 
-        }
-        else
-        {
-            Destroy(go);
-            isTypingSound_ing = false;
-        }
-    }
+    //    }
+    //    else
+    //    {
+    //        Destroy(go);
+    //        isTypingSound_ing = false;
+    //    }
+    //}
 }

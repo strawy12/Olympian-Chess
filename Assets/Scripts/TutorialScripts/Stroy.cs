@@ -67,6 +67,10 @@ public class Stroy : MonoBehaviour
             case 9:
                 story9();
                 break;
+
+            case 10:
+                Debug.Log("Æ©Åô¸®¾óÀ» ¿Ï·áÇÏ¼Ë½À´Ï´ç");
+                break;
         }
     }
 
@@ -108,7 +112,7 @@ public class Stroy : MonoBehaviour
 
     private void story3()
     {
-        if (TutorialManager.Instance.blackPawn) return;
+        //if (TutorialManager.Instance.blackPawn) return;
         TutorialManager.Instance.is3Story = true;
         TutorialManager.Instance.blackPawn = true;
 
@@ -138,8 +142,7 @@ public class Stroy : MonoBehaviour
     }
     private void story7()
     {
-        //Write conditional code
-        if (TutorialManager.Instance.blackPawn2) return;
+        //if (TutorialManager.Instance.blackPawn2) return;
         TutorialManager.Instance.blackPawn2 = true;
         TutorialManager.Instance.is7Story = true;
         StartCoroutine((TypingEffect(stroyText, story[6], speed)));
@@ -175,9 +178,10 @@ public class Stroy : MonoBehaviour
             }
             else if (index == 6)
             {
+                index++;
+
                 if (TutorialManager.Instance.turnEnd)
                 {
-                    index++;
                 }
             }
 
@@ -200,8 +204,6 @@ public class Stroy : MonoBehaviour
         {
             speed = 0.04f;
         }
-
-
 
         Debug.Log(index);
     }

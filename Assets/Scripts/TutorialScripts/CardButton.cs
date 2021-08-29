@@ -37,8 +37,8 @@ public class CardButton : MonoBehaviour
     }
     private void ActiveButtono()
     {
-
-        image.sprite = activeSprite;
+        // 스프라ㅣ트 넣어도 오류나서 주석해놓음
+        //image.sprite = activeSprite;
         TutorialManager.Instance.is4Story = false;
         allowClick = true;
 
