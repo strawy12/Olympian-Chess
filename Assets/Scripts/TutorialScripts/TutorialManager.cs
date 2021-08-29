@@ -16,8 +16,17 @@ public class TutorialManager : MonoBehaviour
     [SerializeField]
     private AudioClip deadSound;
 
+    [Header("버튼 눌렀을 때 사운드")]
+    [SerializeField]
+    private AudioClip buttonClick;
+
+    [HideInInspector]
+    public bool isFadeOut = false;
+
+    [HideInInspector]
     public bool isTypingSound_ing = false;
 
+    [HideInInspector]
     public bool isTypingSound = false;
     
     [HideInInspector]
@@ -89,25 +98,8 @@ public class TutorialManager : MonoBehaviour
         SoundManager.Instance.SoundPlay("DeadSound", deadSound);
     }
 
-    //public void TypingSound(string name, AudioClip clip)
-    //{
-    //    //Debug.Log(name + "Sound");
-    //    GameObject go = new GameObject(name + "Sound");
-    //    AudioSource audioSource = go.AddComponent<AudioSource>();
-    //    audioSource.clip = clip;
-    //    if (isTypingSound)
-    //    {
-    //        isTypingSound_ing = true;
-    //        if (isTypingSound_ing) return;
-    //        audioSource.Play();
-    //        isTypingSound_ing = false;
-
-
-    //    }
-    //    else
-    //    {
-    //        Destroy(go);
-    //        isTypingSound_ing = false;
-    //    }
-    //}
+    public void ButtonClickSound()
+    {
+        SoundManager.Instance.SoundPlay("buttonClick", buttonClick);
+    }
 }

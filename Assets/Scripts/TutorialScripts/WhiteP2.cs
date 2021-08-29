@@ -54,11 +54,23 @@ public class WhiteP2 : MonoBehaviour
 
     public IEnumerator PositionMove()
     {
-        Vector3 startPos = new Vector3(transform.position.x,transform.position.y,0f);
+        Vector3 startPos = transform.position;
         Vector3 endPos = new Vector3(0.336f,1.02f,0f);
 
+        //float distance = (endPos - startPos).magnitude;
+
+        //float t = 0f;
+
+        //while (t < 1f)
+        //{
+        //    t += Time.deltaTime / distance * 10f;
+
+        //    transform.position = Vector3.Lerp(startPos, endPos, t);
+        //    yield return null;
+        //}
         TutorialManager.Instance.MoveChessSound();
         transform.position = endPos;
         yield return null;
+        
     }
 }

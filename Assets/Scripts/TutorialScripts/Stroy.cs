@@ -154,6 +154,7 @@ public class Stroy : MonoBehaviour
     }
     private void story9()
     {
+        TutorialManager.Instance.isFadeOut = true;
         StartCoroutine((TypingEffect(stroyText, story[8], speed)));
     }
     private void OnMouseUp()
@@ -202,7 +203,7 @@ public class Stroy : MonoBehaviour
         }
         else
         {
-            speed = 0.04f;
+            speed = 0.07f;
         }
 
         Debug.Log(index);
