@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CardSelect : MonoBehaviour, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class CardSelect : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     [SerializeField]
     private int cardNum;//이게 카드를 구분하는 고유 번호
@@ -23,10 +23,6 @@ public class CardSelect : MonoBehaviour, IPointerClickHandler, IPointerDownHandl
     {
         image.sprite = carditem.sprite;
         gameObject.name = carditem.name;
-    }
-    public void OnPointerClick(PointerEventData eventData)
-    {
-
     }
 
     private void Select()
