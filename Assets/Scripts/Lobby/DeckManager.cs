@@ -265,11 +265,10 @@ public class DeckManager : MonoBehaviourPunCallbacks
         cardInfo.gameObject.SetActive(false);
     }
 
-    public void PointerDown(CardSelect cardSelect)
+    public void PointerDown(Carditem carditem)
     {
         isInfo = true;
-        this.cardSelect = cardSelect;
-        StartCoroutine(Info(cardSelect.GetCardItem()));
+        StartCoroutine(Info(carditem));
     }
 
     IEnumerator Info(Carditem carditem)

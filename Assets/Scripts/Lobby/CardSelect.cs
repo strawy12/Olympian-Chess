@@ -83,7 +83,7 @@ public class CardSelect : MonoBehaviour, IPointerClickHandler, IPointerDownHandl
     public void OnPointerDown(PointerEventData eventData)
     {
         if (Input.GetMouseButtonDown(0))
-            DeckManager.Instance.PointerDown(this);
+            DeckManager.Instance.PointerDown(GetCardItem());
     }
 
     public void OnPointerUp(PointerEventData eventData)
