@@ -5,8 +5,9 @@ using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
 using System.IO;
+using Photon.Pun;
 
-public class DeckManager : MonoBehaviour
+public class DeckManager : MonoBehaviourPunCallbacks
 {
     private static DeckManager instance = null;
     public static DeckManager Instance
@@ -243,6 +244,7 @@ public class DeckManager : MonoBehaviour
 
     private void OnApplicationQuit()
     {
+        user.player = "";
         NetworkManager.Inst.SaveDataToJson(user, true);
     }
 
@@ -285,6 +287,30 @@ public class DeckManager : MonoBehaviour
             cardInfo.gameObject.SetActive(false);
         }
     }
+    public void SetPlayer(int i)
+    {
+        Debug.Log("실러");
+
+        if (i == 0)
+        {
+            user.player = "white";
+            photonView.RPC("SetPlayer", RpcTarget.OthersBuffered, "black");
+        }
+        else if (i == 1)
+        {
+            user.player = "black";
+            photonView.RPC("SetPlayer", RpcTarget.OthersBuffered, "white");
+        }
+        NetworkManager.Inst.SaveDataToJson(user, true);
+    }
+
+    [PunRPC]
+    private void SetPlayer(string player)
+    {
+        Debug.Log("실러");
+        user.player = player;
+        NetworkManager.Inst.SaveDataToJson(user, true);
+    }
 }
 
 
@@ -294,6 +320,7 @@ public class User
 {
     public int gold;
     public string backGround;
+    public string player;
     public string[] myDecks;
     public bool[] myBackground;
 

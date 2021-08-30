@@ -335,7 +335,7 @@ public class CardManager : MonoBehaviourPunCallbacks
 
     public bool ComparisonPlayer(string player)
     {
-        if (NetworkManager.Inst.GetPlayer() == player)
+        if (GameManager.Inst.GetPlayer() == player)
         {
             return true;
         }
@@ -446,7 +446,7 @@ public class CardManager : MonoBehaviourPunCallbacks
 
         for (int i = 0; i < cds.Length; i++)
         {
-            if (cds[i].GetCarditem().player == NetworkManager.Inst.GetPlayer())
+            if (cds[i].GetCarditem().player == GameManager.Inst.GetPlayer())
             {
                 continue;
             }
@@ -862,7 +862,7 @@ public class CardManager : MonoBehaviourPunCallbacks
         cardObject.transform.SetParent(cards.transform);
         var card = cardObject.GetComponent<Card>();
         card.SetUp(usedCards[randomNum], true);
-        card.SetPlayer(NetworkManager.Inst.GetPlayer());
+        card.SetPlayer(GameManager.Inst.GetPlayer());
         SetIds(card);
         card.isFront = isMine;
         var targetCards = GetTargetCards();

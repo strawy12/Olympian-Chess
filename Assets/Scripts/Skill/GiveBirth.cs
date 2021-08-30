@@ -56,7 +56,7 @@ public class GiveBirth : SkillBase
     {
         GameObject obj = PhotonView.Find(num).gameObject;
         ChessManager.Inst.AddArr(obj.GetComponent<ChessBase>());
-        if (NetworkManager.Inst.GetPlayer() == "white") return;
+        if (GameManager.Inst.GetPlayer() == "white") return;
         obj.transform.Rotate(0f, 0f, 180f);
     }
 

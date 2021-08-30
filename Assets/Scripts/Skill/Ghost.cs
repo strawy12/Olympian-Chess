@@ -97,7 +97,7 @@ public class Ghost : SkillBase
     private void PutChesspiece()
     {
         ChessBase cp;
-        if (skillData.player != NetworkManager.Inst.GetPlayer())
+        if (skillData.player != GameManager.Inst.GetPlayer())
         {
             RemoveSkill();
             return;
@@ -145,7 +145,7 @@ public class Ghost : SkillBase
     {
         GameObject obj = PhotonView.Find(num).gameObject;
         ChessManager.Inst.AddArr(obj.GetComponent<ChessBase>());
-        if (NetworkManager.Inst.GetPlayer() == "white") return;
+        if (GameManager.Inst.GetPlayer() == "white") return;
         obj.transform.Rotate(0f, 0f, 180f);
     }
 

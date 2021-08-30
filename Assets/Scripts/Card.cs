@@ -82,7 +82,7 @@ public class Card : MonoBehaviourPunCallbacks
         if (enabled == false) return true;
         if (GameManager.Inst.IsGameOver()) return true;
         if (!TurnManager.Instance.GetCurrentPlayerTF()) return true;
-        if (NetworkManager.Inst.GetPlayer() != carditem.player) return true;
+        if (GameManager.Inst.GetPlayer() != carditem.player) return true;
 
 
         return false;

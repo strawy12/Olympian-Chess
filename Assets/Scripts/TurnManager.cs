@@ -79,7 +79,7 @@ public class TurnManager : MonoBehaviourPunCallbacks
         loadingDisplay.SetActive(true);
         uiObject.SetActive(false);
         SuperSkillManager.Inst.SetActive(false);
-        if (NetworkManager.Inst.GetPlayer() == "black")
+        if (GameManager.Inst.GetPlayer() == "black")
         {
             loadingDisplay.transform.Rotate(0f, 0f, 180f);
         }
@@ -144,7 +144,7 @@ public class TurnManager : MonoBehaviourPunCallbacks
 
     public bool GetCurrentPlayerTF()
     {
-        return currentPlayer == NetworkManager.Inst.GetPlayer();
+        return currentPlayer == GameManager.Inst.GetPlayer();
     }
 
     public bool CheckPlayer(string player)

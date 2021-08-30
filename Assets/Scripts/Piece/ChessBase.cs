@@ -84,7 +84,7 @@ public class ChessBase : MonoBehaviourPunCallbacks
         if (SkillManager.Inst.CheckDontClickPiece(this)) return true;
         if (GameManager.Inst.IsGameOver()) return true;
         if (!TurnManager.Instance.GetCurrentPlayerTF()) return true;
-        if (NetworkManager.Inst.GetPlayer() != player) return true;
+        if (GameManager.Inst.GetPlayer() != player) return true;
 
         return false;
     }
