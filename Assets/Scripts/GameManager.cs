@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     //List including attacking chesspiece
     private List<ChessBase> attackings = new List<ChessBase>();
 
-
+    private string player = "qwer";
 
     public bool gameOver = false;
     public bool isBacchrs = false;
@@ -62,6 +62,11 @@ public class GameManager : MonoBehaviourPunCallbacks
 
 
     WaitForSeconds delay2 = new WaitForSeconds(2);
+
+    private void Awake()
+    {
+        player = NetworkManager.Inst.LoadDataFromJson<User>().player;
+    }
     private void Start()
     {
         TurnManager.Instance.StartGame();
@@ -104,11 +109,14 @@ public class GameManager : MonoBehaviourPunCallbacks
             SceneManager.LoadScene("Game");
         }
     }
-
+    public string GetPlayer()
+    {
+        return player;
+    }
     public void SetCamera()
     {
         Canvas cv = FindObjectOfType<Canvas>();
-        if (NetworkManager.Inst.GetPlayer() == "white")
+        if (player == "white")
         {
             blackCamera.enabled = false;
             whiteCamera.enabled = true;
@@ -159,7 +167,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void LeavingRoom()
     {
-        photonView.RPC("GoLobby", RpcTarget.MasterClient);
+        PhotonNetwork.Disconnect();
     }
 
 
@@ -232,7 +240,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         ChessBase[] playerBlack = ChessManager.Inst.GetPlayerBlack();
         if (isMine)
         {
-            if (NetworkManager.Inst.GetPlayer() == "white")
+            if (player == "white")
             {
                 for (int i = 0; i < playerWhite.Length; i++)
                 {
@@ -254,7 +262,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         else
         {
 
-            if (NetworkManager.Inst.GetPlayer() != "white")
+            if (player != "white")
             {
                 for (int i = 0; i < playerWhite.Length; i++)
                 {
@@ -265,7 +273,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                     mp.GetComponent<SpriteRenderer>().material.SetColor("_Color", new Color32(255, 0, 0, 255));
                 }
             }
-            else if (NetworkManager.Inst.GetPlayer() != "black")
+            else if (player != "black")
             {
                 for (int i = 0; i < playerBlack.Length; i++)
                 {

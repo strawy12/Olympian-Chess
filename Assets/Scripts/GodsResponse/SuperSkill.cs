@@ -25,7 +25,7 @@ public class SuperSkill : MonoBehaviour
 
     private void OnMouseUp()
     {
-        if (NetworkManager.Inst.GetPlayer() != player) return;
+        if (GameManager.Inst.GetPlayer() != player) return;
         if(!isUsed)
         {
             SuperSkillManager.Inst.SpawnSkill(this);

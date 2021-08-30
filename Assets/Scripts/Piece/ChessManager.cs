@@ -77,7 +77,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
 
     public void SettingGame()
     {
-        if (NetworkManager.Inst.GetPlayer() == "white")
+        if (GameManager.Inst.GetPlayer() == "white")
         {
             //StartCoroutine(SpawnWhiteChessPiece());
 
@@ -125,7 +125,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
     {
         yield return new WaitForSeconds(2f);
         ChessBase[] cbs = FindObjectsOfType<ChessBase>();
-        string player = NetworkManager.Inst.GetPlayer() == "white" ? "black" : "white";
+        string player = GameManager.Inst.GetPlayer() == "white" ? "black" : "white";
         bool isBlack = false;
         if (player == "white")
         {
@@ -793,7 +793,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
     {
         GameObject obj = PhotonView.Find(num).gameObject;
         AddArr(obj.GetComponent<ChessBase>());
-        if (NetworkManager.Inst.GetPlayer() == "white") return;
+        if (GameManager.Inst.GetPlayer() == "white") return;
         obj.transform.Rotate(0f, 0f, 180f);
     }
 

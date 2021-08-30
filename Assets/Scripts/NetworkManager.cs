@@ -15,7 +15,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     private string roomname;
     private string user_ID;
-    private string player = "qwer";
     private string SAVE_PATH;
     private int nicknameCnt = 0;
 
@@ -51,7 +50,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         {
             for(int i = 0; i < nms.Length; i++)
             {
-                if(nms[i] == this)
+                if(nms[i] != this)
                 {
                     Destroy(nms[i].gameObject);
                 }
@@ -129,13 +128,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void DisConnect()
     {
-
         PhotonNetwork.Disconnect();
     }
 
     public override void OnDisconnected(DisconnectCause cause)
     {
         print("연결끊김");
+        SceneManager.LoadScene("Lobby");
     }
 
 
@@ -182,7 +181,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
-        Rename();
         print("방 참가 완료");
     }
 
@@ -208,8 +206,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
-        PhotonNetwork.LoadLevel("Lobby");
-        LeaveRoom();
+        DisConnect();
     }
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
@@ -218,7 +215,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             int i;
 
             i = Random.Range(0, 2);
-            SetPlayer(i);
+            DeckManager.Instance.SetPlayer(i);
             StartCoroutine(Startgame());
         }
     }
@@ -237,10 +234,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         CreateRoom();
     }
-    public string GetPlayer()
-    {
-        return player;
-    }
+
 
     public GameObject SpawnObject(GameObject gobj/*, string player*/)
     {
@@ -251,28 +245,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         return obj;
     }
 
-    private void SetPlayer(int i)
-    {
-        Debug.Log("실러");
 
-        if (i == 0)
-        {
-            player = "white";
-            photonView.RPC("SetPlayer", RpcTarget.OthersBuffered, "black");
-        }
-        else if (i == 1)
-        {
-            player = "black";
-            photonView.RPC("SetPlayer", RpcTarget.OthersBuffered, "white");
-        }
-    }
-
-    [PunRPC]
-    private void SetPlayer(string player)
-    {
-        Debug.Log("실러");
-        this.player = player;
-    }
     private IEnumerator Startgame()
     {
         yield return new WaitForSeconds(5f);

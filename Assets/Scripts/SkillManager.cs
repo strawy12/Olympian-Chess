@@ -364,7 +364,7 @@ public class SkillManager : MonoBehaviourPunCallbacks
         SkillBase sb = CheckSkill(card).GetComponent<SkillBase>();
         if (sb == null) return null;
 
-        sb.SetPalyer(NetworkManager.Inst.GetPlayer());
+        sb.SetPalyer(GameManager.Inst.GetPlayer());
         sb.SetName(card.carditem.name);
         SetIds(sb);
         selectingSkill = sb;
