@@ -30,6 +30,7 @@ public class Stroy : MonoBehaviour
 
     private void StartStory(int num)
     {
+        Debug.Log(num);
         switch (num)
         {
             case 1:

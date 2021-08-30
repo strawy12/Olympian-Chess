@@ -27,7 +27,6 @@ public class FadeInImage : MonoBehaviour
         {
             t += 0.05f;
             color.a = t;
-            Debug.Log(t);
         }
     }
 }

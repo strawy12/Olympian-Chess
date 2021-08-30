@@ -30,8 +30,11 @@ public class CardButton : MonoBehaviour
 
     public void isClickedActiveButton()
     {
+        Debug.Log("½Ê");
         if (TutorialManager.Instance.card)
         {
+            Debug.Log("½Ê¾Ë");
+
             image.sprite = unactiveSprite;
             hp_Card = cards[0];
             ShowCardAlignment();

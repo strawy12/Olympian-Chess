@@ -16,6 +16,8 @@ public class RedMovePlate : MonoBehaviour
 
     private void OnMouseUp()
     {
+        Debug.Log("´­·Á½á");
+
         if (TutorialManager.Instance.isFirst)
         {
             ReadyFirst();
