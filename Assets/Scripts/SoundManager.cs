@@ -16,7 +16,7 @@ public class SoundManager : MonoBehaviour
                 _instance = FindObjectOfType<SoundManager>();
                 if (_instance == null)
                 {
-                    _instance = new GameObject("===[ SoundManager ]===").AddComponent<SoundManager>();
+                    _instance = new GameObject("SoundManager").AddComponent<SoundManager>();
                 }
             }
             return _instance;
@@ -25,33 +25,37 @@ public class SoundManager : MonoBehaviour
 
     #endregion
 
-    public enum SoundType
+    public void SoundPlay(string name,AudioClip clip)
     {
-        ChessDie1,
-        ChessDie2,
-        ChessDie3,
-        Deck,
-        EndGame,
-        StartGame,
-        ChessDrop,
+        //Debug.Log(name + "Sound");
+        GameObject go = new GameObject(name + "Sound");
+        AudioSource audioSource = go.AddComponent<AudioSource>();
+        audioSource.clip = clip;
+        audioSource.Play();
+
+        Destroy(go, clip.length);
     }
-    //public int AddSound(SoundType st)
-    //{
-    //    switch (st)
-    //    {
-    //        case SoundType.Deck:
-    //            if (false == soundDic.ContainsKey(st))
-    //            {
 
-    //            }
-    //        default:
-    //            Debug.Log("아직 연결하지 않은 사운드를 불렀어!!");
-    //            break;
-    //    }
+    public void TypingSound(string name, AudioClip clip)
+    {
+        //Debug.Log(name + "Sound");
+        GameObject go = new GameObject(name + "Sound");
+        AudioSource audioSource = go.AddComponent<AudioSource>();
+        audioSource.clip = clip;
+        Debug.Log(TutorialManager.Instance.isTypingSound);
+        if(TutorialManager.Instance.isTypingSound)
+        {
+            TutorialManager.Instance.isTypingSound_ing = true;
+            if (TutorialManager.Instance.isTypingSound_ing) return;
+            audioSource.Play();
+            TutorialManager.Instance.isTypingSound_ing = false;
 
-    //    GameObject go = Instantiate<GameObject>(soundDic[st]);
-    //    return 0;
-    //}
 
-    private static Dictionary<SoundType, GameObject> soundDic = new Dictionary<SoundType, GameObject>();
+        }
+        else
+        {
+            Destroy(go);
+            TutorialManager.Instance.isTypingSound_ing = false;
+        }
+    }
 }
