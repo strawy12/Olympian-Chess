@@ -48,6 +48,7 @@ public class DeckManager : MonoBehaviourPunCallbacks
     private Image cardInfo;
     private Text messageText;
     private Text cardInfoText;
+    private Text cardNameText;
     private bool isDrag = false;
     private float timer = 0f;
 
@@ -67,8 +68,9 @@ public class DeckManager : MonoBehaviourPunCallbacks
     {
         ChangeCard();
         SettingMyDeck();
-        messageText = message.gameObject.GetComponentInChildren<Text>();
-        cardInfoText = cardInfo.gameObject.GetComponentInChildren<Text>();
+        messageText = message.gameObject.GetComponent<Text>();
+        cardInfoText = cardInfo.transform.GetChild(0).GetComponent<Text>();
+        cardNameText = cardInfo.transform.GetChild(1).GetComponent<Text>();
     }
 
 
@@ -279,7 +281,8 @@ public class DeckManager : MonoBehaviourPunCallbacks
         if (isInfo && !isDrag)
         {
             cardInfo.gameObject.SetActive(true);
-            cardInfoText.text = carditem.info;
+            cardInfoText.text = carditem.detail;
+            cardNameText.text = carditem.name;
         }
         if (!isInfo)
         {

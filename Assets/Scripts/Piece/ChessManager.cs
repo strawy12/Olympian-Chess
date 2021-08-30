@@ -727,6 +727,8 @@ public class ChessManager : MonoBehaviourPunCallbacks
         {
             if (mp.GetPosX() == cp.GetXBoard() + 1 || mp.GetPosX() == cp.GetXBoard() - 1)
             {
+                if (mp.GetPosY() != cp.GetYBoard()) return;
+
                 x = mp.GetPosX();
                 y = cp.name.Contains("white") ? mp.GetPosY() + 1 : mp.GetPosY() - 1;
                 x2 = x == cp.GetXBoard() + 1 ? x - 2 : x + 2;

@@ -11,8 +11,8 @@ public class Carditem
     public string god;
     public Sprite sprite;
     public Color color;
-    [TextArea]
-    public string info;
+    [TextArea] public string info;
+    [TextArea] public string detail;
     public int ID;
     public string player;
 }
