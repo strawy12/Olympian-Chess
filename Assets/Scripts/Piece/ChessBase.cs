@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using System;
 
 [System.Serializable]
 public class ChessData
@@ -104,15 +105,7 @@ public class ChessBase : MonoBehaviourPunCallbacks
     }
     public SkillData CheckSkillList(string name)
     {
-        for (int i = 0; i < chessData.chosenSkill.Count; i++)
-        {
-            if (chessData.chosenSkill[i].name == name)
-            {
-                return chessData.chosenSkill[i];
-            }
-        }
-
-        return null;
+        return chessData.chosenSkill.Find(x => x.name == name);
     }
 
     public List<SkillBase> GetSkillList(string name)
@@ -147,13 +140,11 @@ public class ChessBase : MonoBehaviourPunCallbacks
     }
     public void AddChosenSkill(SkillBase skill, bool isSend = true)
     {
-        for (int i = 0; i < chessData.chosenSkill.Count; i++)
+        if (Array.Exists(chessData.chosenSkill.ToArray(), x => x.ID == skill.GetID()))
         {
-            if (chessData.chosenSkill[i].ID == skill.GetID())
-            {
-                return;
-            }
+            return;
         }
+
         chessData.chosenSkill.Add(skill.GetSkillData());
 
         if (isSend)
@@ -164,15 +155,10 @@ public class ChessBase : MonoBehaviourPunCallbacks
 
     public void RemoveChosenSkill(SkillBase skill, bool isSend = false)
     {
-        for (int i = 0; i < chessData.chosenSkill.Count; i++)
-        {
-            if (chessData.chosenSkill[i].ID == skill.GetID())
-            {
-                chessData.chosenSkill.RemoveAt(i);
-            }
-        }
+        SkillData sd = chessData.chosenSkill.Find(x => x.ID == skill.GetID());
+        chessData.chosenSkill.Remove(sd);
 
-        if(isSend)
+        if (isSend)
         {
             SendChessData();
         }
