@@ -33,7 +33,7 @@ public class LobbyManager : MonoBehaviour
     {
         backs = Resources.LoadAll<Sprite>("Images/lobbychess");
         longBacks = Resources.LoadAll<Sprite>("Images/ingameBackground");
-        
+
         FirstSetting();
 
         UpdateUI();
@@ -68,14 +68,7 @@ public class LobbyManager : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.A))
-        {
-            gold = DeckManager.Instance.GetGold();
-            gold += 1000;
-            DeckManager.Instance.SetGold(gold);
-            UpdateUI();
-        }
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             Application.Quit();
         }
@@ -98,7 +91,7 @@ public class LobbyManager : MonoBehaviour
             BGbutton.image.color = Color.white;
         }
 
-        if(user.backGround != num)
+        if (user.backGround != num)
         {
             checkButton.transform.GetChild(0).gameObject.SetActive(false);
         }
@@ -125,7 +118,7 @@ public class LobbyManager : MonoBehaviour
             StartCoroutine(DeckManager.Instance.Message("카드가 10장보다 부족합니다"));
             return;
         }
-        if(game.name.Contains("Match"))
+        if (game.name.Contains("Match"))
         {
             NetworkManager.Inst.JoinRandomRoom();
         }
@@ -178,8 +171,11 @@ public class LobbyManager : MonoBehaviour
         else
         {
             BGI.sprite = longBacks[user.backGround];
+            num = user.backGround;
+            SetBackGround();
         }
 
         user.myBackground[0] = true;
+        isBGBought = user.myBackground;
     }
 }
