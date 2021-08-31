@@ -126,13 +126,11 @@ public class SkillManager : MonoBehaviourPunCallbacks
         }
         else
         {
-            for (int i = 0; i < dontClickPiece.Count; i++)
+            if(Array.Exists(dontClickPiece.ToArray(), x => x.ID == cp.GetChessData().ID))
             {
-                if (dontClickPiece[i].ID == cp.GetChessData().ID)
-                {
-                    return;
-                }
+                return;
             }
+
             dontClickPiece.Add(cp.GetChessData());
         }
 
@@ -142,13 +140,12 @@ public class SkillManager : MonoBehaviourPunCallbacks
     private void AddDontClickPiece(string jsonData)
     {
         ChessData chessData = NetworkManager.Inst.LoadDataFromJson<ChessData>(jsonData);
-        for (int i = 0; i < dontClickPiece.Count; i++)
+
+        if (Array.Exists(dontClickPiece.ToArray(), x => x.ID == chessData.ID))
         {
-            if (dontClickPiece[i].ID == chessData.ID)
-            {
-                return;
-            }
+            return;
         }
+
         dontClickPiece.Add(chessData);
     }
 
@@ -163,13 +160,8 @@ public class SkillManager : MonoBehaviourPunCallbacks
         }
         else
         {
-            for (int i = 0; i < dontClickPiece.Count; i++)
-            {
-                if (dontClickPiece[i].ID == cp.GetChessData().ID)
-                {
-                    dontClickPiece.RemoveAt(i);
-                }
-            }
+            ChessData cd = dontClickPiece.Find(x => x.ID == cp.GetID());
+            dontClickPiece.Remove(cd);
         }
     }
 
@@ -178,13 +170,8 @@ public class SkillManager : MonoBehaviourPunCallbacks
     {
         ChessData chessData = NetworkManager.Inst.LoadDataFromJson<ChessData>(jsonData);
 
-        for (int i = 0; i < dontClickPiece.Count; i++)
-        {
-            if (dontClickPiece[i].ID == chessData.ID)
-            {
-                dontClickPiece.RemoveAt(i);
-            }
-        }
+        ChessData cd = dontClickPiece.Find(x => x.ID == chessData.ID);
+        dontClickPiece.Remove(cd);
     }
 
     public void AddGodPieces(ChessBase cp)
@@ -199,13 +186,12 @@ public class SkillManager : MonoBehaviourPunCallbacks
     private void AddGodPieces(string jsonData)
     {
         ChessData chessData = NetworkManager.Inst.LoadDataFromJson<ChessData>(jsonData);
-        for (int i = 0; i < godPieces.Count; i++)
+
+        if (Array.Exists(godPieces.ToArray(), x => x.ID == chessData.ID))
         {
-            if (godPieces[i].ID == chessData.ID)
-            {
-                return;
-            }
+            return;
         }
+
         godPieces.Add(chessData);
     }
 
@@ -220,14 +206,8 @@ public class SkillManager : MonoBehaviourPunCallbacks
     {
         ChessData chessData = NetworkManager.Inst.LoadDataFromJson<ChessData>(jsonData);
 
-        for (int i = 0; i < godPieces.Count; i++)
-        {
-            if (godPieces[i].ID == chessData.ID)
-            {
-                godPieces.RemoveAt(i);
-
-            }
-        }
+        ChessData cd = godPieces.Find(x => x.ID == chessData.ID);
+        dontClickPiece.Remove(cd);
     }
 
     public List<ChessData> GetGodPieces()
@@ -238,21 +218,19 @@ public class SkillManager : MonoBehaviourPunCallbacks
     public void CheckSkillCancel(string name)
     {
         if (CardManager.Inst.GetSelectCard() == null) return;
-        string[] names = name.Split(',');
 
-        for (int i = 0; i < names.Length; i++)
+        var skillList = GetSkillList(name);
+
+
+        for (int i = 0; i < skillList.Count; i++)
         {
-            if (CardManager.Inst.GetSelectCard().name == names[i])
+            if (CardManager.Inst.GetSelectCard().name == skillList[i].GetName())
             {
                 CardManager.Inst.GetSelectCard().SetActive(true);
-                if (GetSkillList(names[i]).Count == 0) return;
-                SkillBase sb = GetSkillList(names[i])[0];
-
                 CardManager.Inst.SetSelectCardNull();
-                sb.RPC_DestroySkill();
+                skillList[i].RPC_DestroySkill();
                 GameManager.Inst.SetUsingSkill(false);
                 GameManager.Inst.SetMoving(true);
-                return;
             }
         }
         CardManager.Inst.SetSelectCardNull();
@@ -261,35 +239,15 @@ public class SkillManager : MonoBehaviourPunCallbacks
     {
         if (skillData == null) return null;
 
-        for (int i = 0; i < skillList.Count; i++)
-        {
-
-            if (skillData.ID == skillList[i].GetID())
-            {
-                return skillList[i];
-            }
-
-        }
-        return null;
+        return skillList.Find(x => x.GetID() == skillData.ID);
     }
 
     public bool CheckReturnMovePlate(int x, int y, string name)
     {
         List<SkillBase> skillList = GetSkillList(name);
 
-        for (int i = 0; i < skillList.Count; i++)
-        {
-            if (skillList[i] != null)
-            {
-                if (skillList[i].GetPosX() == x && skillList[i].GetPosY() == y)
-                {
+        return Array.Exists(skillList.ToArray(), z => z.GetPosX() == x && z.GetPosY() == y);
 
-                    return true;
-                }
-
-            }
-        }
-        return false;
     }
 
     public bool MoveControl(ChessBase cp)

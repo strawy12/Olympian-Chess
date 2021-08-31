@@ -156,6 +156,7 @@ MonoBehaviour:
     sprite: {fileID: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     info: 
+    detail: 
     ID: 0
     player: 
 --- !u!114 &1406526119332768984

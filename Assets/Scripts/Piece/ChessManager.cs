@@ -328,85 +328,19 @@ public class ChessManager : MonoBehaviourPunCallbacks
 
     public ChessBase GetChessPiece(ChessData chessData)
     {
-        bool isWhite = false;
         if (chessData == null) return null;
-        if (chessData.ID < 200)
-        {
-            isWhite = true;
-        }
-        for (int i = 0; i < 16; i++)
-        {
-            if (isWhite)
-            {
-                if (playerWhite[i] == null)
-                {
-                    continue;
-                }
 
-                if (chessData.ID == playerWhite[i].GetID())
-                {
-                    return playerWhite[i];
-                }
-            }
-            else
-            {
+        var targetPlayers = chessData.ID < 200 ? playerWhite : playerBlack;
 
-                if (playerBlack[i] == null)
-                {
-                    continue;
-                }
-
-                if (chessData.ID == playerBlack[i].GetID())
-                {
-
-                    return playerBlack[i];
-                }
-            }
-        }
-        return null;
+        return Array.Find(targetPlayers, c => c.GetID() == chessData.ID);
     }
     //return positions
     public ChessBase GetPosition(int x, int y)
     {
         if (position[x, y] == null) return null;
-        bool isWhite = false;
+        var targetPlayers = position[x, y].ID < 200 ? playerWhite : playerBlack;
 
-        if (position[x, y].ID < 200)
-        {
-            isWhite = true;
-        }
-
-        for (int i = 0; i < 16; i++)
-        {
-            if (isWhite)
-            {
-                if (playerWhite[i] == null)
-                {
-                    continue;
-                }
-
-                if (position[x, y].ID == playerWhite[i].GetID())
-                {
-                    return playerWhite[i];
-                }
-            }
-
-            else
-            {
-
-                if (playerBlack[i] == null)
-                {
-                    continue;
-                }
-
-                if (position[x, y].ID == playerBlack[i].GetID())
-                {
-                    return playerBlack[i];
-                }
-            }
-        }
-
-        return null;
+        return Array.Find(targetPlayers, c => c.GetID() == position[x, y].ID);
 
     }
 
@@ -610,13 +544,10 @@ public class ChessManager : MonoBehaviourPunCallbacks
             chessPieces[i].MovePlate();
             movePlates = GameManager.Inst.GetMovePlates();
 
-            for (int j = 0; j < movePlates.Count; j++)
+            if(Array.Exists(movePlates.ToArray(), z => (z.GetPosX() == x && z.GetPosY() == y)))
             {
-                if (movePlates[j].GetPosX() == x && movePlates[j].GetPosY() == y)
-                {
-                    GameManager.Inst.DestroyMovePlates();
-                    return true;
-                }
+                GameManager.Inst.DestroyMovePlates();
+                return true;
             }
 
             GameManager.Inst.DestroyMovePlates();

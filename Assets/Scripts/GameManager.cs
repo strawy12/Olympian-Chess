@@ -149,7 +149,6 @@ public class GameManager : MonoBehaviourPunCallbacks
             {
                 ChessManager.Inst.UpdateArr(white[i]);
                 Destroy(white[i].gameObject);
-
             }
         }
 

@@ -263,34 +263,13 @@ public class CardManager : MonoBehaviourPunCallbacks
         onMyCardArea = Array.Exists(hits, x => x.collider.gameObject.layer == layer);
     }
 
-    public bool CheckCard(string name, bool isWhite) // same card in CardBuffer Check
-    {
-        List<Card> targetCards;
-
-        targetCards = isWhite ? whiteCards : blackCards;
-
-        for (int i = 0; i < targetCards.Count; i++)
-        {
-            if (targetCards[i].carditem.name == name)
-                return true;
-        }
-        return false;
-    }
     private bool CheckCardname(string name) // Check if a specific card and a select card are the same
     {
         string[] names = name.Split(',');
         if (selectCard == null) return false;
-        for (int i = 0; i < names.Length; i++)
-        {
-            if (names[i] == selectCard.carditem.name)
-            {
-                return true;
-            }
-        }
-        return false;
+
+        return Array.Exists(names, x => x == selectCard.carditem.name);
     }
-
-
 
     private bool CheckPawn(string name) // argument value == pawn Check
     {
@@ -500,16 +479,7 @@ public class CardManager : MonoBehaviourPunCallbacks
         if (carditem == null) return null;
         var targetCards = carditem.ID < 200 ? whiteCards : blackCards;
 
-        for (int i = 0; i < targetCards.Count; i++)
-        {
-
-            if (carditem.ID == targetCards[i].GetID())
-            {
-
-                return targetCards[i];
-            }
-        }
-        return null;
+        return targetCards.Find(x => x.GetID() == carditem.ID);
     }
     public void DestroyCard(Card card) // Using Card Destroy
     {
@@ -531,12 +501,7 @@ public class CardManager : MonoBehaviourPunCallbacks
         card.transform.DOKill();
         card.transform.SetParent(GameManager.Inst.pool.transform);
         card.gameObject.SetActive(false);
-        for (int i = 0; i < usedCards.Count; i++)
-        {
-            if (card.carditem.name == usedCards[i].name)
-                isSame = true;
-        }
-
+        isSame = Array.Exists(usedCards.ToArray(), x => x.name == card.carditem.name);
         if (!isSame)
             usedCards.Add(card.carditem);
     }
