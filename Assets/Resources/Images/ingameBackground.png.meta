@@ -47,7 +47,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -61,7 +61,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 90
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -80,7 +80,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -92,7 +92,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
-    maxTextureSize: 2048
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -104,7 +104,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Android
-    maxTextureSize: 2048
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -121,10 +121,10 @@ TextureImporter:
       name: ingameBackground_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 555
-        height: 864
+        x: 29
+        y: 214
+        width: 286
+        height: 553
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -142,9 +142,9 @@ TextureImporter:
       name: ingameBackground_1
       rect:
         serializedVersion: 2
-        x: 561
+        x: 396
         y: 0
-        width: 492
+        width: 557
         height: 864
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -163,9 +163,9 @@ TextureImporter:
       name: ingameBackground_2
       rect:
         serializedVersion: 2
-        x: 1061
+        x: 958
         y: 0
-        width: 527
+        width: 493
         height: 864
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -184,9 +184,9 @@ TextureImporter:
       name: ingameBackground_3
       rect:
         serializedVersion: 2
-        x: 1603
+        x: 1458
         y: 0
-        width: 509
+        width: 527
         height: 864
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -197,6 +197,27 @@ TextureImporter:
       bones: []
       spriteID: 0312b6de5a85cc620800000000000000
       internalID: 2795706938366304560
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ingameBackground_4
+      rect:
+        serializedVersion: 2
+        x: 2000
+        y: 0
+        width: 511
+        height: 864
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c07fb5105fc5abae0800000000000000
+      internalID: -1532810515806685428
       vertices: []
       indices: 
       edges: []

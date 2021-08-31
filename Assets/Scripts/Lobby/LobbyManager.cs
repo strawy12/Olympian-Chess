@@ -11,8 +11,9 @@ public class LobbyManager : MonoBehaviour
     private Text text;
     private int gold = 1000;
 
-    [SerializeField]
     private Sprite[] backs;
+    private Sprite[] longBacks;
+
     [SerializeField]
     private Image BGI;
     [SerializeField]
@@ -22,19 +23,17 @@ public class LobbyManager : MonoBehaviour
     [SerializeField]
     private GameObject checkButton;
 
-    public bool[] isGodBought;
-    public Sprite[] GodSprites;
-
     public Button BGbutton;
 
-    User user;
+    private User user;
 
     int num = 0;
-    int Gnum = 0;
 
     void Start()
     {
         backs = Resources.LoadAll<Sprite>("Images/lobbychess");
+        longBacks = Resources.LoadAll<Sprite>("Images/ingameBackground");
+        
         FirstSetting();
 
         UpdateUI();
@@ -60,7 +59,7 @@ public class LobbyManager : MonoBehaviour
         {
             gold -= g;
             user.myBackground[num] = true;
-            BGI.sprite = backs[num];
+            BGI.sprite = longBacks[num];
             DeckManager.Instance.SetGold(gold);
             UpdateUI();
             SetBackGround();
@@ -154,18 +153,6 @@ public class LobbyManager : MonoBehaviour
         SetBackGround();
     }
 
-    public void God_Buy(int g)
-    {
-        gold = DeckManager.Instance.GetGold();
-
-        if (!isGodBought[Gnum])
-        {
-            gold -= g;
-            isGodBought[Gnum] = true;
-            DeckManager.Instance.SetGold(gold);
-            UpdateUI();
-        }
-    }
 
     public void CheckBackGround()
     {
@@ -175,6 +162,7 @@ public class LobbyManager : MonoBehaviour
         {
             checkButton.transform.GetChild(0).gameObject.SetActive(true);
             DeckManager.Instance.SetBackground(num);
+            BGI.sprite = longBacks[user.backGround];
         }
     }
 
@@ -183,7 +171,14 @@ public class LobbyManager : MonoBehaviour
         user = DeckManager.Instance.GetUser();
 
         if (DeckManager.Instance.GetBackground() == 0)
+        {
             DeckManager.Instance.SetBackground(0);
+            BGI.sprite = longBacks[0];
+        }
+        else
+        {
+            BGI.sprite = longBacks[user.backGround];
+        }
 
         user.myBackground[0] = true;
     }
