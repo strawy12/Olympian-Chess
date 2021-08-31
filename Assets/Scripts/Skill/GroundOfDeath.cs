@@ -78,7 +78,7 @@ public class GroundOfDeath : SkillBase
                 yield return new WaitForSeconds(0.05f);
             }
             SkillManager.Inst.AddGodPieces(chosen_CP);
-            Destroy(chosen_CP.gameObject);
+            ChessManager.Inst.DestroyChessPiece(chosen_CP.GetChessData());
             ChessManager.Inst.SetPositionEmpty(skillData.posX, skillData.posY);
             god_Mp.SetActive(false);
         }

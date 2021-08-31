@@ -12,7 +12,7 @@ public class LobbyManager : MonoBehaviour
     private int gold = 1000;
 
     [SerializeField]
-    private Sprite[] backGroundSprites;
+    private Sprite[] backs;
     [SerializeField]
     private Image BGI;
     [SerializeField]
@@ -34,6 +34,7 @@ public class LobbyManager : MonoBehaviour
 
     void Start()
     {
+        backs = Resources.LoadAll<Sprite>("Images/lobbychess");
         FirstSetting();
 
         UpdateUI();
@@ -59,7 +60,7 @@ public class LobbyManager : MonoBehaviour
         {
             gold -= g;
             user.myBackground[num] = true;
-            BGI.sprite = backGroundSprites[num];
+            BGI.sprite = backs[num];
             DeckManager.Instance.SetGold(gold);
             UpdateUI();
             SetBackGround();
@@ -83,7 +84,7 @@ public class LobbyManager : MonoBehaviour
 
     private void SetBackGround()
     {
-        BG_Shop.sprite = backGroundSprites[num];
+        BG_Shop.sprite = backs[num];
         user = DeckManager.Instance.GetUser();
 
         if (user.myBackground[num])
@@ -98,7 +99,7 @@ public class LobbyManager : MonoBehaviour
             BGbutton.image.color = Color.white;
         }
 
-        if(user.backGround != backGroundSprites[num].name)
+        if(user.backGround != num)
         {
             checkButton.transform.GetChild(0).gameObject.SetActive(false);
         }
@@ -135,7 +136,7 @@ public class LobbyManager : MonoBehaviour
 
     public void Next()
     {
-        if (num + 1 == backGroundSprites.Length)
+        if (num + 1 == backs.Length)
             num = 0;
         else
             num++;
@@ -146,7 +147,7 @@ public class LobbyManager : MonoBehaviour
     public void Recent()
     {
         if (num == 0)
-            num = backGroundSprites.Length - 1;
+            num = backs.Length - 1;
         else
             num--;
 
@@ -170,10 +171,10 @@ public class LobbyManager : MonoBehaviour
     {
         user = DeckManager.Instance.GetUser();
 
-        if (user.myBackground[num] && user.backGround != backGroundSprites[num].name)
+        if (user.myBackground[num] && user.backGround != num)
         {
             checkButton.transform.GetChild(0).gameObject.SetActive(true);
-            DeckManager.Instance.SetBackground(backGroundSprites[num].name);
+            DeckManager.Instance.SetBackground(num);
         }
     }
 
@@ -181,8 +182,8 @@ public class LobbyManager : MonoBehaviour
     {
         user = DeckManager.Instance.GetUser();
 
-        if (DeckManager.Instance.GetBackground() == "")
-            DeckManager.Instance.SetBackground(backGroundSprites[0].name);
+        if (DeckManager.Instance.GetBackground() == 0)
+            DeckManager.Instance.SetBackground(0);
 
         user.myBackground[0] = true;
     }
