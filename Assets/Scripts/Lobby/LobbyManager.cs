@@ -42,7 +42,7 @@ public class LobbyManager : MonoBehaviour
 
     private void UpdateUI()
     {
-        text.text = "$" + DeckManager.Instance.GetGold();
+        text.text = DeckManager.Instance.GetGold().ToString();
     }
 
     public void OnClickStart()
