@@ -291,7 +291,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
                     continue;
                 }
 
-                if (playerWhite[i].gameObject.name.Contains(name))
+                if (playerWhite[i].GetChessData().chessPiece.Contains(name))
                 {
                     return true;
                 }
@@ -308,7 +308,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
                     continue;
                 }
 
-                if (playerBlack[i].gameObject.name.Contains(name))
+                if (playerBlack[i].GetChessData().chessPiece.Contains(name))
                 {
                     return true;
                 }

@@ -109,12 +109,6 @@ public class GameManager : MonoBehaviourPunCallbacks
             DestroyMovePlates();
         }
         //gameOver && click => reloading game
-        if (gameOver == true && Input.GetMouseButtonDown(0))
-        {
-            gameOver = false;
-            //Using UnityEngine.SceneManagement is needed here
-            SceneManager.LoadScene("Game");
-        }
     }
     public string GetPlayer()
     {
@@ -360,14 +354,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             if (!ChessManager.Inst.CheckArr(false, "black_king"))
             {
-                Debug.Log("³»°¡ ÀÌ±è¿©");
+                photonView.RPC("WinEffect", RpcTarget.OthersBuffered, false);
                 WinEffect(true);
-            }
-
-            else if(!ChessManager.Inst.CheckArr(true, "white_king"))
-            {
-                Debug.Log("³»°¡ Áü");
-                WinEffect(false);
             }
         }
 
@@ -375,19 +363,13 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             if (!ChessManager.Inst.CheckArr(true, "white_king"))
             {
-                Debug.Log("³»°¡ ÀÌ±è¿©");
+                photonView.RPC("WinEffect", RpcTarget.OthersBuffered, false);
                 WinEffect(true);
-            }
-
-            else if (!ChessManager.Inst.CheckArr(false, "black_king"))
-            {
-                Debug.Log("³»°¡ Áü");
-                WinEffect(false);
             }
         }
     }
-
-    private void WinEffect(bool isTrue)
+    [PunRPC]
+    public void WinEffect(bool isTrue)
     {
         matchPanel.transform.DOScale(1, 0.4f);
         Text coinText = matchPanel.transform.GetChild(2).GetComponent<Text>();

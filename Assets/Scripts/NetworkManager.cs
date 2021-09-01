@@ -207,7 +207,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
-        DisConnect();
+        if (GameManager.Inst.gameOver) return;
+        GameManager.Inst.gameOver = true;
+        GameManager.Inst.WinEffect(true);
     }
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
