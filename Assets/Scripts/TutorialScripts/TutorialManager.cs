@@ -61,9 +61,7 @@ public class TutorialManager : MonoBehaviour
     public bool blackPawn2 = false;
     public bool card = false;
 
-    //우수안 화이팅
-
-
+    //우수안 화이팅!!!!!!!!!11
 
     #region 싱글톤
 
@@ -88,7 +86,6 @@ public class TutorialManager : MonoBehaviour
     void Start()
     {
         StartSoundPlay();
-
     }
     private void StartSoundPlay()
     {

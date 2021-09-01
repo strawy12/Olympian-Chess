@@ -49,9 +49,8 @@ public class SoundManager : MonoBehaviour
             if (TutorialManager.Instance.isTypingSound_ing) return;
             audioSource.Play();
             TutorialManager.Instance.isTypingSound_ing = false;
-
-
         }
+
         else
         {
             Destroy(go);
