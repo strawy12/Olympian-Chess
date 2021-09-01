@@ -14,9 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardItems:
   - name: "\uCC9C\uBC8C"
-    className: HeavenlyPunishment
+    ID: 100
+    cardType: "\uAD70\uC911\uC81C\uC5B4"
+    target: "\uC801"
+    turn: "1\uD134"
     god: "\uC81C\uC6B0\uC2A4"
-    sprite: {fileID: 3806863597479257152, guid: aa6a388efbd618443847682ef28c8a32,
+    player: white
+    sprite: {fileID: 8534404793641785330, guid: aa6a388efbd618443847682ef28c8a32,
       type: 3}
     color: {r: 0.8392157, g: 0.6313726, b: 0.10980392, a: 1}
     info: "\uCC9C\uB465\uC758 \uD798\uC744 \uBE4C\uB824 \uC0C1\uB300\uB97C \uD55C\uD134
@@ -24,12 +28,14 @@ MonoBehaviour:
     detail: "\uC0C1\uB300\uC758 \uB9D0\uC744 \uC9C0\uC815\uD569\uB2C8\uB2E4. \uC9C0\uC815\uB41C
       \uB9D0\uC740 \uB9C8\uBE44 \uC0C1\uD0DC\uC5D0 \uBE60\uC838 \uD55C \uD134 \uB3D9\uC548
       \uC6C0\uC9C1\uC774\uC9C0 \uBABB\uD569\uB2C8\uB2E4.\r\n"
-    ID: 100
-    player: white
   - name: "\uC8FD\uC74C\uC758 \uB545"
-    className: GroundOfDeath
+    ID: 106
+    cardType: "\uBC29\uD574"
+    target: "\uC601\uC5ED"
+    turn: "\uC601\uAD6C \uC9C0\uC18D"
     god: "\uD558\uB370\uC2A4"
-    sprite: {fileID: -9148138991637899029, guid: aa6a388efbd618443847682ef28c8a32,
+    player: white
+    sprite: {fileID: 3236912610149954627, guid: aa6a388efbd618443847682ef28c8a32,
       type: 3}
     color: {r: 0.8039216, g: 0.8509804, b: 0.7607843, a: 1}
     info: "\uB4E4\uC5B4\uC624\uB294 \uBAA8\uB4E0 \uAC83\uC744 \uC8FD\uC774\uB294
@@ -39,24 +45,29 @@ MonoBehaviour:
       \uC9C0\uB098\uBA74 \uC601\uC5ED\uC774 \uC0DD\uC131 \uB418\uACE0 \uAC8C\uC784\uC774
       \uB05D\uB0A0 \uB54C\uAE4C\uC9C0 \uADF8 \uC601\uC5ED\uC73C\uB85C \uB4E4\uC5B4\uC628
       \uBAA8\uB4E0 \uB9D0\uC740 \uC8FD\uC2B5\uB2C8\uB2E4.\r\n"
-    ID: 106
-    player: white
   - name: "\uC81C\uBB3C"
-    className: Offering
+    ID: 102
+    cardType: "\uBC29\uD574"
+    target: "\uC544\uAD70"
+    turn: "\uC989\uC2DC"
     god: "\uD558\uB370\uC2A4"
-    sprite: {fileID: 517893246982642034, guid: aa6a388efbd618443847682ef28c8a32, type: 3}
+    player: white
+    sprite: {fileID: 2330094949270191781, guid: aa6a388efbd618443847682ef28c8a32,
+      type: 3}
     color: {r: 0.8039216, g: 0.8509804, b: 0.7607843, a: 1}
     info: "\uC544\uAD70\uC758 \uB9D0\uC744 \uC81C\uBB3C\uB85C \uBC1B\uD600 \uC0C1\uB300\uC758
       \uB79C\uB364 \uCE74\uB4DC \uD55C\uC7A5\uC744 \uC81C\uAC70\uD569\uB2C8\uB2E4."
     detail: "\uD3F0\uC744 \uC81C\uC678\uD55C \uC544\uAD70 \uB9D0\uC744 \uC9C0\uC815\uD569\uB2C8\uB2E4.
       \uC9C0\uC815\uD55C \uB9D0\uC774 \uC8FD\uC73C\uBA74\uC11C \uC0C1\uB300\uC758
       \uCE74\uB4DC \uC911 \uB79C\uB364 \uD558\uAC8C \uD55C \uC7A5\uC744 \uC81C\uAC70\uD569\uB2C8\uB2E4.\r\n"
-    ID: 102
-    player: white
   - name: "\uC218\uC911\uAC10\uC625"
-    className: OceanJail
+    ID: 0
+    cardType: "\uAD70\uC911\uC81C\uC5B4"
+    target: "\uC801 or \uC544\uAD70"
+    turn: "1\uD134"
     god: "\uD3EC\uC138\uC774\uB3C8"
-    sprite: {fileID: 2330094949270191781, guid: aa6a388efbd618443847682ef28c8a32,
+    player: 
+    sprite: {fileID: -9147675139175820674, guid: aa6a388efbd618443847682ef28c8a32,
       type: 3}
     color: {r: 0.6784314, g: 0.7058824, b: 1, a: 1}
     info: "\uC218\uC911\uAC10\uC625\uC744 \uC0DD\uC131\uD558\uC5EC \uAC00\uB461\uB2C8\uB2E4.
@@ -66,12 +77,14 @@ MonoBehaviour:
       \uC218\uC911 \uAC10\uC625\uC73C\uB85C \uBE60\uC838 1\uD134 \uB3D9\uC548 \uC0AC\uB77C\uC9D1\uB2C8\uB2E4.
       \uB2E4\uC2DC \uB098\uD0C0\uB0A0 \uB54C \uC6D0\uB798 \uC790\uB9AC\uC5D0 \uB9D0\uC774
       \uC788\uC73C\uBA74 \uADF8 \uB9D0\uC740 \uC0AC\uB9DD\uD569\uB2C8\uB2E4.\r\n"
-    ID: 0
-    player: 
   - name: "\uC218\uBA74"
-    className: Sleep
+    ID: 209
+    cardType: "\uAD70\uC911\uC81C\uC5B4"
+    target: "\uC801"
+    turn: "1\uD134"
     god: "\uD788\uD504\uB178\uC2A4"
-    sprite: {fileID: -9147675139175820674, guid: aa6a388efbd618443847682ef28c8a32,
+    player: black
+    sprite: {fileID: 8711889190542290919, guid: aa6a388efbd618443847682ef28c8a32,
       type: 3}
     color: {r: 1, g: 0.7372549, b: 0.6509804, a: 1}
     info: "\uC6C0\uC9C1\uC774\uC9C0 \uC54A\uC73C\uBA74 \uC218\uBA74\uC5D0 \uBE60\uC9C0\uAC8C
@@ -81,12 +94,14 @@ MonoBehaviour:
       \uC54A\uB294\uB2E4\uBA74 \uC218\uBA74 \uC0C1\uD0DC\uC5D0 \uB3CC\uC785\uD569\uB2C8\uB2E4.
       \uC218\uBA74 \uC911\uC778 \uB9D0\uC740 1\uD134 \uB3D9\uC548 \uC6C0\uC9C1\uC774\uC9C0
       \uBABB\uD569\uB2C8\uB2E4. \r\n"
-    ID: 209
-    player: black
   - name: "\uD30C\uB3C4"
-    className: Wave
+    ID: 104
+    cardType: "\uAD70\uC911\uC81C\uC5B4"
+    target: "\uC801 or \uC544\uAD70"
+    turn: 
     god: "\uD3EC\uC138\uC774\uB3C8"
-    sprite: {fileID: 5406700177803471016, guid: aa6a388efbd618443847682ef28c8a32,
+    player: white
+    sprite: {fileID: -2940201672509823235, guid: aa6a388efbd618443847682ef28c8a32,
       type: 3}
     color: {r: 0.6784314, g: 0.7058824, b: 1, a: 1}
     info: "\uD30C\uB3C4\uB97C \uC77C\uC73C\uCF1C \uD55C \uC904\uC5D0 \uC788\uB294
@@ -96,12 +111,14 @@ MonoBehaviour:
       \uD574 \uD30C\uB3C4 \uBC29\uD5A5\uC73C\uB85C \uD55C \uCE78 \uC2DD \uC774\uB3D9\uC2DC\uD0A8\uB2E4.
       \uB354 \uC774\uC0C1 \uC774\uB3D9\uD560 \uACF5\uAC04\uC774 \uC5C6\uC73C\uBA74
       \uADF8 \uC790\uB9AC\uC5D0 \uC815\uC9C0 \uD569\uB2C8\uB2E4.  \r"
-    ID: 104
-    player: white
   - name: "\uB2EC\uBE5B"
-    className: MoonLight
+    ID: 103
+    cardType: "\uC720\uD2F8"
+    target: "\uC544\uAD70"
+    turn: "2\uBC88\uC9F8 \uC774\uB3D9\uAE4C\uC9C0"
     god: "\uC544\uB974\uD14C\uBBF8\uC2A4"
-    sprite: {fileID: 8711889190542290919, guid: aa6a388efbd618443847682ef28c8a32,
+    player: white
+    sprite: {fileID: -6889725079372615617, guid: aa6a388efbd618443847682ef28c8a32,
       type: 3}
     color: {r: 0.9254902, g: 0.9607843, b: 0.96862745, a: 1}
     info: "\uB2EC\uBE5B \uC18D\uC5D0\uC11C \uC740\uC2E0\uD569\uB2C8\uB2E4."
@@ -110,12 +127,14 @@ MonoBehaviour:
       \uB3CC\uC785\uD569\uB2C8\uB2E4. (\uB2E8, \uC0C1\uB300\uB294 \uACF5\uACA9\uD560
       \uC218 \uC788\uACE0 \uC740\uC2E0\uD55C \uB9D0\uC740 \uD0B9\uC744 \uACF5\uACA9
       \uD560 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4\r)\n"
-    ID: 103
-    player: white
   - name: "\uC804\uC7C1\uAD11"
-    className: WarBuff
+    ID: 108
+    cardType: "\uC720\uD2F8"
+    target: "\uC544\uAD70"
+    turn: "1\uD134"
     god: "\uC544\uB808\uC2A4"
-    sprite: {fileID: -2379393903746547246, guid: aa6a388efbd618443847682ef28c8a32,
+    player: white
+    sprite: {fileID: 8498892484904176119, guid: aa6a388efbd618443847682ef28c8a32,
       type: 3}
     color: {r: 0.9019608, g: 0.30588236, b: 0.42745098, a: 1}
     info: "\uC804\uC7C1\uC758 \uBBF8\uCCD0 2\uBC88 \uC774\uB3D9 \uD560 \uC218 \uC788\uB3C4\uB85D
@@ -125,24 +144,28 @@ MonoBehaviour:
       \uD6C4 1~2\uBC88\uC758 \uC774\uB3D9\uC774 \uB05D\uB098\uBA74 \uC0AC\uB9DD\uD569\uB2C8\uB2E4.(\uB2E8,
       \uB450 \uBC88 \uC774\uB3D9\uD558\uC5EC \uD0B9\uC744 \uC8FD\uC77C \uC218\uB294
       \uC5C6\uC2B5\uB2C8\uB2E4.)\r\n"
-    ID: 108
-    player: white
   - name: "\uC815\uC758\uAD6C\uD604"
-    className: Justice
+    ID: 107
+    cardType: "\uAD70\uC911\uC81C\uC5B4"
+    target: "\uC870\uAC74 \uB300\uC0C1"
+    turn: "1\uD134"
     god: "\uC544\uD14C\uB098"
-    sprite: {fileID: -7974315464008883648, guid: aa6a388efbd618443847682ef28c8a32,
+    player: white
+    sprite: {fileID: -8195633402699738626, guid: aa6a388efbd618443847682ef28c8a32,
       type: 3}
     color: {r: 1, g: 0.9607843, b: 0.627451, a: 1}
     info: "\uC0B4\uC0DD\uC744 \uD55C \uB9D0\uB4E4\uC744 \uCC98\uBC8C\uD558\uC5EC
       \uC774\uB3D9\uBD88\uAC00 \uC0C1\uD0DC\uB85C \uB9CC\uB4ED\uB2C8\uB2E4."
     detail: "1~2\uD134 \uC804\uC5D0 \uB9D0\uC744 \uCC98\uCE58\uD55C \uB9D0\uB4E4\uC744
       \uBAA8\uB450 \uC774\uB3D9 \uBD88\uAC00 \uC0C1\uD0DC\uB85C \uB9CC\uB4ED\uB2C8\uB2E4.\r"
-    ID: 107
-    player: white
   - name: "\uC544\uD14C\uB098\uC758 \uBC29\uD328"
-    className: AthenaShield
+    ID: 109
+    cardType: "\uBB34\uC801"
+    target: "\uC544\uAD70"
+    turn: "\uC774\uB3D9 \uD560 \uB54C\uAE4C\uC9C0"
     god: "\uC544\uD14C\uB098"
-    sprite: {fileID: 2578938142422200531, guid: aa6a388efbd618443847682ef28c8a32,
+    player: white
+    sprite: {fileID: 1399789482796898413, guid: aa6a388efbd618443847682ef28c8a32,
       type: 3}
     color: {r: 1, g: 0.9607843, b: 0.627451, a: 1}
     info: "\uC544\uD14C\uB098\uC758 \uBC29\uD328\uB85C \uC8FD\uC74C\uC73C\uB85C\uBD80\uD130
@@ -152,12 +175,14 @@ MonoBehaviour:
       \uBCF4\uD638\uB9C9\uC774 \uC788\uC73C\uBA74 \uD55C\uBC88 \uC8FD\uC9C0 \uC54A\uACE0
       \uBC84\uD301\uB2C8\uB2E4. \uBCF4\uD638\uB9C9\uC740 \uC6C0\uC9C1\uC774\uBA74
       \uC0AC\uB77C\uC9D1\uB2C8\uB2E4.\r\n"
-    ID: 109
-    player: white
   - name: "\uC21C\uBCF4"
-    className: Order
+    ID: 0
+    cardType: "\uC774\uB3D9"
+    target: "\uC544\uAD70"
+    turn: "1\uD134"
     god: "\uB370\uBBF8\uD14C\uB974"
-    sprite: {fileID: 5120733840656742383, guid: aa6a388efbd618443847682ef28c8a32,
+    player: 
+    sprite: {fileID: -9148138991637899029, guid: aa6a388efbd618443847682ef28c8a32,
       type: 3}
     color: {r: 0.38431373, g: 0.92156863, b: 0.6784314, a: 1}
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uC544\uAD70  \uC9C0\uC18D\uC2DC\uAC04: 1\n\uC55E\uC5D0
@@ -167,12 +192,14 @@ MonoBehaviour:
       \uB9D0\uC740 \uC774\uB3D9\uACBD\uB85C\uC5D0 \uC788\uB294 \uB9D0 1\uB9C8\uB9AC\uB97C
       \uBB34\uC2DC\uD558\uACE0 \uC9C0\uB098\uCE69\uB2C8\uB2E4.(\uB2E8, \uB118\uC5B4\uAC04
       \uB9D0\uC740 \uD0B9 \uC55E\uC5D0\uC11C\uB294 \uBA48\uCDA5\uB2C8\uB2E4.) \r\n"
-    ID: 0
-    player: 
   - name: "\uBC14\uCE74\uC2A4"
-    className: 
+    ID: 0
+    cardType: "\uBC29\uD574"
+    target: "\uC801"
+    turn: "1\uD134"
     god: "\uB514\uC624\uB2C8\uC18C\uC2A4"
-    sprite: {fileID: -8195633402699738626, guid: aa6a388efbd618443847682ef28c8a32,
+    player: 
+    sprite: {fileID: -7614906831618604383, guid: aa6a388efbd618443847682ef28c8a32,
       type: 3}
     color: {r: 0.27058825, g: 0.38431373, b: 0.9019608, a: 1}
     info: "\uC0AC\uC6A9 \uB300\uC0C1: \uBAA8\uB4E0\uB9D0  \uC9C0\uC18D\uC2DC\uAC04:
@@ -180,12 +207,14 @@ MonoBehaviour:
       \uBD88\uD3B8\uD574 \uC9D1\uB2C8\uB2E4."
     detail: "\uBAA8\uB4E0 \uB9D0\uC774 1\uD134 \uB4A4\uC5D0 \uC774\uB3D9 \uBC29\uD5A5\uC73C\uB85C
       1\uCE78 \uBC16\uC5D0 \uBABB \uC6C0\uC9C1\uC785\uB2C8\uB2E4.\r"
-    ID: 0
-    player: 
   - name: "\uC5D0\uB85C\uC2A4\uC758 \uC0AC\uB791"
-    className: LoveOfEros
+    ID: 0
+    cardType: "\uC720\uD2F8"
+    target: "\uC544\uAD70"
+    turn: "\uB9D0\uC774 \uC8FD\uC744\uB54C\uAE4C\uC9C0"
     god: "\uD5E4\uB77C"
-    sprite: {fileID: 3089120643377540687, guid: aa6a388efbd618443847682ef28c8a32,
+    player: 
+    sprite: {fileID: 2578938142422200531, guid: aa6a388efbd618443847682ef28c8a32,
       type: 3}
     color: {r: 0.90588236, g: 0.6392157, b: 0.9137255, a: 1}
     info: "\uC544\uAD70\uC758 \uB9D0\uC774 \uC11C\uB85C\uB97C \uC0AC\uB791\uD558\uC5EC
@@ -194,25 +223,28 @@ MonoBehaviour:
       2\uD134 \uB3D9\uC548 \uC9C0\uC815\uB41C \uB9D0 \uC911 \uD55C \uB9C8\uB9AC\uAC00
       \uC8FD\uC73C\uBA74 \uB300\uC2E0 \uB2E4\uB978 \uD55C \uB9C8\uB9AC\uAC00 \uC8FD\uC5B4\uC90D\uB2C8\uB2E4. 
       \r\n"
-    ID: 0
-    player: 
   - name: "\uCD9C\uC0B0"
-    className: GiveBirth
+    ID: 105
+    cardType: "\uC720\uB2DB\uC18C\uD658"
+    target: "\uC544\uAD70"
+    turn: "\uB9D0\uC774 \uC8FD\uC744 \uB54C\uAE4C\uC9C0"
     god: "\uD5E4\uB77C"
-    sprite: {fileID: -6889725079372615617, guid: aa6a388efbd618443847682ef28c8a32,
-      type: 3}
+    player: white
+    sprite: {fileID: 491730280158355159, guid: aa6a388efbd618443847682ef28c8a32, type: 3}
     color: {r: 0.90588236, g: 0.6392157, b: 0.9137255, a: 1}
     info: "\uB9D0\uC774 \uD3F0\uC744 \uCD9C\uC0B0\uC744 \uD558\uACE0 \uB5A0\uB0A9\uB2C8\uB2E4."
     detail: "\uC544\uAD70 \uB9D0\uC744 \uC9C0\uC815\uD569\uB2C8\uB2E4. \uC9C0\uC815\uB41C
       \uB9D0\uC774 \uAC8C\uC784 \uB3C4 \uC911 \uC8FD\uC73C\uBA74 \uD3F0\uC744 \uB0B3\uACE0
       \uC8FD\uC2B5\uB2C8\uB2E4. (\uD3F0\uC774 \uC0DD\uC131\uB418\uBA74 \uB9D0\uC744
       \uC7A1\uC740 \uC0C1\uB300\uB294 \uB4A4\uB85C \uD55C \uCE78 \uBC00\uB824\uB0A9\uB2C8\uB2E4.)\r\n"
-    ID: 105
-    player: white
   - name: "\uC74C\uC545"
-    className: Music
+    ID: 0
+    cardType: "\uAD70\uC911\uC81C\uC5B4"
+    target: "\uC0C1\uB300"
+    turn: "1~3\uD134"
     god: "\uD5E4\uB77C"
-    sprite: {fileID: 1399789482796898413, guid: aa6a388efbd618443847682ef28c8a32,
+    player: 
+    sprite: {fileID: 5120733840656742383, guid: aa6a388efbd618443847682ef28c8a32,
       type: 3}
     color: {r: 0.90588236, g: 0.6392157, b: 0.9137255, a: 1}
     info: "\uC0C1\uB300\uB97C \uC74C\uC545\uC5D0 \uBE60\uC9C0\uAC8C \uD558\uC5EC
@@ -221,24 +253,28 @@ MonoBehaviour:
       \uC9C0\uC815\uB41C \uB9D0\uC740 \uCCAB\uBC88\uC9F8 \uD134\uC5D0 100\uD504\uB85C\uB85C
       2\uBC88\uC9F8 \uD134\uC5D0\uB294 50\uD504\uB85C\uB85C \uC138\uBC88\uC9F8 \uD134\uC5D0\uB294
       30\uD504\uB85C \uD655\uB960\uB85C \uC6C0\uC9C1\uC774\uC9C0 \uBABB\uD569\uB2C8\uB2E4.\r\n"
-    ID: 0
-    player: 
   - name: "\uB3D9\uADC0\uC5B4\uC9C4"
-    className: StreetFriend
+    ID: 0
+    cardType: "\uAD70\uC911\uC81C\uC5B4"
+    target: "\uC0C1\uB300"
+    turn: "2\uD134"
     god: "\uD0C0\uB098\uD1A0\uC2A4"
-    sprite: {fileID: 3236912610149954627, guid: aa6a388efbd618443847682ef28c8a32,
+    player: 
+    sprite: {fileID: 3089120643377540687, guid: aa6a388efbd618443847682ef28c8a32,
       type: 3}
     color: {r: 0.64705884, g: 0.5803922, b: 0.81960785, a: 1}
     info: "\uC790\uC2E0\uC774 \uC8FD\uC740 \uC801\uACFC \uD568\uAED8 \uC8FD\uC2B5\uB2C8\uB2E4."
     detail: "\uB9D0\uC744 \uC9C0\uC815\uD569\uB2C8\uB2E4. \uADF8 \uB9D0\uC744 \uD0B9\uC744
       \uC81C\uC678\uD55C \uC0C1\uB300\uAC00 \uC544\uAD70\uC744 \uC8FD\uC774\uBA74
       \uAC19\uC774 \uC8FD\uC2B5\uB2C8\uB2E4.\r\n"
-    ID: 0
-    player: 
   - name: "\uC2E0\uC18D"
-    className: Rush
+    ID: 0
+    cardType: "\uC774\uB3D9"
+    target: "\uC544\uAD70"
+    turn: "1\uD134"
     god: "\uD30C\uC6B0\uB204\uC2A4"
-    sprite: {fileID: 6038406766267777105, guid: aa6a388efbd618443847682ef28c8a32,
+    player: 
+    sprite: {fileID: 5406700177803471016, guid: aa6a388efbd618443847682ef28c8a32,
       type: 3}
     color: {r: 0.83137256, g: 0.42745098, b: 0.35686275, a: 1}
     info: "1\uCE78 \uB354 \uB3CC\uC9C4\uD569\uB2C8\uB2E4."
@@ -246,12 +282,14 @@ MonoBehaviour:
       \uC544\uAD70\uC740 \uD55C\uCE78 \uC55E\uC73C\uB85C \uB3CC\uC9C4 \uD560 \uC218
       \uC788\uC2B5\uB2C8\uB2E4. (\uB2E8, \uC0C1\uB300\uB97C \uC8FD\uC774\uC9C0\uB294
       \uBABB\uD569\uB2C8\uB2E4.)\r\n"
-    ID: 0
-    player: 
   - name: "\uC11C\uD48D"
-    className: WestWind
+    ID: 0
+    cardType: "\uAD70\uC911\uC81C\uC5B4"
+    target: "\uC0C1\uB300"
+    turn: "2\uD134"
     god: "\uC6B0\uB77C\uB178\uC2A4"
-    sprite: {fileID: 8534404793641785330, guid: aa6a388efbd618443847682ef28c8a32,
+    player: 
+    sprite: {fileID: 3806863597479257152, guid: aa6a388efbd618443847682ef28c8a32,
       type: 3}
     color: {r: 0.5529412, g: 0.73333335, b: 0.92156863, a: 1}
     info: "\uB300\uC0C1\uC744 \uACF5\uC911\uC5D0 \uB744\uC6B0\uACE0 \uB2E4\uB978
@@ -261,67 +299,79 @@ MonoBehaviour:
       \uC0C1\uB300\uB294 2\uD134\uB3D9\uC548 \uC544\uBB34\uAC83\uB3C4 \uBABB\uD558\uACE0
       \uC704\uB85C \uC62C\uB77C\uAC11\uB2C8\uB2E4.  \uC11C\uD48D\uC774 \uBD80\uB294
       \uCE78\uC5D0\uB294 \uC5B4\uB5A4 \uB9D0\uB3C4 \uB4E4\uC5B4\uAC00\uC9C0 \uBABB\uD569\uB2C8\uB2E4.\r\n"
-    ID: 0
-    player: 
   - name: "\uC5EC\uD589\uC790"
-    className: Traveler
+    ID: 0
+    cardType: "\uC774\uB3D9"
+    target: "\uC544\uAD70"
+    turn: "\uC989\uC2DC"
     god: "\uD5E4\uB974\uBA54\uC2A4"
-    sprite: {fileID: 7178379584843225544, guid: aa6a388efbd618443847682ef28c8a32,
+    player: 
+    sprite: {fileID: -2379393903746547246, guid: aa6a388efbd618443847682ef28c8a32,
       type: 3}
     color: {r: 0.8392157, g: 0.72156864, b: 0.60784316, a: 1}
     info: "\uD3F0\uC774 \uACF3\uACF3\uC744 \uC5EC\uD589\uD569\uB2C8\uB2E4."
     detail: "\uC544\uBB34 \uD3F0\uC744 \uC9C0\uC815\uD569\uB2C8\uB2E4. \uC9C0\uC815\uB41C
       \uD3F0\uC740 \uC544\uBB34 \uBE48 \uACF3\uC73C\uB85C \uC21C\uAC04\uC774\uB3D9\uD569\uB2C8\uB2E4.
       (\uB2E8, \uC2B9\uAE09\uD558\uC9C0\uB294 \uBABB\uD569\uB2C8\uB2E4.) \r"
-    ID: 0
-    player: 
   - name: "\uC2DC\uAC04\uC65C\uACE1"
-    className: TimeWarp
+    ID: 0
+    cardType: "\uC720\uD2F8"
+    target: "\uC544\uAD70"
+    turn: "\uC989\uC2DC"
     god: "\uD06C\uB85C\uB178\uC2A4"
-    sprite: {fileID: 491730280158355159, guid: aa6a388efbd618443847682ef28c8a32, type: 3}
+    player: 
+    sprite: {fileID: -7974315464008883648, guid: aa6a388efbd618443847682ef28c8a32,
+      type: 3}
     color: {r: 0.16862746, g: 0.25882354, b: 0.2784314, a: 1}
     info: "\uACFC\uAC70\uB85C \uAC00\uC11C \uCE74\uB4DC\uB97C \uB4E4\uACE0 \uC635\uB2C8\uB2E4."
     detail: "\uC0C1\uB300\uBC29\uACFC \uC790\uC2E0\uC774 \uC774\uC804\uC5D0 \uC0AC\uC6A9\uD588\uB358
       \uCE74\uB4DC\uB97C \uB79C\uB364\uC73C\uB85C \uAC00\uC838\uC635\uB2C8\uB2E4.\r"
-    ID: 0
-    player: 
   - name: "\uB9DD\uB839"
-    className: Ghost
+    ID: 101
+    cardType: "\uC720\uB2DB\uC18C\uD658"
+    target: "\uC870\uAC74 \uB300\uC0C1"
+    turn: "\uC989\uC2DC"
     god: "\uD06C\uB85C\uB178\uC2A4"
-    sprite: {fileID: -6562938403480689630, guid: aa6a388efbd618443847682ef28c8a32,
+    player: white
+    sprite: {fileID: 7178379584843225544, guid: aa6a388efbd618443847682ef28c8a32,
       type: 3}
     color: {r: 0.16862746, g: 0.25882354, b: 0.2784314, a: 1}
     info: "\uC8FD\uC740 \uD3F0\uC744 \uBD80\uD65C\uC2DC\uD0B5\uB2C8\uB2E4."
     detail: "\uC8FD\uC740 \uD3F0\uC744 \uB450\uBC88\uC9F8 \uC904(\uD3F0\uC774 \uC2DC\uC791\uD560
       \uB54C \uC788\uB294 \uC904)\uC911 \uBE48\uD0A8\uC5D0 \uBD80\uD65C \uC2DC\uD0B5\uB2C8\uB2E4.\r"
-    ID: 101
-    player: white
   - name: "\uC2DC\uAC04\uC815\uC9C0"
-    className: TimeStop
+    ID: 200
+    cardType: "\uBB34\uC801"
+    target: "\uC801 or \uC544\uAD70"
+    turn: "2\uD134"
     god: "\uD06C\uB85C\uB178\uC2A4"
-    sprite: {fileID: -7614906831618604383, guid: aa6a388efbd618443847682ef28c8a32,
-      type: 3}
+    player: black
+    sprite: {fileID: 517893246982642034, guid: aa6a388efbd618443847682ef28c8a32, type: 3}
     color: {r: 0.16862746, g: 0.25882354, b: 0.2784314, a: 1}
     info: "\uBB34\uC801 \uC0C1\uD0DC\uB85C \uBCC0\uD569\uB2C8\uB2E4."
     detail: "\uD55C \uB9D0\uC774 \uC788\uB294 \uCE78\uC744 \uC811\uADFC\uD560 \uC218
       \uC5C6\uAC8C \uB9CC\uB4ED\uB2C8\uB2E4. \uC9C0\uC815\uD55C \uB9D0\uC740 \uC774\uB3D9\uD558\uC9C0
       \uBABB\uD569\uB2C8\uB2E4.\r\n"
-    ID: 200
-    player: black
   - name: "\uB9CC\uCDE8"
-    className: Drunkeness
+    ID: 0
+    cardType: "\uAD70\uC911\uC81C\uC5B4"
+    target: "\uC801"
+    turn: "\uC801\uC774 \uC774\uB3D9 \uD560 \uB54C/1\uD68C"
     god: "\uD06C\uB85C\uB178\uC2A4"
-    sprite: {fileID: -2940201672509823235, guid: aa6a388efbd618443847682ef28c8a32,
+    player: 
+    sprite: {fileID: -6562938403480689630, guid: aa6a388efbd618443847682ef28c8a32,
       type: 3}
     color: {r: 0.16862746, g: 0.25882354, b: 0.2784314, a: 1}
     info: "\uC0C1\uB300\uBC29\uC744 \uCDE8\uD558\uAC8C \uB9CC\uB4ED\uB2C8\uB2E4."
     detail: "\uC801\uC774 \uC774\uB3D9 \uD558\uB824\uB294 \uB9D0\uC774 \uC774\uB3D9\uAC00\uB2A5\uD55C
       \uBC94\uC704\uC911 \uB79C\uB364\uD55C \uCE78\uC73C\uB85C \uC774\uB3D9\uD569\uB2C8\uB2E4.\r"
-    ID: 0
-    player: 
   - name: "\uD154\uB808\uD30C\uC2DC"
-    className: Telepathy
+    ID: 0
+    cardType: 
+    target: 
+    turn: 
     god: "\uD06C\uB85C\uB178\uC2A4"
+    player: 
     sprite: {fileID: -7837417378511994517, guid: 4454062fe2a78614587b7e6f430aaafe,
       type: 3}
     color: {r: 0.16862746, g: 0.25882354, b: 0.2784314, a: 1}
@@ -330,11 +380,13 @@ MonoBehaviour:
     detail: "\uC544\uAD70\uC774 \uC774\uB3D9\uD558\uB294 \uBC29\uD5A5\uACFC \uCE78
       \uC218\uC5D0 \uB530\uB77C \uC9C0\uC815 \uB41C \uB9D0\uB3C4 \uC6C0\uC9C1\uC785\uB2C8\uB2E4.
       (\uB9C9\uD600 \uC788\uB294 \uACF3 \uAE4C\uC9C0)\r"
-    ID: 0
-    player: 
   - name: "\uC720\uCCB4 \uC774\uD0C8"
-    className: OutOfBody
+    ID: 0
+    cardType: 
+    target: 
+    turn: 
     god: "\uD06C\uB85C\uB178\uC2A4"
+    player: 
     sprite: {fileID: -7837417378511994517, guid: 4454062fe2a78614587b7e6f430aaafe,
       type: 3}
     color: {r: 0.16862746, g: 0.25882354, b: 0.2784314, a: 1}
@@ -342,11 +394,13 @@ MonoBehaviour:
     detail: "\uB098\uC758 \uC774\uB3D9\uC744 \uC18C\uBE44\uD558\uACE0 \uC801\uC758
       \uB9D0 \uD55C \uAC1C\uB97C \uC774\uB3D9\uC2DC\uD0B5\uB2C8\uB2E4. (\uCE74\uB4DC\uB294
       \uC2DC\uC791 \uD558\uC790\uB9C8\uC790 \uC368\uC57C\uD568)\r"
-    ID: 0
-    player: 
   - name: "\uD6C4\uC9C4"
-    className: Back
+    ID: 0
+    cardType: 
+    target: 
+    turn: 
     god: "\uD06C\uB85C\uB178\uC2A4"
+    player: 
     sprite: {fileID: -7837417378511994517, guid: 4454062fe2a78614587b7e6f430aaafe,
       type: 3}
     color: {r: 0.16862746, g: 0.25882354, b: 0.2784314, a: 1}
@@ -354,11 +408,13 @@ MonoBehaviour:
     detail: "\uC544\uAD70\uC758 \uB9D0\uC744 \uC9C0\uC815\uD569\uB2C8\uB2E4. \uC9C0\uC815\uB41C
       \uC544\uAD70\uC740 \uD55C\uCE78 \uB4A4\uB85C \uD6C4\uC9C4 \uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4.
       (\uB2E8, \uC0C1\uB300\uB97C \uC8FD\uC774\uC9C0\uB294 \uBABB\uD569\uB2C8\uB2E4.)\r\n"
-    ID: 0
-    player: 
   - name: "\uC8FC\uC0AC\uC704"
-    className: Dice
+    ID: 0
+    cardType: 
+    target: 
+    turn: 
     god: "\uD06C\uB85C\uB178\uC2A4"
+    player: 
     sprite: {fileID: -7837417378511994517, guid: 4454062fe2a78614587b7e6f430aaafe,
       type: 3}
     color: {r: 0.16862746, g: 0.25882354, b: 0.2784314, a: 1}
@@ -367,5 +423,3 @@ MonoBehaviour:
     detail: "\uC0C1\uB300\uAC00 50%\uC758 \uD655\uB960\uB85C \uC9DD\uC218(\uAC80\uC740\uC0C9
       \uCE78), 50%\uC758 \uD655\uB960\uB85C \uD640\uC218\uCE78(\uD770\uC0C9 \uCE78)\uB9CC
       \uC774\uB3D9 \uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
-    ID: 0
-    player: 

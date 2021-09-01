@@ -7,14 +7,16 @@ using UnityEngine;
 public class Carditem
 {
     public string name;
-    public string className;
+    public int ID;
+    public string cardType;
+    public string target;
+    public string turn;
     public string god;
+    public string player;
     public Sprite sprite;
     public Color color;
     [TextArea] public string info;
     [TextArea] public string detail;
-    public int ID;
-    public string player;
 }
 
 [CreateAssetMenu(fileName = "CardItemSO", menuName = "Sprictable Object/CardItemSO")]

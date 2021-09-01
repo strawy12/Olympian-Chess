@@ -285,25 +285,11 @@ public class ChessManager : MonoBehaviourPunCallbacks
     {
         if (isPlayer)
         {
-            for (int i = 0; i < playerWhite.Length; i++)
-            {
-                if (playerWhite[i] == null)
-                    continue;
-                if (playerWhite[i].gameObject.name == name)
-                    return true;
-            }
-            return false;
+            return Array.Exists(playerWhite, x => x.GetChessData().chessPiece == name);
         }
         else
         {
-            for (int i = 0; i < playerBlack.Length; i++)
-            {
-                if (playerBlack[i] == null)
-                    continue;
-                if (playerBlack[i].gameObject.name == name)
-                    return true;
-            }
-            return false;
+            return Array.Exists(playerBlack, x => x.GetChessData().chessPiece == name);
         }
     }
 

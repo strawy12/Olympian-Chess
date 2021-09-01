@@ -40,15 +40,22 @@ public class DeckManager : MonoBehaviourPunCallbacks
     private CardSelect cardSelect;
 
 
+
+    [SerializeField] private Image cardInfoImage;
+    private Text cardNameText;
+    private Text cardInfoText;
+    private Image cardImage;
+    private Text godNameText;
+    private Text cardTypeText;
+    private Text targetText;
+    private Text turnText;
+
+
     [SerializeField]
     private CardContents cardContents;
     [SerializeField]
     private Image message;
-    [SerializeField]
-    private Image cardInfo;
     private Text messageText;
-    private Text cardInfoText;
-    private Text cardNameText;
     private bool isDrag = false;
     private float timer = 0f;
 
@@ -68,11 +75,20 @@ public class DeckManager : MonoBehaviourPunCallbacks
     {
         ChangeCard();
         SettingMyDeck();
-        messageText = message.gameObject.transform.GetChild(0).GetComponent<Text>();
-        cardInfoText = cardInfo.transform.GetChild(0).GetComponent<Text>();
-        cardNameText = cardInfo.transform.GetChild(1).GetComponent<Text>();
+        GetCardInfoComponent();
     }
 
+    private void GetCardInfoComponent()
+    {
+        messageText = message.gameObject.transform.GetChild(0).GetComponent<Text>();
+        cardNameText = cardInfoImage.transform.GetChild(0).GetComponent<Text>();
+        cardInfoText = cardInfoImage.transform.GetChild(1).GetComponent<Text>();
+        cardImage = cardInfoImage.transform.GetChild(2).GetComponent<Image>();
+        godNameText = cardInfoImage.transform.GetChild(3).GetComponent<Text>();
+        cardTypeText = cardInfoImage.transform.GetChild(4).GetComponent<Text>();
+        targetText = cardInfoImage.transform.GetChild(5).GetComponent<Text>();
+        turnText = cardInfoImage.transform.GetChild(6).GetComponent<Text>();
+    }
 
 
     private void SettingIsChosen()
@@ -263,13 +279,13 @@ public class DeckManager : MonoBehaviourPunCallbacks
     {
         isInfo = false;
         isDrag = false;
-        cardInfo.gameObject.SetActive(false);
+        cardInfoImage.gameObject.SetActive(false);
     }
 
     public void Drag()
     {
         isDrag = true;
-        cardInfo.gameObject.SetActive(false);
+        cardInfoImage.gameObject.SetActive(false);
     }
 
     public void PointerDown(Carditem carditem)
@@ -285,13 +301,18 @@ public class DeckManager : MonoBehaviourPunCallbacks
 
         if (isInfo && !isDrag)
         {
-            cardInfo.gameObject.SetActive(true);
+            cardInfoImage.gameObject.SetActive(true);
             cardInfoText.text = carditem.detail;
             cardNameText.text = carditem.name;
+            cardImage.sprite = carditem.sprite;
+            godNameText.text = carditem.god;
+            cardTypeText.text = carditem.cardType;
+            targetText.text = carditem.target;
+            turnText.text = carditem.turn;
         }
         if (!isInfo)
         {
-            cardInfo.gameObject.SetActive(false);
+            cardInfoImage.gameObject.SetActive(false);
         }
     }
     public void SetPlayer(int i)
@@ -319,7 +340,6 @@ public class DeckManager : MonoBehaviourPunCallbacks
         NetworkManager.Inst.SaveDataToJson(user, true);
     }
 }
-
 
 
 [System.Serializable]
