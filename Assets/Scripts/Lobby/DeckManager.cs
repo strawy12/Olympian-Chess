@@ -58,7 +58,7 @@ public class DeckManager : MonoBehaviourPunCallbacks
         user = NetworkManager.Inst.LoadDataFromJson<User>();
         if (user == null)
         {
-            user = new User(10000, "", new string[10], new bool[4]);
+            user = new User(10000, 0, new string[10], new bool[6]);
 
         }
         SettingIsChosen();
@@ -220,12 +220,12 @@ public class DeckManager : MonoBehaviourPunCallbacks
         return myDeck[index];
     }
 
-    public void SetBackground(string bg)
+    public void SetBackground(int bg)
     {
         user.backGround = bg;
     }
 
-    public string GetBackground()
+    public int GetBackground()
     {
         return user.backGround;
     }
@@ -326,12 +326,12 @@ public class DeckManager : MonoBehaviourPunCallbacks
 public class User
 {
     public int gold;
-    public string backGround;
+    public int backGround;
     public string player;
     public string[] myDecks;
     public bool[] myBackground;
 
-    public User(int gold, string backGround, string[] myDecks, bool[] myBackground)
+    public User(int gold, int backGround, string[] myDecks, bool[] myBackground)
     {
         this.gold = gold;
         this.backGround = backGround;
