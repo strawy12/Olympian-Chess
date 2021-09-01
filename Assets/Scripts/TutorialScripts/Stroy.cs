@@ -30,7 +30,7 @@ public class Stroy : MonoBehaviour
 
     private void StartStory(int num)
     {
-        Debug.Log(num);
+        //Debug.Log(num);
         switch (num)
         {
             case 1:
@@ -115,6 +115,7 @@ public class Stroy : MonoBehaviour
     {
         if (TutorialManager.Instance.card) return;
         TutorialManager.Instance.card = true;
+        TutorialManager.Instance.iscardPush = true;
         StartCoroutine((TypingEffect(stroyText, story[3], speed)));
     }
     private void story5()

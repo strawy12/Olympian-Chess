@@ -53,14 +53,27 @@ public class TutorialManager : MonoBehaviour
 
     [HideInInspector]
     public bool isClicked = false;
+
     [HideInInspector]
     public bool isUsed = false;
+
+    [HideInInspector]
     public bool turnEnd = true;
+    
+    [HideInInspector]
     public bool clickturnBtn = false;
+    
+    [HideInInspector]
     public bool blackPawn = false;
+    
+    [HideInInspector]
     public bool blackPawn2 = false;
+    
+    [HideInInspector]
     public bool card = false;
 
+    //[HideInInspector]
+    public bool iscardPush = false;
     //¿ì¼ö¾È È­ÀÌÆÃ!!!!!!!!!11
 
     #region ½Ì±ÛÅæ

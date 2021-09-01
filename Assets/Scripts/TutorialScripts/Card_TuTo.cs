@@ -14,6 +14,7 @@ public class Card_TuTo : MonoBehaviour
     [SerializeField]private CardButton cardButton;
     [SerializeField]private SpriteRenderer blackPiece;
     [SerializeField]private SpriteRenderer cardIcon;
+    [SerializeField] private GameObject showCard;
     private SpriteRenderer spriteRenderer;
 
     private void Start()
@@ -22,10 +23,24 @@ public class Card_TuTo : MonoBehaviour
     }
     private void Update()
     {
+        Debug.Log(TutorialManager.Instance.iscardPush);
+        Show();
 
-        if(isMyCardDrag)
+        if (isMyCardDrag)
         {
             CardDrag();
+        }
+    }
+
+    private void Show()
+    {
+        if(TutorialManager.Instance.iscardPush)
+        {
+            showCard.SetActive(true);
+        }
+        else
+        {
+            showCard.SetActive(false);
         }
     }
     void OnMouseDown()
@@ -42,6 +57,7 @@ public class Card_TuTo : MonoBehaviour
     {
         if (TutorialManager.Instance.card)
         {
+            TutorialManager.Instance.iscardPush = false;
             isMyCardDrag = false;
             spriteRenderer.enabled = true;
             StartCoroutine(cardButton.DontShowCards());
