@@ -55,11 +55,14 @@ public class GameManager : MonoBehaviourPunCallbacks
     private bool moving = true;
     private bool isStop = false;
 
+    private Sprite[] backgrounds;
+    [SerializeField]
+    private SpriteRenderer back;
+
     [Multiline(10)]
     [SerializeField] string cheatInfo;
     [SerializeField] private List<MovePlate> movePlateList = new List<MovePlate>();
     [SerializeField] private Text currentPlayerText;
-
 
     WaitForSeconds delay2 = new WaitForSeconds(2);
 
@@ -72,13 +75,12 @@ public class GameManager : MonoBehaviourPunCallbacks
         TurnManager.Instance.StartGame();
         SetCamera();
         pool = FindObjectOfType<PoolManager>();
+        SetBackground();
     }
     private void Update()
     {
         InputCheatKey();
         currentPlayerText.text = TurnManager.Instance.GetCurrentPlayer();
-
-
     }
     // Functions including cheatkey
     void InputCheatKey()
@@ -323,15 +325,29 @@ public class GameManager : MonoBehaviourPunCallbacks
             }
         }
 
-
         for(int i = 0, cnt = nums.Count; i < cnt; i++)
         {
             RemoveMovePlateList(nums[0]);
             Destroy(nums[0].gameObject);;
             nums.RemoveAt(0);
         }
+    }
 
+    private void SetBackground()
+    {
+        backgrounds = Resources.LoadAll<Sprite>("Images/ingameBackground");
+        User user = NetworkManager.Inst.LoadDataFromJson<User>();
+        back.sprite = backgrounds[user.backGround];
 
+        if(player == "white")
+        {
+            back.gameObject.transform.rotation = Quaternion.identity;
+        }
+
+        else
+        {
+            back.gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, 0, -180));
+        }
     }
     #region
 

@@ -11,8 +11,9 @@ public class LobbyManager : MonoBehaviour
     private Text text;
     private int gold = 1000;
 
-    [SerializeField]
-    private Sprite[] backGroundSprites;
+    private Sprite[] backs;
+    private Sprite[] longBacks;
+
     [SerializeField]
     private Image BGI;
     [SerializeField]
@@ -22,18 +23,17 @@ public class LobbyManager : MonoBehaviour
     [SerializeField]
     private GameObject checkButton;
 
-    public bool[] isGodBought;
-    public Sprite[] GodSprites;
-
     public Button BGbutton;
 
-    User user;
+    private User user;
 
     int num = 0;
-    int Gnum = 0;
 
     void Start()
     {
+        backs = Resources.LoadAll<Sprite>("Images/lobbychess");
+        longBacks = Resources.LoadAll<Sprite>("Images/ingameBackground");
+
         FirstSetting();
 
         UpdateUI();
@@ -59,7 +59,7 @@ public class LobbyManager : MonoBehaviour
         {
             gold -= g;
             user.myBackground[num] = true;
-            BGI.sprite = backGroundSprites[num];
+            BGI.sprite = longBacks[num];
             DeckManager.Instance.SetGold(gold);
             UpdateUI();
             SetBackGround();
@@ -68,14 +68,7 @@ public class LobbyManager : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.A))
-        {
-            gold = DeckManager.Instance.GetGold();
-            gold += 1000;
-            DeckManager.Instance.SetGold(gold);
-            UpdateUI();
-        }
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             Application.Quit();
         }
@@ -83,7 +76,7 @@ public class LobbyManager : MonoBehaviour
 
     private void SetBackGround()
     {
-        BG_Shop.sprite = backGroundSprites[num];
+        BG_Shop.sprite = backs[num];
         user = DeckManager.Instance.GetUser();
 
         if (user.myBackground[num])
@@ -98,7 +91,7 @@ public class LobbyManager : MonoBehaviour
             BGbutton.image.color = Color.white;
         }
 
-        if(user.backGround != backGroundSprites[num].name)
+        if (user.backGround != num)
         {
             checkButton.transform.GetChild(0).gameObject.SetActive(false);
         }
@@ -125,7 +118,7 @@ public class LobbyManager : MonoBehaviour
             StartCoroutine(DeckManager.Instance.Message("카드가 10장보다 부족합니다"));
             return;
         }
-        if(game.name.Contains("Match"))
+        if (game.name.Contains("Match"))
         {
             NetworkManager.Inst.JoinRandomRoom();
         }
@@ -135,7 +128,7 @@ public class LobbyManager : MonoBehaviour
 
     public void Next()
     {
-        if (num + 1 == backGroundSprites.Length)
+        if (num + 1 == backs.Length)
             num = 0;
         else
             num++;
@@ -146,34 +139,23 @@ public class LobbyManager : MonoBehaviour
     public void Recent()
     {
         if (num == 0)
-            num = backGroundSprites.Length - 1;
+            num = backs.Length - 1;
         else
             num--;
 
         SetBackGround();
     }
 
-    public void God_Buy(int g)
-    {
-        gold = DeckManager.Instance.GetGold();
-
-        if (!isGodBought[Gnum])
-        {
-            gold -= g;
-            isGodBought[Gnum] = true;
-            DeckManager.Instance.SetGold(gold);
-            UpdateUI();
-        }
-    }
 
     public void CheckBackGround()
     {
         user = DeckManager.Instance.GetUser();
 
-        if (user.myBackground[num] && user.backGround != backGroundSprites[num].name)
+        if (user.myBackground[num] && user.backGround != num)
         {
             checkButton.transform.GetChild(0).gameObject.SetActive(true);
-            DeckManager.Instance.SetBackground(backGroundSprites[num].name);
+            DeckManager.Instance.SetBackground(num);
+            BGI.sprite = longBacks[user.backGround];
         }
     }
 
@@ -181,9 +163,19 @@ public class LobbyManager : MonoBehaviour
     {
         user = DeckManager.Instance.GetUser();
 
-        if (DeckManager.Instance.GetBackground() == "")
-            DeckManager.Instance.SetBackground(backGroundSprites[0].name);
+        if (DeckManager.Instance.GetBackground() == 0)
+        {
+            DeckManager.Instance.SetBackground(0);
+            BGI.sprite = longBacks[0];
+        }
+        else
+        {
+            BGI.sprite = longBacks[user.backGround];
+            num = user.backGround;
+            SetBackGround();
+        }
 
         user.myBackground[0] = true;
+        isBGBought = user.myBackground;
     }
 }

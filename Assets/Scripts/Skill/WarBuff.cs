@@ -48,6 +48,7 @@ public class WarBuff : SkillBase
             ChessManager.Inst.SetIsMoving(false);
             return;
         }
+
         else
         {
             TurnManager.Instance.ButtonActive();
@@ -73,8 +74,7 @@ public class WarBuff : SkillBase
         }
 
         ChessManager.Inst.SetPositionEmpty(selectPiece.GetXBoard(), selectPiece.GetYBoard());
-        ChessManager.Inst.UpdateArr(selectPiece);
-        Destroy(selectPiece.gameObject);
+        ChessManager.Inst.DestroyChessPiece(selectPiece.GetChessData());
         selectPiece.RemoveChosenSkill(this);
 
         DestroySkill();
