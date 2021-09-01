@@ -13,18 +13,22 @@ public class LobbyManager : MonoBehaviour
 
     private Sprite[] backs;
     private Sprite[] longBacks;
+    private bool[] isBGBought;
 
     [SerializeField]
     private Image BGI;
     [SerializeField]
     private Image BG_Shop;
     [SerializeField]
-    private bool[] isBGBought;
-    [SerializeField]
     private GameObject checkButton;
 
-    public Button BGbutton;
+    [SerializeField]
+    private Slider bgmSound;
+    [SerializeField]
+    private Slider effectSound;
 
+    [SerializeField]
+    private Button BGbutton;
     private User user;
 
     int num = 0;
@@ -38,6 +42,7 @@ public class LobbyManager : MonoBehaviour
 
         UpdateUI();
         SetBackGround();
+        SetSoundValue();
     }
 
     private void UpdateUI()
@@ -146,7 +151,6 @@ public class LobbyManager : MonoBehaviour
         SetBackGround();
     }
 
-
     public void CheckBackGround()
     {
         user = DeckManager.Instance.GetUser();
@@ -177,5 +181,28 @@ public class LobbyManager : MonoBehaviour
 
         user.myBackground[0] = true;
         isBGBought = user.myBackground;
+    }
+
+    public void SetBGMValue(Text text)
+    {
+        text.text = bgmSound.value.ToString();
+    }
+
+    public void SetEffectValue(Text text)
+    {
+        text.text = effectSound.value.ToString();
+    }
+
+    private void SetSoundValue()
+    {
+        User user = DeckManager.Instance.GetUser();
+
+        bgmSound.value = user.bgmVolume * 10;
+        effectSound.value = user.effectVolume * 10;
+    }
+
+    public void SaveVolume()
+    {
+        DeckManager.Instance.SetSoundVolume(bgmSound.value / 10f, effectSound.value / 10f);
     }
 }

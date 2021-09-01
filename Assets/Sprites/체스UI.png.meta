@@ -26,6 +26,12 @@ TextureImporter:
   - first:
       213: -340708372150306433
     second: "\uCCB4\uC2A4UI_7"
+  - first:
+      213: 7360763819656633977
+    second: "\uCCB4\uC2A4UI_8"
+  - first:
+      213: -7393619113397519390
+    second: "\uCCB4\uC2A4UI_9"
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -290,6 +296,48 @@ TextureImporter:
       bones: []
       spriteID: f79baf96a8f854bf0800000000000000
       internalID: -340708372150306433
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "\uCCB4\uC2A4UI_8"
+      rect:
+        serializedVersion: 2
+        x: 291
+        y: 19
+        width: 46
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 97e5e2ae1bfa62660800000000000000
+      internalID: 7360763819656633977
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "\uCCB4\uC2A4UI_9"
+      rect:
+        serializedVersion: 2
+        x: 356
+        y: 24
+        width: 34
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2ebf665e696946990800000000000000
+      internalID: -7393619113397519390
       vertices: []
       indices: 
       edges: []

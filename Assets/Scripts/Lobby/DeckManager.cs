@@ -58,7 +58,7 @@ public class DeckManager : MonoBehaviourPunCallbacks
         user = NetworkManager.Inst.LoadDataFromJson<User>();
         if (user == null)
         {
-            user = new User(10000, 0, new string[10], new bool[6]);
+            user = new User(10000, 0, new string[10], new bool[6], 0.5f, 0.5f);
 
         }
         SettingIsChosen();
@@ -225,6 +225,12 @@ public class DeckManager : MonoBehaviourPunCallbacks
         user.backGround = bg;
     }
 
+    public void SetSoundVolume(float bgm, float eff)
+    {
+        user.bgmVolume = bgm;
+        user.effectVolume = eff;
+    }
+
     public int GetBackground()
     {
         return user.backGround;
@@ -330,12 +336,16 @@ public class User
     public string player;
     public string[] myDecks;
     public bool[] myBackground;
+    public float bgmVolume;
+    public float effectVolume;
 
-    public User(int gold, int backGround, string[] myDecks, bool[] myBackground)
+    public User(int gold, int backGround, string[] myDecks, bool[] myBackground, float bgmVolume, float effectVolume)
     {
         this.gold = gold;
         this.backGround = backGround;
         this.myDecks = myDecks;
         this.myBackground = myBackground;
+        this.bgmVolume = bgmVolume;
+        this.effectVolume = effectVolume;
     }
 }
