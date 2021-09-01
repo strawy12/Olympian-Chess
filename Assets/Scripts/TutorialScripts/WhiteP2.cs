@@ -69,7 +69,7 @@ public class WhiteP2 : MonoBehaviour
         //    transform.position = Vector3.Lerp(startPos, endPos, t);
         //    yield return null;
         //}
-        TutorialManager.Instance.MoveChessSound();
+        SoundManager.Instance.MoveChessSound();
         transform.position = endPos;
         yield return null;
         

@@ -85,25 +85,6 @@ public class TutorialManager : MonoBehaviour
     #endregion
     void Start()
     {
-        StartSoundPlay();
-    }
-    private void StartSoundPlay()
-    {
-        SoundManager.Instance.SoundPlay("StartSound", startSound);
-    }
-
-    public void MoveChessSound()
-    {
-        SoundManager.Instance.SoundPlay("MoveChess", moveSound);
-    }
-
-    public void DeadChessSound()
-    {
-        SoundManager.Instance.SoundPlay("DeadSound", deadSound);
-    }
-
-    public void ButtonClickSound()
-    {
-        SoundManager.Instance.SoundPlay("buttonClick", buttonClick);
+        SoundManager.Instance.StartSoundPlay();
     }
 }

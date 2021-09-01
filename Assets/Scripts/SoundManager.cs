@@ -25,6 +25,41 @@ public class SoundManager : MonoBehaviour
 
     #endregion
 
+    [Header("게임 시작 사운드")]
+    [SerializeField]
+    private AudioClip startSound;
+
+    [Header("체스말 움직일 떄 사운드")]
+    [SerializeField]
+    private AudioClip moveSound;
+
+    [Header("체스말 죽을 때 사운드")]
+    [SerializeField]
+    private AudioClip deadSound;
+
+    [Header("버튼 눌렀을 때 사운드")]
+    [SerializeField]
+    private AudioClip buttonClick;
+
+    public void StartSoundPlay()
+    {
+        SoundPlay("StartSound", startSound);
+    }
+
+    public void MoveChessSound()
+    {
+        SoundPlay("MoveChess", moveSound);
+    }
+
+    public void DeadChessSound()
+    {
+       SoundPlay("DeadSound", deadSound);
+    }
+
+    public void ButtonClickSound()
+    {
+        SoundPlay("buttonClick", buttonClick);
+    }
     public void SoundPlay(string name,AudioClip clip)
     {
         //Debug.Log(name + "Sound");

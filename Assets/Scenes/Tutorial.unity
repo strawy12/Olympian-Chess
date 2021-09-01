@@ -2713,6 +2713,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61452b20d7a2e3440a2013b7ce2d9d1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startSound: {fileID: 8300000, guid: 5b21c04f094dcab46a6dc9015d677d57, type: 3}
+  moveSound: {fileID: 8300000, guid: 9614bd20cc551634c8f90907592327b2, type: 3}
+  deadSound: {fileID: 8300000, guid: be0282cca2b30a84484cbae9818b145d, type: 3}
+  buttonClick: {fileID: 8300000, guid: b5a96ff68d47a474a9b1e7fff0bec7f3, type: 3}
 --- !u!4 &925015125
 Transform:
   m_ObjectHideFlags: 0

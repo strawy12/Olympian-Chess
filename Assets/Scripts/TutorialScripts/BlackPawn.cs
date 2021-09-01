@@ -38,7 +38,7 @@ public class BlackPawn : MonoBehaviour
         TutorialManager.Instance.turnEnd = true;
         Destroy(MV_M);
 
-        TutorialManager.Instance.MoveChessSound();
+        SoundManager.Instance.MoveChessSound();
         knight.transform.position = endPos;
 
         
