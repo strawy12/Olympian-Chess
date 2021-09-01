@@ -52,6 +52,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject cccccp;
     [SerializeField] private GameObject promotionUI;
 
+
     [SerializeField] private WaitForSeconds delay = new WaitForSeconds(0.5f);
 
     private bool isLoading;
@@ -117,8 +118,6 @@ public class ChessManager : MonoBehaviourPunCallbacks
            Creat(black[king], 4,7), Creat(black[bishop], 5,7), Creat(black[rook], 7,7),
            Creat(black[knight], 6,7)
         };
-
-        
     }
 
     IEnumerator SetPlayerArr()
@@ -281,27 +280,38 @@ public class ChessManager : MonoBehaviourPunCallbacks
         //RotationBoard.playerWhite = playerWhite;
         //RotationBoard.playerBlack = playerBlack;
     }
-    public bool CheckArr(bool isPlayer, string name)
+    public bool CheckArr(bool isWhite, string name)
     {
-        if (isPlayer)
+        if (isWhite)
         {
             for (int i = 0; i < playerWhite.Length; i++)
             {
                 if (playerWhite[i] == null)
+                {
                     continue;
-                if (playerWhite[i].gameObject.name == name)
+                }
+
+                if (playerWhite[i].gameObject.name.Contains(name))
+                {
                     return true;
+                }
             }
             return false;
         }
+
         else
         {
             for (int i = 0; i < playerBlack.Length; i++)
             {
                 if (playerBlack[i] == null)
+                {
                     continue;
-                if (playerBlack[i].gameObject.name == name)
+                }
+
+                if (playerBlack[i].gameObject.name.Contains(name))
+                {
                     return true;
+                }
             }
             return false;
         }
@@ -329,11 +339,24 @@ public class ChessManager : MonoBehaviourPunCallbacks
     public ChessBase GetChessPiece(ChessData chessData)
     {
         if (chessData == null) return null;
-
         var targetPlayers = chessData.ID < 200 ? playerWhite : playerBlack;
 
-        return Array.Find(targetPlayers, c => c.GetID() == chessData.ID);
+        for (int i = 0; i < 16; i++)
+        {
+
+            if (targetPlayers[i] == null)
+            {
+                continue;
+            }
+
+            if (chessData.ID == targetPlayers[i].GetID())
+            {
+                return targetPlayers[i];
+            }
+        }
+        return null;
     }
+
     //return positions
     public ChessBase GetPosition(int x, int y)
     {

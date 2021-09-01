@@ -5,7 +5,9 @@ using UnityEngine.UIElements;
 using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
+using DG.Tweening;
 using UnityEngine.SceneManagement;
+using Image = UnityEngine.UI.Image;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
@@ -27,7 +29,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                     var newObj = new GameObject().AddComponent<GameManager>();
                     inst = newObj;
                 }
-            }   
+            }
             return inst;
         }
     }
@@ -64,6 +66,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     [SerializeField] private List<MovePlate> movePlateList = new List<MovePlate>();
     [SerializeField] private Text currentPlayerText;
 
+    [SerializeField] private Image matchPanel;
+
     WaitForSeconds delay2 = new WaitForSeconds(2);
 
     private void Awake()
@@ -80,6 +84,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     private void Update()
     {
         InputCheatKey();
+        Win();
         currentPlayerText.text = TurnManager.Instance.GetCurrentPlayer();
     }
     // Functions including cheatkey
@@ -118,6 +123,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void SetCamera()
     {
         Canvas cv = FindObjectOfType<Canvas>();
+
         if (player == "white")
         {
             blackCamera.enabled = false;
@@ -125,8 +131,8 @@ public class GameManager : MonoBehaviourPunCallbacks
             cv.worldCamera = whiteCamera;
             whiteCamera.gameObject.AddComponent<CameraResolution>();
             CardManager.Inst.ChangeCardArea(true);
-
         }
+
         else
         {
             whiteCamera.enabled = false;
@@ -134,10 +140,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             cv.worldCamera = blackCamera;
             blackCamera.gameObject.AddComponent<CameraResolution>();
             CardManager.Inst.ChangeCardArea(false);
-
         }
-
-
     }
     private void DeletePawn()
     {
@@ -170,7 +173,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.Disconnect();
     }
-
 
     public void DestroyMovePlates()
     {
@@ -297,7 +299,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             for (int j = 0; j < 8; j++)
             {
                 cp = ChessManager.Inst.GetPosition(i, j);
-                
+
                 MovePlateSpawn(i, j, cp);
             }
         }
@@ -317,7 +319,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void DestroyNonemptyMovePlate()
     {
         List<MovePlate> nums = new List<MovePlate>();
-        for (int i = 0; i< movePlateList.Count; i++)
+        for (int i = 0; i < movePlateList.Count; i++)
         {
             if (movePlateList[i].Getreference() != null)
             {
@@ -325,10 +327,10 @@ public class GameManager : MonoBehaviourPunCallbacks
             }
         }
 
-        for(int i = 0, cnt = nums.Count; i < cnt; i++)
+        for (int i = 0, cnt = nums.Count; i < cnt; i++)
         {
             RemoveMovePlateList(nums[0]);
-            Destroy(nums[0].gameObject);;
+            Destroy(nums[0].gameObject); ;
             nums.RemoveAt(0);
         }
     }
@@ -339,7 +341,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         User user = NetworkManager.Inst.LoadDataFromJson<User>();
         back.sprite = backgrounds[user.backGround];
 
-        if(player == "white")
+        if (player == "white")
         {
             back.gameObject.transform.rotation = Quaternion.identity;
         }
@@ -349,9 +351,67 @@ public class GameManager : MonoBehaviourPunCallbacks
             back.gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, 0, -180));
         }
     }
+
+    private void Win()
+    {
+        if (TurnManager.Instance.isLoading || gameOver) return;
+
+        if (player == "white")
+        {
+            if (!ChessManager.Inst.CheckArr(false, "black_king"))
+            {
+                Debug.Log("³»°¡ ÀÌ±è¿©");
+                WinEffect(true);
+            }
+
+            else if(!ChessManager.Inst.CheckArr(true, "white_king"))
+            {
+                Debug.Log("³»°¡ Áü");
+                WinEffect(false);
+            }
+        }
+
+        else
+        {
+            if (!ChessManager.Inst.CheckArr(true, "white_king"))
+            {
+                Debug.Log("³»°¡ ÀÌ±è¿©");
+                WinEffect(true);
+            }
+
+            else if (!ChessManager.Inst.CheckArr(false, "black_king"))
+            {
+                Debug.Log("³»°¡ Áü");
+                WinEffect(false);
+            }
+        }
+    }
+
+    private void WinEffect(bool isTrue)
+    {
+        matchPanel.transform.DOScale(1, 0.4f);
+        Text coinText = matchPanel.transform.GetChild(2).GetComponent<Text>();
+        User user = NetworkManager.Inst.LoadDataFromJson<User>();
+
+        if (isTrue && !gameOver)
+        {
+            matchPanel.transform.GetChild(0).gameObject.SetActive(true);
+            coinText.text = "+200";
+            user.gold += 200;
+        }
+
+        else if(!isTrue && !gameOver)
+        {
+            matchPanel.transform.GetChild(1).gameObject.SetActive(true);
+            coinText.text = "+100";
+            user.gold += 100;
+        }
+
+        NetworkManager.Inst.SaveDataToJson(user, true);
+        gameOver = true;
+    }
+
     #region
-
-
     public void SetIsStop(bool isStop)
     {
         this.isStop = isStop;
@@ -480,7 +540,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     //public void StartEndTurn()
     //{
     //    TurnManager.Instance.EndTurn();
-    
+
     //    if(attackings.Contains(cp))
     //    {
     //        attackings.Remove(cp);
