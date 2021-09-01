@@ -68,7 +68,7 @@ public class DeckManager : MonoBehaviourPunCallbacks
     {
         ChangeCard();
         SettingMyDeck();
-        messageText = message.gameObject.GetComponent<Text>();
+        messageText = message.gameObject.transform.GetChild(0).GetComponent<Text>();
         cardInfoText = cardInfo.transform.GetChild(0).GetComponent<Text>();
         cardNameText = cardInfo.transform.GetChild(1).GetComponent<Text>();
     }
@@ -185,6 +185,11 @@ public class DeckManager : MonoBehaviourPunCallbacks
         }
     }
 
+    public void ClickMessage(string str)
+    {
+        StartCoroutine(Message(str));
+    }
+
     public string GetDeck(int index)
     {
         return user.myDecks[index];
@@ -240,7 +245,7 @@ public class DeckManager : MonoBehaviourPunCallbacks
         Debug.Log(messageText);
         message.transform.DOScale(1, 0.3f).SetEase(Ease.InBounce);
         this.messageText.text = string.Format(messageText);
-        yield return new WaitForSeconds(0.7f);
+        yield return new WaitForSeconds(1.25f);
         message.transform.DOScale(0, 0.1f);
     }
 
