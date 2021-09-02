@@ -13,14 +13,21 @@ public class LobbyManager : MonoBehaviour
     private int gold = 1000;
 
     private Sprite[] backs;
-    private bool[] isBGBought;
+    [SerializeField]
+    private Sprite[] supers;
 
     [SerializeField]
-    private Image BGI;
+    private Image backgroundImage;
+
     [SerializeField]
-    private Image BG_Shop;
+    private Image back_Shop;
     [SerializeField]
-    private GameObject checkButton;
+    private GameObject back_checkButton;
+
+    [SerializeField]
+    private Image super_Shop;
+    [SerializeField]
+    private GameObject super_checkButton;
 
     [SerializeField]
     private Slider bgmSound;
@@ -28,17 +35,27 @@ public class LobbyManager : MonoBehaviour
     private Slider effectSound;
 
     [SerializeField]
-    private Button BGbutton;
+    private Button back_button;
+    [SerializeField]
+    private Button super_button;
+
+    [SerializeField]
+    private Text super_Text;
+
+
     private User user;
 
+    #region 스크롤
     [SerializeField] private ScrollRect lobbyScroll;
     private NestedScrollManager nestedScrollManager;
     [SerializeField] private Button btn1;
     [SerializeField] private Button btn2;
     [SerializeField] private Button btn3;
     [SerializeField] private Slider slider;
+    #endregion
 
-    int num = 0;
+    int back_num = 0;
+    int super_num = 0;
 
     void Start()
     {
@@ -49,8 +66,16 @@ public class LobbyManager : MonoBehaviour
         UpdateUI();
         SetBackGround();
         SetSoundValue();
+        SetSupersImage();
 
         SoundManager.Instance.SetLobbyBGM(Random.Range(0, 2));
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
     }
 
     private void UpdateUI()
@@ -65,14 +90,14 @@ public class LobbyManager : MonoBehaviour
 
     public void BG_Buy(int g)
     {
-        gold = DeckManager.Instance.GetGold();
         user = DeckManager.Instance.GetUser();
+        gold = user.gold;
 
-        if (!user.myBackground[num] && gold - g > -1)
+        if (!user.myBackground[back_num] && gold - g > -1)
         {
             gold -= g;
-            user.myBackground[num] = true;
-            BGI.sprite = backs[num];
+            user.myBackground[back_num] = true;
+            backgroundImage.sprite = backs[back_num];
             DeckManager.Instance.SetGold(gold);
             UpdateUI();
             SetBackGround();
@@ -81,39 +106,65 @@ public class LobbyManager : MonoBehaviour
         }
     }
 
-    private void Update()
+    public void Super_Buy(int gold)
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        user = DeckManager.Instance.GetUser();
+        this.gold = user.gold;
+
+        if(this.gold - gold > -1)
         {
-            Application.Quit();
+            this.gold -= gold;
+            DeckManager.Instance.SetGold(this.gold);
+            user.superSkills[super_num].amount++;
+            SoundManager.Instance.Buy();
+            SetSupersImage();
+            UpdateUI();
         }
     }
 
     private void SetBackGround()
     {
-        BG_Shop.sprite = backs[num];
+        back_Shop.sprite = backs[back_num];
         user = DeckManager.Instance.GetUser();
 
-        if (user.myBackground[num])
+        if (user.myBackground[back_num])
         {
-            BG_Shop.color = new Color(0.3f, 0.3f, 0.3f, 1f);
-            BGbutton.image.color = Color.red;
+            back_Shop.color = new Color(0.3f, 0.3f, 0.3f, 1f);
+            back_button.image.color = Color.red;
         }
 
         else
         {
-            BG_Shop.color = new Color(1f, 1f, 1f, 1f);
-            BGbutton.image.color = Color.white;
+            back_Shop.color = new Color(1f, 1f, 1f, 1f);
+            back_button.image.color = Color.white;
         }
 
-        if (user.backGround != num)
+        if (user.backGround != back_num)
         {
-            checkButton.transform.GetChild(0).gameObject.SetActive(false);
+            back_checkButton.transform.GetChild(0).gameObject.SetActive(false);
         }
 
         else
         {
-            checkButton.transform.GetChild(0).gameObject.SetActive(true);
+            back_checkButton.transform.GetChild(0).gameObject.SetActive(true);
+        }
+    }
+
+    private void SetSupersImage()
+    {
+        user = DeckManager.Instance.GetUser();
+
+        super_Shop.sprite = supers[super_num];
+        super_Text.text = user.superSkills[super_num].amount.ToString() + "개";
+
+        if(!user.superSkills[super_num].isSelect)
+        {
+            super_checkButton.transform.GetChild(0).gameObject.SetActive(false);
+        }
+
+        else
+        {
+            super_checkButton.transform.GetChild(0).gameObject.SetActive(true);
         }
     }
 
@@ -153,36 +204,84 @@ public class LobbyManager : MonoBehaviour
         Matching();
     }
 
-    public void Next()
+    public void Next(int num)
     {
-        if (num + 1 == backs.Length)
-            num = 0;
-        else
-            num++;
+        if(num == 0)
+        {
+            if (back_num + 1 == backs.Length)
+                back_num = 0;
+            else
+                back_num++;
 
-        SetBackGround();
+            SetBackGround();
+        }
+
+        else
+        {
+            if (super_num + 1 == supers.Length)
+                super_num = 0;
+            else
+                super_num++;
+
+            SetSupersImage();
+        }
     }
 
-    public void Recent()
+    public void Recent(int num)
     {
-        if (num == 0)
-            num = backs.Length - 1;
-        else
-            num--;
+        if(num == 0)
+        {
+            if (back_num == 0)
+                back_num = backs.Length - 1;
+            else
+                back_num--;
 
-        SetBackGround();
+            SetBackGround();
+        }
+
+        else
+        {
+            if (super_num == 0)
+                super_num = supers.Length - 1;
+            else
+                super_num--;
+
+            SetSupersImage();
+        }
     }
 
     public void CheckBackGround()
     {
         user = DeckManager.Instance.GetUser();
 
-        if (user.myBackground[num] && user.backGround != num)
+        if (user.myBackground[back_num] && user.backGround != back_num)
         {
-            checkButton.transform.GetChild(0).gameObject.SetActive(true);
-            DeckManager.Instance.SetBackground(num);
-            BGI.sprite = backs[user.backGround];
+            back_checkButton.transform.GetChild(0).gameObject.SetActive(true);
+            DeckManager.Instance.SetBackground(back_num);
+            backgroundImage.sprite = backs[user.backGround];
         }
+    }
+
+    public void CheckSuperSkill()
+    {
+        user = DeckManager.Instance.GetUser();
+
+        if(user.superSkills[super_num].isSelect)
+        {
+            super_checkButton.transform.GetChild(0).gameObject.SetActive(false);
+            user.superSkills[super_num].isSelect = false;
+        }
+
+        else if(!user.superSkills[super_num].isSelect)
+        {
+            for (int i = 0; i < user.superSkills.Length; i++)
+                user.superSkills[i].isSelect = false;
+
+            super_checkButton.transform.GetChild(0).gameObject.SetActive(true);
+            user.superSkills[super_num].isSelect = true;
+        }
+
+        NetworkManager.Inst.SaveDataToJson(user, true);
     }
 
     private void FirstSetting()
@@ -192,17 +291,17 @@ public class LobbyManager : MonoBehaviour
         if (DeckManager.Instance.GetBackground() == 0)
         {
             DeckManager.Instance.SetBackground(0);
-            BGI.sprite = backs[0];
+            backgroundImage.sprite = backs[0];
         }
+
         else
         {
-            BGI.sprite = backs[user.backGround];
-            num = user.backGround;
+            backgroundImage.sprite = backs[user.backGround];
+            back_num = user.backGround;
             SetBackGround();
         }
 
         user.myBackground[0] = true;
-        isBGBought = user.myBackground;
     }
 
     public void SetBGMValue(Text text)

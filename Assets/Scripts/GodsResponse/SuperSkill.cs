@@ -35,7 +35,6 @@ public class SuperSkill : MonoBehaviour
         }
     }
 
-
     public void CheckSkill()
     {
         if (isUsed) return;
