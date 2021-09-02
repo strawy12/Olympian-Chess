@@ -48,8 +48,12 @@ public class ShieldOfAthena : SkillBase
     }
 
     [Photon.Pun.PunRPC]
-    public void SOA_ResetSkill()
+    public IEnumerator SOA_ResetSkill()
     {
+        base.StartEffect();
+        animator.transform.localScale = new Vector3(3f, 3f, 3f);
+        animator.Play("AS_Anim");
+        yield return new WaitForSeconds(1.1f);
         selectPiece.spriteRenderer.material.SetColor("_Color", new Color(0, 0, 0, 0));
         selectPiece.SetAttackSelecting(false);
         if (selectPiece != null)
