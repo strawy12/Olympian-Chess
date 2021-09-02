@@ -59,7 +59,7 @@ public class HeavenlyPunishment : SkillBase
 
         base.StartEffect();
 
-        skillEffect.GetComponent<Animator>().Play("HP_Anim");
+        animator.Play("HP_Anim");
     }
 
 

@@ -125,6 +125,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     }
     public override void OnJoinedLobby()
     {
+        if (lodingDisplay == null) return;
         lodingDisplay.SetActive(false);
     }
 

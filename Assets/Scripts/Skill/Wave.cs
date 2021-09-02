@@ -37,7 +37,7 @@ public class Wave : SkillBase
         {
             selectPiece.RemoveChosenSkill(this);
         }
-        RPC_DestroySkill();
+        DestroySkill();
 
 
     }
@@ -59,6 +59,7 @@ public class Wave : SkillBase
     private void WaveCheck()
     {
         CardManager.Inst.NotAmolang();
+        photonView.RPC("WV_Effect", Photon.Pun.RpcTarget.AllBuffered);
         if (skillData.posX == selectPiece.GetXBoard() + 1)
             WaveMove(true, true);
         else if (skillData.posX == selectPiece.GetXBoard() - 1)
@@ -69,9 +70,20 @@ public class Wave : SkillBase
             WaveMove(false, false);
 
         GameManager.Inst.DestroyMovePlates();
-        ResetSkill();
     }
 
+    [Photon.Pun.PunRPC]
+    private IEnumerator WV_Effect()
+    {
+        base.StartEffect();
+        animator.transform.SetParent(null);
+        animator.transform.position = Vector2.zero;
+        animator.transform.localScale = new Vector3(12f, 12f, 12f);
+        animator.Play("WV_Anim");
+
+        yield return new WaitForSeconds(1.5f);
+        ResetSkill();
+    }
     void WaveMove(bool isXY, bool isPlma)
     {
         Debug.Log(isXY);

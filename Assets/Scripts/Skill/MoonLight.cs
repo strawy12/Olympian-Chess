@@ -8,7 +8,6 @@ public class MoonLight : SkillBase
     int originY;
     int moveCnt = 0;
     int maxMove = 2;
-    Animator animator => skillEffect.GetComponent<Animator>();
 
     public override void UsingSkill()
     {

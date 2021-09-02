@@ -35,6 +35,7 @@ public class SkillBase : MonoBehaviourPunCallbacks
     protected ChessBase selectPiece;
     protected ChessBase selectPieceTo;
     protected GameObject skillEffect;
+    protected Animator animator; 
 
     protected void Awake()
     {
@@ -176,16 +177,19 @@ public class SkillBase : MonoBehaviourPunCallbacks
 
     public virtual void StartEffect()
     {
+        Debug.Log("dmddo");
         skillEffect = SkillManager.Inst.SkillEffectSpawn();
         if(GameManager.Inst.GetPlayer() == "black")
         {
             skillEffect.transform.Rotate(0f, 0f, 180f);
         }
-        SkillEffect se = skillEffect.GetComponent<SkillEffect>();
-        se.ID = skillData.ID;
-        se.name = skillData.name;
-        skillEffect.transform.SetParent(selectPiece.transform);
-        skillEffect.transform.position = selectPiece.transform.position;
+        if(selectPiece != null)
+        {
+            skillEffect.transform.SetParent(selectPiece.transform);
+            skillEffect.transform.position = selectPiece.transform.position;
+        }
+
+        animator = skillEffect.GetComponent<Animator>();
     }
     [PunRPC]
     protected void DestroySkill()

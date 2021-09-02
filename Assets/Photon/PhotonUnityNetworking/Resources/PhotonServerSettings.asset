@@ -119,6 +119,8 @@ MonoBehaviour:
   - GoLobby
   - WinEffect
   - StartHP_Effect
+  - ST_Effect
+  - WV_Effect
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
