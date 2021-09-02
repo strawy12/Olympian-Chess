@@ -46,6 +46,9 @@ public class SoundManager : MonoBehaviour
     private AudioClip gameBGM;
     [SerializeField]
     private AudioClip lobbyBGM;
+    [SerializeField]
+    private AudioClip lobbyBGM2;
+
 
     [SerializeField]
     private AudioClip coinSound;
@@ -90,10 +93,13 @@ public class SoundManager : MonoBehaviour
         bgmAudio.Play();
     }
 
-    public void SetLobbyBGM()
+    public void SetLobbyBGM(int rand)
     {
         bgmAudio.Stop();
-        bgmAudio.clip = lobbyBGM;
+        if (rand == 0)
+            bgmAudio.clip = lobbyBGM;
+        else
+            bgmAudio.clip = lobbyBGM2;
         bgmAudio.Play();
     }
 

@@ -1259,6 +1259,7 @@ MonoBehaviour:
   buttonClick: {fileID: 8300000, guid: 19c770f8c0fe36d4da0a329b85081a7a, type: 3}
   gameBGM: {fileID: 8300000, guid: c11fad08e14843b4b818982af2662e3e, type: 3}
   lobbyBGM: {fileID: 8300000, guid: e3e8880e23e4e364dacf6e64f8dd2de7, type: 3}
+  lobbyBGM2: {fileID: 8300000, guid: d145a5050dfe85a478b1e79b1db7766c, type: 3}
   coinSound: {fileID: 8300000, guid: bc33c8bf90b41504d9530a861879d7ae, type: 3}
   matchSound: {fileID: 8300000, guid: 42d05a70ea3a6cb4daae57733a803369, type: 3}
   buttonSound: {fileID: 8300000, guid: 7ae4241e4a28f104b8404451358f571a, type: 3}
@@ -12655,6 +12656,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
         m_MethodName: set_enabled
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 107776510}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: Button
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

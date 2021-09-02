@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class LobbyManager : MonoBehaviour
 {
@@ -49,7 +50,7 @@ public class LobbyManager : MonoBehaviour
         SetBackGround();
         SetSoundValue();
 
-        SoundManager.Instance.SetLobbyBGM();
+        SoundManager.Instance.SetLobbyBGM(Random.Range(0, 2));
     }
 
     private void UpdateUI()
