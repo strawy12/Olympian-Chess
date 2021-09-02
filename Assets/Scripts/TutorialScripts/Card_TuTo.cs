@@ -14,6 +14,7 @@ public class Card_TuTo : MonoBehaviour
     [SerializeField]private CardButton cardButton;
     [SerializeField]private SpriteRenderer blackPiece;
     [SerializeField]private SpriteRenderer cardIcon;
+    [SerializeField] private GameObject showCardBtn;
     [SerializeField] private GameObject showCard;
     private SpriteRenderer spriteRenderer;
 
@@ -36,10 +37,12 @@ public class Card_TuTo : MonoBehaviour
     {
         if(TutorialManager.Instance.iscardPush)
         {
+            showCardBtn.SetActive(true);
             showCard.SetActive(true);
         }
         else
         {
+            showCardBtn.SetActive(false);
             showCard.SetActive(false);
         }
     }
@@ -60,6 +63,7 @@ public class Card_TuTo : MonoBehaviour
             TutorialManager.Instance.iscardPush = false;
             isMyCardDrag = false;
             spriteRenderer.enabled = true;
+            showCard.SetActive(true);
             StartCoroutine(cardButton.DontShowCards());
             TryPutCard();
         }
@@ -98,6 +102,7 @@ public class Card_TuTo : MonoBehaviour
     {
         spriteRenderer.enabled = false;
         cardIcon.enabled = true;
+        showCard.SetActive(false);
 
         TargetingChessPiece();
         transform.DOMove(Utils.MousePos, 0.1f);
@@ -107,6 +112,8 @@ public class Card_TuTo : MonoBehaviour
     {
         if(targeting)
         {
+            showCard.SetActive(false);
+
             TutorialManager.Instance.card = false;
             StartCoroutine(HP_SkillEffect());
             spriteRenderer.enabled = false;

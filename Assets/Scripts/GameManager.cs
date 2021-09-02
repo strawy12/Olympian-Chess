@@ -371,6 +371,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     [PunRPC]
     public void WinEffect(bool isTrue)
     {
+        matchPanel.gameObject.SetActive(true);
         matchPanel.transform.DOScale(1, 0.4f);
         Text coinText = matchPanel.transform.GetChild(2).GetComponent<Text>();
         User user = NetworkManager.Inst.LoadDataFromJson<User>();

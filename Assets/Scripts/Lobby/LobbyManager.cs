@@ -31,13 +31,20 @@ public class LobbyManager : MonoBehaviour
     private Button BGbutton;
     private User user;
 
+    [SerializeField] private ScrollRect lobbyScroll;
+    private NestedScrollManager nestedScrollManager;
+    [SerializeField] private Button btn1;
+    [SerializeField] private Button btn2;
+    [SerializeField] private Button btn3;
+    [SerializeField] private Slider slider;
+
     int num = 0;
 
     void Start()
     {
         backs = Resources.LoadAll<Sprite>("Images/lobbychess");
         longBacks = Resources.LoadAll<Sprite>("Images/ingameBackground");
-
+        nestedScrollManager = lobbyScroll.gameObject.GetComponent<NestedScrollManager>();
         FirstSetting();
 
         UpdateUI();
@@ -107,13 +114,23 @@ public class LobbyManager : MonoBehaviour
         }
     }
 
+    private void Matching()
+    {
+        lobbyScroll.enabled = false;
+        nestedScrollManager.enabled = false;
+        btn1.interactable = false;
+        btn2.interactable = false;
+        btn3.interactable = false;
+        slider.enabled = false;
+    }
+
     public void CheckCardList(GameObject game)
     {
         string[] myDecks = DeckManager.Instance.GetUser().myDecks;
         int cnt = 0;
         for (int i = 0; i < myDecks.Length; i++)
         {
-            if (myDecks[i] != null || myDecks[i] != "")
+            if (myDecks[i] != "")
             {
                 cnt++;
             }
@@ -129,6 +146,7 @@ public class LobbyManager : MonoBehaviour
         }
 
         game.SetActive(true);
+        Matching();
     }
 
     public void Next()

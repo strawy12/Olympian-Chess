@@ -284,9 +284,6 @@ public class ChessManager : MonoBehaviourPunCallbacks
     {
         if (isWhite)
         {
-<<<<<<< HEAD
-            return Array.Exists(playerWhite, x => x.GetChessData().chessPiece == name);
-=======
             for (int i = 0; i < playerWhite.Length; i++)
             {
                 if (playerWhite[i] == null)
@@ -300,14 +297,10 @@ public class ChessManager : MonoBehaviourPunCallbacks
                 }
             }
             return false;
->>>>>>> minyoung
         }
 
         else
         {
-<<<<<<< HEAD
-            return Array.Exists(playerBlack, x => x.GetChessData().chessPiece == name);
-=======
             for (int i = 0; i < playerBlack.Length; i++)
             {
                 if (playerBlack[i] == null)
@@ -321,7 +314,6 @@ public class ChessManager : MonoBehaviourPunCallbacks
                 }
             }
             return false;
->>>>>>> minyoung
         }
     }
 

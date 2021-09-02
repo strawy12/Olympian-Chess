@@ -38,8 +38,7 @@ public class DeckManager : MonoBehaviourPunCallbacks
     [SerializeField]
     private CardItemSO cards;
     private CardSelect cardSelect;
-
-
+    private Coroutine coroutineInfo;
 
     [SerializeField] private Image cardInfoImage;
     private Text cardNameText;
@@ -285,6 +284,8 @@ public class DeckManager : MonoBehaviourPunCallbacks
     {
         isInfo = false;
         isDrag = false;
+        StopCoroutine(coroutineInfo);
+        coroutineInfo = null;
         cardInfoImage.gameObject.SetActive(false);
     }
 
@@ -297,13 +298,13 @@ public class DeckManager : MonoBehaviourPunCallbacks
     public void PointerDown(Carditem carditem)
     {
         isInfo = true;
-        StartCoroutine(Info(carditem));
+        coroutineInfo = StartCoroutine(Info(carditem));
     }
 
     IEnumerator Info(Carditem carditem)
     {
-        Debug.Log("dd");
         yield return new WaitForSeconds(0.7f);
+        Debug.Log("d2d");
 
         if (isInfo && !isDrag)
         {

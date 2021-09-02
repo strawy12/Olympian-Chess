@@ -41,7 +41,7 @@ public class CardManager : MonoBehaviourPunCallbacks
     [SerializeField] GameObject skillPrefab;
     [SerializeField] GameObject targetPicker;
     [SerializeField] GameObject cardArea;
-    [SerializeField] GameObject cardInfo;
+    
 
     [SerializeField] Transform cardSpawnPoint;
 
@@ -56,11 +56,14 @@ public class CardManager : MonoBehaviourPunCallbacks
 
     [SerializeField] ECardState eCardState; // now Game system state
 
-    [SerializeField] Text infoText;
-    [SerializeField] Text nameText;
-    [SerializeField] Text godText;
-
-    [SerializeField] Image godImage;
+    [SerializeField] private Image cardInfoImage;
+    private Text cardNameText;
+    private Text cardInfoText;
+    private Image cardImage;
+    private Text godNameText;
+    private Text cardTypeText;
+    private Text targetText;
+    private Text turnText;
 
     #endregion
 
@@ -97,9 +100,9 @@ public class CardManager : MonoBehaviourPunCallbacks
     #endregion
 
     #region System
-    void Awake()
+    void Start()
     {
-        cardPrefab.GetComponent<Card>().enabled = true;
+        GetCardInfoComponent();
     }
 
     private void Update()
@@ -128,7 +131,16 @@ public class CardManager : MonoBehaviourPunCallbacks
     #endregion
 
     #region System Manage
-
+    private void GetCardInfoComponent()
+    {
+        cardNameText = cardInfoImage.transform.GetChild(0).GetComponent<Text>();
+        cardInfoText = cardInfoImage.transform.GetChild(1).GetComponent<Text>();
+        cardImage = cardInfoImage.transform.GetChild(2).GetComponent<Image>();
+        godNameText = cardInfoImage.transform.GetChild(3).GetComponent<Text>();
+        cardTypeText = cardInfoImage.transform.GetChild(4).GetComponent<Text>();
+        targetText = cardInfoImage.transform.GetChild(5).GetComponent<Text>();
+        turnText = cardInfoImage.transform.GetChild(6).GetComponent<Text>();
+    }
     public void TargetingChessPiece()
     {
         foreach (RaycastHit2D hit in Physics2D.RaycastAll(Utils.MousePos, Vector3.forward))
@@ -222,12 +234,14 @@ public class CardManager : MonoBehaviourPunCallbacks
     {
         if (selectCard == null) return;
 
-        infoText.text = string.Format("{0}", selectCard.carditem.info);
-        godText.text = string.Format("{0}", selectCard.carditem.god);
-        nameText.text = string.Format("{0}", selectCard.carditem.name);
-        nameText.color = selectCard.carditem.color;
-
-        godImage.sprite = selectCard.carditem.sprite;
+        cardInfoImage.gameObject.SetActive(true);
+        cardInfoText.text = selectCard.carditem.info;
+        cardNameText.text = selectCard.carditem.name;
+        cardImage.sprite = selectCard.carditem.sprite;
+        godNameText.text = selectCard.carditem.god;
+        cardTypeText.text = selectCard.carditem.cardType;
+        targetText.text = selectCard.carditem.target;
+        turnText.text = selectCard.carditem.turn;
     }
 
     void SetECardState() // enum event Setting
@@ -852,7 +866,7 @@ public class CardManager : MonoBehaviourPunCallbacks
         if (isUse) return;
 
         isClick = true;
-        cardInfo.SetActive(false);
+        cardInfoImage.gameObject.SetActive(false);
         GameManager.Inst.DestroyMovePlates();
         SkillManager.Inst.SetUsingCard(false);
         SkillManager.Inst.CheckSkillCancel("에로스의 사랑,수면,죽음의 땅,파도");
@@ -872,7 +886,7 @@ public class CardManager : MonoBehaviourPunCallbacks
         {
             var targetRot = ComparisonPlayer("white") ? Utils.QI : Quaternion.Euler(0f, 0f, 180f);
             StartCoroutine(DontShowCards(GetTargetCards()));
-            cardInfo.SetActive(true);
+            cardInfoImage.gameObject.SetActive(true);
             ShowInfo();
             isMyCardDrag = false;
             isClick = false;
@@ -920,7 +934,7 @@ public class CardManager : MonoBehaviourPunCallbacks
             selectCard.MoveTransform(new PRS(Utils.MousePos, Quaternion.Euler(0f, 0f, 180f), selectCard.originPRS.scale), false, false);
         }
 
-        cardInfo.SetActive(false);
+        cardInfoImage.gameObject.SetActive(false);
     }
 
     public List<PRS> ShowCards(int objCnt, Vector3 scale)
