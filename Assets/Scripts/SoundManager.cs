@@ -64,6 +64,13 @@ public class SoundManager : MonoBehaviour
 
     private void Awake()
     {
+        SoundManager[] smanagers = FindObjectsOfType<SoundManager>();
+        if (smanagers.Length != 1)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         DontDestroyOnLoad(gameObject);
 
         bgmAudio = GetComponent<AudioSource>();
@@ -85,6 +92,7 @@ public class SoundManager : MonoBehaviour
 
     public void EffectVolume(Slider slider)
     {
+        if (effectAudio == null) return;
         effectAudio.volume = slider.value / 10;
     }
 

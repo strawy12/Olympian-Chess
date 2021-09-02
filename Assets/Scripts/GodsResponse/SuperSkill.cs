@@ -38,10 +38,11 @@ public class SuperSkill : MonoBehaviour
     public void CheckSkill()
     {
         if (isUsed) return;
+        if (!gameObject.activeSelf) return;
 
         if (player == "white")
         {
-            if (SkillActive(SuperSkillManager.Inst.whiteGodsRes))
+            if (SkillActive(SuperSkillManager.Inst.GetResponse(true)))
             {
                 spriteRenderer.color = Color.white;
                 col.enabled = true;
@@ -50,7 +51,7 @@ public class SuperSkill : MonoBehaviour
 
         else
         {
-            if (SkillActive(SuperSkillManager.Inst.blackGodsRes))
+            if (SkillActive(SuperSkillManager.Inst.GetResponse(false)))
             {
                 spriteRenderer.color = Color.white;
                 col.enabled = true;
@@ -142,6 +143,7 @@ public class SuperSkill : MonoBehaviour
     {
         return player;
     }
+
     public void ChangeSprite(Sprite sprite, Sprite sprite2)
     {
         spriteRenderer.sprite = sprite;

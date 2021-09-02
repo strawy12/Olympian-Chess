@@ -514,15 +514,6 @@ MonoBehaviour:
     color: {r: 0, g: 0, b: 0, a: 0}
     info: 
     detail: 
-  user:
-    gold: 0
-    backGround: 0
-    player: 
-    myDecks: []
-    myBackground: 
-    bgmVolume: 0
-    effectVolume: 0
-    superSkills: []
   cards: {fileID: 11400000, guid: db0d74c26d4d2164e8380b62e5e5e3d9, type: 2}
   supers: {fileID: 11400000, guid: 8f1e0f31cfbd9034d9c50a0854045803, type: 2}
   cardInfoImage: {fileID: 1058515605}

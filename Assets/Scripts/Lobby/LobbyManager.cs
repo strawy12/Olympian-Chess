@@ -266,13 +266,13 @@ public class LobbyManager : MonoBehaviour
     {
         user = DeckManager.Instance.GetUser();
 
-        if(user.superSkills[super_num].isSelect)
+        if(user.superSkills[super_num].isSelect && user.superSkills[super_num].amount > 0)
         {
             super_checkButton.transform.GetChild(0).gameObject.SetActive(false);
             user.superSkills[super_num].isSelect = false;
         }
 
-        else if(!user.superSkills[super_num].isSelect)
+        else if(!user.superSkills[super_num].isSelect && user.superSkills[super_num].amount > 0)
         {
             for (int i = 0; i < user.superSkills.Length; i++)
                 user.superSkills[i].isSelect = false;
