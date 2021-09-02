@@ -97,7 +97,6 @@ public class Poseidon : SkillBase
 
         for (int i = 0; i < cmList.Count; i++)
         {
-            Debug.Log(cmList[i].name);
             ChessManager.Inst.SetPosition(cmList[i]);
         }
 
