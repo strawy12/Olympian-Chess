@@ -8,6 +8,7 @@ public class MoonLight : SkillBase
     int originY;
     int moveCnt = 0;
     int maxMove = 2;
+    Animator animator => skillEffect.GetComponent<Animator>();
 
     public override void UsingSkill()
     {
@@ -20,19 +21,33 @@ public class MoonLight : SkillBase
         originX = selectPiece.GetXBoard();
         originY = selectPiece.GetYBoard();
 
-        if(photonView.IsMine)
+        if (photonView.IsMine)
         {
-            selectPiece.spriteRenderer.material.color = new Color(0.5f, 0.5f, 0.5f, 0f);
             selectPiece.SetNoneAttack(true);
+
+            base.StartEffect();
+        animator.Play("ML_Anim");
+
         }
 
         else
         {
-            selectPiece.spriteRenderer.enabled = false;
-            selectPiece.spriteRenderer.material.color = new Color(0.5f, 0.5f, 0.5f, 0f);
+            StartCoroutine(EffectCo());
         }
     }
 
+    private IEnumerator EffectCo()
+    {
+        selectPiece.SetNoneAttack(true);
+
+        base.StartEffect();
+
+        animator.Play("ML_Anim");
+
+        yield return new WaitForSeconds(1f);
+        selectPiece.spriteRenderer.enabled = false;
+        animator.gameObject.SetActive(false);
+    }
     public override void ResetSkill()
     {
 
@@ -58,16 +73,16 @@ public class MoonLight : SkillBase
     }
 
     [Photon.Pun.PunRPC]
-    private void DestroySkill_RPC()
+    private IEnumerator DestroySkill_RPC()
     {
-        if (selectPiece != null)
-        {
-            selectPiece.spriteRenderer.enabled = true;
-            selectPiece.spriteRenderer.material.color = new Color(0f, 0f, 0f, 0f);
-            selectPiece.SetIsSelecting(false);
-            selectPiece.SetNoneAttack(false);
-            selectPiece.RemoveChosenSkill(this);
-        }
+        animator.gameObject.SetActive(true);
+        animator.SetFloat("speed", -1);
+        animator.Play("ML_Anim", -1, 1f);
+        yield return new WaitForSeconds(1.25f);
+        selectPiece.spriteRenderer.enabled = true;
+        selectPiece.SetIsSelecting(false);
+        selectPiece.SetNoneAttack(false);
+        selectPiece.RemoveChosenSkill(this);
         DestroySkill();
     }
 }

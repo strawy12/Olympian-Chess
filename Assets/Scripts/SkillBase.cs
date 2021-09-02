@@ -174,6 +174,19 @@ public class SkillBase : MonoBehaviourPunCallbacks
         photonView.RPC("DestroySkill", RpcTarget.AllBuffered);
     }
 
+    public virtual void StartEffect()
+    {
+        skillEffect = SkillManager.Inst.SkillEffectSpawn();
+        if(GameManager.Inst.GetPlayer() == "black")
+        {
+            skillEffect.transform.Rotate(0f, 0f, 180f);
+        }
+        SkillEffect se = skillEffect.GetComponent<SkillEffect>();
+        se.ID = skillData.ID;
+        se.name = skillData.name;
+        skillEffect.transform.SetParent(selectPiece.transform);
+        skillEffect.transform.position = selectPiece.transform.position;
+    }
     [PunRPC]
     protected void DestroySkill()
     {

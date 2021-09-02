@@ -42,7 +42,7 @@ public class HeavenlyPunishment : SkillBase
             RemoveSkill();
             return;
         }
-        photonView.RPC("StartEffect", Photon.Pun.RpcTarget.AllBuffered);
+        photonView.RPC("StartHP_Effect", Photon.Pun.RpcTarget.AllBuffered);
         CardManager.Inst.SetisBreak(false);
     }
 
@@ -53,18 +53,15 @@ public class HeavenlyPunishment : SkillBase
     }
 
     [Photon.Pun.PunRPC]
-    private void StartEffect()
+    public void StartHP_Effect()
     {
-        
         SkillManager.Inst.AddDontClickPiece(selectPiece);
-        skillEffect = SkillManager.Inst.SkillEffectSpawn();
-        SkillEffect se = skillEffect.GetComponent<SkillEffect>();
-        se.ID = skillData.ID;
-        se.name = skillData.name;
-        skillEffect.transform.SetParent(selectPiece.transform);
-        skillEffect.transform.position = selectPiece.transform.position;
+
+        base.StartEffect();
+
         skillEffect.GetComponent<Animator>().Play("HP_Anim");
     }
+
 
 
     private IEnumerator HP_SkillEffect()

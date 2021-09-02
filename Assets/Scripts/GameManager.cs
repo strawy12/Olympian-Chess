@@ -213,6 +213,10 @@ public class GameManager : MonoBehaviourPunCallbacks
         float x = matrixX;
         float y = matrixY;
 
+        x *= 0.684f;
+        y *= 0.684f;
+
+        x += -2.398f;
         y += -2.398f;
 
 
