@@ -35,10 +35,9 @@ public class BGM : MonoBehaviour
                 fadeDeltaTime1 = fadeInSeconds;
                 isFadeIn = false;
             }
-            if (_audioSource.volume > 0.7f) return;
+            if (_audioSource.volume > 0.5f) return;
             else
                 _audioSource.volume = (float)(fadeDeltaTime1 / fadeInSeconds);
-
         }
 
     }
