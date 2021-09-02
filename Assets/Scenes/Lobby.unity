@@ -2465,14 +2465,15 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 36618651}
         m_TargetAssemblyTypeName: DeckManager, Assembly-CSharp
-        m_MethodName: ClickGoldBttton
-        m_Mode: 1
+        m_MethodName: ClickMessage
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: "\uC800\uD76C \uAC8C\uC784\uC740 \uC218\uC775 \uCC3D\uCD9C\uC744
+            \uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4"
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &303389911
@@ -7984,7 +7985,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "1\r\uD134\n\n"
+  m_Text: "\uB9D0\uC774 \uC8FD\uC744\uB54C\uAE4C\uC9C0"
 --- !u!222 &1226326993
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -14164,7 +14165,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -697221745
-  m_SortingLayer: 4
+  m_SortingLayer: 5
   m_SortingOrder: 244
   m_Sprite: {fileID: 21300000, guid: 665b6693220e85e409ad23b188a06449, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

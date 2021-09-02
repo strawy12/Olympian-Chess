@@ -115,7 +115,7 @@ MonoBehaviour:
     ID: 103
     cardType: "\uC720\uD2F8"
     target: "\uC544\uAD70"
-    turn: "2\uBC88\uC9F8 \uC774\uB3D9\uAE4C\uC9C0"
+    turn: "2\uBC88\uC9F8 \uC774\uB3D9"
     god: "\uC544\uB974\uD14C\uBBF8\uC2A4"
     player: white
     sprite: {fileID: -6889725079372615617, guid: aa6a388efbd618443847682ef28c8a32,
@@ -211,7 +211,7 @@ MonoBehaviour:
     ID: 0
     cardType: "\uC720\uD2F8"
     target: "\uC544\uAD70"
-    turn: "\uB9D0\uC774 \uC8FD\uC744\uB54C\uAE4C\uC9C0"
+    turn: "\uB9D0\uC774 \uC8FD\uC744\uB54C"
     god: "\uD5E4\uB77C"
     player: 
     sprite: {fileID: 2578938142422200531, guid: aa6a388efbd618443847682ef28c8a32,

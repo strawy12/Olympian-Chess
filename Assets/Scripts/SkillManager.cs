@@ -16,6 +16,7 @@ public class SkillManager : MonoBehaviourPunCallbacks
     //List of skills currently in use
     [SerializeField] private List<SkillBase> skillList = new List<SkillBase>();
     [SerializeField] private GameObject skillPrefab;
+    [SerializeField] private GameObject skillEffectPrefab;
     #endregion
 
     #region Var List
@@ -291,6 +292,11 @@ public class SkillManager : MonoBehaviourPunCallbacks
         }
     }
 
+    public GameObject SkillEffectSpawn()
+    {
+        return Instantiate(skillEffectPrefab, transform);
+    }
+
     public void UsingSkill(MovePlate mp)
     {
         if (skillList.Count < 1) return;
@@ -342,6 +348,7 @@ public class SkillManager : MonoBehaviourPunCallbacks
     private void AddSkill(int skillID, string name)
     {
         GameObject obj = PhotonView.Find(skillID).gameObject;
+        SkillBase sb;
         switch (name)
         {
             case "Ãµ¹ú":
@@ -440,8 +447,9 @@ public class SkillManager : MonoBehaviourPunCallbacks
                 obj.AddComponent<Drunkenness>();
                 break;
         }
-
-        skillList.Add(obj.GetComponent<SkillBase>());
+        sb = obj.GetComponent<SkillBase>();
+        skillList.Add(sb);
+        
     }
 
     private GameObject CheckSkill(Card card)
@@ -452,8 +460,7 @@ public class SkillManager : MonoBehaviourPunCallbacks
         obj.name = card.carditem.name;
         obj.transform.SetParent(null);
         skillID = obj.GetPhotonView().ViewID;
-        //AddSkill(obj, card.carditem.name);
-
+        //AddSkill(obj, card.carditem.name)
         photonView.RPC("AddSkill", RpcTarget.AllBuffered, skillID, card.carditem.name);
         return obj;
     }

@@ -34,6 +34,7 @@ public class SkillBase : MonoBehaviourPunCallbacks
     protected MovePlate movePlate;
     protected ChessBase selectPiece;
     protected ChessBase selectPieceTo;
+    protected GameObject skillEffect;
 
     protected void Awake()
     {
@@ -176,6 +177,10 @@ public class SkillBase : MonoBehaviourPunCallbacks
     [PunRPC]
     protected void DestroySkill()
     {
+        if(skillEffect != null)
+        {
+            Destroy(skillEffect);
+        }
         SkillManager.Inst.RemoveSkillList(this);
         Destroy(gameObject);
     }
