@@ -37,6 +37,7 @@ public class SuperSkillManager : MonoBehaviourPunCallbacks
     [SerializeField] Sprite zeusUsing;
     [SerializeField] Sprite poseidon;
     [SerializeField] Sprite poseidonUsing;
+    [SerializeField] Sprite none;
 
     private string whiteGodsRes;
     private string blackGodsRes;
@@ -57,6 +58,7 @@ public class SuperSkillManager : MonoBehaviourPunCallbacks
 
     public GameObject SpawnSkill(SuperSkill superSkill)
     {
+        Debug.Log("스폰스킬");
         string response = GameManager.Inst.GetPlayer() == "white" ? whiteGodsRes : blackGodsRes;
         User user = NetworkManager.Inst.LoadDataFromJson<User>();
 
@@ -151,20 +153,23 @@ public class SuperSkillManager : MonoBehaviourPunCallbacks
         if (GameManager.Inst.GetPlayer() == "white")
         {
             whiteGodsRes = response;
-            SetSprite(whiteIcon, response);
+            photonView.RPC("SetSprite", RpcTarget.AllBuffered, "white", whiteGodsRes);
         }
 
         else if (GameManager.Inst.GetPlayer() == "black")
         {
             blackGodsRes = response;
-            SetSprite(blackIcon, response);
+            photonView.RPC("SetSprite", RpcTarget.AllBuffered, "black", blackGodsRes); ;
         }
 
         NetworkManager.Inst.SaveDataToJson(user, true);
     }
 
-    private void SetSprite(SuperSkill icon, string response)
+    [PunRPC]
+    private void SetSprite(string player, string response)
     {
+        SuperSkill icon = player == "white" ? whiteIcon : blackIcon;
+
         if (response == "Zeus")
         {
             icon.ChangeSprite(zeus, zeusUsing);
@@ -177,7 +182,7 @@ public class SuperSkillManager : MonoBehaviourPunCallbacks
 
         else
         {
-            icon.gameObject.SetActive(false);
+            icon.ChangeSprite(null, null);
         }
     }
 

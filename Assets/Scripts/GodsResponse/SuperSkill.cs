@@ -19,20 +19,23 @@ public class SuperSkill : MonoBehaviour
     void Start()
     {
         col = GetComponent<Collider2D>();
-        spriteRenderer.color = Color.gray;
-        col.enabled = false;
+        //spriteRenderer.color = Color.gray;
+        //col.enabled = false;
     }
 
     private void OnMouseUp()
     {
-        if (GameManager.Inst.GetPlayer() != player) return;
-        if(!isUsed)
-        {
+        Debug.Log("들어오긴들어옴");
+
+        //if (GameManager.Inst.GetPlayer() != player) return;
+        //if(!isUsed)
+        //{
+            Debug.Log("스폰스킬");
             SuperSkillManager.Inst.SpawnSkill(this);
             spriteRenderer.color = Color.gray;
             col.enabled = false;
             isUsed = true;
-        }
+        //}
     }
 
     public void CheckSkill()

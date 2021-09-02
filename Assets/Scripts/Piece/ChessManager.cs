@@ -204,7 +204,6 @@ public class ChessManager : MonoBehaviourPunCallbacks
             {
                 GameManager.Inst.MovePlateAttackSpawn(x, y, cp);
             }
-
         }
     }
     public void FalseIsMoving()
@@ -361,12 +360,39 @@ public class ChessManager : MonoBehaviourPunCallbacks
     public ChessBase GetPosition(int x, int y)
     {
         if (position[x, y] == null) return null;
-        var targetPlayers = position[x, y].ID < 200 ? playerWhite : playerBlack;
+        bool isWhite = false;
 
-        if (targetPlayers == null)
-            return null;
+        if (position[x, y].ID < 200)
+        {
+            isWhite = true;
+        }
 
-        return Array.Find(targetPlayers, c => c.GetID() == position[x, y].ID);
+        for (int i = 0; i < 16; i++)
+        {
+            if (isWhite)
+            {
+                if (playerWhite[i] == null)
+                    continue;
+
+                if (position[x, y].ID == playerWhite[i].GetID())
+                {
+                    return playerWhite[i];
+                }
+            }
+
+            else
+            {
+                if (playerBlack[i] == null)
+                    continue;
+
+                if (position[x, y].ID == playerBlack[i].GetID())
+                {
+                    return playerBlack[i];
+                }
+            }
+        }
+
+        return null;
     }
 
     // Function checking if any chesspiece exists on parameters' value on board
@@ -388,7 +414,6 @@ public class ChessManager : MonoBehaviourPunCallbacks
         ChessData chessData = cp.GetChessData();
         string jsonData = NetworkManager.Inst.SaveDataToJson(chessData, true);
         photonView.RPC("SetPosition", RpcTarget.OthersBuffered, jsonData);
-
 
         int x = chessData.xBoard;
         int y = chessData.yBoard;
