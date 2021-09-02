@@ -3,56 +3,8 @@ guid: a62dd247aeddd1b4b8070bd221c89499
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -840865697977705721
-    second: "\uCCB4\uC2A4UI_0"
-  - first:
-      213: -4074410282462374328
-    second: "\uCCB4\uC2A4UI_1"
-  - first:
-      213: -3483402121448922351
-    second: "\uCCB4\uC2A4UI_2"
-  - first:
-      213: -5194880083036818201
-    second: "\uCCB4\uC2A4UI_3"
-  - first:
-      213: 5639875873178817831
-    second: "\uCCB4\uC2A4UI_4"
-  - first:
-      213: 2247999326709094224
-    second: "\uCCB4\uC2A4UI_5"
-  - first:
-      213: -8075198307549750680
-    second: "\uCCB4\uC2A4UI_6"
-  - first:
-      213: -340708372150306433
-    second: "\uCCB4\uC2A4UI_7"
-  - first:
-      213: 7360763819656633977
-    second: "\uCCB4\uC2A4UI_8"
-  - first:
-      213: -7393619113397519390
-    second: "\uCCB4\uC2A4UI_9"
-  - first:
-      213: -9060424852729017138
-    second: "\uCCB4\uC2A4UI_10"
-  - first:
-      213: -5184853014568184977
-    second: "\uCCB4\uC2A4UI_31"
-  - first:
-      213: 3804677383185328686
-    second: "\uCCB4\uC2A4UI_32"
-  - first:
-      213: -2243132920876556187
-    second: "\uCCB4\uC2A4UI_33"
-  - first:
-      213: -8895386686391991617
-    second: "\uCCB4\uC2A4UI_34"
-  - first:
-      213: -9077659054644874964
-    second: "\uCCB4\uC2A4UI_35"
-  - first:
-      213: -5062515914753935289
-    second: "\uCCB4\uC2A4UI_36"
+      213: 3515975224569811088
+    second: CHessUI_36
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -154,7 +106,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "\uCCB4\uC2A4UI_0"
+      name: CHessUI_0
       rect:
         serializedVersion: 2
         x: 8
@@ -162,20 +114,20 @@ TextureImporter:
         width: 303
         height: 262
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 70b5a305a15a454f0800000000000000
-      internalID: -840865697977705721
+      spriteID: e92e8ee0ab1ed0be0800000000000000
+      internalID: -1509302110868938082
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uCCB4\uC2A4UI_1"
+      name: CHessUI_1
       rect:
         serializedVersion: 2
         x: 333
@@ -183,20 +135,20 @@ TextureImporter:
         width: 38
         height: 39
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 84691ac6f69c477c0800000000000000
-      internalID: -4074410282462374328
+      spriteID: 377dfae527a6756a0800000000000000
+      internalID: -6460578100992288909
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uCCB4\uC2A4UI_2"
+      name: CHessUI_2
       rect:
         serializedVersion: 2
         x: 385
@@ -204,20 +156,20 @@ TextureImporter:
         width: 29
         height: 41
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 113e135f93878afc0800000000000000
-      internalID: -3483402121448922351
+      spriteID: 60b025131451b4930800000000000000
+      internalID: 4128416853159709446
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uCCB4\uC2A4UI_3"
+      name: CHessUI_3
       rect:
         serializedVersion: 2
         x: 428
@@ -225,20 +177,20 @@ TextureImporter:
         width: 23
         height: 23
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7e4b6df861418e7b0800000000000000
-      internalID: -5194880083036818201
+      spriteID: 5bda826dccef1c3d0800000000000000
+      internalID: -3187986905481826891
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uCCB4\uC2A4UI_4"
+      name: CHessUI_4
       rect:
         serializedVersion: 2
         x: 462
@@ -246,20 +198,20 @@ TextureImporter:
         width: 33
         height: 33
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7259e1ea93dd44e40800000000000000
-      internalID: 5639875873178817831
+      spriteID: adb0921d62c414c60800000000000000
+      internalID: 7800599759184006106
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uCCB4\uC2A4UI_5"
+      name: CHessUI_5
       rect:
         serializedVersion: 2
         x: 506
@@ -267,20 +219,20 @@ TextureImporter:
         width: 33
         height: 30
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 05710db2a7f723f10800000000000000
-      internalID: 2247999326709094224
+      spriteID: 53796ea7aae812e00800000000000000
+      internalID: 1018251853619959605
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uCCB4\uC2A4UI_6"
+      name: CHessUI_6
       rect:
         serializedVersion: 2
         x: 19
@@ -288,20 +240,20 @@ TextureImporter:
         width: 80
         height: 85
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 86a59ab6ce12fef80800000000000000
-      internalID: -8075198307549750680
+      spriteID: 4542cca71d5788fc0800000000000000
+      internalID: -3492411968457005996
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uCCB4\uC2A4UI_7"
+      name: CHessUI_7
       rect:
         serializedVersion: 2
         x: 113
@@ -309,20 +261,20 @@ TextureImporter:
         width: 80
         height: 85
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f79baf96a8f854bf0800000000000000
-      internalID: -340708372150306433
+      spriteID: 745d567d284686330800000000000000
+      internalID: 3704321206634534215
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uCCB4\uC2A4UI_8"
+      name: CHessUI_8
       rect:
         serializedVersion: 2
         x: 215
@@ -330,20 +282,20 @@ TextureImporter:
         width: 68
         height: 39
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 97e5e2ae1bfa62660800000000000000
-      internalID: 7360763819656633977
+      spriteID: 1ad749684e9419190800000000000000
+      internalID: -7957497820727706207
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uCCB4\uC2A4UI_9"
+      name: CHessUI_9
       rect:
         serializedVersion: 2
         x: 284
@@ -351,20 +303,20 @@ TextureImporter:
         width: 68
         height: 39
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2ebf665e696946990800000000000000
-      internalID: -7393619113397519390
+      spriteID: ee9c64ff678877420800000000000000
+      internalID: 2627718952264321518
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uCCB4\uC2A4UI_10"
+      name: CHessUI_10
       rect:
         serializedVersion: 2
         x: 24
@@ -372,20 +324,20 @@ TextureImporter:
         width: 69
         height: 70
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ecc47f2c997e24280800000000000000
-      internalID: -9060424852729017138
+      spriteID: e8c2c87af9535c290800000000000000
+      internalID: -7870825813933020018
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uCCB4\uC2A4UI_11"
+      name: CHessUI_11
       rect:
         serializedVersion: 2
         x: 101
@@ -393,20 +345,20 @@ TextureImporter:
         width: 69
         height: 70
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0e0b68efb70fb3490800000000000000
-      internalID: -7765348717128404768
+      spriteID: 75bca9a5db2e0c410800000000000000
+      internalID: 1495444379183795031
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uCCB4\uC2A4UI_12"
+      name: CHessUI_12
       rect:
         serializedVersion: 2
         x: 194
@@ -414,20 +366,20 @@ TextureImporter:
         width: 36
         height: 33
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 663a60329e35e1670800000000000000
-      internalID: 8511332606556939110
+      spriteID: 309e53c939f982110800000000000000
+      internalID: 1236413554042988803
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uCCB4\uC2A4UI_13"
+      name: CHessUI_13
       rect:
         serializedVersion: 2
         x: 240
@@ -435,20 +387,20 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 08936f35affbbf280800000000000000
-      internalID: -9008395547753170560
+      spriteID: 707d3e8a05948da60800000000000000
+      internalID: 7698984173769578247
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uCCB4\uC2A4UI_14"
+      name: CHessUI_14
       rect:
         serializedVersion: 2
         x: 291
@@ -456,20 +408,20 @@ TextureImporter:
         width: 46
         height: 50
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5ff350e26c393eca0800000000000000
-      internalID: -5988780600087724043
+      spriteID: 3cb7a2ddf22634bc0800000000000000
+      internalID: -3800085702857032765
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uCCB4\uC2A4UI_15"
+      name: CHessUI_15
       rect:
         serializedVersion: 2
         x: 409
@@ -477,20 +429,20 @@ TextureImporter:
         width: 46
         height: 50
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 168e81bd18732d530800000000000000
-      internalID: 3878223259985569889
+      spriteID: 919cd4f7c4016c920800000000000000
+      internalID: 3010111321683118361
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uCCB4\uC2A4UI_16"
+      name: CHessUI_16
       rect:
         serializedVersion: 2
         x: 356
@@ -498,20 +450,20 @@ TextureImporter:
         width: 34
         height: 37
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d8a1b24b394cf3bf0800000000000000
-      internalID: -342338907994908019
+      spriteID: 60d256a978ee07d50800000000000000
+      internalID: 6733143709097209094
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uCCB4\uC2A4UI_17"
+      name: CHessUI_17
       rect:
         serializedVersion: 2
         x: 21
@@ -519,20 +471,20 @@ TextureImporter:
         width: 72
         height: 57
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c1cb7efd81fecc000800000000000000
-      internalID: 57683785363733532
+      spriteID: 3624dd84e7ad179c0800000000000000
+      internalID: -3931120763794537885
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uCCB4\uC2A4UI_18"
+      name: CHessUI_18
       rect:
         serializedVersion: 2
         x: 99
@@ -540,20 +492,20 @@ TextureImporter:
         width: 72
         height: 57
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3351cbf62bc4d3110800000000000000
-      internalID: 1242233401486611763
+      spriteID: 7a373c6a8e58cab40800000000000000
+      internalID: 5452880483115561895
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uCCB4\uC2A4UI_19"
+      name: CHessUI_19
       rect:
         serializedVersion: 2
         x: 16
@@ -561,20 +513,20 @@ TextureImporter:
         width: 80
         height: 87
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c3f4433abdc5f20b0800000000000000
-      internalID: -5751276100723126468
+      spriteID: 27fed85b98efb02b0800000000000000
+      internalID: -5617116242804609166
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uCCB4\uC2A4UI_20"
+      name: CHessUI_20
       rect:
         serializedVersion: 2
         x: 96
@@ -582,20 +534,20 @@ TextureImporter:
         width: 280
         height: 84
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9790c920f13639270800000000000000
-      internalID: 8256051526739167609
+      spriteID: 83dd7944a3d757dc0800000000000000
+      internalID: -3641867034446799560
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uCCB4\uC2A4UI_21"
+      name: CHessUI_21
       rect:
         serializedVersion: 2
         x: 196
@@ -603,20 +555,20 @@ TextureImporter:
         width: 85
         height: 84
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b4df6197b4b0f7110800000000000000
-      internalID: 1260738839469030731
+      spriteID: a7475844b185bb1f0800000000000000
+      internalID: -1028131215787068294
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uCCB4\uC2A4UI_22"
+      name: CHessUI_22
       rect:
         serializedVersion: 2
         x: 290
@@ -624,20 +576,20 @@ TextureImporter:
         width: 86
         height: 85
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bcdcb0398343e86a0800000000000000
-      internalID: -6445156599130763829
+      spriteID: 3dd44626180710c70800000000000000
+      internalID: 8935546836683607507
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uCCB4\uC2A4UI_23"
+      name: CHessUI_23
       rect:
         serializedVersion: 2
         x: 387
@@ -645,20 +597,20 @@ TextureImporter:
         width: 85
         height: 84
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 591ff514d6db82400800000000000000
-      internalID: 299697652166029717
+      spriteID: 288dfa61307119120800000000000000
+      internalID: 2418739776907630722
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uCCB4\uC2A4UI_24"
+      name: CHessUI_24
       rect:
         serializedVersion: 2
         x: 392
@@ -666,20 +618,20 @@ TextureImporter:
         width: 358
         height: 97
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9f86d4d4853ceb490800000000000000
-      internalID: -7728525126499735303
+      spriteID: 664312ad4bd4ef960800000000000000
+      internalID: 7637627457216001126
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uCCB4\uC2A4UI_25"
+      name: CHessUI_25
       rect:
         serializedVersion: 2
         x: 328
@@ -687,20 +639,20 @@ TextureImporter:
         width: 225
         height: 70
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 44a9fb0a0c408f580800000000000000
-      internalID: -8793273047063750076
+      spriteID: 6e87daffc0e83c740800000000000000
+      internalID: 5171132983631771878
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uCCB4\uC2A4UI_26"
+      name: CHessUI_26
       rect:
         serializedVersion: 2
         x: 328
@@ -708,20 +660,20 @@ TextureImporter:
         width: 225
         height: 70
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: aeb13555806c28f70800000000000000
-      internalID: 9188123928882781162
+      spriteID: 5119a53bced6bad70800000000000000
+      internalID: 9055452339147280661
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uCCB4\uC2A4UI_27"
+      name: CHessUI_27
       rect:
         serializedVersion: 2
         x: 327
@@ -729,20 +681,20 @@ TextureImporter:
         width: 225
         height: 70
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c94517a1f450e0ff0800000000000000
-      internalID: -68111107059788644
+      spriteID: a99e99815be822cf0800000000000000
+      internalID: -278503318490584678
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uCCB4\uC2A4UI_28"
+      name: CHessUI_28
       rect:
         serializedVersion: 2
         x: 573
@@ -750,146 +702,146 @@ TextureImporter:
         width: 307
         height: 321
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ecf5272c123b9b060800000000000000
-      internalID: 6969798855910121422
+      spriteID: c87b3bc7b78dde110800000000000000
+      internalID: 1291926693009930124
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uCCB4\uC2A4UI_29"
+      name: CHessUI_29
       rect:
         serializedVersion: 2
         x: 902
         y: 567
-        width: 287
+        width: 288
         height: 122
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9962519ecc3a172a0800000000000000
-      internalID: -6741427066717788519
+      spriteID: fd88541a183331a30800000000000000
+      internalID: 4184745110606809311
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uCCB4\uC2A4UI_30"
+      name: CHessUI_30
       rect:
         serializedVersion: 2
         x: 903
         y: 435
-        width: 287
+        width: 288
         height: 122
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5e58e5b511f99a790800000000000000
-      internalID: -7518303206022150683
+      spriteID: f9cb894ff80e9b2f0800000000000000
+      internalID: -956486536950924129
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uCCB4\uC2A4UI_31"
+      name: CHessUI_31
       rect:
         serializedVersion: 2
         x: 902
         y: 302
-        width: 287
+        width: 288
         height: 122
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f63dc0e57a3bb08b0800000000000000
-      internalID: -5184853014568184977
+      spriteID: 88e53ae6135da4b00800000000000000
+      internalID: 813697090980109960
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uCCB4\uC2A4UI_32"
-      rect:
-        serializedVersion: 2
-        x: 895
-        y: 21
-        width: 287
-        height: 122
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e2a69b50cedecc430800000000000000
-      internalID: 3804677383185328686
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: "\uCCB4\uC2A4UI_33"
+      name: CHessUI_32
       rect:
         serializedVersion: 2
         x: 898
         y: 165
-        width: 287
+        width: 288
         height: 122
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5602b2b3e7aced0e0800000000000000
-      internalID: -2243132920876556187
+      spriteID: 24de21c26e1dfe5a0800000000000000
+      internalID: -6489737751505474238
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uCCB4\uC2A4UI_34"
+      name: CHessUI_33
+      rect:
+        serializedVersion: 2
+        x: 895
+        y: 21
+        width: 288
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: afeaac16854e80d80800000000000000
+      internalID: -8284120446299099398
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CHessUI_34
       rect:
         serializedVersion: 2
         x: 549
-        y: 126
+        y: 127
         width: 330
-        height: 236
+        height: 235
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fb2cdd140fc3d8480800000000000000
-      internalID: -8895386686391991617
+      spriteID: 647eda5ffcfa2bbd0800000000000000
+      internalID: -2615835125833930938
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uCCB4\uC2A4UI_35"
+      name: CHessUI_35
       rect:
         serializedVersion: 2
         x: 376
@@ -903,14 +855,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c21b8cf6f2da50280800000000000000
-      internalID: -9077659054644874964
+      spriteID: d806108b5693ead10800000000000000
+      internalID: 2138709982089142413
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uCCB4\uC2A4UI_36"
+      name: CHessUI_36
       rect:
         serializedVersion: 2
         x: 425
@@ -924,8 +876,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 748745f09945eb9b0800000000000000
-      internalID: -5062515914753935289
+      spriteID: 090de8b96d04bc030800000000000000
+      internalID: 3515975224569811088
       vertices: []
       indices: 
       edges: []
