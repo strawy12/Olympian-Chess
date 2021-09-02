@@ -43,11 +43,9 @@ public class SoundManager : MonoBehaviour
     private AudioClip buttonClick;
 
     [SerializeField]
-    private AudioClip gameBGM;
+    private AudioClip gameBGM, gameBGM2;
     [SerializeField]
-    private AudioClip lobbyBGM;
-    [SerializeField]
-    private AudioClip lobbyBGM2;
+    private AudioClip lobbyBGM, lobbyBGM2;
 
 
     [SerializeField]
@@ -56,6 +54,10 @@ public class SoundManager : MonoBehaviour
     private AudioClip matchSound;
     [SerializeField]
     private AudioClip buttonSound;
+    [SerializeField]
+    private AudioClip winSound, loseSound;
+    [SerializeField]
+    private AudioClip deckSound;
 
     private AudioSource bgmAudio;
     private AudioSource effectAudio;
@@ -86,10 +88,15 @@ public class SoundManager : MonoBehaviour
         effectAudio.volume = slider.value / 10;
     }
 
-    public void SetGameBGM()
+    public void SetGameBGM(int rand)
     {
         bgmAudio.Stop();
-        bgmAudio.clip = gameBGM;
+
+        if (rand == 0)
+            bgmAudio.clip = gameBGM;
+        else
+            bgmAudio.clip = gameBGM2;
+
         bgmAudio.Play();
     }
 
@@ -118,11 +125,27 @@ public class SoundManager : MonoBehaviour
         effectAudio.PlayOneShot(buttonSound);
     }
 
-    public void StartSoundPlay()
+    public void Deck()
     {
-        SoundPlay("StartSound", startSound);
+        effectAudio.PlayOneShot(deckSound);
     }
 
+    public void StartSoundPlay()
+    {
+        //SoundPlay("StartSound", startSound);
+        effectAudio.PlayOneShot(startSound);
+    }
+
+    public void WinOrLose(bool isWin)
+    {
+        bgmAudio.Stop();
+
+        if (isWin)
+            effectAudio.PlayOneShot(winSound);
+
+        else
+            effectAudio.PlayOneShot(loseSound);
+    }
     public void MoveChessSound()
     {
         //SoundPlay("MoveChess", moveSound);
@@ -131,7 +154,8 @@ public class SoundManager : MonoBehaviour
 
     public void DeadChessSound()
     {
-        SoundPlay("DeadSound", deadSound);
+        //SoundPlay("DeadSound", deadSound);
+        effectAudio.PlayOneShot(deadSound);
     }
 
     public void ButtonClickSound()

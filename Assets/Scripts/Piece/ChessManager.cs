@@ -420,13 +420,13 @@ public class ChessManager : MonoBehaviourPunCallbacks
 
         EnPassant(mp.Getreference(), mp);
         SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
-        DestroyChessPiece(cp.GetChessData());
 
         if (mp.Getreference().GetIsAttacking())
         {
             GameManager.Inst.RemoveAttackings(mp.Getreference());
         }
 
+        DestroyChessPiece(cp.GetChessData());
         GameManager.Inst.AddAttackings(mp.Getreference());
         SuperSkillManager.Inst.CheckSuperSkill();
     }
@@ -443,6 +443,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
             SkillManager.Inst.RemoveDontClickPiece(cp);
         }
         cp.DestroyChessPiece();
+        SoundManager.Instance.DeadChessSound();
     }
 
     public void DestroyChessPiece(ChessData chessData)
@@ -453,7 +454,6 @@ public class ChessManager : MonoBehaviourPunCallbacks
     public void MoveChessPiece(ChessBase cp, int matrixX, int matrixY)
     {
         Debug.Log(matrixX + ", " + matrixY);
-        SoundManager.Instance.MoveChessSound();
 
         SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
         cp.SetXBoard(matrixX);

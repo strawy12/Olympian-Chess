@@ -1257,12 +1257,16 @@ MonoBehaviour:
   moveSound: {fileID: 8300000, guid: 9614bd20cc551634c8f90907592327b2, type: 3}
   deadSound: {fileID: 8300000, guid: 15ba07cf6711eae4c850623a320ab7e1, type: 3}
   buttonClick: {fileID: 8300000, guid: 19c770f8c0fe36d4da0a329b85081a7a, type: 3}
-  gameBGM: {fileID: 8300000, guid: c11fad08e14843b4b818982af2662e3e, type: 3}
+  gameBGM: {fileID: 8300000, guid: 52aaa05cb5dd3584fb56474682cecea7, type: 3}
+  gameBGM2: {fileID: 8300000, guid: bb018f757e193ba4c93cb37495ffb503, type: 3}
   lobbyBGM: {fileID: 8300000, guid: e3e8880e23e4e364dacf6e64f8dd2de7, type: 3}
   lobbyBGM2: {fileID: 8300000, guid: d145a5050dfe85a478b1e79b1db7766c, type: 3}
   coinSound: {fileID: 8300000, guid: bc33c8bf90b41504d9530a861879d7ae, type: 3}
   matchSound: {fileID: 8300000, guid: 42d05a70ea3a6cb4daae57733a803369, type: 3}
   buttonSound: {fileID: 8300000, guid: 7ae4241e4a28f104b8404451358f571a, type: 3}
+  winSound: {fileID: 8300000, guid: c73fd4394970c704a86ed4e784d96ff9, type: 3}
+  loseSound: {fileID: 8300000, guid: c142f4b7afb927b4aa6e9030dde195d0, type: 3}
+  deckSound: {fileID: 8300000, guid: dd34a60cf3201524ea4e08da3a4a517d, type: 3}
 --- !u!4 &107776511
 Transform:
   m_ObjectHideFlags: 0
@@ -12893,8 +12897,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 60
+    m_Font: {fileID: 12800000, guid: 08314709919b5f446a066202a7717ebc, type: 3}
+    m_FontSize: 64
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 4
@@ -12905,7 +12909,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 1002
+  m_Text: 0
 --- !u!222 &1845756869
 CanvasRenderer:
   m_ObjectHideFlags: 0
