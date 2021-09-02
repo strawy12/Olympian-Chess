@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SoundManager : MonoBehaviour
 {
@@ -41,6 +42,76 @@ public class SoundManager : MonoBehaviour
     [SerializeField]
     private AudioClip buttonClick;
 
+    [SerializeField]
+    private AudioClip gameBGM;
+    [SerializeField]
+    private AudioClip lobbyBGM;
+
+    [SerializeField]
+    private AudioClip coinSound;
+    [SerializeField]
+    private AudioClip matchSound;
+    [SerializeField]
+    private AudioClip buttonSound;
+
+    private AudioSource bgmAudio;
+    private AudioSource effectAudio;
+
+    private void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+
+        bgmAudio = GetComponent<AudioSource>();
+        effectAudio = transform.GetChild(0).GetComponent<AudioSource>();
+        VolumeSetting();
+    }
+
+    public void VolumeSetting()
+    {
+        User user = NetworkManager.Inst.LoadDataFromJson<User>();
+        bgmAudio.volume = user.bgmVolume;
+        effectAudio.volume = user.effectVolume;
+    }
+
+    public void BGMVolume(Slider slider)
+    {
+        bgmAudio.volume = slider.value / 10;
+    }
+
+    public void EffectVolume(Slider slider)
+    {
+        effectAudio.volume = slider.value / 10;
+    }
+
+    public void SetGameBGM()
+    {
+        bgmAudio.Stop();
+        bgmAudio.clip = gameBGM;
+        bgmAudio.Play();
+    }
+
+    public void SetLobbyBGM()
+    {
+        bgmAudio.Stop();
+        bgmAudio.clip = lobbyBGM;
+        bgmAudio.Play();
+    }
+
+    public void Buy()
+    {
+        effectAudio.PlayOneShot(coinSound);
+    }
+
+    public void Match()
+    {
+        effectAudio.PlayOneShot(matchSound);
+    }
+
+    public void Button()
+    {
+        effectAudio.PlayOneShot(buttonSound);
+    }
+
     public void StartSoundPlay()
     {
         SoundPlay("StartSound", startSound);
@@ -48,19 +119,20 @@ public class SoundManager : MonoBehaviour
 
     public void MoveChessSound()
     {
-        SoundPlay("MoveChess", moveSound);
+        //SoundPlay("MoveChess", moveSound);
+        effectAudio.PlayOneShot(moveSound);
     }
 
     public void DeadChessSound()
     {
-       SoundPlay("DeadSound", deadSound);
+        SoundPlay("DeadSound", deadSound);
     }
 
     public void ButtonClickSound()
     {
         SoundPlay("buttonClick", buttonClick);
     }
-    public void SoundPlay(string name,AudioClip clip)
+    public void SoundPlay(string name, AudioClip clip)
     {
         //Debug.Log(name + "Sound");
         GameObject go = new GameObject(name + "Sound");
@@ -78,7 +150,7 @@ public class SoundManager : MonoBehaviour
         AudioSource audioSource = go.AddComponent<AudioSource>();
         audioSource.clip = clip;
         Debug.Log(TutorialManager.Instance.isTypingSound);
-        if(TutorialManager.Instance.isTypingSound)
+        if (TutorialManager.Instance.isTypingSound)
         {
             TutorialManager.Instance.isTypingSound_ing = true;
             if (TutorialManager.Instance.isTypingSound_ing) return;

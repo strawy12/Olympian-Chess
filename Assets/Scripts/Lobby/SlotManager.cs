@@ -37,6 +37,7 @@ public class SlotManager : MonoBehaviour, IPointerClickHandler, IPointerDownHand
     {
         if (Input.GetMouseButtonDown(0))
             DeckManager.Instance.PointerDown(carditem);
+        SoundManager.Instance.Button();
     }
 
     public void OnPointerUp(PointerEventData eventData)

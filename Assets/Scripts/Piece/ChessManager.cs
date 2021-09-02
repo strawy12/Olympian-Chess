@@ -453,6 +453,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
     public void MoveChessPiece(ChessBase cp, int matrixX, int matrixY)
     {
         Debug.Log(matrixX + ", " + matrixY);
+        SoundManager.Instance.MoveChessSound();
 
         SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
         cp.SetXBoard(matrixX);

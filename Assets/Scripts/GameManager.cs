@@ -80,6 +80,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         SetCamera();
         pool = FindObjectOfType<PoolManager>();
         SetBackground();
+        SoundManager.Instance.SetGameBGM();
     }
     private void Update()
     {

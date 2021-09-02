@@ -12,7 +12,6 @@ public class LobbyManager : MonoBehaviour
     private int gold = 1000;
 
     private Sprite[] backs;
-    private Sprite[] longBacks;
     private bool[] isBGBought;
 
     [SerializeField]
@@ -43,13 +42,14 @@ public class LobbyManager : MonoBehaviour
     void Start()
     {
         backs = Resources.LoadAll<Sprite>("Images/lobbychess");
-        longBacks = Resources.LoadAll<Sprite>("Images/ingameBackground");
         nestedScrollManager = lobbyScroll.gameObject.GetComponent<NestedScrollManager>();
         FirstSetting();
 
         UpdateUI();
         SetBackGround();
         SetSoundValue();
+
+        SoundManager.Instance.SetLobbyBGM();
     }
 
     private void UpdateUI()
@@ -71,10 +71,12 @@ public class LobbyManager : MonoBehaviour
         {
             gold -= g;
             user.myBackground[num] = true;
-            BGI.sprite = longBacks[num];
+            BGI.sprite = backs[num];
             DeckManager.Instance.SetGold(gold);
             UpdateUI();
             SetBackGround();
+            CheckBackGround();
+            SoundManager.Instance.Buy();
         }
     }
 
@@ -145,6 +147,7 @@ public class LobbyManager : MonoBehaviour
             NetworkManager.Inst.JoinRandomRoom();
         }
 
+        SoundManager.Instance.Match();
         game.SetActive(true);
         Matching();
     }
@@ -177,7 +180,7 @@ public class LobbyManager : MonoBehaviour
         {
             checkButton.transform.GetChild(0).gameObject.SetActive(true);
             DeckManager.Instance.SetBackground(num);
-            BGI.sprite = longBacks[user.backGround];
+            BGI.sprite = backs[user.backGround];
         }
     }
 
@@ -188,11 +191,11 @@ public class LobbyManager : MonoBehaviour
         if (DeckManager.Instance.GetBackground() == 0)
         {
             DeckManager.Instance.SetBackground(0);
-            BGI.sprite = longBacks[0];
+            BGI.sprite = backs[0];
         }
         else
         {
-            BGI.sprite = longBacks[user.backGround];
+            BGI.sprite = backs[user.backGround];
             num = user.backGround;
             SetBackGround();
         }

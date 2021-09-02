@@ -73,6 +73,8 @@ public class CardSelect : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        SoundManager.Instance.Button();
+
         if (Input.GetMouseButtonDown(0))
             DeckManager.Instance.PointerDown(GetCardItem());
     }
