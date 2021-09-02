@@ -43,7 +43,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 533931229646251596}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -145,8 +145,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardBack: {fileID: -4831559660522196829, guid: aa6a388efbd618443847682ef28c8a32,
     type: 3}
-  enable: {fileID: -5062515914753935289, guid: a62dd247aeddd1b4b8070bd221c89499, type: 3}
-  unable: {fileID: 5639875873178817831, guid: a62dd247aeddd1b4b8070bd221c89499, type: 3}
+  enable: {fileID: 3515975224569811088, guid: 62d2b18d059258e4786dffc281c5062d, type: 3}
+  unable: {fileID: 2138709982089142413, guid: 62d2b18d059258e4786dffc281c5062d, type: 3}
   isFront: 0
   isSelected: 0
   carditem:
@@ -221,7 +221,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2189376494668195393}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -254,7 +254,7 @@ SpriteRenderer:
   m_SortingLayerID: 594765651
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: -9077659054644874964, guid: a62dd247aeddd1b4b8070bd221c89499,
+  m_Sprite: {fileID: 2138709982089142413, guid: 62d2b18d059258e4786dffc281c5062d,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -305,7 +305,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7585789253794507644}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
