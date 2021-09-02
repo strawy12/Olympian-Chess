@@ -116,6 +116,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         friendlyMatchPanal.SetActive(true);
     }
 
+
     public override void OnConnectedToMaster()
     {
         print("서버접속완료");
@@ -175,7 +176,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnLeftRoom()
     {
-        
+
     }
 
     public override void OnJoinedRoom()
@@ -206,7 +207,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
-        DisConnect();
+        if (GameManager.Inst.gameOver) return;
+        GameManager.Inst.gameOver = true;
+        GameManager.Inst.WinEffect(true);
     }
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
