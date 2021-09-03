@@ -847,8 +847,7 @@ public class CardManager : MonoBehaviourPunCallbacks
         var targetCards = GetTargetCards();
         targetCards.Add(card);
 
-        SetOriginOrder(true);
-        StartCoroutine(DontShowCards(targetCards));
+        StartCoroutine(DontShowCards(targetCards, true));
     }
 
     public void RemoveCard(int rand, List<Card> targetCards)
