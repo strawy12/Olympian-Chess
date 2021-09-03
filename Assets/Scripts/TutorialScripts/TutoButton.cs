@@ -41,7 +41,7 @@ public class TutoButton : MonoBehaviour
         if (allowClick)
         {
             TutorialManager.Instance.clickturnBtn = true;
-            SoundManager.Instance.ButtonClickSound();
+            SoundManager.Instance.Button();
             image.sprite = unactiveSprite;
             //TutorialManager.Instance.is5StoryEnd = true;
         }

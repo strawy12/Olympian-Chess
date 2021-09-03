@@ -133,6 +133,7 @@ public class SoundManager : MonoBehaviour
         effectAudio.PlayOneShot(buttonSound);
     }
 
+<<<<<<< HEAD
     public void Deck()
     {
         effectAudio.PlayOneShot(deckSound);
@@ -141,6 +142,10 @@ public class SoundManager : MonoBehaviour
     public void StartSoundPlay()
     {
         //SoundPlay("StartSound", startSound);
+=======
+    public void StartSound()
+    {
+>>>>>>> suan
         effectAudio.PlayOneShot(startSound);
     }
 
@@ -156,20 +161,17 @@ public class SoundManager : MonoBehaviour
     }
     public void MoveChessSound()
     {
-        //SoundPlay("MoveChess", moveSound);
         effectAudio.PlayOneShot(moveSound);
     }
-
-    public void DeadChessSound()
+    public void DeadChess()
     {
+<<<<<<< HEAD
         //SoundPlay("DeadSound", deadSound);
+=======
+>>>>>>> suan
         effectAudio.PlayOneShot(deadSound);
     }
 
-    public void ButtonClickSound()
-    {
-        SoundPlay("buttonClick", buttonClick);
-    }
     public void SoundPlay(string name, AudioClip clip)
     {
         //Debug.Log(name + "Sound");
