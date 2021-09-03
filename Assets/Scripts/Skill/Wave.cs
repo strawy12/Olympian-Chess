@@ -11,7 +11,7 @@ public class Wave : SkillBase
 
     public override void StandardSkill()
     {
-        WaveCheck();
+        StartCoroutine(WaveCheck());
     }
     public override void ResetSkill()
     {
@@ -35,9 +35,9 @@ public class Wave : SkillBase
 
         if (selectPiece != null)
         {
-            selectPiece.RemoveChosenSkill(this);
+            selectPiece.RemoveChosenSkill(this, true);
         }
-        DestroySkill();
+        RPC_DestroySkill();
 
 
     }
@@ -56,7 +56,7 @@ public class Wave : SkillBase
             GameManager.Inst.MovePlateSpawn(x, y - 1, selectPiece);
     }
 
-    private void WaveCheck()
+    private IEnumerator WaveCheck()
     {
         CardManager.Inst.NotAmolang();
         if (skillData.posX == selectPiece.GetXBoard() + 1)
@@ -69,12 +69,15 @@ public class Wave : SkillBase
             WaveMove(false, false);
 
         GameManager.Inst.DestroyMovePlates();
-        RPC_DestroySkill();
+
+        yield return new WaitForSeconds(3f);
+        ResetSkill();
     }
 
     [Photon.Pun.PunRPC]
     private void WV_Effect(int x, int y)
     {
+        Debug.Log("¿¿æ÷");
         base.StartEffect();
 
         float xPos = x;
@@ -86,7 +89,7 @@ public class Wave : SkillBase
         xPos += -2.398f;
         yPos += -2.398f;
         animator.transform.SetParent(null);
-        animator.transform.position = new Vector2(x, y);
+        animator.transform.position = new Vector2(xPos, yPos);
         animator.transform.localScale = new Vector3(2f, 2f, 2f);
         animator.Play("WV_Anim");
     }
@@ -134,9 +137,11 @@ public class Wave : SkillBase
         for (int i = 0; i < cmList.Count; i++)
         {
             if (cmList[i] == null) continue;
+            Debug.Log(cmList[i]);
             photonView.RPC("WV_Effect", Photon.Pun.RpcTarget.AllBuffered, cmList[i].GetXBoard(), cmList[i].GetYBoard());
             ChessManager.Inst.SetPosition(cmList[i]);
         }
+        ChessManager.Inst.SetIsMoving(false);
     }
 
     ChessBase WV_Move(bool isXY, int i, bool isPlma)
