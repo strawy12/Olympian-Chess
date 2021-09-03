@@ -253,7 +253,7 @@ public class SkillManager : MonoBehaviourPunCallbacks
 
     public bool MoveControl(ChessBase cp)
     {
-        List<SkillBase> _skillList = cp.GetSkillList("질서,바카스");
+        List<SkillBase> _skillList = cp.GetSkillList("순보,바카스");
         int i;
         for (i = 0; i < _skillList.Count; i++)
         {

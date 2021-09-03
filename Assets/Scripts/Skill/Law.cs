@@ -35,6 +35,8 @@ public class Law : SkillBase
     {
         selectPiece.SetNoneAttack(true);
         turn = skillData.turnCnt + 2;
+        base.StartEffect();
+        animator.Play("Law_Anim");
         selectPiece.spriteRenderer.material.SetColor("_Color", new Color32(0, 0, 0, 144));
         skillData.posX = selectPiece.GetXBoard();
         skillData.posY = selectPiece.GetYBoard();
@@ -43,7 +45,6 @@ public class Law : SkillBase
     [Photon.Pun.PunRPC]
     private void Law_ResetSkill()
     {
-
         selectPiece.spriteRenderer.material.SetColor("_Color", new Color32(0, 0, 0, 0));
         selectPiece.SetNoneAttack(false);
         selectPiece.RemoveChosenSkill(this);

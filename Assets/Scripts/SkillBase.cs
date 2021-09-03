@@ -177,7 +177,6 @@ public class SkillBase : MonoBehaviourPunCallbacks
 
     public virtual void StartEffect()
     {
-        Debug.Log("dmddo");
         skillEffect = SkillManager.Inst.SkillEffectSpawn();
         if(GameManager.Inst.GetPlayer() == "black")
         {
