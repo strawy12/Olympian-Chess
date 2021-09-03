@@ -21,6 +21,8 @@ public class WestWind : SkillBase
         skillData.posX = selectPiece.GetXBoard();
         skillData.posY = selectPiece.GetYBoard();
         selectPiece.spriteRenderer.sortingOrder = -2;
+        base.StartEffect();
+        animator.Play("WW_Anim");
         selectPiece.gameObject.GetComponent<Collider2D>().enabled = false;
         if (photonView.IsMine)
         {

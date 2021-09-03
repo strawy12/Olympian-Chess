@@ -8,7 +8,6 @@ public class WarBuff : SkillBase
     private List<ChessBase> chessPieces = new List<ChessBase>();
     public override void UsingSkill()
     {
-
         WB_UsingSkill();
     }
 
@@ -23,6 +22,7 @@ public class WarBuff : SkillBase
 
     private void WB_UsingSkill()
     {
+        photonView.RPC("WB_Effect", Photon.Pun.RpcTarget.AllBuffered);
         GameManager.Inst.SetMoving(true);
         GameManager.Inst.SetUsingSkill(true);
         selectPiece.SetNoneAttack(true);

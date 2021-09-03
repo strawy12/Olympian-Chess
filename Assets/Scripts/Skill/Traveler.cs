@@ -9,6 +9,7 @@ public class Traveler : SkillBase
         TV_UsingSkill();  
     }
 
+   
     private void TV_UsingSkill()
     {
         //Only pawns are the target of Traveler
@@ -26,6 +27,7 @@ public class Traveler : SkillBase
                 randomY = Random.Range(0, 8);
             } while (ChessManager.Inst.GetPosition(randomX, randomY) != null);
 
+            photonView.RPC("TV_Effect", Photon.Pun.RpcTarget.AllBuffered);
             MoveChessPiece(selectPiece, randomX, randomY);
         }
 
@@ -47,6 +49,13 @@ public class Traveler : SkillBase
             selectPiece.RemoveChosenSkill(this);
         }
         RPC_DestroySkill();
+    }
+
+    [Photon.Pun.PunRPC]
+    private void TV_Effect()
+    {
+        base.StartEffect();
+        animator.Play("TV_Anim");
     }
 
     private void MoveChessPiece(ChessBase cp, int matrixX, int matrixY)
