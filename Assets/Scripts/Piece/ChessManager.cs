@@ -462,16 +462,16 @@ public class ChessManager : MonoBehaviourPunCallbacks
 
         EnPassant(mp.Getreference(), mp);
         SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
-
+        DestroyChessPiece(cp.GetChessData());
         if (mp.Getreference().GetIsAttacking())
         {
             GameManager.Inst.RemoveAttackings(mp.Getreference());
         }
 
-        DestroyChessPiece(cp.GetChessData());
         GameManager.Inst.AddAttackings(mp.Getreference());
         SuperSkillManager.Inst.CheckSuperSkill();
     }
+
 
     [PunRPC]
     void DestroyRPC(string jsonData)
@@ -479,13 +479,11 @@ public class ChessManager : MonoBehaviourPunCallbacks
         ChessData chessData = NetworkManager.Inst.LoadDataFromJson<ChessData>(jsonData);
         ChessBase cp = GetChessPiece(chessData);
         UpdateArr(cp);
-        SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
         if (SkillManager.Inst.CheckDontClickPiece(cp))
         {
             SkillManager.Inst.RemoveDontClickPiece(cp);
         }
         cp.DestroyChessPiece();
-        SoundManager.Instance.DeadChessSound();
     }
 
     public void DestroyChessPiece(ChessData chessData)
