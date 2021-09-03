@@ -74,6 +74,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        DisConnect();
         Connect();
     }
 
