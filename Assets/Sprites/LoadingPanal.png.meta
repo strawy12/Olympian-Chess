@@ -3,18 +3,6 @@ guid: b6c8170b9aa160b4a98e80181a0e6c0b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -9008473075566761772
-    second: LoadingPanal_1
-  - first:
-      213: 5600334929365919926
-    second: LoadingPanal_2
-  - first:
-      213: 6833675346232269822
-    second: LoadingPanal_3
-  - first:
-      213: -8975871415474834278
-    second: LoadingPanal_4
-  - first:
       213: 7228878488301376258
     second: LoadingPanal_5
   - first:
@@ -27,20 +15,17 @@ TextureImporter:
       213: -6023783332073037849
     second: LoadingPanal_8
   - first:
-      213: 5780565159858843429
-    second: LoadingPanal_10
-  - first:
       213: 2538351539039902148
     second: LoadingPanal_9
+  - first:
+      213: 5780565159858843429
+    second: LoadingPanal_10
   - first:
       213: 4718602717711890940
     second: LoadingPanal_11
   - first:
       213: 115988149619280821
     second: LoadingPanal_12
-  - first:
-      213: -4887723006571172413
-    second: LoadingPanal_13
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -147,10 +132,10 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 6000
-        width: 2000
+        width: 1100
         height: 2000
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -166,12 +151,12 @@ TextureImporter:
       name: LoadingPanal_1
       rect:
         serializedVersion: 2
-        x: 2000
+        x: 1100
         y: 6000
-        width: 2000
+        width: 1100
         height: 2000
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -187,12 +172,12 @@ TextureImporter:
       name: LoadingPanal_2
       rect:
         serializedVersion: 2
-        x: 4000
+        x: 2200
         y: 6000
-        width: 2000
+        width: 1100
         height: 2000
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -208,12 +193,12 @@ TextureImporter:
       name: LoadingPanal_3
       rect:
         serializedVersion: 2
-        x: 6000
+        x: 3300
         y: 6000
-        width: 2000
+        width: 1100
         height: 2000
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -226,15 +211,36 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: LoadingPanal_5
+      name: LoadingPanal_4
       rect:
         serializedVersion: 2
         x: 0
         y: 4000
-        width: 2000
+        width: 1100
         height: 2000
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a943a0bf08c4f6380800000000000000
+      internalID: -8975871415474834278
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LoadingPanal_5
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 4000
+        width: 1100
+        height: 2000
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -250,12 +256,12 @@ TextureImporter:
       name: LoadingPanal_6
       rect:
         serializedVersion: 2
-        x: 2000
+        x: 2200
         y: 4000
-        width: 2000
+        width: 1100
         height: 2000
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -271,12 +277,12 @@ TextureImporter:
       name: LoadingPanal_7
       rect:
         serializedVersion: 2
-        x: 4000
+        x: 3300
         y: 4000
-        width: 2000
+        width: 1100
         height: 2000
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -292,12 +298,12 @@ TextureImporter:
       name: LoadingPanal_8
       rect:
         serializedVersion: 2
-        x: 6000
-        y: 4000
-        width: 2000
+        x: 0
+        y: 2000
+        width: 1100
         height: 2000
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -310,36 +316,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: LoadingPanal_10
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 2000
-        width: 2000
-        height: 2000
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 52fa26ad261b83050800000000000000
-      internalID: 5780565159858843429
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: LoadingPanal_9
       rect:
         serializedVersion: 2
-        x: 2000
+        x: 1100
         y: 2000
-        width: 2000
+        width: 1100
         height: 2000
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -352,15 +337,36 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
+      name: LoadingPanal_10
+      rect:
+        serializedVersion: 2
+        x: 3300
+        y: 2000
+        width: 1100
+        height: 2000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 52fa26ad261b83050800000000000000
+      internalID: 5780565159858843429
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
       name: LoadingPanal_11
       rect:
         serializedVersion: 2
-        x: 4000
+        x: 2200
         y: 2000
-        width: 2000
+        width: 1100
         height: 2000
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -376,12 +382,12 @@ TextureImporter:
       name: LoadingPanal_12
       rect:
         serializedVersion: 2
-        x: 6000
-        y: 2000
-        width: 2000
+        x: 0
+        y: 0
+        width: 1100
         height: 2000
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -389,27 +395,6 @@ TextureImporter:
       bones: []
       spriteID: 5bb46388b921c9100800000000000000
       internalID: 115988149619280821
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: LoadingPanal_13
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 2000
-        height: 2000
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3cd22d062d15b2cb0800000000000000
-      internalID: -4887723006571172413
       vertices: []
       indices: 
       edges: []
