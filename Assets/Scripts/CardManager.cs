@@ -928,11 +928,11 @@ public class CardManager : MonoBehaviourPunCallbacks
 
         if (TurnManager.Instance.CheckPlayer("white"))
         {
-            selectCard.MoveTransform(new PRS(Utils.MousePos, Utils.QI, selectCard.originPRS.scale), false, false);
+            selectCard.MoveTransform(new PRS(Utils.MousePos, Utils.QI, Vector3.one), false, false);
         }
         else
         {
-            selectCard.MoveTransform(new PRS(Utils.MousePos, Quaternion.Euler(0f, 0f, 180f), selectCard.originPRS.scale), false, false);
+            selectCard.MoveTransform(new PRS(Utils.MousePos, Quaternion.Euler(0f, 0f, 180f), Vector3.one), false, false);
         }
 
         cardInfoImage.gameObject.SetActive(false);
