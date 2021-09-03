@@ -21,7 +21,7 @@ public class Rush : SkillBase
             if (skillData.posY == 7)
             {
                 CardManager.Inst.SetisBreak(true);
-                RemoveSkill();
+                StartCoroutine(RemoveSkill());
                 return;
             }
 
@@ -33,7 +33,7 @@ public class Rush : SkillBase
             else
             {
                 CardManager.Inst.SetisBreak(true);
-                RemoveSkill();
+                StartCoroutine(RemoveSkill());
                 return;
             }
         }
@@ -42,7 +42,7 @@ public class Rush : SkillBase
             if (skillData.posY == 0)
             {
                 CardManager.Inst.SetisBreak(true);
-                RemoveSkill();
+                StartCoroutine(RemoveSkill());
                 return;
             }
 
@@ -55,16 +55,22 @@ public class Rush : SkillBase
             else
             {
                 CardManager.Inst.SetisBreak(true);
-                RemoveSkill();
+                StartCoroutine(RemoveSkill());
                 return;
             }
         }
+        TurnManager.Instance.ButtonActive();
+        ChessManager.Inst.SetIsMoving(false);
 
-        RemoveSkill();
+        StartCoroutine(RemoveSkill());
     }
 
-    private void RemoveSkill()
+    private IEnumerator RemoveSkill()
     {
+        base.StartEffect();
+        skillEffect.transform.Rotate(0f, 0f, skillEffect.transform.rotation.z + 90f);
+        animator.Play("Rush_Anim");
+        yield return new WaitForSeconds(1f);
         if (selectPiece != null)
         {
             selectPiece.RemoveChosenSkill(this);

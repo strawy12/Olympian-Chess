@@ -15,21 +15,35 @@ public class Justice : SkillBase
     [Photon.Pun.PunRPC]
     private void JT_UsingSkill()
     {
+        if (selectPiece != null) selectPiece = null;
         for (int i = 0; i < attacking.Count; i++)
         {
             if (attacking[i] == null) continue;
             justiceCP.Add(attacking[i]);
             SkillManager.Inst.AddDontClickPiece(attacking[i]);
-            attacking[i].spriteRenderer.material.color = new Color32(70, 60, 0, 0);
+            StartCoroutine(JT_Effect(attacking[i]));
         }
+    }
+
+    private IEnumerator JT_Effect(ChessBase cp)
+    {
+        base.StartEffect();
+        animator.transform.SetParent(cp.transform);
+        if (GameManager.Inst.GetPlayer() == "white")
+        {
+            animator.transform.position = new Vector2(cp.transform.position.x, cp.transform.position.y + 0.4f);
+        }
+        else
+        {
+            animator.transform.position = new Vector2(cp.transform.position.x, cp.transform.position.y - 0.4f);
+        }
+
+        animator.Play("JT_Anim");
+        yield return new WaitForSeconds(0.75f);
+        cp.spriteRenderer.material.color = new Color32(70, 60, 0, 0);
     }
     public override void ResetSkill()
     {
-        if (selectPiece == null)
-        {
-            SkillManager.Inst.RemoveDontClickPiece(selectPiece);
-            RPC_DestroySkill();
-        }
 
         if (skillData.turnCnt > 2)
         {

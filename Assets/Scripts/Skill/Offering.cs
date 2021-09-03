@@ -6,10 +6,10 @@ public class Offering : SkillBase
 {
     public override void UsingSkill()
     {
-        OF_UsingSkill();
+        StartCoroutine(OF_UsingSkill());
     }
 
-    private void OF_UsingSkill()
+    private IEnumerator OF_UsingSkill()
     {
         var targetCards = skillData.player == "white" ? CardManager.Inst.GetBlackCards() : CardManager.Inst.GetWhiteCards();
         //Preventing Pawns from being the target of Offering
@@ -17,8 +17,11 @@ public class Offering : SkillBase
         {
             RemoveSkill();
             CardManager.Inst.SetisBreak(true);
-            return;
+            yield break;
         }
+
+        photonView.RPC("OF_Effect", Photon.Pun.RpcTarget.AllBuffered);
+        yield return new WaitForSeconds(1f);
         ChessManager.Inst.DestroyChessPiece(selectPiece.GetChessData());
 
         int rand;
@@ -27,11 +30,19 @@ public class Offering : SkillBase
         RPC_DestroySkill();
     }
 
+    [Photon.Pun.PunRPC]
+    private void OF_Effect()
+    {
+        base.StartEffect();
+        animator.Play("OF_Anim");
+    }
+
     private void RemoveSkill()
     {
         if (selectPiece != null)
         {
             selectPiece.RemoveChosenSkill(this);
         }
+        RPC_DestroySkill();
     }
 }

@@ -22,6 +22,7 @@ public class ChessData
     public bool attackSelecting;
 
     public List<SkillData> chosenSkill;
+
     public ChessData(string player, int ID, string chessPiece, int moveCnt, int attackCount, int xBoard, int yBoard, bool isMoving, bool isAttacking, bool noneAttack, bool isSelecting, bool attackSelecting, List<SkillData> chosenSkill)
     {
         this.chessPiece = chessPiece;
@@ -186,8 +187,8 @@ public class ChessBase : MonoBehaviourPunCallbacks
         x *= 0.684f;
         y *= 0.684f;
 
-        x += -2.4f;
-        y += -2.4f;
+        x += -2.398f;
+        y += -2.398f;
 
         // Aligns according the board
         transform.position = new Vector3(x, y, -1.0f);
@@ -208,8 +209,8 @@ public class ChessBase : MonoBehaviourPunCallbacks
         x *= 0.684f;
         y *= 0.684f;
 
-        x += -2.4f;
-        y += -2.4f;
+        x += -2.398f;
+        y += -2.398f;
 
         // end position
         Vector3 endPos = new Vector3(x, y, -1.0f);

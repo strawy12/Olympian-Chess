@@ -114,7 +114,6 @@ public class Ghost : SkillBase
                         cp = ChessManager.Inst.Creat(ChessManager.Inst.GetWhiteObject()[Selecting()], j, i);
                         ChessManager.Inst.SetPosition(cp);
                         photonView.RPC("ChangePiece", RpcTarget.AllBuffered, cp.gameObject.GetPhotonView().ViewID);
-                        RemoveSkill();
                         return;
                     }
                 }
@@ -132,7 +131,6 @@ public class Ghost : SkillBase
                         cp = ChessManager.Inst.Creat(ChessManager.Inst.GetBlackObject()[Selecting()], j, i);
                         ChessManager.Inst.SetPosition(cp);
                         photonView.RPC("ChangePiece", RpcTarget.AllBuffered, cp.gameObject.GetPhotonView().ViewID);
-                        RemoveSkill();
                         return;
                     }
                 }
@@ -141,12 +139,36 @@ public class Ghost : SkillBase
     }
 
     [PunRPC]
-    private void ChangePiece(int num)
+    private IEnumerator ChangePiece(int num)
     {
         GameObject obj = PhotonView.Find(num).gameObject;
         ChessManager.Inst.AddArr(obj.GetComponent<ChessBase>());
-        if (GameManager.Inst.GetPlayer() == "white") return;
-        obj.transform.Rotate(0f, 0f, 180f);
+
+        base.StartEffect();
+        animator.transform.SetParent(obj.transform);
+
+        if (GameManager.Inst.GetPlayer() == "white")
+        {
+            animator.transform.position = new Vector2(obj.transform.position.x, obj.transform.position.y + 0.1f);
+        }
+        else
+        {
+            animator.transform.position = new Vector2(obj.transform.position.x, obj.transform.position.y - 0.1f);
+        }
+        animator.transform.localScale = Vector3.one;
+
+        animator.Play("GS_Anim");
+
+        if (GameManager.Inst.GetPlayer() == "black")
+        {
+            obj.transform.Rotate(0f, 0f, 180f);
+        }
+        yield return new WaitForSeconds(1f);
+        if (selectPiece != null)
+        {
+            selectPiece.RemoveChosenSkill(this);
+        }
+        DestroySkill();
     }
 
     private void RemoveSkill()

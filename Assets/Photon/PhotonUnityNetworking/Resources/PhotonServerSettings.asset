@@ -118,6 +118,13 @@ MonoBehaviour:
   - SetPosition
   - GoLobby
   - WinEffect
+  - StartHP_Effect
+  - ST_Effect
+  - WV_Effect
+  - OF_Effect
+  - GOD_Effect
+  - GOD_SkillEffect
+  - GB_StandardSkill
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

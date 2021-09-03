@@ -75,7 +75,7 @@ public class LoveOfEros : SkillBase
         }
         if(photonView.IsMine)
         {
-            LOE_ResetSkill();
+            StartCoroutine(LOE_ResetSkill());
         }
         
     }
@@ -87,8 +87,16 @@ public class LoveOfEros : SkillBase
         selectPiece.spriteRenderer.material.color = Color.clear;
     }
 
-    private void LOE_ResetSkill()
+    private IEnumerator LOE_ResetSkill()
     {
+        base.StartEffect();
+        animator.transform.SetParent(null);
+        animator.transform.position = Vector2.zero;
+        animator.transform.localScale = new Vector3(12f, 12f, 12f);
+        animator.Play("LOE_Anim");
+
+        yield return new WaitForSeconds(1f);
+
         photonView.RPC("ChangeColor", Photon.Pun.RpcTarget.AllBuffered);
 
         if (skillData.posX == selectPiece.GetXBoard() && skillData.posY == selectPiece.GetYBoard())

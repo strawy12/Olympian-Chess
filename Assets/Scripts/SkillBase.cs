@@ -34,6 +34,8 @@ public class SkillBase : MonoBehaviourPunCallbacks
     protected MovePlate movePlate;
     protected ChessBase selectPiece;
     protected ChessBase selectPieceTo;
+    protected GameObject skillEffect;
+    protected Animator animator; 
 
     protected void Awake()
     {
@@ -173,9 +175,28 @@ public class SkillBase : MonoBehaviourPunCallbacks
         photonView.RPC("DestroySkill", RpcTarget.AllBuffered);
     }
 
+    public virtual void StartEffect()
+    {
+        skillEffect = SkillManager.Inst.SkillEffectSpawn();
+        if(GameManager.Inst.GetPlayer() == "black")
+        {
+            skillEffect.transform.Rotate(0f, 0f, 180f);
+        }
+        if(selectPiece != null)
+        {
+            skillEffect.transform.SetParent(selectPiece.transform);
+            skillEffect.transform.position = selectPiece.transform.position;
+        }
+
+        animator = skillEffect.GetComponent<Animator>();
+    }
     [PunRPC]
     protected void DestroySkill()
     {
+        if(skillEffect != null)
+        {
+            Destroy(skillEffect);
+        }
         SkillManager.Inst.RemoveSkillList(this);
         Destroy(gameObject);
     }

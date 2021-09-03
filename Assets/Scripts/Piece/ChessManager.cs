@@ -322,6 +322,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
     [PunRPC]
     public void SetPositionEmpty(int x, int y, bool isSend = true)
     {
+
         if (isSend)
         {
             photonView.RPC("SetPositionEmpty", RpcTarget.OthersBuffered, x, y, false);
@@ -363,8 +364,22 @@ public class ChessManager : MonoBehaviourPunCallbacks
         if (position[x, y] == null) return null;
         var targetPlayers = position[x, y].ID < 200 ? playerWhite : playerBlack;
 
-        return Array.Find(targetPlayers, c => c.GetID() == position[x, y].ID);
+        for (int i = 0; i < 16; i++)
+        {
 
+            if (targetPlayers[i] == null)
+            {
+                continue;
+            }
+
+            if (position[x, y].ID == targetPlayers[i].GetID())
+            {
+                return targetPlayers[i];
+            }
+
+
+        }
+        return null;
     }
 
     // Function checking if any chesspiece exists on parameters' value on board
@@ -384,13 +399,23 @@ public class ChessManager : MonoBehaviourPunCallbacks
     {
         if (cp == null) return;
         ChessData chessData = cp.GetChessData();
-        string jsonData = NetworkManager.Inst.SaveDataToJson(chessData, true);
-        photonView.RPC("SetPosition", RpcTarget.OthersBuffered, jsonData);
+        string jsonData = NetworkManager.Inst.SaveDataToJson(chessData, false);
+
+        if(PhotonNetwork.IsMasterClient)
+        {
+            int x = chessData.xBoard;
+            int y = chessData.yBoard;
+            position[x, y] = chessData;
 
 
-        int x = chessData.xBoard;
-        int y = chessData.yBoard;
-        position[x, y] = chessData;
+            photonView.RPC("SetPosition", RpcTarget.OthersBuffered, jsonData);
+        }
+        else
+        {
+            photonView.RPC("SetPosition", RpcTarget.MasterClient, jsonData);
+        }
+
+
 
     }
 
@@ -398,9 +423,20 @@ public class ChessManager : MonoBehaviourPunCallbacks
     private void SetPosition(string jsonData)
     {
         ChessData chessData = NetworkManager.Inst.LoadDataFromJson<ChessData>(jsonData);
-        int x = chessData.xBoard;
-        int y = chessData.yBoard;
-        position[x, y] = chessData;
+        if(PhotonNetwork.IsMasterClient)
+        {
+            int x = chessData.xBoard;
+            int y = chessData.yBoard;
+            position[x, y] = chessData;
+            photonView.RPC("SetPosition", RpcTarget.OthersBuffered, jsonData);
+        }
+        else
+        {
+            int x = chessData.xBoard;
+            int y = chessData.yBoard;
+            position[x, y] = chessData;
+        }
+        
     }
     #endregion
 
@@ -421,7 +457,6 @@ public class ChessManager : MonoBehaviourPunCallbacks
         EnPassant(mp.Getreference(), mp);
         SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
         DestroyChessPiece(cp.GetChessData());
-
         if (mp.Getreference().GetIsAttacking())
         {
             GameManager.Inst.RemoveAttackings(mp.Getreference());
@@ -437,7 +472,6 @@ public class ChessManager : MonoBehaviourPunCallbacks
         ChessData chessData = NetworkManager.Inst.LoadDataFromJson<ChessData>(jsonData);
         ChessBase cp = GetChessPiece(chessData);
         UpdateArr(cp);
-        SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
         if (SkillManager.Inst.CheckDontClickPiece(cp))
         {
             SkillManager.Inst.RemoveDontClickPiece(cp);

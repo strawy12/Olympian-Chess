@@ -19,6 +19,22 @@ public class GiveBirth : SkillBase
 
     public override void StandardSkill()
     {
+        photonView.RPC("GB_StandardSkill", RpcTarget.AllBuffered);
+
+    }
+
+    [PunRPC]
+    private void ChangePiece(int num)
+    {
+        GameObject obj = PhotonView.Find(num).gameObject;
+        ChessManager.Inst.AddArr(obj.GetComponent<ChessBase>());
+        if (GameManager.Inst.GetPlayer() == "white") return;
+        obj.transform.Rotate(0f, 0f, 180f);
+    }
+
+    [PunRPC]
+    private IEnumerator GB_StandardSkill()
+    {
         ChessBase baby;
         ChessBase attacker = ChessManager.Inst.GetPosition(skillData.posX, skillData.posY);
 
@@ -29,6 +45,12 @@ public class GiveBirth : SkillBase
 
             AttackerPosition(attacker);
 
+            base.StartEffect();
+            animator.transform.SetParent(null);
+            animator.Play("GB_Anim");
+            yield return new WaitForSeconds(1f);
+
+
             baby = ChessManager.Inst.Creat(ChessManager.Inst.GetWhiteObject()[0], selectPiece.GetXBoard(), selectPiece.GetYBoard());
         }
         else
@@ -37,6 +59,12 @@ public class GiveBirth : SkillBase
             GameManager.Inst.SetUsingSkill(false);
 
             AttackerPosition(attacker);
+
+            base.StartEffect();
+            animator.transform.SetParent(null);
+            animator.Play("GB_Anim");
+            yield return new WaitForSeconds(1f);
+
             baby = ChessManager.Inst.Creat(ChessManager.Inst.GetBlackObject()[0], selectPiece.GetXBoard(), selectPiece.GetYBoard());
         }
         photonView.RPC("ChangePiece", RpcTarget.AllBuffered, baby.gameObject.GetPhotonView().ViewID);
@@ -47,17 +75,8 @@ public class GiveBirth : SkillBase
             selectPiece.RemoveChosenSkill(this);
             selectPiece.SetAttackSelecting(false);
         }
-       
-        RPC_DestroySkill();
-    }
 
-    [PunRPC]
-    private void ChangePiece(int num)
-    {
-        GameObject obj = PhotonView.Find(num).gameObject;
-        ChessManager.Inst.AddArr(obj.GetComponent<ChessBase>());
-        if (GameManager.Inst.GetPlayer() == "white") return;
-        obj.transform.Rotate(0f, 0f, 180f);
+        DestroySkill();
     }
 
 

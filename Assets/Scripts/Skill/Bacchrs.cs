@@ -15,6 +15,11 @@ public class Bacchrs : SkillBase
     [Photon.Pun.PunRPC]
     private void BC_UsingSkill()
     {
+        base.StartEffect();
+        animator.transform.SetParent(null);
+        animator.transform.position = Vector2.zero;
+        animator.transform.localScale = new Vector3(12f, 12f, 12f);
+        animator.Play("BC_Anim");
         GameManager.Inst.isBacchrs = true;
         ChosenSkill(true);
     }

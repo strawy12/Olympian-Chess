@@ -60,8 +60,10 @@ public class LobbyManager : MonoBehaviour
 
     public void OnClickStart()
     {
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene("Tutorial");
     }
+
+
 
     public void BG_Buy(int g)
     {

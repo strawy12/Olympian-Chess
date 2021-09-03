@@ -1810,7 +1810,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -697221745
-  m_SortingLayer: 4
+  m_SortingLayer: 5
   m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: 801fe168fb35fb44c86c8cf0b09dc593, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2758,7 +2758,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 9055452339147280661, guid: a62dd247aeddd1b4b8070bd221c89499,
+  m_Sprite: {fileID: 9055452339147280661, guid: 62d2b18d059258e4786dffc281c5062d,
     type: 3}
   m_Type: 0
   m_PreserveAspect: 1
@@ -2898,7 +2898,7 @@ MonoBehaviour:
             \uB545,\uD30C\uB3C4"
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1714972813}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
@@ -2930,7 +2930,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -4831559660522196829, guid: aa6a388efbd618443847682ef28c8a32,
+  m_Sprite: {fileID: -437873508662156316, guid: d3f4454f6cdca784cbae275922cd578b,
     type: 3}
   m_Type: 0
   m_PreserveAspect: 0
@@ -4985,8 +4985,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 594765651
+  m_SortingLayer: 3
   m_SortingOrder: 10
   m_Sprite: {fileID: -3187986905481826891, guid: 62d2b18d059258e4786dffc281c5062d,
     type: 3}
@@ -5495,7 +5495,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -1509302110868938082, guid: a62dd247aeddd1b4b8070bd221c89499,
+  m_Sprite: {fileID: -1509302110868938082, guid: 62d2b18d059258e4786dffc281c5062d,
     type: 3}
   m_Type: 0
   m_PreserveAspect: 1
@@ -5751,6 +5751,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillList: []
   skillPrefab: {fileID: 1996141749020464303, guid: d13e829210bf1d64dadb4a0a53432b78,
+    type: 3}
+  skillEffectPrefab: {fileID: 496966207370720657, guid: cc8d00bb333a47e428ebafe094d16248,
     type: 3}
   dontClickPiece: []
   godPieces: []
@@ -6163,7 +6165,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -697221745
-  m_SortingLayer: 4
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 54620541728290854, guid: f210bee5bca6d3a4584d54a62698d2b8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -7261,7 +7263,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -6460578100992288909, guid: a62dd247aeddd1b4b8070bd221c89499,
+  m_Sprite: {fileID: -6460578100992288909, guid: 62d2b18d059258e4786dffc281c5062d,
     type: 3}
   m_Type: 0
   m_PreserveAspect: 1
@@ -7420,7 +7422,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -4831559660522196829, guid: aa6a388efbd618443847682ef28c8a32,
+  m_Sprite: {fileID: -437873508662156316, guid: d3f4454f6cdca784cbae275922cd578b,
     type: 3}
   m_Type: 0
   m_PreserveAspect: 0
@@ -8925,7 +8927,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 5171132983631771878, guid: a62dd247aeddd1b4b8070bd221c89499,
+  m_Sprite: {fileID: 5171132983631771878, guid: 62d2b18d059258e4786dffc281c5062d,
     type: 3}
   m_Type: 0
   m_PreserveAspect: 0

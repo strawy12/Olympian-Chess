@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Stroy : MonoBehaviour
@@ -71,6 +72,7 @@ public class Stroy : MonoBehaviour
 
             case 10:
                 Debug.Log("Æ©Åô¸®¾óÀ» ¿Ï·áÇÏ¼Ë½À´Ï´ç");
+                SceneManager.LoadScene("Lobby");
                 break;
         }
     }
