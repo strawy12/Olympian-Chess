@@ -125,6 +125,7 @@ MonoBehaviour:
   - TV_Effect
   - DR_Effect
   - TW_Effect
+  - WB_Effect
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
