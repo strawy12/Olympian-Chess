@@ -122,10 +122,10 @@ MonoBehaviour:
   - ST_Effect
   - WV_Effect
   - OF_Effect
-  - GOD_Effect
-  - GOD_SkillEffect
-  - GB_StandardSkill
-  - SetSprite
+  - TV_Effect
+  - DR_Effect
+  - TW_Effect
+  - WB_Effect
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

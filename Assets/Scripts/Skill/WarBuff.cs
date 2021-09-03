@@ -8,7 +8,6 @@ public class WarBuff : SkillBase
     private List<ChessBase> chessPieces = new List<ChessBase>();
     public override void UsingSkill()
     {
-
         WB_UsingSkill();
     }
 
@@ -23,6 +22,8 @@ public class WarBuff : SkillBase
 
     private void WB_UsingSkill()
     {
+        
+        photonView.RPC("WB_Effect", Photon.Pun.RpcTarget.AllBuffered);
         GameManager.Inst.SetMoving(true);
         GameManager.Inst.SetUsingSkill(true);
         selectPiece.SetNoneAttack(true);
@@ -54,6 +55,13 @@ public class WarBuff : SkillBase
             TurnManager.Instance.ButtonActive();
         }
     }
+    [Photon.Pun.PunRPC]
+    private void WB_Effect()
+    {
+        base.StartEffect();
+        animator.Play("WB_Anim");
+
+    }
 
     [Photon.Pun.PunRPC]
     private void WB_ResetSkill()
@@ -73,8 +81,12 @@ public class WarBuff : SkillBase
             yield return new WaitForSeconds(0.1f);
         }
 
-        ChessManager.Inst.SetPositionEmpty(selectPiece.GetXBoard(), selectPiece.GetYBoard());
-        ChessManager.Inst.DestroyChessPiece(selectPiece.GetChessData());
+        if(photonView.IsMine)
+        {
+            ChessManager.Inst.SetPositionEmpty(selectPiece.GetXBoard(), selectPiece.GetYBoard());
+            ChessManager.Inst.DestroyChessPiece(selectPiece.GetChessData());
+        }
+        
         selectPiece.RemoveChosenSkill(this);
 
         DestroySkill();

@@ -47,6 +47,8 @@ public class Drunkenness : SkillBase
         GameManager.Inst.SetUsingSkill(false);
 
         selectPiece.spriteRenderer.material.SetColor("_Color", new Color32(97, 23, 128, 225));
+
+        photonView.RPC("DR_Effect", Photon.Pun.RpcTarget.AllBuffered);
         MoveChessPiece(selectPiece, x, y);
         selectPiece.spriteRenderer.material.SetColor("_Color", Color.clear);
 
@@ -54,6 +56,12 @@ public class Drunkenness : SkillBase
         GameManager.Inst.SetUsingSkill(false);
     }
 
+    [Photon.Pun.PunRPC]
+    private void DR_Effect()
+    {
+        base.StartEffect();
+        animator.Play("DR_Anim");
+    }
     private void MoveChessPiece(ChessBase cp, int matrixX, int matrixY)
     {
         ChessManager.Inst.SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());

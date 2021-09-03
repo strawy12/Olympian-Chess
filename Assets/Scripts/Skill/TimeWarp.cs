@@ -25,13 +25,25 @@ public class TimeWarp : SkillBase
             return;
         }
 
+        photonView.RPC("TW_Effect", Photon.Pun.RpcTarget.AllBuffered);
         int random;
 
         random = Random.Range(0, CardManager.Inst.GetUsedCards().Count);
         CardManager.Inst.AddUsedCard(random);
-        RemoveSkill();
     }
 
+    [Photon.Pun.PunRPC]
+    private IEnumerator TW_Effect()
+    {
+        base.StartEffect();
+        animator.transform.SetParent(null);
+        animator.transform.position = Vector2.zero;
+        animator.transform.localScale = new Vector3(12f, 12f, 12f);
+        animator.Play("TW_Anim");
+        yield return new WaitForSeconds(1.2f);
+        RemoveSkill();
+
+    }
     private void RemoveSkill()
     {
         SkillManager.Inst.RemoveSkillList(this);
@@ -39,7 +51,7 @@ public class TimeWarp : SkillBase
         {
             selectPiece.RemoveChosenSkill(this);
         }
-        RPC_DestroySkill();
+        DestroySkill();
 
     }
 }
