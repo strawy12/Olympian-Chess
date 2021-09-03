@@ -67,6 +67,7 @@ public class LobbyManager : MonoBehaviour
         SetBackGround();
         SetSoundValue();
         SetSupersImage();
+        SetSuperSkill();
 
         SoundManager.Instance.SetLobbyBGM(Random.Range(0, 2));
     }
@@ -87,7 +88,6 @@ public class LobbyManager : MonoBehaviour
     {
         SceneManager.LoadScene("Tutorial");
     }
-
 
 
     public void BG_Buy(int g)
@@ -284,6 +284,18 @@ public class LobbyManager : MonoBehaviour
         }
 
         NetworkManager.Inst.SaveDataToJson(user, true);
+    }
+
+    private void SetSuperSkill()
+    {
+        for (int i = 0; i < user.superSkills.Length; i++)
+        {
+            if(user.superSkills[i].isSelect && user.superSkills[i].amount == 0)
+            {
+                user.superSkills[i].isSelect = false;
+                super_checkButton.transform.GetChild(0).gameObject.SetActive(false);
+            }
+        }
     }
 
     private void FirstSetting()
