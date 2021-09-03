@@ -116,7 +116,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         friendlyMatchPanal.SetActive(true);
     }
 
-
     public override void OnConnectedToMaster()
     {
         print("서버접속완료");
