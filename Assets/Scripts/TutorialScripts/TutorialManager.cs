@@ -98,6 +98,6 @@ public class TutorialManager : MonoBehaviour
     #endregion
     void Start()
     {
-        SoundManager.Instance.StartSoundPlay();
+        SoundManager.Instance.StartSound();
     }
 }

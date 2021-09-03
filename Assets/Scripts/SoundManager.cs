@@ -118,26 +118,20 @@ public class SoundManager : MonoBehaviour
         effectAudio.PlayOneShot(buttonSound);
     }
 
-    public void StartSoundPlay()
+    public void StartSound()
     {
-        SoundPlay("StartSound", startSound);
+        effectAudio.PlayOneShot(startSound);
     }
 
     public void MoveChessSound()
     {
-        //SoundPlay("MoveChess", moveSound);
         effectAudio.PlayOneShot(moveSound);
     }
-
-    public void DeadChessSound()
+    public void DeadChess()
     {
-        SoundPlay("DeadSound", deadSound);
+        effectAudio.PlayOneShot(deadSound);
     }
 
-    public void ButtonClickSound()
-    {
-        SoundPlay("buttonClick", buttonClick);
-    }
     public void SoundPlay(string name, AudioClip clip)
     {
         //Debug.Log(name + "Sound");
