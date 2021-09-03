@@ -62,6 +62,18 @@ public class SoundManager : MonoBehaviour
 
     private void Awake()
     {
+        SoundManager[] sms = FindObjectsOfType<SoundManager>();
+
+        if (sms.Length != 1)
+        {
+            for (int i = 0; i < sms.Length; i++)
+            {
+                if (sms[i] != this)
+                {
+                    Destroy(sms[i].gameObject);
+                }
+            }
+        }
         DontDestroyOnLoad(gameObject);
 
         bgmAudio = GetComponent<AudioSource>();

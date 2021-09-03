@@ -363,8 +363,22 @@ public class ChessManager : MonoBehaviourPunCallbacks
         if (position[x, y] == null) return null;
         var targetPlayers = position[x, y].ID < 200 ? playerWhite : playerBlack;
 
-        return Array.Find(targetPlayers, c => c.GetID() == position[x, y].ID);
+        for (int i = 0; i < 16; i++)
+        {
 
+            if (targetPlayers[i] == null)
+            {
+                continue;
+            }
+
+            if (position[x, y].ID == targetPlayers[i].GetID())
+            {
+                return targetPlayers[i];
+            }
+
+
+        }
+        return null;
     }
 
     // Function checking if any chesspiece exists on parameters' value on board

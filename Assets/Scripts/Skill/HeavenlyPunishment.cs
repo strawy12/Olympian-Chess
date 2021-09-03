@@ -42,16 +42,26 @@ public class HeavenlyPunishment : SkillBase
             RemoveSkill();
             return;
         }
-        photonView.RPC("StartEffect", Photon.Pun.RpcTarget.AllBuffered);
+        photonView.RPC("StartHP_Effect", Photon.Pun.RpcTarget.AllBuffered);
         CardManager.Inst.SetisBreak(false);
     }
 
+    public override void ResetSkill()
+    {
+        if (skillData.turnCnt < 2) return;
+        RemoveSkill();
+    }
+
     [Photon.Pun.PunRPC]
-    private void StartEffect()
+    public void StartHP_Effect()
     {
         SkillManager.Inst.AddDontClickPiece(selectPiece);
-        StartCoroutine(HP_SkillEffect());
+
+        base.StartEffect();
+
+        animator.Play("HP_Anim");
     }
+
 
 
     private IEnumerator HP_SkillEffect()
@@ -60,7 +70,7 @@ public class HeavenlyPunishment : SkillBase
         Debug.Log(skillData.turnCnt);
         Debug.Log(k);
         //sparkling effect (yellow)
-        while (skillData.turnCnt < k)
+        while (2 < k)
         {
             selectPiece.spriteRenderer.material.color = new Color32(255, 228, 0, 0);
             yield return new WaitForSeconds(0.2f);
@@ -68,7 +78,6 @@ public class HeavenlyPunishment : SkillBase
             yield return new WaitForSeconds(0.2f);
         }
 
-        RemoveSkill();
     }
 
     private void RemoveSkill()
@@ -79,7 +88,6 @@ public class HeavenlyPunishment : SkillBase
             SkillManager.Inst.RemoveDontClickPiece(selectPiece);
         }
 
-        DestroySkill();
-
+        RPC_DestroySkill();
     }
 }

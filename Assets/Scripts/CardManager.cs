@@ -976,7 +976,7 @@ public class CardManager : MonoBehaviourPunCallbacks
             {
                 if (objCnt == 0) break;
                 objCnt--;
-                targetPos = Vector3.Lerp(new Vector2(-2.1f, objYpos[i]), new Vector2(2.1f, objYpos[i]), interval * j);
+                targetPos = Vector3.Lerp(new Vector3(-2.1f, objYpos[i], -3f), new Vector3(2.1f, objYpos[i], -3f), interval * j);
                 results.Add(new PRS(targetPos, targetRot, scale));
             }
         }

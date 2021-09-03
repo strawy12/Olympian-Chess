@@ -194,8 +194,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         x *= 0.684f;
         y *= 0.684f;
 
-        x += -2.4f;
-        y += -2.4f;
+        x += -2.398f;
+        y += -2.398f;
 
         GameObject mp = Instantiate(movePlate, new Vector3(x, y, -3.0f), Quaternion.identity);
         MovePlate mpScript = mp.GetComponent<MovePlate>();
@@ -216,8 +216,9 @@ public class GameManager : MonoBehaviourPunCallbacks
         x *= 0.684f;
         y *= 0.684f;
 
-        x += -2.4f;
-        y += -2.4f;
+        x += -2.398f;
+        y += -2.398f;
+
 
         GameObject mp = Instantiate(movePlate, new Vector3(x, y, -3.0f), Quaternion.identity);
 
@@ -427,7 +428,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         return usingSkill;
     }
-    public bool GetMoving()
+    public bool GetMoving() 
     {
         return moving;
     }

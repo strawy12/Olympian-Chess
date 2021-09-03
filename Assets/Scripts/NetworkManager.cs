@@ -42,6 +42,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         }
     }
 
+
     private void Awake()
     {
         NetworkManager[] nms = FindObjectsOfType<NetworkManager>();
@@ -124,6 +125,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     }
     public override void OnJoinedLobby()
     {
+        if (lodingDisplay == null) return;
         lodingDisplay.SetActive(false);
     }
 
@@ -210,6 +212,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         if (GameManager.Inst.gameOver) return;
         GameManager.Inst.gameOver = true;
         GameManager.Inst.WinEffect(true);
+        LeaveRoom();
     }
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
