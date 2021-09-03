@@ -88,6 +88,6 @@ public class HeavenlyPunishment : SkillBase
             SkillManager.Inst.RemoveDontClickPiece(selectPiece);
         }
 
-        DestroySkill();
+        RPC_DestroySkill();
     }
 }
