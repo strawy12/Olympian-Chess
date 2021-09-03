@@ -157,6 +157,7 @@ public class LobbyManager : MonoBehaviour
         user = DeckManager.Instance.GetUser();
 
         super_Shop.sprite = supers[super_num];
+
         super_Text.text = user.superSkills[super_num].amount.ToString() + "°³";
 
         if(!user.superSkills[super_num].isSelect)

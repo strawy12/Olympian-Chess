@@ -61,7 +61,6 @@ public class DeckManager : MonoBehaviourPunCallbacks
     private void Awake()
     {
         user = NetworkManager.Inst.LoadDataFromJson<User>();
-
         if (user == null)
         {
             user = new User(10000, 0, new string[10], new bool[6], 0.5f, 0.5f, supers.superSkills);

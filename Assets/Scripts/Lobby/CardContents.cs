@@ -20,7 +20,6 @@ public class CardContents : MonoBehaviour
 
     public void IsClicked()
     {
-        Debug.Log(cardSelects.Count);
 
         for (int i = 0; i < cardSelects.Count; i++)
         {
