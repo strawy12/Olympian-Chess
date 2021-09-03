@@ -57,7 +57,7 @@ public class StreetFriend : SkillBase
     {
         base.StartEffect();
         animator.transform.position = Vector2.zero;
-        animator.transform.localScale = new Vector3(3f, 3f, 3f);
+        animator.transform.localScale = new Vector3(12f, 12f, 12f);
         animator.Play("ST_Anim");
     }
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TutorialManager : MonoBehaviour
 {
@@ -99,5 +100,10 @@ public class TutorialManager : MonoBehaviour
     void Start()
     {
         SoundManager.Instance.StartSoundPlay();
+    }
+
+    public void OnClickBtn()
+    {
+        SceneManager.LoadScene("Lobby");
     }
 }

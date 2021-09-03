@@ -75,11 +75,14 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        DisConnect();
         Connect();
     }
 
     public void Connect()
     {
+        Debug.Log("¿¿æ÷");
+        Debug.Log(PhotonNetwork.ConnectUsingSettings());
         lodingDisplay.SetActive(true);
         PhotonNetwork.ConnectUsingSettings();
     }

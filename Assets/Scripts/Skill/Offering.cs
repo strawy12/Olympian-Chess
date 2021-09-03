@@ -34,7 +34,6 @@ public class Offering : SkillBase
     private void OF_Effect()
     {
         base.StartEffect();
-        animator.transform.localScale = new Vector3(3f, 3f, 3f);
         animator.Play("OF_Anim");
     }
 

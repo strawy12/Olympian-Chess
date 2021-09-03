@@ -24,7 +24,6 @@ public class Card_TuTo : MonoBehaviour
     }
     private void Update()
     {
-        Debug.Log(TutorialManager.Instance.iscardPush);
         Show();
 
         if (isMyCardDrag)
