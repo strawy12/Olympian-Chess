@@ -17,7 +17,7 @@ public class WestWind : SkillBase
     [Photon.Pun.PunRPC]
     private void WW_UsingSkill()
     {
-        selectPiece.spriteRenderer.material.SetColor("_Color", new Color32(215, 199, 176, 144));
+        //selectPiece.spriteRenderer.material.SetColor("_Color", new Color32(215, 199, 176, 144));
         skillData.posX = selectPiece.GetXBoard();
         skillData.posY = selectPiece.GetYBoard();
         selectPiece.spriteRenderer.sortingOrder = -2;

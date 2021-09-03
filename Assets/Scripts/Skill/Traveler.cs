@@ -39,7 +39,7 @@ public class Traveler : SkillBase
             return;
         }
 
-        RemoveSkill();
+       
     }
 
     private void RemoveSkill()
@@ -48,14 +48,16 @@ public class Traveler : SkillBase
         {
             selectPiece.RemoveChosenSkill(this);
         }
-        RPC_DestroySkill();
+        DestroySkill();
     }
 
     [Photon.Pun.PunRPC]
-    private void TV_Effect()
+    private IEnumerator TV_Effect()
     {
         base.StartEffect();
         animator.Play("TV_Anim");
+        yield return new WaitForSeconds(1f);
+        RemoveSkill();
     }
 
     private void MoveChessPiece(ChessBase cp, int matrixX, int matrixY)
