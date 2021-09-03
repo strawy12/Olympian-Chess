@@ -46,6 +46,9 @@ public class SoundManager : MonoBehaviour
     private AudioClip gameBGM;
     [SerializeField]
     private AudioClip lobbyBGM;
+    [SerializeField]
+    private AudioClip lobbyBGM2;
+
 
     [SerializeField]
     private AudioClip coinSound;
@@ -102,10 +105,13 @@ public class SoundManager : MonoBehaviour
         bgmAudio.Play();
     }
 
-    public void SetLobbyBGM()
+    public void SetLobbyBGM(int rand)
     {
         bgmAudio.Stop();
-        bgmAudio.clip = lobbyBGM;
+        if (rand == 0)
+            bgmAudio.clip = lobbyBGM;
+        else
+            bgmAudio.clip = lobbyBGM2;
         bgmAudio.Play();
     }
 
@@ -124,26 +130,20 @@ public class SoundManager : MonoBehaviour
         effectAudio.PlayOneShot(buttonSound);
     }
 
-    public void StartSoundPlay()
+    public void StartSound()
     {
-        SoundPlay("StartSound", startSound);
+        effectAudio.PlayOneShot(startSound);
     }
 
     public void MoveChessSound()
     {
-        //SoundPlay("MoveChess", moveSound);
         effectAudio.PlayOneShot(moveSound);
     }
-
-    public void DeadChessSound()
+    public void DeadChess()
     {
-        SoundPlay("DeadSound", deadSound);
+        effectAudio.PlayOneShot(deadSound);
     }
 
-    public void ButtonClickSound()
-    {
-        SoundPlay("buttonClick", buttonClick);
-    }
     public void SoundPlay(string name, AudioClip clip)
     {
         //Debug.Log(name + "Sound");
