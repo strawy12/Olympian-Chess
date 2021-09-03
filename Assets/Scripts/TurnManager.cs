@@ -138,7 +138,6 @@ public class TurnManager : MonoBehaviourPunCallbacks
         CardManager.Inst.CardShare();
         yield return new WaitForSeconds(2f);
 
-
         isLoading = false;
     }
 
@@ -156,8 +155,6 @@ public class TurnManager : MonoBehaviourPunCallbacks
     {
         return currentPlayer;
     }
-
-
 
     // Start a new turn & Win, lose decision
     public IEnumerator StartTurnCo()

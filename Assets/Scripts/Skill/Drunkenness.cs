@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Drunkenness : SkillBase
 {
-    int random;
+    private int random;
+
 
     public override void StandardSkill()
     {
@@ -13,24 +14,25 @@ public class Drunkenness : SkillBase
 
     public override void ResetSkill()
     {
-        if(skillData.turnCnt > 1)
-        {
-            photonView.RPC("DR_ResetSkill", Photon.Pun.RpcTarget.AllBuffered);
-            return;
-        }
-
-        GameManager.Inst.SetMoving(false);
-        GameManager.Inst.SetUsingSkill(true);
+        photonView.RPC("DR_ResetSkill", Photon.Pun.RpcTarget.AllBuffered);
     }
 
     [Photon.Pun.PunRPC]
     private void DR_ResetSkill()
     {
-        if (selectPiece != null)
+        if (skillData.turnCnt > 1)
         {
-            selectPiece.RemoveChosenSkill(this);
+            if (selectPiece != null)
+            {
+                selectPiece.spriteRenderer.material.color = Color.clear;
+                selectPiece.RemoveChosenSkill(this);
+            }
+
+            DestroySkill();
+            return;
         }
-        DestroySkill();
+
+        StartCoroutine(ChangeRoutine());
     }
 
     private void DR_StandardSkill()
@@ -43,17 +45,9 @@ public class Drunkenness : SkillBase
         x = movePlate.GetPosX();
         y = movePlate.GetPosY();
 
-        GameManager.Inst.SetMoving(false);
-        GameManager.Inst.SetUsingSkill(false);
-
-        selectPiece.spriteRenderer.material.SetColor("_Color", new Color32(97, 23, 128, 225));
-
         photonView.RPC("DR_Effect", Photon.Pun.RpcTarget.AllBuffered);
-        MoveChessPiece(selectPiece, x, y);
-        selectPiece.spriteRenderer.material.SetColor("_Color", Color.clear);
-
-        GameManager.Inst.SetMoving(true);
-        GameManager.Inst.SetUsingSkill(false);
+        ChessManager.Inst.MoveChessPiece(selectPiece, x, y);
+        TurnManager.Instance.ButtonActive();
     }
 
     [Photon.Pun.PunRPC]
@@ -61,16 +55,19 @@ public class Drunkenness : SkillBase
     {
         base.StartEffect();
         animator.Play("DR_Anim");
-    }
-    private void MoveChessPiece(ChessBase cp, int matrixX, int matrixY)
-    {
-        ChessManager.Inst.SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
-        cp.SetXBoard(matrixX);
-        cp.SetYBoard(matrixY);
-        cp.PlusMoveCnt();
-        ChessManager.Inst.SetPosition(cp);
-        cp.SetCoordsAnimation();
-        GameManager.Inst.DestroyMovePlates();
+
+        GameManager.Inst.SetMoving(true);
+        GameManager.Inst.SetUsingSkill(false);
+        selectPiece.spriteRenderer.material.color = new Color32(255, 204, 0, 0);
     }
 
+
+    private IEnumerator ChangeRoutine()
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        GameManager.Inst.SetMoving(false);
+        GameManager.Inst.SetUsingSkill(true);
+        yield break;
+    }
 }

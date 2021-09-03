@@ -95,9 +95,7 @@ public class SkillManager : MonoBehaviourPunCallbacks
     {
         for (int i = 0; i < skillList.Count; i++)
         {
-
             skillList[i].TurnCntPlus();
-
             skillList[i].ResetSkill();
         }
     }
@@ -113,8 +111,6 @@ public class SkillManager : MonoBehaviourPunCallbacks
     {
         skillList.Remove(sb);
     }
-
-
 
     // Function adding the cp to dontClickPiece list
     public void AddDontClickPiece(ChessBase cp, bool isSend = false)
@@ -134,7 +130,6 @@ public class SkillManager : MonoBehaviourPunCallbacks
 
             dontClickPiece.Add(cp.GetChessData());
         }
-
     }
 
     [PunRPC]
@@ -248,7 +243,6 @@ public class SkillManager : MonoBehaviourPunCallbacks
         List<SkillBase> skillList = GetSkillList(name);
 
         return Array.Exists(skillList.ToArray(), z => z.GetPosX() == x && z.GetPosY() == y);
-
     }
 
     public bool MoveControl(ChessBase cp)
@@ -301,7 +295,6 @@ public class SkillManager : MonoBehaviourPunCallbacks
     {
         if (skillList.Count < 1) return;
 
-        Debug.Log("¸¸Ãë");
         SkillBase sb = skillList[skillList.Count - 1];
         sb.SetPosX(mp.GetPosX());
         sb.SetPosY(mp.GetPosY());
