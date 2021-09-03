@@ -301,6 +301,7 @@ public class SkillManager : MonoBehaviourPunCallbacks
     {
         if (skillList.Count < 1) return;
 
+        Debug.Log("¸¸Ãë");
         SkillBase sb = skillList[skillList.Count - 1];
         sb.SetPosX(mp.GetPosX());
         sb.SetPosY(mp.GetPosY());
