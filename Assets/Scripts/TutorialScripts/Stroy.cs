@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class Stroy : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class Stroy : MonoBehaviour
     private string[] story;
     [SerializeField]
     private float speed;
+    [SerializeField]
+    private Image endPanel;
 
     private bool isTyping = true;
     private bool isTyping_ing = true;
@@ -71,6 +74,9 @@ public class Stroy : MonoBehaviour
 
             case 10:
                 Debug.Log("Æ©Åô¸®¾óÀ» ¿Ï·áÇÏ¼Ë½À´Ï´ç");
+                SoundManager.Instance.StopBGM();
+                SoundManager.Instance.WinOrLose(true);
+                endPanel.transform.DOScale(1, 0.4f);
                 break;
         }
     }

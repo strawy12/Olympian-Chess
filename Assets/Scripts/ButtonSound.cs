@@ -7,7 +7,7 @@ public class ButtonSound : MonoBehaviour, IPointerUpHandler
 {
     public void OnPointerUp(PointerEventData eventData)
     {
-        if (gameObject.name.Contains("Cart"))
+        if (gameObject.name.Contains("CardButton"))
             SoundManager.Instance.Deck();
 
         else

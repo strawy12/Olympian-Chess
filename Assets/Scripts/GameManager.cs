@@ -81,7 +81,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         pool = FindObjectOfType<PoolManager>();
         SetBackground();
         SoundManager.Instance.SetGameBGM(Random.Range(0, 2));
-        SoundManager.Instance.StartSoundPlay();
+        SoundManager.Instance.StartSound();
     }
     private void Update()
     {

@@ -43,6 +43,8 @@ public class SoundManager : MonoBehaviour
     private AudioClip buttonClick;
 
     [SerializeField]
+    private AudioClip tutorialBGM;
+    [SerializeField]
     private AudioClip gameBGM, gameBGM2;
     [SerializeField]
     private AudioClip lobbyBGM, lobbyBGM2;
@@ -87,6 +89,7 @@ public class SoundManager : MonoBehaviour
 
     public void BGMVolume(Slider slider)
     {
+        if (bgmAudio == null) return;
         bgmAudio.volume = slider.value / 10;
     }
 
@@ -94,6 +97,13 @@ public class SoundManager : MonoBehaviour
     {
         if (effectAudio == null) return;
         effectAudio.volume = slider.value / 10;
+    }
+
+    public void SetTutorialSound()
+    {
+        bgmAudio.Stop();
+        bgmAudio.clip = tutorialBGM;
+        bgmAudio.Play();
     }
 
     public void SetGameBGM(int rand)
@@ -133,19 +143,13 @@ public class SoundManager : MonoBehaviour
         effectAudio.PlayOneShot(buttonSound);
     }
 
-<<<<<<< HEAD
     public void Deck()
     {
         effectAudio.PlayOneShot(deckSound);
     }
 
-    public void StartSoundPlay()
-    {
-        //SoundPlay("StartSound", startSound);
-=======
     public void StartSound()
     {
->>>>>>> suan
         effectAudio.PlayOneShot(startSound);
     }
 
@@ -163,24 +167,9 @@ public class SoundManager : MonoBehaviour
     {
         effectAudio.PlayOneShot(moveSound);
     }
-    public void DeadChess()
+    public void DeadChessSound()
     {
-<<<<<<< HEAD
-        //SoundPlay("DeadSound", deadSound);
-=======
->>>>>>> suan
         effectAudio.PlayOneShot(deadSound);
-    }
-
-    public void SoundPlay(string name, AudioClip clip)
-    {
-        //Debug.Log(name + "Sound");
-        GameObject go = new GameObject(name + "Sound");
-        AudioSource audioSource = go.AddComponent<AudioSource>();
-        audioSource.clip = clip;
-        audioSource.Play();
-
-        Destroy(go, clip.length);
     }
 
     public void TypingSound(string name, AudioClip clip)
@@ -203,5 +192,17 @@ public class SoundManager : MonoBehaviour
             Destroy(go);
             TutorialManager.Instance.isTypingSound_ing = false;
         }
+
+
+    }
+
+    public float GetEffectVolume()
+    {
+        return effectAudio.volume;
+    }
+
+    public void StopBGM()
+    {
+        bgmAudio.Stop();
     }
 }

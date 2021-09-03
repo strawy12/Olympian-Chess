@@ -326,4 +326,9 @@ public class LobbyManager : MonoBehaviour
     {
         DeckManager.Instance.SetSoundVolume(bgmSound.value / 10f, effectSound.value / 10f);
     }
+
+    public void OnClickTutorial()
+    {
+        SceneManager.LoadScene("Tutorial");
+    }
 }

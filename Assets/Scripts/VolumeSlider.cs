@@ -14,15 +14,20 @@ public class VolumeSlider : MonoBehaviour
         slider = GetComponent<Slider>();
         sliderText = GetComponentInChildren<Text>();
 
+        Debug.Log(user.bgmVolume);
+        Debug.Log(user.effectVolume);
+
         if (gameObject.name.Contains("BGM"))
         {
+            Debug.Log(user.bgmVolume);
             slider.value = user.bgmVolume * 10;
         }
 
         else
         {
+            Debug.Log(user.effectVolume);
+
             slider.value = user.effectVolume * 10;
-            sliderText.text = slider.value.ToString();
         }
 
         sliderText.text = slider.value.ToString();
@@ -30,6 +35,8 @@ public class VolumeSlider : MonoBehaviour
 
     public void SetValue()
     {
+        if (slider == null) return;
+
         if (gameObject.name.Contains("BGM"))
         {
             SoundManager.Instance.BGMVolume(slider);
