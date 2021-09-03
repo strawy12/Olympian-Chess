@@ -43,11 +43,11 @@ public class SoundManager : MonoBehaviour
     private AudioClip buttonClick;
 
     [SerializeField]
-    private AudioClip gameBGM;
+    private AudioClip tutorialBGM;
     [SerializeField]
-    private AudioClip lobbyBGM;
+    private AudioClip gameBGM, gameBGM2;
     [SerializeField]
-    private AudioClip lobbyBGM2;
+    private AudioClip lobbyBGM, lobbyBGM2;
 
 
     [SerializeField]
@@ -56,24 +56,23 @@ public class SoundManager : MonoBehaviour
     private AudioClip matchSound;
     [SerializeField]
     private AudioClip buttonSound;
+    [SerializeField]
+    private AudioClip winSound, loseSound;
+    [SerializeField]
+    private AudioClip deckSound;
 
     private AudioSource bgmAudio;
     private AudioSource effectAudio;
 
     private void Awake()
     {
-        SoundManager[] sms = FindObjectsOfType<SoundManager>();
-
-        if (sms.Length != 1)
+        SoundManager[] smanagers = FindObjectsOfType<SoundManager>();
+        if (smanagers.Length != 1)
         {
-            for (int i = 0; i < sms.Length; i++)
-            {
-                if (sms[i] != this)
-                {
-                    Destroy(sms[i].gameObject);
-                }
-            }
+            Destroy(gameObject);
+            return;
         }
+
         DontDestroyOnLoad(gameObject);
 
         bgmAudio = GetComponent<AudioSource>();
@@ -90,18 +89,32 @@ public class SoundManager : MonoBehaviour
 
     public void BGMVolume(Slider slider)
     {
+        if (bgmAudio == null) return;
         bgmAudio.volume = slider.value / 10;
     }
 
     public void EffectVolume(Slider slider)
     {
+        if (effectAudio == null) return;
         effectAudio.volume = slider.value / 10;
     }
 
-    public void SetGameBGM()
+    public void SetTutorialSound()
     {
         bgmAudio.Stop();
-        bgmAudio.clip = gameBGM;
+        bgmAudio.clip = tutorialBGM;
+        bgmAudio.Play();
+    }
+
+    public void SetGameBGM(int rand)
+    {
+        bgmAudio.Stop();
+
+        if (rand == 0)
+            bgmAudio.clip = gameBGM;
+        else
+            bgmAudio.clip = gameBGM2;
+
         bgmAudio.Play();
     }
 
@@ -130,35 +143,33 @@ public class SoundManager : MonoBehaviour
         effectAudio.PlayOneShot(buttonSound);
     }
 
-    public void StartSoundPlay()
+    public void Deck()
     {
-        SoundPlay("StartSound", startSound);
+        effectAudio.PlayOneShot(deckSound);
     }
 
+    public void StartSound()
+    {
+        effectAudio.PlayOneShot(startSound);
+    }
+
+    public void WinOrLose(bool isWin)
+    {
+        bgmAudio.Stop();
+
+        if (isWin)
+            effectAudio.PlayOneShot(winSound);
+
+        else
+            effectAudio.PlayOneShot(loseSound);
+    }
     public void MoveChessSound()
     {
-        //SoundPlay("MoveChess", moveSound);
         effectAudio.PlayOneShot(moveSound);
     }
-
     public void DeadChessSound()
     {
-        SoundPlay("DeadSound", deadSound);
-    }
-
-    public void ButtonClickSound()
-    {
-        SoundPlay("buttonClick", buttonClick);
-    }
-    public void SoundPlay(string name, AudioClip clip)
-    {
-        //Debug.Log(name + "Sound");
-        GameObject go = new GameObject(name + "Sound");
-        AudioSource audioSource = go.AddComponent<AudioSource>();
-        audioSource.clip = clip;
-        audioSource.Play();
-
-        Destroy(go, clip.length);
+        effectAudio.PlayOneShot(deadSound);
     }
 
     public void TypingSound(string name, AudioClip clip)
@@ -181,5 +192,17 @@ public class SoundManager : MonoBehaviour
             Destroy(go);
             TutorialManager.Instance.isTypingSound_ing = false;
         }
+
+
+    }
+
+    public float GetEffectVolume()
+    {
+        return effectAudio.volume;
+    }
+
+    public void StopBGM()
+    {
+        bgmAudio.Stop();
     }
 }

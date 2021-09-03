@@ -19,47 +19,64 @@ public class SuperSkill : MonoBehaviour
     void Start()
     {
         col = GetComponent<Collider2D>();
-        spriteRenderer.color = Color.gray;
+
         col.enabled = false;
+        spriteRenderer.color = Color.gray;
     }
 
     private void OnMouseUp()
     {
-        if (GameManager.Inst.GetPlayer() != player) return;
-        if(!isUsed)
-        {
-            SuperSkillManager.Inst.SpawnSkill(this);
-            spriteRenderer.color = Color.gray;
-            col.enabled = false;
-            isUsed = true;
-        }
-    }
+        Debug.Log("들어오긴들어옴");
 
+        //if (GameManager.Inst.GetPlayer() != player) return;
+        //if(!isUsed)
+        //{
+        Debug.Log("스폰스킬");
+        SuperSkillManager.Inst.SpawnSkill(this);
+        spriteRenderer.color = Color.gray;
+        col.enabled = false;
+        isUsed = true;
+        //}
+    }
 
     public void CheckSkill()
     {
         if (isUsed) return;
+        if (!gameObject.activeSelf) return;
 
         if (player == "white")
         {
-            if (SkillActive(SuperSkillManager.Inst.whiteGodsRes))
+            if (SkillActive(SuperSkillManager.Inst.GetResponse(true)))
             {
                 spriteRenderer.color = Color.white;
-                col.enabled = true;
+                ActiveCollider();
             }
         }
 
         else
         {
-            if (SkillActive(SuperSkillManager.Inst.blackGodsRes))
+            if (SkillActive(SuperSkillManager.Inst.GetResponse(false)))
             {
                 spriteRenderer.color = Color.white;
-                col.enabled = true;
+                ActiveCollider();
             }
         }
+    }
 
-        if (player != TurnManager.Instance.GetCurrentPlayer())
+    private void ActiveCollider()
+    {
+        if (player == GameManager.Inst.GetPlayer())
+        {
+            if (player != TurnManager.Instance.GetCurrentPlayer())
+                col.enabled = false;
+            else
+                col.enabled = true;
+        }
+
+        else if (player != GameManager.Inst.GetPlayer())
+        {
             col.enabled = false;
+        }
     }
 
     private bool SkillActive(string response)
@@ -143,6 +160,7 @@ public class SuperSkill : MonoBehaviour
     {
         return player;
     }
+
     public void ChangeSprite(Sprite sprite, Sprite sprite2)
     {
         spriteRenderer.sprite = sprite;

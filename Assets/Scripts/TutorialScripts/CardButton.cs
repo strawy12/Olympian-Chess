@@ -34,7 +34,7 @@ public class CardButton : MonoBehaviour
         if (TutorialManager.Instance.card)
         {
             Debug.Log("½Ê¾Ë");
-
+            SoundManager.Instance.Deck();
             image.sprite = unactiveSprite;
             hp_Card = cards[0];
             ShowCardAlignment();

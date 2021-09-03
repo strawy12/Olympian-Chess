@@ -225,6 +225,8 @@ public class ChessBase : MonoBehaviourPunCallbacks
             transform.position = Vector3.Lerp(startPos, endPos, t);
             yield return null;
         }
+
+        SoundManager.Instance.MoveChessSound();
     }
 
     public void DestroyChessPiece()

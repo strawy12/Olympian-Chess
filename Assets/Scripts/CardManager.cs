@@ -872,6 +872,7 @@ public class CardManager : MonoBehaviourPunCallbacks
         SkillManager.Inst.CheckSkillCancel("에로스의 사랑,수면,죽음의 땅,파도");
         selectCard = card;
         EnlargeCard(true, card);
+        SoundManager.Instance.Button();
         //cardInfo.SetActive(true);
         StartCoroutine(DontShowCards(GetTargetCards()));
 

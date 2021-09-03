@@ -62,7 +62,6 @@ public class SlotManager : MonoBehaviour, IPointerClickHandler, IPointerDownHand
         carditem = DeckManager.Instance.GetCurrentCard();
         image.sprite = carditem.sprite;
 
-        DeckManager.Instance.SetIsSave(false);
         DeckManager.Instance.RemoveMyDeck(Child());
         DeckManager.Instance.InsertMyDeck(Child(), carditem);
         DeckManager.Instance.SetIsSelected(false);

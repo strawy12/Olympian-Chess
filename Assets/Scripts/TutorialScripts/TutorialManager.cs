@@ -5,10 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class TutorialManager : MonoBehaviour
 {
-    [Header("게임 시작 사운드")]
-    [SerializeField]
-    private AudioClip startSound;
-
     [Header("체스말 움직일 떄 사운드")]
     [SerializeField]
     private AudioClip moveSound;
@@ -99,7 +95,13 @@ public class TutorialManager : MonoBehaviour
     #endregion
     void Start()
     {
-        SoundManager.Instance.StartSoundPlay();
+        SoundManager.Instance.StartSound();
+        SoundManager.Instance.SetTutorialSound();
+    }
+
+    public void OnClickLobby()
+    {
+        SceneManager.LoadScene("Lobby");
     }
 
     public void OnClickBtn()

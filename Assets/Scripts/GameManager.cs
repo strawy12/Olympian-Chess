@@ -80,7 +80,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         SetCamera();
         pool = FindObjectOfType<PoolManager>();
         SetBackground();
-        SoundManager.Instance.SetGameBGM();
+        SoundManager.Instance.SetGameBGM(Random.Range(0, 2));
+        SoundManager.Instance.StartSound();
     }
     private void Update()
     {
@@ -380,19 +381,24 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         if (isTrue && !gameOver)
         {
+            SoundManager.Instance.WinOrLose(isTrue);
             matchPanel.transform.GetChild(0).gameObject.SetActive(true);
+            coinText.transform.parent.gameObject.SetActive(true);
             coinText.text = "+200";
             user.gold += 200;
+            NetworkManager.Inst.SaveDataToJson(user, true);
         }
 
-        else if(!isTrue && !gameOver)
+        else if (!isTrue && !gameOver)
         {
+            SoundManager.Instance.WinOrLose(isTrue);
             matchPanel.transform.GetChild(1).gameObject.SetActive(true);
+            coinText.transform.parent.gameObject.SetActive(true);
             coinText.text = "+100";
             user.gold += 100;
+            NetworkManager.Inst.SaveDataToJson(user, true);
         }
 
-        NetworkManager.Inst.SaveDataToJson(user, true);
         gameOver = true;
     }
 

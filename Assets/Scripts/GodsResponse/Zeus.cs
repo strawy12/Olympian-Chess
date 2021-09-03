@@ -81,8 +81,9 @@ public class Zeus : SkillBase
 
         for (int i = 0; i < cps.Count; i++)
         {
-            SkillManager.Inst.AddDontClickPiece(cps[i]);
+            SkillManager.Inst.AddDontClickPiece(cps[i], true);
         }
+
         StartCoroutine(Z_SkillEffect());
     }
 
