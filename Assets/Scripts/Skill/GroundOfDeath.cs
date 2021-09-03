@@ -28,7 +28,6 @@ public class GroundOfDeath : SkillBase
         GameManager.Inst.SetMoving(false);
         GameManager.Inst.RealAllMovePlateSpawn();
         GameManager.Inst.DestroyNonemptyMovePlate();
-
         if (selectPiece != null)
         {
             selectPiece.RemoveChosenSkill(this);

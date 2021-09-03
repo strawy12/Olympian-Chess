@@ -10,6 +10,7 @@ using Random = UnityEngine.Random;
 
 public class CardManager : MonoBehaviourPunCallbacks
 {
+
     #region SingleTon
     private static CardManager inst;
     public static CardManager Inst

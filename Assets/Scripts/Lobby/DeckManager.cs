@@ -166,7 +166,6 @@ public class DeckManager : MonoBehaviourPunCallbacks
     {
         isChosen[index] = isTrue;
     }
-
     public bool GetIsChosen(int index)
     {
         return isChosen[index];

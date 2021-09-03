@@ -59,7 +59,6 @@ public class Wave : SkillBase
     private void WaveCheck()
     {
         CardManager.Inst.NotAmolang();
-        photonView.RPC("WV_Effect", Photon.Pun.RpcTarget.AllBuffered);
         if (skillData.posX == selectPiece.GetXBoard() + 1)
             WaveMove(true, true);
         else if (skillData.posX == selectPiece.GetXBoard() - 1)
@@ -70,19 +69,26 @@ public class Wave : SkillBase
             WaveMove(false, false);
 
         GameManager.Inst.DestroyMovePlates();
+        RPC_DestroySkill();
     }
 
     [Photon.Pun.PunRPC]
-    private IEnumerator WV_Effect()
+    private void WV_Effect(int x, int y)
     {
         base.StartEffect();
-        animator.transform.SetParent(null);
-        animator.transform.position = Vector2.zero;
-        animator.transform.localScale = new Vector3(12f, 12f, 12f);
-        animator.Play("WV_Anim");
 
-        yield return new WaitForSeconds(1.5f);
-        ResetSkill();
+        float xPos = x;
+        float yPos = y;
+
+        xPos *= 0.684f;
+        yPos *= 0.684f;
+
+        xPos += -2.398f;
+        yPos += -2.398f;
+        animator.transform.SetParent(null);
+        animator.transform.position = new Vector2(x, y);
+        animator.transform.localScale = new Vector3(2f, 2f, 2f);
+        animator.Play("WV_Anim");
     }
     void WaveMove(bool isXY, bool isPlma)
     {
@@ -127,10 +133,12 @@ public class Wave : SkillBase
 
         for (int i = 0; i < cmList.Count; i++)
         {
+            if (cmList[i] == null) continue;
+            photonView.RPC("WV_Effect", Photon.Pun.RpcTarget.AllBuffered, cmList[i].GetXBoard(), cmList[i].GetYBoard());
             ChessManager.Inst.SetPosition(cmList[i]);
         }
-
     }
+
     ChessBase WV_Move(bool isXY, int i, bool isPlma)
     {
         ChessBase cb;
