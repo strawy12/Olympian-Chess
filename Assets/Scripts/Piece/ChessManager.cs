@@ -404,7 +404,6 @@ public class ChessManager : MonoBehaviourPunCallbacks
     }
     public void SetChessPiecePosition(int x, int y, ChessBase obj)
     {
-
         position[x, y] = obj.GetChessData();
     }
 
@@ -418,7 +417,6 @@ public class ChessManager : MonoBehaviourPunCallbacks
         int x = chessData.xBoard;
         int y = chessData.yBoard;
         position[x, y] = chessData;
-
     }
 
     [PunRPC]
@@ -485,6 +483,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
         SetPositionEmpty(cp.GetXBoard(), cp.GetYBoard());
         cp.SetXBoard(matrixX);
         cp.SetYBoard(matrixY);
+        Debug.Log(cp.name);
         cp.PlusMoveCnt();
         SetPosition(cp);
         cp.SetIsMoving(true);

@@ -121,13 +121,15 @@ public class Poseidon : SkillBase
             if (isPlma)
             {
                 Debug.Log(i);
-                cb.SetXBoard(i + 1);
+                if (ChessManager.Inst.PositionOnBoard(i + 1, y))
+                    cb.SetXBoard(i + 1);
             }
 
             else
             {
                 Debug.Log(i);
-                cb.SetXBoard(i - 1);
+                if (ChessManager.Inst.PositionOnBoard(i - 1, y))
+                    cb.SetXBoard(i - 1);
             }
 
             cb.SetCoords();
@@ -148,15 +150,16 @@ public class Poseidon : SkillBase
 
             if (isPlma)
             {
-                cb.SetYBoard(i + 1);
+                if (ChessManager.Inst.PositionOnBoard(x, i + 1))
+                    cb.SetYBoard(i + 1);
             }
             else
             {
-                cb.SetYBoard(i - 1);
+                if (ChessManager.Inst.PositionOnBoard(x, i - 1))
+                    cb.SetYBoard(i - 1);
             }
 
-            cb.PlusMoveCnt();
-
+            cb.SetCoords();
             cb.PlusMoveCnt();
             return cb;
         }
