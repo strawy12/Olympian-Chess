@@ -951,9 +951,9 @@ public class CardManager : MonoBehaviourPunCallbacks
         {
             switch (Mathf.CeilToInt((float)objCnt / 4))
             {
-                case 1: objYpos = new float[1] { 1.85f }; break;
-                case 2: objYpos = new float[2] { 0.16f, 1.85f }; break;
-                case 3: objYpos = new float[3] { -1.63f, 0.16f, 1.85f }; break;
+                case 1: objYpos = new float[1] { 1.5f }; break;
+                case 2: objYpos = new float[2] { 0f, 1.5f }; break;
+                case 3: objYpos = new float[3] { -1.5f, 0f, 1.5f }; break;
             }
             targetRot = Utils.QI;
         }
@@ -961,9 +961,9 @@ public class CardManager : MonoBehaviourPunCallbacks
         {
             switch (Mathf.CeilToInt((float)objCnt / 4))
             {
-                case 1: objYpos = new float[1] { -1.63f }; break;
-                case 2: objYpos = new float[2] { 0.16f, -1.63f }; break;
-                case 3: objYpos = new float[3] { 1.85f, 0.16f, -1.63f }; break;
+                case 1: objYpos = new float[1] { -1.5f }; break;
+                case 2: objYpos = new float[2] { 0f, -1.5f }; break;
+                case 3: objYpos = new float[3] { 1.5f, 0f, -1.5f }; break;
             }
             targetRot = Quaternion.Euler(0f, 0f, 180f);
 
@@ -978,7 +978,7 @@ public class CardManager : MonoBehaviourPunCallbacks
             {
                 if (objCnt == 0) break;
                 objCnt--;
-                targetPos = Vector3.Lerp(new Vector3(-2.1f, objYpos[i], -3f), new Vector3(2.1f, objYpos[i], -3f), interval * j);
+                targetPos = Vector3.Lerp(new Vector3(-1.8f, objYpos[i], -3f), new Vector3(1.8f, objYpos[i], -3f), interval * j);
                 results.Add(new PRS(targetPos, targetRot, scale));
             }
         }
