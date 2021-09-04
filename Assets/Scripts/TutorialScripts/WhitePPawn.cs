@@ -56,7 +56,7 @@ public class WhitePPawn : MonoBehaviour
     public IEnumerator PositionMove()
     {
         Vector3 statPos = transform.position;
-        Vector3 endPos = new Vector3(-0.335f, 0.337f, 0f);
+        Vector3 endPos = new Vector3(-0.32f, 0.329f, 0f);
 
         //float t = 0f;
 
