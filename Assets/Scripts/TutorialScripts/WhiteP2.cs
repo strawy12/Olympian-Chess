@@ -10,6 +10,8 @@ public class WhiteP2 : MonoBehaviour
     private GameObject movePlate_other;
     [SerializeField]
     private GameObject BP;
+    [SerializeField]
+    private Transform p;
 
     private GameObject MV_M;
     private GameObject MV_O;
@@ -70,7 +72,7 @@ public class WhiteP2 : MonoBehaviour
         //    yield return null;
         //}
         SoundManager.Instance.MoveChessSound();
-        transform.position = endPos;
+        transform.position = p.transform.position;
         yield return null;
         
     }

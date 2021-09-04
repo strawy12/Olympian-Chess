@@ -10,6 +10,8 @@ public class WhitePPawn : MonoBehaviour
     private GameObject movePlate_other;
     [SerializeField]
     private GameObject BP;
+    [SerializeField]
+    private Transform p;
 
     private GameObject MV_M;
     private GameObject MV_O;
@@ -56,7 +58,7 @@ public class WhitePPawn : MonoBehaviour
     public IEnumerator PositionMove()
     {
         Vector3 statPos = transform.position;
-        Vector3 endPos = new Vector3(-0.32f, 0.329f, 0f);
+        Vector3 endPos = new Vector3(-0.343f, 0.329f, 0f);
 
         //float t = 0f;
 
@@ -66,7 +68,8 @@ public class WhitePPawn : MonoBehaviour
         //    yield return null;
         //}
         SoundManager.Instance.MoveChessSound();
-        transform.position = endPos;
+        //transform.position = endPos;
+        transform.position = p.transform.position;
         yield return null;
 
     }

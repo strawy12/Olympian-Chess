@@ -10,6 +10,9 @@ public class BlackPawn : MonoBehaviour
     [SerializeField]
     private GameObject knight;
 
+    [SerializeField]
+    private Transform p;
+
     private GameObject MV_M;
 
     bool once = true;
@@ -39,9 +42,10 @@ public class BlackPawn : MonoBehaviour
         Destroy(MV_M);
 
         SoundManager.Instance.MoveChessSound();
-        knight.transform.position = endPos;
+        //knight.transform.position = endPos;
+        knight.transform.position = p.transform.position;
 
-        
+
         yield return null;
     }
 }
