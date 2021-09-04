@@ -469,6 +469,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
     [PunRPC]
     void DestroyRPC(string jsonData)
     {
+        SoundManager.Instance.DeadChessSound();
         ChessData chessData = NetworkManager.Inst.LoadDataFromJson<ChessData>(jsonData);
         ChessBase cp = GetChessPiece(chessData);
         UpdateArr(cp);

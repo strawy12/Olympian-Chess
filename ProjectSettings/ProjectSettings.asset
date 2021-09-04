@@ -242,7 +242,7 @@ PlayerSettings:
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
   AndroidKeystoreName: '{inproject}: CCRKR.keystore'
-  AndroidKeyaliasName: yoo hajun
+  AndroidKeyaliasName: lee minyoung
   AndroidBuildApkPerCpuArchitecture: 0
   AndroidTVCompatibility: 0
   AndroidIsGame: 1
