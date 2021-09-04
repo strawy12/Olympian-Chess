@@ -95,15 +95,15 @@ public class Sleep : SkillBase
         skillEffectTo = SkillManager.Inst.SkillEffectSpawn();
         if (GameManager.Inst.GetPlayer() == "black")
         {
-            skillEffect.transform.Rotate(0f, 0f, 180f);
+            skillEffectTo.transform.Rotate(0f, 0f, 180f);
         }
         if (selectPiece != null)
         {
-            skillEffect.transform.SetParent(selectPieceTo.transform);
-            skillEffect.transform.position = selectPieceTo.transform.position;
+            skillEffectTo.transform.SetParent(selectPieceTo.transform);
+            skillEffectTo.transform.position = selectPieceTo.transform.position;
         }
 
-        animatorTo = skillEffect.GetComponent<Animator>();
+        animatorTo = skillEffectTo.GetComponent<Animator>();
     }
 
     public void CheckSPChessPiece()
