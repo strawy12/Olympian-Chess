@@ -71,7 +71,6 @@ public class SuperSkillManager : MonoBehaviourPunCallbacks
         GameObject obj = null;
         int skillID;
         SkillBase sb;
-        photonView.RPC("ChangeUsingSprite", RpcTarget.AllBuffered, superSkill.GetPlayer());
 
         obj = NetworkManager.Inst.SpawnObject(skillPrefab);
         obj.transform.SetParent(null);
@@ -95,37 +94,24 @@ public class SuperSkillManager : MonoBehaviourPunCallbacks
         return obj;
     }
 
-    [Photon.Pun.PunRPC]
-    private void ChangeUsingSprite(string name)
-    {
-        if (name == "white")
-        {
-            whiteIcon.UsingSkill();
-        }
-        else
-        {
-            blackIcon.UsingSkill();
-        }
-    }
-
-    public void UnUsingSkill(string name)
-    {
-        photonView.RPC("ChangeDefaultSprite", RpcTarget.AllBuffered, name);
-    }
+    //public void UnUsingSkill(string name)
+    //{
+    //    photonView.RPC("ChangeDefaultSprite", RpcTarget.AllBuffered, name);
+    //}
 
 
-    [Photon.Pun.PunRPC]
-    private void ChangeDefaultSprite(string name)
-    {
-        if (name == whiteGodsRes)
-        {
-            whiteIcon.UnUsingSkill();
-        }
-        else
-        {
-            blackIcon.UnUsingSkill();
-        }
-    }
+    //[Photon.Pun.PunRPC]
+    //private void ChangeDefaultSprite(string name)
+    //{
+    //    if (name == whiteGodsRes)
+    //    {
+    //        whiteIcon.UnUsingSkill();
+    //    }
+    //    else
+    //    {
+    //        blackIcon.UnUsingSkill();
+    //    }
+    //}
 
     public void SetActive(bool isActive)
     {
@@ -175,17 +161,17 @@ public class SuperSkillManager : MonoBehaviourPunCallbacks
 
         if (response == "Zeus")
         {
-            icon.ChangeSprite(zeus, zeusUsing);
+            icon.ChangeSprite(zeus);
         }
 
         else if (response == "Poseidon")
         {
-            icon.ChangeSprite(poseidon, poseidonUsing);
+            icon.ChangeSprite(poseidon);
         }
 
         else
         {
-            icon.ChangeSprite(null, null);
+            icon.ChangeSprite(null);
         }
     }
 

@@ -3193,10 +3193,10 @@ MonoBehaviour:
   blackIcon: {fileID: 327592752}
   skillPrefab: {fileID: 1996141749020464303, guid: d13e829210bf1d64dadb4a0a53432b78,
     type: 3}
-  zeus: {fileID: 5300486964875216075, guid: 01d5889c5c1493a4ea729b6dc19cbc4f, type: 3}
+  zeus: {fileID: 6844011494742300698, guid: 01d5889c5c1493a4ea729b6dc19cbc4f, type: 3}
   zeusUsing: {fileID: 6844011494742300698, guid: 01d5889c5c1493a4ea729b6dc19cbc4f,
     type: 3}
-  poseidon: {fileID: -1046235983541312885, guid: 01d5889c5c1493a4ea729b6dc19cbc4f,
+  poseidon: {fileID: 5035219797950637097, guid: 01d5889c5c1493a4ea729b6dc19cbc4f,
     type: 3}
   poseidonUsing: {fileID: 5035219797950637097, guid: 01d5889c5c1493a4ea729b6dc19cbc4f,
     type: 3}
@@ -4609,7 +4609,7 @@ RectTransform:
   m_GameObject: {fileID: 918721410}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 1}
   m_Children:
   - {fileID: 123955720}
   m_Father: {fileID: 604970374}

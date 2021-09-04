@@ -18,7 +18,7 @@ public class Zeus : SkillBase
 
     public override void StandardSkill()
     {
-        SuperSkillManager.Inst.UnUsingSkill("Zeus");
+        //SuperSkillManager.Inst.UnUsingSkill("Zeus");
         GameManager.Inst.DestroyMovePlates();
 
         if (!isSetting)
