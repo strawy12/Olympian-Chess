@@ -39,6 +39,7 @@ public class ShieldOfAthena : SkillBase
     private void CheckSOA()
     {
         isAttack = true;
+        ChessManager.Inst.SetIsMoving(true);
         GameManager.Inst.SetUsingSkill(false);
         GameManager.Inst.SetMoving(false);
         GameManager.Inst.SetIsStop(true);

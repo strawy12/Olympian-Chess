@@ -81,14 +81,15 @@ public class WarBuff : SkillBase
             yield return new WaitForSeconds(0.1f);
         }
 
-        if(photonView.IsMine)
+        
+        if (photonView.IsMine)
         {
             ChessManager.Inst.SetPositionEmpty(selectPiece.GetXBoard(), selectPiece.GetYBoard());
             ChessManager.Inst.DestroyChessPiece(selectPiece.GetChessData());
         }
         
         selectPiece.RemoveChosenSkill(this);
-
+        
         DestroySkill();
     }
 
