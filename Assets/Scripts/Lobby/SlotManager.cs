@@ -127,5 +127,9 @@ public class SlotManager : MonoBehaviour, IPointerClickHandler, IPointerDownHand
     public void OnBeginDrag(PointerEventData eventData)
     {
         DeckManager.Instance.Drag();
+        if (DeckManager.Instance.IsInfoActive())
+        {
+            DeckManager.Instance.InActiveInfo();
+        }
     }
 }

@@ -127,7 +127,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             cv.worldCamera = whiteCamera;
             whiteCamera.gameObject.AddComponent<CameraResolution>();
             CardManager.Inst.ChangeCardArea(true);
-            TurnManager.Instance.loadingDisplay.transform.SetParent(whiteCamera.transform);
+            TurnManager.Instance.loadingObj.transform.SetParent(whiteCamera.transform);
         }
 
         else
@@ -137,7 +137,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             cv.worldCamera = blackCamera;
             blackCamera.gameObject.AddComponent<CameraResolution>();
             CardManager.Inst.ChangeCardArea(false);
-            TurnManager.Instance.loadingDisplay.transform.SetParent(blackCamera.transform);
+            TurnManager.Instance.loadingObj.transform.SetParent(blackCamera.transform);
         }
     }
     private void DeletePawn()

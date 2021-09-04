@@ -999,6 +999,7 @@ MonoBehaviour:
     type: 3}
   posUp: {fileID: 808238689}
   posDown: {fileID: 1512220577}
+  loadingDisplay: {fileID: 360615912}
   uiObject: {fileID: 259240758}
   currentPlayer: white
   isLoading: 0

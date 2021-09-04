@@ -48,7 +48,8 @@ public class TurnManager : MonoBehaviourPunCallbacks
     [Header("상대와 나의 버튼 위치")]
     [SerializeField] Transform posUp; // Opponent's button position
     [SerializeField] Transform posDown; // button position of the current player
-    public GameObject loadingDisplay { get; private set; }
+    [SerializeField] private GameObject loadingDisplay;
+    public GameObject loadingObj { get{ return loadingDisplay; } }
     [SerializeField] GameObject uiObject;
 
     private bool isActive = false;
