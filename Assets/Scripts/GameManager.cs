@@ -127,6 +127,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             cv.worldCamera = whiteCamera;
             whiteCamera.gameObject.AddComponent<CameraResolution>();
             CardManager.Inst.ChangeCardArea(true);
+            TurnManager.Instance.loadingDisplay.transform.SetParent(whiteCamera.transform);
         }
 
         else
@@ -136,6 +137,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             cv.worldCamera = blackCamera;
             blackCamera.gameObject.AddComponent<CameraResolution>();
             CardManager.Inst.ChangeCardArea(false);
+            TurnManager.Instance.loadingDisplay.transform.SetParent(blackCamera.transform);
         }
     }
     private void DeletePawn()
@@ -192,11 +194,11 @@ public class GameManager : MonoBehaviourPunCallbacks
         float x = matrixX;
         float y = matrixY;
 
-        x *= 0.684f;
-        y *= 0.684f;
+        x *= 0.598f;
+        y *= 0.598f;
 
-        x += -2.398f;
-        y += -2.398f;
+        x += -2.094f;
+        y += -2.094f;
 
         GameObject mp = Instantiate(movePlate, new Vector3(x, y, -3.0f), Quaternion.identity);
         MovePlate mpScript = mp.GetComponent<MovePlate>();
@@ -214,11 +216,11 @@ public class GameManager : MonoBehaviourPunCallbacks
         float x = matrixX;
         float y = matrixY;
 
-        x *= 0.684f;
-        y *= 0.684f;
+        x *= 0.598f;
+        y *= 0.598f;
 
-        x += -2.398f;
-        y += -2.398f;
+        x += -2.094f;
+        y += -2.094f;
 
 
         GameObject mp = Instantiate(movePlate, new Vector3(x, y, -3.0f), Quaternion.identity);

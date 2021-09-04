@@ -43,11 +43,11 @@ public class GroundOfDeath : SkillBase
         float x = skillData.posX;
         float y = skillData.posY;
 
-        x *= 0.684f;
-        y *= 0.684f;
+        x *= 0.598f;
+        y *= 0.598f;
 
-        x += -2.398f;
-        y += -2.398f;
+        x += -2.094f;
+        y += -2.094f;
 
         animator.transform.position = new Vector2(x, y);
         animator.Play("GOD_Anim");

@@ -590,7 +590,7 @@ public class CardManager : MonoBehaviourPunCallbacks
         if (isShow)
         {
             isShow = false;
-            originCardPRSs = ShowCards(targetCards.Count, Vector3.one * 1.9f);
+            originCardPRSs = ShowCards(targetCards.Count, Vector3.one * 1.7f);
             StartCoroutine(SetPosition(originCardPRSs, targetCards));
             SetOriginOrder(true);
         }
@@ -819,13 +819,13 @@ public class CardManager : MonoBehaviourPunCallbacks
             if (TurnManager.Instance.CheckPlayer("white"))
             {
                 Vector3 enlargePos = new Vector3(card.originPRS.pos.x, card.originPRS.pos.y, -10f);
-                card.MoveTransform(new PRS(enlargePos, Utils.QI, Vector3.one * 2.5f), false, false);
+                card.MoveTransform(new PRS(enlargePos, Utils.QI, Vector3.one * 2.2f), false, false);
             }
             else
             {
                 Vector3 enlargePos = new Vector3(card.originPRS.pos.x, card.originPRS.pos.y, -10f);
                 Quaternion rot = Quaternion.Euler(0f, 0f, 180f);
-                card.MoveTransform(new PRS(enlargePos, rot, Vector3.one * 2.5f), false, false);
+                card.MoveTransform(new PRS(enlargePos, rot, Vector3.one * 2.2f), false, false);
             }
         }
         else
@@ -885,6 +885,7 @@ public class CardManager : MonoBehaviourPunCallbacks
         selectCard.ReloadCard();
         if (pointDownTime < 0.75f)
         {
+            var targetPos = ComparisonPlayer("white") ? new Vector2(1.6f, 0f) : new Vector2(-1.6f, 0f);
             var targetRot = ComparisonPlayer("white") ? Utils.QI : Quaternion.Euler(0f, 0f, 180f);
             StartCoroutine(DontShowCards(GetTargetCards()));
             cardInfoImage.gameObject.SetActive(true);
@@ -892,7 +893,7 @@ public class CardManager : MonoBehaviourPunCallbacks
             isMyCardDrag = false;
             isClick = false;
             pointDownTime = 0f;
-            card.MoveTransform(new PRS(new Vector2(1.7f, 0.7f), targetRot, Vector3.one * 1.9f), true, false, 0.5f);
+            card.MoveTransform(new PRS(targetPos, targetRot, Vector3.one * 1.7f), true, false, 0.5f);
             return;
         }
 

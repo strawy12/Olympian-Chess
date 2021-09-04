@@ -999,7 +999,6 @@ MonoBehaviour:
     type: 3}
   posUp: {fileID: 808238689}
   posDown: {fileID: 1512220577}
-  loadingDisplay: {fileID: 360615912}
   uiObject: {fileID: 259240758}
   currentPlayer: white
   isLoading: 0
@@ -1551,7 +1550,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 1
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.7655438, y: 0.9546061}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -1565,7 +1564,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 329610920}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.0088, y: -0.0089, z: 0}
   m_LocalScale: {x: 6.4, y: 10.5, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1818,7 +1817,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 1
-  m_Size: {x: 5.65, y: 10.02}
+  m_Size: {x: 4.98, y: 10.19}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -5486,7 +5485,7 @@ Transform:
   m_GameObject: {fileID: 1226214064}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 1}
-  m_LocalScale: {x: 2.14, y: 2.14, z: 2.14}
+  m_LocalScale: {x: 1.87, y: 1.87, z: 1.87}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 13
@@ -7460,7 +7459,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -194.96, y: 0}
+  m_AnchoredPosition: {x: -155, y: 0}
   m_SizeDelta: {x: 489.93, y: 512.27}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1714972815
@@ -7843,7 +7842,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 661.44}
+  m_AnchoredPosition: {x: 0, y: 806}
   m_SizeDelta: {x: 416.21, y: 135.81}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1791398999

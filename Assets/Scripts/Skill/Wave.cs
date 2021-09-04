@@ -83,11 +83,11 @@ public class Wave : SkillBase
         float xPos = x;
         float yPos = y;
 
-        xPos *= 0.684f;
-        yPos *= 0.684f;
+        xPos *= 0.598f;
+        yPos *= 0.598f;
 
-        xPos += -2.398f;
-        yPos += -2.398f;
+        xPos += -2.094f;
+        yPos += -2.094f;
         animator.transform.SetParent(null);
         animator.transform.position = new Vector2(xPos, yPos);
         animator.transform.localScale = new Vector3(2f, 2f, 2f);
