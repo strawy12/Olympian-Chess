@@ -103,6 +103,7 @@ public class TurnManager : MonoBehaviourPunCallbacks
             currentPlayer = "white";
         }
 
+        SuperSkillManager.Inst.CheckSuperSkill();
         //StartCoroutine(CameraDelayRotate());
     }
 
@@ -241,7 +242,6 @@ public class TurnManager : MonoBehaviourPunCallbacks
         photonView.RPC("NextTurn", RpcTarget.All);
         SuperSkillManager.Inst.SuperListCntPlus();
         GameManager.Inst.PlusAttackCnt();
-        SuperSkillManager.Inst.CheckSuperSkill();
 
         GameManager.Inst.SetUsingSkill(false);
         GameManager.Inst.SetMoving(true);

@@ -26,17 +26,15 @@ public class SuperSkill : MonoBehaviour
 
     private void OnMouseUp()
     {
-        Debug.Log("들어오긴들어옴");
+        if (GameManager.Inst.GetPlayer() != player) return;
 
-        //if (GameManager.Inst.GetPlayer() != player) return;
-        //if(!isUsed)
-        //{
-        Debug.Log("스폰스킬");
-        SuperSkillManager.Inst.SpawnSkill(this);
-        spriteRenderer.color = Color.gray;
-        col.enabled = false;
-        isUsed = true;
-        //}
+        if (!isUsed)
+        {
+            SuperSkillManager.Inst.SpawnSkill(this);
+            spriteRenderer.color = Color.gray;
+            col.enabled = false;
+            isUsed = true;
+        }
     }
 
     public void CheckSkill()
@@ -46,7 +44,7 @@ public class SuperSkill : MonoBehaviour
 
         if (player == "white")
         {
-            if (SkillActive(SuperSkillManager.Inst.GetResponse(true)))
+            if (SkillActive(SuperSkillManager.Inst.GetResponse(true))) //white
             {
                 spriteRenderer.color = Color.white;
                 ActiveCollider();
@@ -55,7 +53,7 @@ public class SuperSkill : MonoBehaviour
 
         else
         {
-            if (SkillActive(SuperSkillManager.Inst.GetResponse(false)))
+            if (SkillActive(SuperSkillManager.Inst.GetResponse(false))) //black
             {
                 spriteRenderer.color = Color.white;
                 ActiveCollider();
@@ -65,17 +63,26 @@ public class SuperSkill : MonoBehaviour
 
     private void ActiveCollider()
     {
+        if(player != GameManager.Inst.GetPlayer())
+        {
+            Debug.Log("sdf");
+            col.enabled = false;
+            return;
+        }
+
         if (player == GameManager.Inst.GetPlayer())
         {
             if (player != TurnManager.Instance.GetCurrentPlayer())
+            {
                 col.enabled = false;
-            else
-                col.enabled = true;
-        }
+                Debug.Log(player + ", " + TurnManager.Instance.GetCurrentPlayer());
 
-        else if (player != GameManager.Inst.GetPlayer())
-        {
-            col.enabled = false;
+            }
+            else if(player == TurnManager.Instance.GetCurrentPlayer())
+            {
+                col.enabled = true;
+                Debug.Log(player + ", " + TurnManager.Instance.GetCurrentPlayer());
+            }
         }
     }
 

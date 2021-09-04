@@ -99,11 +99,13 @@ public class Zeus : SkillBase
         {
             for(int i = 0; i < cps.Count; i++)
             {
+                if (cps[i] == null) continue;
                 cps[i].spriteRenderer.material.color = new Color32(255, 228, 0, 0);
             }
             yield return new WaitForSeconds(0.2f);
             for (int i = 0; i < cps.Count; i++)
             {
+                if (cps[i] == null) continue;
                 cps[i].spriteRenderer.material.color = new Color32(0, 0, 0, 0);
             }
             yield return new WaitForSeconds(0.2f);
