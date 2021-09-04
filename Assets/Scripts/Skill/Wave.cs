@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Wave : SkillBase
 {
+    bool isMoving;
     public override void UsingSkill()
     {
         WV_UsingSkill();
@@ -21,6 +22,7 @@ public class Wave : SkillBase
 
     private void WV_UsingSkill()
     {
+        isMoving = ChessManager.Inst.GetIsMoving();
         GameManager.Inst.SetUsingSkill(true);
         GameManager.Inst.SetMoving(false);
         //TurnManager.Instance.ButtonInactive();
@@ -29,7 +31,11 @@ public class Wave : SkillBase
 
     private void WV_ResetSkill()
     {
-        TurnManager.Instance.ButtonInactive();
+        if (!isMoving)
+        {
+            TurnManager.Instance.ButtonInactive();
+            ChessManager.Inst.SetIsMoving(false);
+        }
         GameManager.Inst.SetUsingSkill(false);
         GameManager.Inst.SetMoving(true);
 
@@ -141,7 +147,7 @@ public class Wave : SkillBase
             photonView.RPC("WV_Effect", Photon.Pun.RpcTarget.AllBuffered, cmList[i].GetXBoard(), cmList[i].GetYBoard());
             ChessManager.Inst.SetPosition(cmList[i]);
         }
-        ChessManager.Inst.SetIsMoving(false);
+        
     }
 
     ChessBase WV_Move(bool isXY, int i, bool isPlma)
