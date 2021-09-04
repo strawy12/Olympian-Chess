@@ -8,7 +8,6 @@ public class SuperSkill : MonoBehaviour
     private Collider2D col;
     [SerializeField] private string player;
     private Sprite defaultSprite;
-    private Sprite usingSprite;
     private bool isUsed;
 
     private void Awake()
@@ -153,10 +152,10 @@ public class SuperSkill : MonoBehaviour
             }
         }
     }
-    public void UsingSkill()
-    {
-        spriteRenderer.sprite = usingSprite;
-    }
+    //public void UsingSkill()
+    //{
+    //    spriteRenderer.sprite = usingSprite;
+    //}
 
     public void UnUsingSkill()
     {
@@ -168,10 +167,9 @@ public class SuperSkill : MonoBehaviour
         return player;
     }
 
-    public void ChangeSprite(Sprite sprite, Sprite sprite2)
+    public void ChangeSprite(Sprite sprite/*, Sprite sprite2*/)
     {
         spriteRenderer.sprite = sprite;
         defaultSprite = sprite;
-        usingSprite = sprite2;
     }
 }
