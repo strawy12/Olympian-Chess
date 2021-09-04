@@ -63,7 +63,7 @@ public class DeckManager : MonoBehaviourPunCallbacks
         user = NetworkManager.Inst.LoadDataFromJson<User>();
         if (user == null)
         {
-            user = new User(10000, 0, new string[10], new bool[6], 0.5f, 0.5f, supers.superSkills);
+            user = new User(100, 0, new string[10], new bool[6], 0.5f, 0.5f, supers.superSkills);
         }
 
         SettingIsChosen();
