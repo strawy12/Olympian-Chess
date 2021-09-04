@@ -16,6 +16,8 @@ public class Card_TuTo : MonoBehaviour
     [SerializeField]private SpriteRenderer cardIcon;
     [SerializeField] private GameObject showCardBtn;
     [SerializeField] private GameObject showCard;
+    [SerializeField] private Collider2D storyCollider;
+    [SerializeField] private GameObject cards;
     private SpriteRenderer spriteRenderer;
 
     private void Start()
@@ -51,7 +53,7 @@ public class Card_TuTo : MonoBehaviour
         {
             isMyCardDrag = true;
             StartCoroutine(cardButton.DontShowCards());
-
+            storyCollider.enabled = false;
         }
     }
 
@@ -65,6 +67,7 @@ public class Card_TuTo : MonoBehaviour
             showCard.SetActive(true);
             StartCoroutine(cardButton.DontShowCards());
             TryPutCard();
+            storyCollider.enabled = true;
         }
     }
     public void TargetingChessPiece()
@@ -118,6 +121,7 @@ public class Card_TuTo : MonoBehaviour
             spriteRenderer.enabled = false;
             cardIcon.enabled = false;
             targetPicker.SetActive(false);
+            cards.SetActive(false);
 
         }
         else
@@ -125,7 +129,6 @@ public class Card_TuTo : MonoBehaviour
             transform.DOMove(new Vector2(2f, -4f), 0.3f);
             transform.DORotateQuaternion(Utils.QI, 0.3f);
             transform.DOScale(Vector3.zero, 0.3f);
-
         }
     }
 

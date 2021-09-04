@@ -29,7 +29,7 @@ MonoBehaviour:
       \uB9D0\uC740 \uB9C8\uBE44 \uC0C1\uD0DC\uC5D0 \uBE60\uC838 \uD55C \uD134 \uB3D9\uC548
       \uC6C0\uC9C1\uC774\uC9C0 \uBABB\uD569\uB2C8\uB2E4.\r\n"
   - name: "\uC8FD\uC74C\uC758 \uB545"
-    ID: 106
+    ID: 107
     cardType: "\uBC29\uD574"
     target: "\uC601\uC5ED"
     turn: "\uC601\uAD6C \uC9C0\uC18D"
@@ -46,7 +46,7 @@ MonoBehaviour:
       \uB05D\uB0A0 \uB54C\uAE4C\uC9C0 \uADF8 \uC601\uC5ED\uC73C\uB85C \uB4E4\uC5B4\uC628
       \uBAA8\uB4E0 \uB9D0\uC740 \uC8FD\uC2B5\uB2C8\uB2E4.\r\n"
   - name: "\uC81C\uBB3C"
-    ID: 102
+    ID: 105
     cardType: "\uBC29\uD574"
     target: "\uC544\uAD70"
     turn: "\uC989\uC2DC"
@@ -78,12 +78,12 @@ MonoBehaviour:
       \uB2E4\uC2DC \uB098\uD0C0\uB0A0 \uB54C \uC6D0\uB798 \uC790\uB9AC\uC5D0 \uB9D0\uC774
       \uC788\uC73C\uBA74 \uADF8 \uB9D0\uC740 \uC0AC\uB9DD\uD569\uB2C8\uB2E4.\r\n"
   - name: "\uC218\uBA74"
-    ID: 209
+    ID: 109
     cardType: "\uAD70\uC911\uC81C\uC5B4"
     target: "\uC801"
     turn: "1\uD134"
     god: "\uD788\uD504\uB178\uC2A4"
-    player: black
+    player: white
     sprite: {fileID: 8711889190542290919, guid: aa6a388efbd618443847682ef28c8a32,
       type: 3}
     color: {r: 1, g: 0.7372549, b: 0.6509804, a: 1}
@@ -95,10 +95,10 @@ MonoBehaviour:
       \uC218\uBA74 \uC911\uC778 \uB9D0\uC740 1\uD134 \uB3D9\uC548 \uC6C0\uC9C1\uC774\uC9C0
       \uBABB\uD569\uB2C8\uB2E4. \r\n"
   - name: "\uD30C\uB3C4"
-    ID: 104
+    ID: 102
     cardType: "\uAD70\uC911\uC81C\uC5B4"
     target: "\uC801 or \uC544\uAD70"
-    turn: 
+    turn: "\uC989\uC2DC"
     god: "\uD3EC\uC138\uC774\uB3C8"
     player: white
     sprite: {fileID: -2940201672509823235, guid: aa6a388efbd618443847682ef28c8a32,
@@ -112,7 +112,7 @@ MonoBehaviour:
       \uB354 \uC774\uC0C1 \uC774\uB3D9\uD560 \uACF5\uAC04\uC774 \uC5C6\uC73C\uBA74
       \uADF8 \uC790\uB9AC\uC5D0 \uC815\uC9C0 \uD569\uB2C8\uB2E4.  \r"
   - name: "\uB2EC\uBE5B"
-    ID: 103
+    ID: 106
     cardType: "\uC720\uD2F8"
     target: "\uC544\uAD70"
     turn: "2\uBC88\uC9F8 \uC774\uB3D9"
@@ -128,7 +128,7 @@ MonoBehaviour:
       \uC218 \uC788\uACE0 \uC740\uC2E0\uD55C \uB9D0\uC740 \uD0B9\uC744 \uACF5\uACA9
       \uD560 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4\r)\n"
   - name: "\uC804\uC7C1\uAD11"
-    ID: 108
+    ID: 101
     cardType: "\uC720\uD2F8"
     target: "\uC544\uAD70"
     turn: "1\uD134"
@@ -145,7 +145,7 @@ MonoBehaviour:
       \uB450 \uBC88 \uC774\uB3D9\uD558\uC5EC \uD0B9\uC744 \uC8FD\uC77C \uC218\uB294
       \uC5C6\uC2B5\uB2C8\uB2E4.)\r\n"
   - name: "\uC815\uC758\uAD6C\uD604"
-    ID: 107
+    ID: 108
     cardType: "\uAD70\uC911\uC81C\uC5B4"
     target: "\uC870\uAC74 \uB300\uC0C1"
     turn: "1\uD134"
@@ -224,7 +224,7 @@ MonoBehaviour:
       \uC8FD\uC73C\uBA74 \uB300\uC2E0 \uB2E4\uB978 \uD55C \uB9C8\uB9AC\uAC00 \uC8FD\uC5B4\uC90D\uB2C8\uB2E4. 
       \r\n"
   - name: "\uCD9C\uC0B0"
-    ID: 105
+    ID: 104
     cardType: "\uC720\uB2DB\uC18C\uD658"
     target: "\uC544\uAD70"
     turn: "\uB9D0\uC774 \uC8FD\uC744 \uB54C\uAE4C\uC9C0"
@@ -238,12 +238,12 @@ MonoBehaviour:
       \uC8FD\uC2B5\uB2C8\uB2E4. (\uD3F0\uC774 \uC0DD\uC131\uB418\uBA74 \uB9D0\uC744
       \uC7A1\uC740 \uC0C1\uB300\uB294 \uB4A4\uB85C \uD55C \uCE78 \uBC00\uB824\uB0A9\uB2C8\uB2E4.)\r\n"
   - name: "\uC74C\uC545"
-    ID: 0
+    ID: 103
     cardType: "\uAD70\uC911\uC81C\uC5B4"
     target: "\uC0C1\uB300"
     turn: "1~3\uD134"
     god: "\uD5E4\uB77C"
-    player: 
+    player: white
     sprite: {fileID: 5120733840656742383, guid: aa6a388efbd618443847682ef28c8a32,
       type: 3}
     color: {r: 0.90588236, g: 0.6392157, b: 0.9137255, a: 1}
@@ -353,12 +353,12 @@ MonoBehaviour:
       \uC5C6\uAC8C \uB9CC\uB4ED\uB2C8\uB2E4. \uC9C0\uC815\uD55C \uB9D0\uC740 \uC774\uB3D9\uD558\uC9C0
       \uBABB\uD569\uB2C8\uB2E4.\r\n"
   - name: "\uB9CC\uCDE8"
-    ID: 0
+    ID: 100
     cardType: "\uAD70\uC911\uC81C\uC5B4"
     target: "\uC801"
     turn: "\uC801\uC774 \uC774\uB3D9 \uD560 \uB54C/1\uD68C"
     god: "\uD06C\uB85C\uB178\uC2A4"
-    player: 
+    player: white
     sprite: {fileID: -6562938403480689630, guid: aa6a388efbd618443847682ef28c8a32,
       type: 3}
     color: {r: 0.16862746, g: 0.25882354, b: 0.2784314, a: 1}

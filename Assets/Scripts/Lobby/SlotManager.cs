@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SlotManager : MonoBehaviour, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler
+public class SlotManager : MonoBehaviour, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler, IBeginDragHandler
 {
     private Image image = null;
     [SerializeField]
@@ -32,6 +32,8 @@ public class SlotManager : MonoBehaviour, IPointerClickHandler, IPointerDownHand
         {
             CardIn();
         }
+
+        
     }
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -44,6 +46,11 @@ public class SlotManager : MonoBehaviour, IPointerClickHandler, IPointerDownHand
     {
         if (Input.GetMouseButtonUp(0))
             DeckManager.Instance.PointerUp();
+
+        if (DeckManager.Instance.IsInfoActive())
+        {
+            DeckManager.Instance.InActiveInfo();
+        }
     }
 
     private void CardIn()
@@ -117,5 +124,8 @@ public class SlotManager : MonoBehaviour, IPointerClickHandler, IPointerDownHand
         }
     }
 
-
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        DeckManager.Instance.Drag();
+    }
 }

@@ -376,13 +376,14 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         matchPanel.gameObject.SetActive(true);
         matchPanel.transform.DOScale(1, 0.4f);
-        Text coinText = matchPanel.transform.GetChild(2).GetComponent<Text>();
+        Text coinText = matchPanel.transform.GetChild(2).GetComponentInChildren<Text>();
         User user = NetworkManager.Inst.LoadDataFromJson<User>();
 
         if (isTrue && !gameOver)
         {
             SoundManager.Instance.WinOrLose(isTrue);
             matchPanel.transform.GetChild(0).gameObject.SetActive(true);
+            matchPanel.transform.GetChild(1).gameObject.SetActive(false);
             coinText.transform.parent.gameObject.SetActive(true);
             coinText.text = "+200";
             user.gold += 200;
@@ -393,6 +394,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             SoundManager.Instance.WinOrLose(isTrue);
             matchPanel.transform.GetChild(1).gameObject.SetActive(true);
+            matchPanel.transform.GetChild(0).gameObject.SetActive(false);
             coinText.transform.parent.gameObject.SetActive(true);
             coinText.text = "+100";
             user.gold += 100;

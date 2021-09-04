@@ -63,7 +63,10 @@ public class SuperSkillManager : MonoBehaviourPunCallbacks
         User user = NetworkManager.Inst.LoadDataFromJson<User>();
 
         if (response != "")
+        {
             user.superSkills[godNum].amount--;
+            NetworkManager.Inst.SaveDataToJson(user, true);
+        }
 
         GameObject obj = null;
         int skillID;

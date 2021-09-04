@@ -210,7 +210,6 @@ public class Stroy : MonoBehaviour
         else
         {
             TutorialManager.Instance.isSpeedTypingSound = true;
-
             speed = 0.04f;
         }
 
