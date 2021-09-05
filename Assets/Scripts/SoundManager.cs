@@ -82,7 +82,7 @@ public class SoundManager : MonoBehaviour
 
     public void VolumeSetting()
     {
-        User user = NetworkManager.Inst.LoadDataFromJson<User>();
+        User user = DataManager.Inst.LoadDataFromJson<User>();
         if(user == null)
         {
             bgmAudio.volume = 0.5f;

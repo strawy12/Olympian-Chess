@@ -15,7 +15,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     private string roomname;
     private string user_ID;
-    private string SAVE_PATH;
+
     private int nicknameCnt = 0;
 
     private static NetworkManager inst;
@@ -64,12 +64,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         PhotonNetwork.SendRate = 60;
         PhotonNetwork.SerializationRate = 30;
 
-        SAVE_PATH = Path.Combine(Application.persistentDataPath, "Save");
-
-        if (!Directory.Exists(SAVE_PATH))
-        {
-            Directory.CreateDirectory(SAVE_PATH);
-        }
+        
 
     }
 
@@ -87,33 +82,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         PhotonNetwork.ConnectUsingSettings();
     }
 
-    public string SaveDataToJson<T>(T data, bool isSave)
-    {
-        SAVE_PATH = Path.Combine(Application.persistentDataPath, "Save");
 
-        string jsonData = JsonUtility.ToJson(data, true);
-        if (isSave)
-        {
-            string path = Path.Combine(SAVE_PATH, typeof(T).ToString() + ".json");
-            File.WriteAllText(path, jsonData);
-        }
-
-        return jsonData;
-    }
-
-    public T LoadDataFromJson<T>(string jsonData = null)
-    {
-        SAVE_PATH = Path.Combine(Application.persistentDataPath, "Save");
-
-        if (jsonData == null)
-        {
-            string path = Path.Combine(SAVE_PATH, typeof(T).ToString() + ".json");
-            if (File.Exists(path))
-                jsonData = File.ReadAllText(path);
-
-        }
-        return JsonUtility.FromJson<T>(jsonData);
-    }
 
     public void ActiveFriendlyMatchPanal()
     {

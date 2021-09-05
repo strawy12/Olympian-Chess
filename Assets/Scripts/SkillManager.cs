@@ -118,7 +118,7 @@ public class SkillManager : MonoBehaviourPunCallbacks
         if(isSend)
         {
             ChessData chessData = cp.GetChessData();
-            string jsonData = NetworkManager.Inst.SaveDataToJson(chessData, false);
+            string jsonData = DataManager.Inst.SaveDataToJson(chessData, false);
             photonView.RPC("AddDontClickPiece", RpcTarget.AllBuffered, jsonData);
         }
         else
@@ -135,7 +135,7 @@ public class SkillManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void AddDontClickPiece(string jsonData)
     {
-        ChessData chessData = NetworkManager.Inst.LoadDataFromJson<ChessData>(jsonData);
+        ChessData chessData = DataManager.Inst.LoadDataFromJson<ChessData>(jsonData);
 
         if (Array.Exists(dontClickPiece.ToArray(), x => x.ID == chessData.ID))
         {
@@ -151,7 +151,7 @@ public class SkillManager : MonoBehaviourPunCallbacks
         if (isSend)
         {
             ChessData chessData = cp.GetChessData();
-            string jsonData = NetworkManager.Inst.SaveDataToJson(chessData, false);
+            string jsonData = DataManager.Inst.SaveDataToJson(chessData, false);
             photonView.RPC("RemoveDontClickPiece", RpcTarget.AllBuffered, jsonData);
         }
         else
@@ -164,7 +164,7 @@ public class SkillManager : MonoBehaviourPunCallbacks
     [PunRPC]
     public void RemoveDontClickPiece(string jsonData)
     {
-        ChessData chessData = NetworkManager.Inst.LoadDataFromJson<ChessData>(jsonData);
+        ChessData chessData = DataManager.Inst.LoadDataFromJson<ChessData>(jsonData);
 
         ChessData cd = dontClickPiece.Find(x => x.ID == chessData.ID);
         dontClickPiece.Remove(cd);
@@ -173,7 +173,7 @@ public class SkillManager : MonoBehaviourPunCallbacks
     public void AddGodPieces(ChessBase cp)
     {
         ChessData chessData = cp.GetChessData();
-        string jsonData = NetworkManager.Inst.SaveDataToJson(chessData, false);
+        string jsonData = DataManager.Inst.SaveDataToJson(chessData, false);
         photonView.RPC("AddGodPieces", RpcTarget.AllBuffered, jsonData);
 
     }
@@ -181,7 +181,7 @@ public class SkillManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void AddGodPieces(string jsonData)
     {
-        ChessData chessData = NetworkManager.Inst.LoadDataFromJson<ChessData>(jsonData);
+        ChessData chessData = DataManager.Inst.LoadDataFromJson<ChessData>(jsonData);
 
         if (Array.Exists(godPieces.ToArray(), x => x.ID == chessData.ID))
         {
@@ -193,14 +193,14 @@ public class SkillManager : MonoBehaviourPunCallbacks
 
     public void RemoveGodPieces(ChessData chessData)
     {
-        string jsonData = NetworkManager.Inst.SaveDataToJson(chessData, false);
+        string jsonData = DataManager.Inst.SaveDataToJson(chessData, false);
         photonView.RPC("RemoveGodPieces", RpcTarget.AllBuffered, jsonData);
     }
 
     [PunRPC]
     public void RemoveGodPieces(string jsonData)
     {
-        ChessData chessData = NetworkManager.Inst.LoadDataFromJson<ChessData>(jsonData);
+        ChessData chessData = DataManager.Inst.LoadDataFromJson<ChessData>(jsonData);
 
         ChessData cd = godPieces.Find(x => x.ID == chessData.ID);
         dontClickPiece.Remove(cd);

@@ -224,14 +224,14 @@ public class ChessManager : MonoBehaviourPunCallbacks
     {
         Debug.Log(cpp);
         ChessData chessData = chessPiece.GetChessData();
-        string jsonData = NetworkManager.Inst.SaveDataToJson(chessData, false);
+        string jsonData = DataManager.Inst.SaveDataToJson(chessData, false);
         photonView.RPC("UpdateArr_Pun", RpcTarget.All, jsonData);
     }
 
     [PunRPC]
     public void UpdateArr_Pun(string jsonData)
     {
-        ChessData chessData = NetworkManager.Inst.LoadDataFromJson<ChessData>(jsonData);
+        ChessData chessData = DataManager.Inst.LoadDataFromJson<ChessData>(jsonData);
         ChessBase chessPiece = GetChessPiece(chessData);
         if (chessPiece == null) return;
 
@@ -399,7 +399,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
     {
         if (cp == null) return;
         ChessData chessData = cp.GetChessData();
-        string jsonData = NetworkManager.Inst.SaveDataToJson(chessData, false);
+        string jsonData = DataManager.Inst.SaveDataToJson(chessData, false);
 
         if(PhotonNetwork.IsMasterClient)
         {
@@ -422,7 +422,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void SetPosition(string jsonData)
     {
-        ChessData chessData = NetworkManager.Inst.LoadDataFromJson<ChessData>(jsonData);
+        ChessData chessData = DataManager.Inst.LoadDataFromJson<ChessData>(jsonData);
         if(PhotonNetwork.IsMasterClient)
         {
             int x = chessData.xBoard;
@@ -470,7 +470,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
     void DestroyRPC(string jsonData)
     {
         SoundManager.Instance.DeadChessSound();
-        ChessData chessData = NetworkManager.Inst.LoadDataFromJson<ChessData>(jsonData);
+        ChessData chessData = DataManager.Inst.LoadDataFromJson<ChessData>(jsonData);
         ChessBase cp = GetChessPiece(chessData);
         UpdateArr(cp);
         if (SkillManager.Inst.CheckDontClickPiece(cp))
@@ -482,7 +482,7 @@ public class ChessManager : MonoBehaviourPunCallbacks
 
     public void DestroyChessPiece(ChessData chessData)
     {
-        string jsonData = NetworkManager.Inst.SaveDataToJson(chessData, false);
+        string jsonData = DataManager.Inst.SaveDataToJson(chessData, false);
         photonView.RPC("DestroyRPC", RpcTarget.AllBuffered, jsonData);
     }
     public void MoveChessPiece(ChessBase cp, int matrixX, int matrixY)

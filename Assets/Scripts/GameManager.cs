@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-        player = NetworkManager.Inst.LoadDataFromJson<User>().player;
+        player = DataManager.Inst.LoadDataFromJson<User>().player;
     }
     private void Start()
     {
@@ -337,7 +337,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     private void SetBackground()
     {
         backgrounds = Resources.LoadAll<Sprite>("Images/ingameBackground");
-        User user = NetworkManager.Inst.LoadDataFromJson<User>();
+        User user = DataManager.Inst.LoadDataFromJson<User>();
         back.sprite = backgrounds[user.backGround];
 
         if (player == "white")
@@ -379,7 +379,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         matchPanel.gameObject.SetActive(true);
         matchPanel.transform.DOScale(1, 0.4f);
         Text coinText = matchPanel.transform.GetChild(2).GetComponentInChildren<Text>();
-        User user = NetworkManager.Inst.LoadDataFromJson<User>();
+        User user = DataManager.Inst.LoadDataFromJson<User>();
 
         if (isTrue && !gameOver)
         {
@@ -389,7 +389,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             coinText.transform.parent.gameObject.SetActive(true);
             coinText.text = "+200";
             user.gold += 200;
-            NetworkManager.Inst.SaveDataToJson(user, true);
+            DataManager.Inst.SaveDataToJson(user, true);
         }
 
         else if (!isTrue && !gameOver)
@@ -400,7 +400,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             coinText.transform.parent.gameObject.SetActive(true);
             coinText.text = "+100";
             user.gold += 100;
-            NetworkManager.Inst.SaveDataToJson(user, true);
+            DataManager.Inst.SaveDataToJson(user, true);
         }
 
         gameOver = true;
@@ -506,27 +506,27 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
     public void AddAttackings(ChessBase cp)
     {
-        string jsonData = NetworkManager.Inst.SaveDataToJson(cp.GetChessData(), false);
+        string jsonData = DataManager.Inst.SaveDataToJson(cp.GetChessData(), false);
         photonView.RPC("AddAttackings", RpcTarget.AllBuffered, jsonData);
     }
 
     [PunRPC]
     public void AddAttackings(string jsonData)
     {
-        ChessData chessData = NetworkManager.Inst.LoadDataFromJson<ChessData>(jsonData);
+        ChessData chessData = DataManager.Inst.LoadDataFromJson<ChessData>(jsonData);
         ChessBase chessBase = ChessManager.Inst.GetChessPiece(chessData);
         attackings.Add(chessBase);
         chessBase.SetIsAttacking(true);
     }
     public void RemoveAttackings(ChessBase cp)
     {
-        string jsonData = NetworkManager.Inst.SaveDataToJson(cp.GetChessData(), false);
+        string jsonData = DataManager.Inst.SaveDataToJson(cp.GetChessData(), false);
         photonView.RPC("RemoveAttackings", RpcTarget.AllBuffered, jsonData);
     }
     [PunRPC]
     public void RemoveAttackings(string jsonData)
     {
-        ChessData chessData = NetworkManager.Inst.LoadDataFromJson<ChessData>(jsonData);
+        ChessData chessData = DataManager.Inst.LoadDataFromJson<ChessData>(jsonData);
         ChessBase chessBase = ChessManager.Inst.GetChessPiece(chessData);
         attackings.Remove(chessBase);
         chessBase.ClearAttackCnt();

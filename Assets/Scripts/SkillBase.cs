@@ -50,7 +50,7 @@ public class SkillBase : MonoBehaviourPunCallbacks
 
     public void SendSkillData()
     {
-        string jsonData = NetworkManager.Inst.SaveDataToJson(skillData, true);
+        string jsonData = DataManager.Inst.SaveDataToJson(skillData, true);
         photonView.RPC("SetSkillData", RpcTarget.OthersBuffered, jsonData);
     }
 
@@ -58,7 +58,7 @@ public class SkillBase : MonoBehaviourPunCallbacks
     [PunRPC]
     public void SetSkillData(string jsonData)
     {
-        SkillData sd = NetworkManager.Inst.LoadDataFromJson<SkillData>(jsonData);
+        SkillData sd = DataManager.Inst.LoadDataFromJson<SkillData>(jsonData);
         skillData = sd;
     }
 
@@ -66,28 +66,28 @@ public class SkillBase : MonoBehaviourPunCallbacks
     public void SetSelectPiece(ChessBase cp)
     {
         if (cp == null) return;
-        string jsonData = NetworkManager.Inst.SaveDataToJson(cp.GetChessData(), false);
+        string jsonData = DataManager.Inst.SaveDataToJson(cp.GetChessData(), false);
         photonView.RPC("SetSelectPiece", RpcTarget.AllBuffered, jsonData);
     }
 
     [PunRPC]
     public void SetSelectPiece(string jsonData)
     {
-        ChessData cp = NetworkManager.Inst.LoadDataFromJson<ChessData>(jsonData);
+        ChessData cp = DataManager.Inst.LoadDataFromJson<ChessData>(jsonData);
         skillData.selectPieceDT = cp;
         selectPiece = ChessManager.Inst.GetChessPiece(skillData.selectPieceDT);
     }
 
     public void SetSelectPieceTo(ChessBase cp)
     {
-        string jsonData = NetworkManager.Inst.SaveDataToJson(cp.GetChessData(), false);
+        string jsonData = DataManager.Inst.SaveDataToJson(cp.GetChessData(), false);
         photonView.RPC("SetSelectPieceTo", RpcTarget.AllBuffered, jsonData);
     }
 
     [PunRPC]
     public void SetSelectPieceTo(string jsonData)
     {
-        ChessData cp = NetworkManager.Inst.LoadDataFromJson<ChessData>(jsonData);
+        ChessData cp = DataManager.Inst.LoadDataFromJson<ChessData>(jsonData);
         skillData.selectPieceToDT = cp;
         selectPieceTo = ChessManager.Inst.GetChessPiece(skillData.selectPieceToDT);
     }

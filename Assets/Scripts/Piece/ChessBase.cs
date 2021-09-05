@@ -65,7 +65,7 @@ public class ChessBase : MonoBehaviourPunCallbacks
 
     private void SendChessData()
     {
-        string jsonData = NetworkManager.Inst.SaveDataToJson(chessData, true);
+        string jsonData = DataManager.Inst.SaveDataToJson(chessData, true);
         photonView.RPC("SetChessData", RpcTarget.OthersBuffered, jsonData);
 
     }
@@ -73,7 +73,7 @@ public class ChessBase : MonoBehaviourPunCallbacks
     [PunRPC]
     public void SetChessData(string jsonData)
     {
-        ChessData cd = NetworkManager.Inst.LoadDataFromJson<ChessData>(jsonData);
+        ChessData cd = DataManager.Inst.LoadDataFromJson<ChessData>(jsonData);
         chessData = cd;
 
     }
