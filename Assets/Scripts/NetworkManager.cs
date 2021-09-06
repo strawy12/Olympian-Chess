@@ -45,6 +45,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
+        User user = DataManager.Inst.LoadDataFromJson<User>();
+
+        if (!user.isTuto || user == null)
+        {
+            return;
+        }
+
         NetworkManager[] nms = FindObjectsOfType<NetworkManager>();
 
         if (nms.Length != 1)
@@ -70,6 +77,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        User user = DataManager.Inst.LoadDataFromJson<User>();
+
+        if (!user.isTuto || user == null)
+        {
+            return;
+        }
+
         DisConnect();
         Connect();
     }

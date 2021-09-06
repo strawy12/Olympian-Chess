@@ -5940,7 +5940,6 @@ GameObject:
   - component: {fileID: 1499303482}
   - component: {fileID: 1499303481}
   - component: {fileID: 1499303480}
-  - component: {fileID: 1499303483}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -6017,14 +6016,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!81 &1499303483
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1499303479}
-  m_Enabled: 1
 --- !u!1 &1499961135
 GameObject:
   m_ObjectHideFlags: 0
@@ -6507,9 +6498,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c3e3ebe721b61246bab9f4827b51d69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeSprite: {fileID: -8282342398351856226, guid: aa6a388efbd618443847682ef28c8a32,
+  activeSprite: {fileID: -437873508662156316, guid: d3f4454f6cdca784cbae275922cd578b,
     type: 3}
-  unactiveSprite: {fileID: -8282342398351856226, guid: aa6a388efbd618443847682ef28c8a32,
+  unactiveSprite: {fileID: -437873508662156316, guid: d3f4454f6cdca784cbae275922cd578b,
     type: 3}
   cards:
   - {fileID: 884724531}

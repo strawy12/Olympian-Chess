@@ -73,7 +73,7 @@ public class SoundManager : MonoBehaviour
             return;
         }
 
-        DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(this);
 
         bgmAudio = GetComponent<AudioSource>();
         effectAudio = transform.GetChild(0).GetComponent<AudioSource>();

@@ -64,8 +64,9 @@ public class DeckManager : MonoBehaviourPunCallbacks
         user = DataManager.Inst.LoadDataFromJson<User>();
         if (user == null)
         {
-            user = new User(100, 0, new string[10], new bool[6], 0.5f, 0.5f, supers.superSkills, false);
+            DataManager.Inst.SaveDataToJson(new User(100, 0, new string[10], new bool[6], 0.5f, 0.5f, supers.superSkills, false), true);
         }
+
         if(!user.isTuto)
         {
             SceneManager.LoadScene("Tutorial");
