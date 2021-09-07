@@ -64,7 +64,8 @@ public class DeckManager : MonoBehaviourPunCallbacks
         user = DataManager.Inst.LoadDataFromJson<User>();
         if (user == null)
         {
-            DataManager.Inst.SaveDataToJson(new User(100, 0, new string[10], new bool[6], 0.5f, 0.5f, supers.superSkills, false), true);
+            user = new User(100, 0, new string[10], new bool[6], 0.5f, 0.5f, supers.superSkills, false);
+            DataManager.Inst.SaveDataToJson(user, true);
         }
 
         if(!user.isTuto)
@@ -283,7 +284,6 @@ public class DeckManager : MonoBehaviourPunCallbacks
     public void Drag()
     {
         isDrag = true;
-        cardInfoImage.gameObject.SetActive(false);
     }
 
     public void PointerDown(Carditem carditem)
@@ -295,7 +295,6 @@ public class DeckManager : MonoBehaviourPunCallbacks
     IEnumerator Info(Carditem carditem)
     {
         yield return new WaitForSeconds(0.7f);
-        Debug.Log("d2d");
         SoundManager.Instance.Button();
 
         if (isInfo && !isDrag)
@@ -309,15 +308,9 @@ public class DeckManager : MonoBehaviourPunCallbacks
             targetText.text = carditem.target;
             turnText.text = carditem.turn;
         }
-
-        if (!isInfo)
-        {
-            cardInfoImage.gameObject.SetActive(false);
-        }
     }
     public void SetPlayer(int i)
     {
-        Debug.Log("실러");
 
         if (i == 0)
         {
@@ -335,7 +328,6 @@ public class DeckManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void SetPlayer(string player)
     {
-        Debug.Log("실러");
         user.player = player;
         DataManager.Inst.SaveDataToJson(user, true);
     }

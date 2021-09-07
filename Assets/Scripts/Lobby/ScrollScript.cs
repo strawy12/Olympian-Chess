@@ -19,7 +19,7 @@ public class ScrollScript : ScrollRect
     public override void OnBeginDrag(PointerEventData eventData)
     {
         forParent = Mathf.Abs(eventData.delta.x) > Mathf.Abs(eventData.delta.y);
-
+        Debug.Log("dada");
         if (forParent)
         {
             NM.OnBeginDrag(eventData);

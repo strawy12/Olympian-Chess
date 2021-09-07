@@ -82,11 +82,6 @@ public class CardSelect : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
         DeckManager.Instance.PointerUp();
 
         if (isDrag) return;
-        if (DeckManager.Instance.IsInfoActive())
-        {
-            DeckManager.Instance.InActiveInfo();
-            return;
-        } 
 
         if (!DeckManager.Instance.GetIsChosen(cardNum) && Input.GetMouseButtonUp(0))
         {

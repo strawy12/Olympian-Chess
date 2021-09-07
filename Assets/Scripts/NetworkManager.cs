@@ -204,7 +204,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.PlayerList.Length == 2)
         {
             int i;
-
+            PhotonNetwork.CurrentRoom.IsOpen = false;
             i = Random.Range(0, 2);
             DeckManager.Instance.SetPlayer(i);
             StartCoroutine(Startgame());
