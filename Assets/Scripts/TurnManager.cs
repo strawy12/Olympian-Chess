@@ -4,8 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using System;
+using DG.Tweening;
 using Random = UnityEngine.Random;
-
 
 public class TurnManager : MonoBehaviourPunCallbacks
 {
@@ -49,12 +49,19 @@ public class TurnManager : MonoBehaviourPunCallbacks
     [SerializeField] Transform posUp; // Opponent's button position
     [SerializeField] Transform posDown; // button position of the current player
     [SerializeField] private GameObject loadingDisplay;
-    public GameObject loadingObj { get{ return loadingDisplay; } }
+    public GameObject loadingObj { get { return loadingDisplay; } }
     [SerializeField] GameObject uiObject;
 
     private bool isActive = false;
+    private bool isTimeBtnClicked = false;
+    private bool isBreak = false;
+
+    private Coroutine turnTimeCoroutine = null;
 
     [SerializeField] private string currentPlayer = "white";
+
+    [SerializeField] private Image turnPanel;
+    [SerializeField] private Slider turnTimeSlider;
 
     [Header("¼Ó¼º")]
     public bool isLoading;
@@ -80,6 +87,7 @@ public class TurnManager : MonoBehaviourPunCallbacks
         loadingDisplay.SetActive(true);
         uiObject.SetActive(false);
         SuperSkillManager.Inst.SetActive(false);
+
         if (GameManager.Inst.GetPlayer() == "black")
         {
             loadingDisplay.transform.Rotate(0f, 0f, 180f);
@@ -98,10 +106,16 @@ public class TurnManager : MonoBehaviourPunCallbacks
         if (currentPlayer == "white")
         {
             currentPlayer = "black";
+
+            if (GameManager.Inst.GetPlayer() == currentPlayer)
+                StartCoroutine(TurnPanel());
         }
         else
         {
             currentPlayer = "white";
+
+            if (GameManager.Inst.GetPlayer() == currentPlayer)
+                StartCoroutine(TurnPanel());
         }
 
         SuperSkillManager.Inst.CheckSuperSkill();
@@ -177,6 +191,17 @@ public class TurnManager : MonoBehaviourPunCallbacks
         #endregion
     }
 
+    public void ClickTurnTimeBtn()
+    {
+        Debug.Log("sdsdfsdfs");
+        if (GetCurrentPlayerTF()) return;
+        Debug.Log("sdf");
+        if (isTimeBtnClicked) return;
+        Debug.Log("dfdfdf");
+        isTimeBtnClicked = true;
+        photonView.RPC("TurnTime", RpcTarget.AllBuffered);
+    }
+
     private void WinOrLose()
     {
         // When these conditions are met, the search is the winner and the game is over.
@@ -228,6 +253,7 @@ public class TurnManager : MonoBehaviourPunCallbacks
         if (!GetCurrentPlayerTF()) return;
         if (GameManager.Inst.gameOver) return;
 
+        isBreak = true;
         if (CardManager.Inst.GetSelectCard() != null)
         {
             CardManager.Inst.DestroyCard(CardManager.Inst.GetSelectCard());
@@ -241,6 +267,7 @@ public class TurnManager : MonoBehaviourPunCallbacks
         CardManager.Inst.ChangeIsUse(false);
         SkillManager.Inst.SkillListCntPlus();
         photonView.RPC("NextTurn", RpcTarget.All);
+        isTimeBtnClicked = false;
         SuperSkillManager.Inst.SuperListCntPlus();
         GameManager.Inst.PlusAttackCnt();
 
@@ -249,6 +276,44 @@ public class TurnManager : MonoBehaviourPunCallbacks
         GameManager.Inst.SetIsStop(false);
 
         StartCoroutine(StartTurnCo());
+        isBreak = false;   
         //WinOrLose();
+    }
+
+    private IEnumerator TurnPanel()
+    {
+        turnPanel.transform.DOScale(1f, 0.5f);
+        yield return new WaitForSeconds(0.5f);
+        turnPanel.transform.DOScale(0f, 0.1f);
+    }
+
+    [PunRPC]
+    private IEnumerator TurnTime()
+    {
+        Debug.Log("sdfsdfsdfsdf");
+
+        for (int i = 1; i < 11; i++)
+        {
+            if(isBreak)
+            {
+                Debug.Log("sdfsdfsdfsdf");
+                yield break;
+            }
+            turnTimeSlider.value = i;
+            Debug.Log(turnTimeSlider.value);
+            yield return new WaitForSeconds(1f);
+        }
+
+        if(GetCurrentPlayerTF())
+        {
+            Debug.Log("sdf");
+            TurnTimeFuc();
+        }
+    }
+
+    private void TurnTimeFuc()
+    {
+        ButtonInactive();
+        EndTurn();
     }
 }

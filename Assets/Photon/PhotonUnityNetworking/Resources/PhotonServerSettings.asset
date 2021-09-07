@@ -131,6 +131,7 @@ MonoBehaviour:
   - GOD_SkillEffect
   - SetSprite
   - SetIsMovingTrue
+  - TurnTime
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
