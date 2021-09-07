@@ -360,6 +360,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             if (!ChessManager.Inst.CheckArr(false, "black_king"))
             {
                 photonView.RPC("WinEffect", RpcTarget.OthersBuffered, false);
+                CardManager.Inst.DontShowInfo();
                 WinEffect(true);
             }
         }
@@ -369,6 +370,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             if (!ChessManager.Inst.CheckArr(true, "white_king"))
             {
                 photonView.RPC("WinEffect", RpcTarget.OthersBuffered, false);
+                CardManager.Inst.DontShowInfo();
                 WinEffect(true);
             }
         }

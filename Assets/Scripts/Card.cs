@@ -42,11 +42,15 @@ public class Card : MonoBehaviourPunCallbacks
     void OnMouseDown()
     {
         if (CheckClickCard()) return;
+        Debug.Log("¿õ¾Ö");
         if (isSelected) return;
+        Debug.Log("¿õ¾Ö");
         // reselection Prevention 
+
         isSelected = true;
         if (isFront)
         {
+            Debug.Log("ÀÀ¾Ö");
             CardManager.Inst.CardMouseDown(this);
         }
 
@@ -79,11 +83,7 @@ public class Card : MonoBehaviourPunCallbacks
     }
     public bool CheckClickCard()
     {
-        if (enabled == false) return true;
         if (GameManager.Inst.IsGameOver()) return true;
-        if (!TurnManager.Instance.GetCurrentPlayerTF()) return true;
-        if (GameManager.Inst.GetPlayer() != carditem.player) return true;
-
 
         return false;
     }
