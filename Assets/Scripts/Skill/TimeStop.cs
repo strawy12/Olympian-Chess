@@ -39,6 +39,8 @@ public class TimeStop : SkillBase
     [Photon.Pun.PunRPC]
     private void Inv_UsingSkill()
     {
+        base.StartEffect();
+        animator.Play("TS_Anim");
         selectPiece.spriteRenderer.material.SetColor("_Color", new Color32(225, 123, 0, 225));
 
         skillData.posX = selectPiece.GetXBoard();

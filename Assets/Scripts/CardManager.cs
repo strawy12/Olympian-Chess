@@ -10,6 +10,7 @@ using Random = UnityEngine.Random;
 
 public class CardManager : MonoBehaviourPunCallbacks
 {
+
     #region SingleTon
     private static CardManager inst;
     public static CardManager Inst
@@ -589,7 +590,7 @@ public class CardManager : MonoBehaviourPunCallbacks
         if (isShow)
         {
             isShow = false;
-            originCardPRSs = ShowCards(targetCards.Count, Vector3.one * 1.9f);
+            originCardPRSs = ShowCards(targetCards.Count, Vector3.one * 1.7f);
             StartCoroutine(SetPosition(originCardPRSs, targetCards));
             SetOriginOrder(true);
         }
@@ -818,13 +819,13 @@ public class CardManager : MonoBehaviourPunCallbacks
             if (TurnManager.Instance.CheckPlayer("white"))
             {
                 Vector3 enlargePos = new Vector3(card.originPRS.pos.x, card.originPRS.pos.y, -10f);
-                card.MoveTransform(new PRS(enlargePos, Utils.QI, Vector3.one * 2.5f), false, false);
+                card.MoveTransform(new PRS(enlargePos, Utils.QI, Vector3.one * 2.2f), false, false);
             }
             else
             {
                 Vector3 enlargePos = new Vector3(card.originPRS.pos.x, card.originPRS.pos.y, -10f);
                 Quaternion rot = Quaternion.Euler(0f, 0f, 180f);
-                card.MoveTransform(new PRS(enlargePos, rot, Vector3.one * 2.5f), false, false);
+                card.MoveTransform(new PRS(enlargePos, rot, Vector3.one * 2.2f), false, false);
             }
         }
         else
@@ -847,8 +848,7 @@ public class CardManager : MonoBehaviourPunCallbacks
         var targetCards = GetTargetCards();
         targetCards.Add(card);
 
-        SetOriginOrder(true);
-        StartCoroutine(DontShowCards(targetCards));
+        StartCoroutine(DontShowCards(targetCards, true));
     }
 
     public void RemoveCard(int rand, List<Card> targetCards)
@@ -872,6 +872,7 @@ public class CardManager : MonoBehaviourPunCallbacks
         SkillManager.Inst.CheckSkillCancel("에로스의 사랑,수면,죽음의 땅,파도");
         selectCard = card;
         EnlargeCard(true, card);
+        SoundManager.Instance.Button();
         //cardInfo.SetActive(true);
         StartCoroutine(DontShowCards(GetTargetCards()));
 
@@ -884,6 +885,7 @@ public class CardManager : MonoBehaviourPunCallbacks
         selectCard.ReloadCard();
         if (pointDownTime < 0.75f)
         {
+            var targetPos = ComparisonPlayer("white") ? new Vector2(1.6f, 0f) : new Vector2(-1.6f, 0f);
             var targetRot = ComparisonPlayer("white") ? Utils.QI : Quaternion.Euler(0f, 0f, 180f);
             StartCoroutine(DontShowCards(GetTargetCards()));
             cardInfoImage.gameObject.SetActive(true);
@@ -891,7 +893,7 @@ public class CardManager : MonoBehaviourPunCallbacks
             isMyCardDrag = false;
             isClick = false;
             pointDownTime = 0f;
-            card.MoveTransform(new PRS(new Vector2(1.7f, 0.7f), targetRot, Vector3.one * 1.9f), true, false, 0.5f);
+            card.MoveTransform(new PRS(targetPos, targetRot, Vector3.one * 1.7f), true, false, 0.5f);
             return;
         }
 
@@ -927,11 +929,11 @@ public class CardManager : MonoBehaviourPunCallbacks
 
         if (TurnManager.Instance.CheckPlayer("white"))
         {
-            selectCard.MoveTransform(new PRS(Utils.MousePos, Utils.QI, selectCard.originPRS.scale), false, false);
+            selectCard.MoveTransform(new PRS(Utils.MousePos, Utils.QI, Vector3.one), false, false);
         }
         else
         {
-            selectCard.MoveTransform(new PRS(Utils.MousePos, Quaternion.Euler(0f, 0f, 180f), selectCard.originPRS.scale), false, false);
+            selectCard.MoveTransform(new PRS(Utils.MousePos, Quaternion.Euler(0f, 0f, 180f), Vector3.one), false, false);
         }
 
         cardInfoImage.gameObject.SetActive(false);
@@ -949,9 +951,9 @@ public class CardManager : MonoBehaviourPunCallbacks
         {
             switch (Mathf.CeilToInt((float)objCnt / 4))
             {
-                case 1: objYpos = new float[1] { 1.85f }; break;
-                case 2: objYpos = new float[2] { 0.16f, 1.85f }; break;
-                case 3: objYpos = new float[3] { -1.63f, 0.16f, 1.85f }; break;
+                case 1: objYpos = new float[1] { 1.5f }; break;
+                case 2: objYpos = new float[2] { 0f, 1.5f }; break;
+                case 3: objYpos = new float[3] { -1.5f, 0f, 1.5f }; break;
             }
             targetRot = Utils.QI;
         }
@@ -959,9 +961,9 @@ public class CardManager : MonoBehaviourPunCallbacks
         {
             switch (Mathf.CeilToInt((float)objCnt / 4))
             {
-                case 1: objYpos = new float[1] { -1.63f }; break;
-                case 2: objYpos = new float[2] { 0.16f, -1.63f }; break;
-                case 3: objYpos = new float[3] { 1.85f, 0.16f, -1.63f }; break;
+                case 1: objYpos = new float[1] { -1.5f }; break;
+                case 2: objYpos = new float[2] { 0f, -1.5f }; break;
+                case 3: objYpos = new float[3] { 1.5f, 0f, -1.5f }; break;
             }
             targetRot = Quaternion.Euler(0f, 0f, 180f);
 
@@ -976,7 +978,7 @@ public class CardManager : MonoBehaviourPunCallbacks
             {
                 if (objCnt == 0) break;
                 objCnt--;
-                targetPos = Vector3.Lerp(new Vector3(-2.1f, objYpos[i], -3f), new Vector3(2.1f, objYpos[i], -3f), interval * j);
+                targetPos = Vector3.Lerp(new Vector3(-1.8f, objYpos[i], -3f), new Vector3(1.8f, objYpos[i], -3f), interval * j);
                 results.Add(new PRS(targetPos, targetRot, scale));
             }
         }

@@ -80,7 +80,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         SetCamera();
         pool = FindObjectOfType<PoolManager>();
         SetBackground();
-        SoundManager.Instance.SetGameBGM();
+        SoundManager.Instance.SetGameBGM(Random.Range(0, 2));
+        SoundManager.Instance.StartSound();
     }
     private void Update()
     {
@@ -126,6 +127,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             cv.worldCamera = whiteCamera;
             whiteCamera.gameObject.AddComponent<CameraResolution>();
             CardManager.Inst.ChangeCardArea(true);
+            TurnManager.Instance.loadingObj.transform.SetParent(whiteCamera.transform);
         }
 
         else
@@ -135,6 +137,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             cv.worldCamera = blackCamera;
             blackCamera.gameObject.AddComponent<CameraResolution>();
             CardManager.Inst.ChangeCardArea(false);
+            TurnManager.Instance.loadingObj.transform.SetParent(blackCamera.transform);
         }
     }
     private void DeletePawn()
@@ -191,11 +194,11 @@ public class GameManager : MonoBehaviourPunCallbacks
         float x = matrixX;
         float y = matrixY;
 
-        x *= 0.684f;
-        y *= 0.684f;
+        x *= 0.598f;
+        y *= 0.598f;
 
-        x += -2.398f;
-        y += -2.398f;
+        x += -2.094f;
+        y += -2.094f;
 
         GameObject mp = Instantiate(movePlate, new Vector3(x, y, -3.0f), Quaternion.identity);
         MovePlate mpScript = mp.GetComponent<MovePlate>();
@@ -213,11 +216,11 @@ public class GameManager : MonoBehaviourPunCallbacks
         float x = matrixX;
         float y = matrixY;
 
-        x *= 0.684f;
-        y *= 0.684f;
+        x *= 0.598f;
+        y *= 0.598f;
 
-        x += -2.398f;
-        y += -2.398f;
+        x += -2.094f;
+        y += -2.094f;
 
 
         GameObject mp = Instantiate(movePlate, new Vector3(x, y, -3.0f), Quaternion.identity);
@@ -375,24 +378,31 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         matchPanel.gameObject.SetActive(true);
         matchPanel.transform.DOScale(1, 0.4f);
-        Text coinText = matchPanel.transform.GetChild(2).GetComponent<Text>();
+        Text coinText = matchPanel.transform.GetChild(2).GetComponentInChildren<Text>();
         User user = NetworkManager.Inst.LoadDataFromJson<User>();
 
         if (isTrue && !gameOver)
         {
+            SoundManager.Instance.WinOrLose(isTrue);
             matchPanel.transform.GetChild(0).gameObject.SetActive(true);
+            matchPanel.transform.GetChild(1).gameObject.SetActive(false);
+            coinText.transform.parent.gameObject.SetActive(true);
             coinText.text = "+200";
             user.gold += 200;
+            NetworkManager.Inst.SaveDataToJson(user, true);
         }
 
-        else if(!isTrue && !gameOver)
+        else if (!isTrue && !gameOver)
         {
+            SoundManager.Instance.WinOrLose(isTrue);
             matchPanel.transform.GetChild(1).gameObject.SetActive(true);
+            matchPanel.transform.GetChild(0).gameObject.SetActive(false);
+            coinText.transform.parent.gameObject.SetActive(true);
             coinText.text = "+100";
             user.gold += 100;
+            NetworkManager.Inst.SaveDataToJson(user, true);
         }
 
-        NetworkManager.Inst.SaveDataToJson(user, true);
         gameOver = true;
     }
 

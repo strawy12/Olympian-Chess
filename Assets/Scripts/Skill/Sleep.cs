@@ -5,12 +5,12 @@ using UnityEngine;
 
 public class Sleep : SkillBase
 {
-    GameObject particle;
-    GameObject particle2;
     private int turn = 0;
     private int moveCnt = 0;
     private int moveCnt2 = 0;
     private string cp_Player;
+    private Animator animatorTo;
+    private GameObject skillEffectTo;
     public override void UsingSkill()
     {
         SP_UsingSkill();
@@ -89,17 +89,34 @@ public class Sleep : SkillBase
         return true;
     }
 
+
+    public virtual void StartSPEffect()
+    {
+        skillEffectTo = SkillManager.Inst.SkillEffectSpawn();
+        if (GameManager.Inst.GetPlayer() == "black")
+        {
+            skillEffectTo.transform.Rotate(0f, 0f, 180f);
+        }
+        if (selectPiece != null)
+        {
+            skillEffectTo.transform.SetParent(selectPieceTo.transform);
+            skillEffectTo.transform.position = selectPieceTo.transform.position;
+        }
+
+        animatorTo = skillEffectTo.GetComponent<Animator>();
+    }
+
     public void CheckSPChessPiece()
     {
         cp_Player = selectPiece.GetChessData().player;
+        base.StartEffect();
         if (CheckMoveCnt(moveCnt, selectPiece.GetMoveCnt()) && CheckMoveCnt(moveCnt2, selectPieceTo.GetMoveCnt()))
         {
-            //particle = selectPiece.gameObject.transform.GetChild(0).gameObject;
-            //particle.SetActive(true);
-            //particle2 = selectPieceTo.gameObject.transform.GetChild(0).gameObject;
-            //particle2.SetActive(true);
-            selectPiece.spriteRenderer.material.SetColor("_Color", Color.cyan);
-            selectPieceTo.spriteRenderer.material.SetColor("_Color", Color.cyan);
+            StartSPEffect();
+            animator.Play("SP_Anim");
+            animatorTo.Play("SP_Anim");
+            selectPiece.spriteRenderer.material.SetColor("_Color", new Color(0, 1, 1, 0));
+            selectPieceTo.spriteRenderer.material.SetColor("_Color", new Color(0, 1, 1, 0));
             if(photonView.IsMine)
             {
                 SkillManager.Inst.AddDontClickPiece(selectPiece);
@@ -111,10 +128,9 @@ public class Sleep : SkillBase
         else if (CheckMoveCnt(moveCnt, selectPiece.GetMoveCnt()) && !CheckMoveCnt(moveCnt2, selectPieceTo.GetMoveCnt()))
         {
             selectPieceTo = null;
-            //particle = selectPiece.gameObject.transform.GetChild(0).gameObject;
-            //particle.SetActive(true);
+            animator.Play("SP_Anim");
 
-            selectPiece.spriteRenderer.material.SetColor("_Color", Color.cyan);
+            selectPiece.spriteRenderer.material.SetColor("_Color", new Color(0, 1, 1, 0));
             if (photonView.IsMine)
             {
                 SkillManager.Inst.AddDontClickPiece(selectPiece);
@@ -126,10 +142,11 @@ public class Sleep : SkillBase
         else if (!CheckMoveCnt(moveCnt, selectPiece.GetMoveCnt()) && CheckMoveCnt(moveCnt2, selectPieceTo.GetMoveCnt()))
         {
             selectPiece = null;
-            //particle2 = selectPieceTo.gameObject.transform.GetChild(0).gameObject;
-            //particle2.SetActive(true);
-
-            selectPieceTo.spriteRenderer.material.SetColor("_Color", Color.cyan);
+            Destroy(skillEffect);
+            skillEffect = null;
+            StartSPEffect();
+            animatorTo.Play("SP_Anim");
+            selectPieceTo.spriteRenderer.material.SetColor("_Color", new Color(0, 1, 1, 0));
             if (photonView.IsMine)
             {
                 SkillManager.Inst.AddDontClickPiece(selectPieceTo);
@@ -138,82 +155,6 @@ public class Sleep : SkillBase
         }
     }
 
-    private void SetTurn()
-    {
-
-    }
-
-    public void SleepParticle()
-    {
-        if (cp_Player == "black")
-        {
-            if (TurnManager.Instance.CheckPlayer("black"))
-            {
-                particle.GetComponent<ParticleSystem>().gravityModifier = -0.01f;
-                if (particle2 != null)
-                    particle2.GetComponent<ParticleSystem>().gravityModifier = -0.01f;
-            }
-            else
-            {
-                particle.GetComponent<ParticleSystem>().gravityModifier = 0.005f;
-                if (particle2 != null)
-                    particle2.GetComponent<ParticleSystem>().gravityModifier = -0.01f;
-            }
-        }
-        else
-        {
-            if (TurnManager.Instance.CheckPlayer("black"))
-            {
-                particle.GetComponent<ParticleSystem>().gravityModifier = 0.005f;
-                if (particle2 != null)
-                    particle2.GetComponent<ParticleSystem>().gravityModifier = -0.01f;
-            }
-            else
-            {
-                particle.GetComponent<ParticleSystem>().gravityModifier = -0.01f;
-                if (particle2 != null)
-                    particle2.GetComponent<ParticleSystem>().gravityModifier = -0.01f;
-            }
-        }
-
-    }
-
-    public void CheckParticle()
-    {
-        if (turn > skillData.turnCnt)
-        {
-            if (particle == null) return;
-            //SleepParticle();
-            return;
-        }
-
-        if (selectPiece != null && selectPieceTo != null)
-        {
-            particle.SetActive(false);
-            particle2.SetActive(false);
-            SkillManager.Inst.RemoveDontClickPiece(selectPiece);
-            SkillManager.Inst.RemoveDontClickPiece(selectPieceTo);
-        }
-        else if (selectPiece != null)
-        {
-            particle.SetActive(false);
-            SkillManager.Inst.RemoveDontClickPiece(selectPiece);
-
-        }
-
-        else if (selectPieceTo != null)
-        {
-            particle2.SetActive(false);
-            SkillManager.Inst.RemoveDontClickPiece(selectPieceTo);
-
-        }
-        SkillManager.Inst.RemoveSkillList(this);
-        if (selectPiece != null)
-        {
-            selectPiece.RemoveChosenSkill(this);
-        }
-        //Destroy(gameObject);
-    }
 
     [Photon.Pun.PunRPC]
     private void CheckSleep()
@@ -256,10 +197,10 @@ public class Sleep : SkillBase
             }
 
         }
-        if (selectPiece != null)
+        if (skillEffectTo != null)
         {
+            Destroy(skillEffectTo);
         }
-
         DestroySkill();
         
     }

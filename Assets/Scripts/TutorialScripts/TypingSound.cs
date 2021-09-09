@@ -13,6 +13,8 @@ public class TypingSound : MonoBehaviour
 
     void Update()
     {
+        _audioSource.volume = SoundManager.Instance.GetEffectVolume();
+
         if (TutorialManager.Instance.isSpeedTypingSound)
         {
             _audioSource.pitch = 1.65f;

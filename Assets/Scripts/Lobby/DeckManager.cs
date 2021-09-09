@@ -28,7 +28,6 @@ public class DeckManager : MonoBehaviourPunCallbacks
 
     private int card = -1;
     public bool isSelected = false;
-    private bool isSave = false;
     private bool isInfo = false;
     [SerializeField]
     private bool[] isChosen = new bool[23];
@@ -37,7 +36,9 @@ public class DeckManager : MonoBehaviourPunCallbacks
     private User user;
     [SerializeField]
     private CardItemSO cards;
-    private CardSelect cardSelect;
+    [SerializeField]
+    private SuperSkillSO supers;
+    [SerializeField]
     private Coroutine coroutineInfo;
 
     [SerializeField] private Image cardInfoImage;
@@ -49,14 +50,12 @@ public class DeckManager : MonoBehaviourPunCallbacks
     private Text targetText;
     private Text turnText;
 
-
     [SerializeField]
     private CardContents cardContents;
     [SerializeField]
     private Image message;
     private Text messageText;
     private bool isDrag = false;
-    private float timer = 0f;
 
     //여기서 isChosen[카드 번호]가 true면 그 카드를 선택된거임
     private void Awake()
@@ -64,9 +63,9 @@ public class DeckManager : MonoBehaviourPunCallbacks
         user = NetworkManager.Inst.LoadDataFromJson<User>();
         if (user == null)
         {
-            user = new User(10000, 0, new string[10], new bool[6], 0.5f, 0.5f);
-
+            user = new User(100, 0, new string[10], new bool[6], 0.5f, 0.5f, supers.superSkills);
         }
+
         SettingIsChosen();
     }
 
@@ -88,7 +87,6 @@ public class DeckManager : MonoBehaviourPunCallbacks
         targetText = cardInfoImage.transform.GetChild(5).GetComponent<Text>();
         turnText = cardInfoImage.transform.GetChild(6).GetComponent<Text>();
     }
-
 
     private void SettingIsChosen()
     {
@@ -168,7 +166,6 @@ public class DeckManager : MonoBehaviourPunCallbacks
     {
         isChosen[index] = isTrue;
     }
-
     public bool GetIsChosen(int index)
     {
         return isChosen[index];
@@ -192,7 +189,6 @@ public class DeckManager : MonoBehaviourPunCallbacks
         {
             StartCoroutine(Message("덱이 저장되었습니다!"));
             NetworkManager.Inst.SaveDataToJson(user, true);
-            isSave = true;
         }
         else
         {
@@ -256,11 +252,6 @@ public class DeckManager : MonoBehaviourPunCallbacks
         return user;
     }
 
-    public void SetIsSave(bool isTrue)
-    {
-        isSave = isTrue;
-    }
-
     public IEnumerator Message(string messageText)
     {
         Debug.Log(messageText);
@@ -276,17 +267,12 @@ public class DeckManager : MonoBehaviourPunCallbacks
         NetworkManager.Inst.SaveDataToJson(user, true);
     }
 
-    public void SetCardSelect(CardSelect card)
-    {
-        cardSelect = card;
-    }
     public void PointerUp()
     {
         isInfo = false;
         isDrag = false;
         StopCoroutine(coroutineInfo);
         coroutineInfo = null;
-        cardInfoImage.gameObject.SetActive(false);
     }
 
     public void Drag()
@@ -305,6 +291,7 @@ public class DeckManager : MonoBehaviourPunCallbacks
     {
         yield return new WaitForSeconds(0.7f);
         Debug.Log("d2d");
+        SoundManager.Instance.Button();
 
         if (isInfo && !isDrag)
         {
@@ -317,6 +304,7 @@ public class DeckManager : MonoBehaviourPunCallbacks
             targetText.text = carditem.target;
             turnText.text = carditem.turn;
         }
+
         if (!isInfo)
         {
             cardInfoImage.gameObject.SetActive(false);
@@ -346,6 +334,19 @@ public class DeckManager : MonoBehaviourPunCallbacks
         user.player = player;
         NetworkManager.Inst.SaveDataToJson(user, true);
     }
+
+    public bool IsInfoActive()
+    {
+        if (cardInfoImage.gameObject.activeSelf)
+            return true;
+        else
+            return false;
+    }
+
+    public void InActiveInfo()
+    {
+        cardInfoImage.gameObject.SetActive(false);
+    }
 }
 
 
@@ -359,8 +360,9 @@ public class User
     public bool[] myBackground;
     public float bgmVolume;
     public float effectVolume;
+    public SuperSkillData[] superSkills;
 
-    public User(int gold, int backGround, string[] myDecks, bool[] myBackground, float bgmVolume, float effectVolume)
+    public User(int gold, int backGround, string[] myDecks, bool[] myBackground, float bgmVolume, float effectVolume, SuperSkillData[] superSkills)
     {
         this.gold = gold;
         this.backGround = backGround;
@@ -368,5 +370,6 @@ public class User
         this.myBackground = myBackground;
         this.bgmVolume = bgmVolume;
         this.effectVolume = effectVolume;
+        this.superSkills = superSkills;
     }
 }

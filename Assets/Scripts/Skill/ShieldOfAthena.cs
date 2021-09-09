@@ -33,12 +33,13 @@ public class ShieldOfAthena : SkillBase
         }
         moveCnt = selectPiece.GetMoveCnt();
         selectPiece.SetAttackSelecting(true);
-        selectPiece.spriteRenderer.material.SetColor("_Color", new Color(0, 0, 1, 0));
+        selectPiece.spriteRenderer.material.color = new Color32(111, 79, 40, 0);
     }
 
     private void CheckSOA()
     {
         isAttack = true;
+        ChessManager.Inst.SetIsMoving(true);
         GameManager.Inst.SetUsingSkill(false);
         GameManager.Inst.SetMoving(false);
         GameManager.Inst.SetIsStop(true);
@@ -54,7 +55,7 @@ public class ShieldOfAthena : SkillBase
         animator.transform.localScale = new Vector3(3f, 3f, 3f);
         animator.Play("AS_Anim");
         yield return new WaitForSeconds(1.1f);
-        selectPiece.spriteRenderer.material.SetColor("_Color", new Color(0, 0, 0, 0));
+        selectPiece.spriteRenderer.material.color = Color.clear;
         selectPiece.SetAttackSelecting(false);
         if (selectPiece != null)
         {

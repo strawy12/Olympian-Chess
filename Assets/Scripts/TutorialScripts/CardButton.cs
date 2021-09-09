@@ -34,7 +34,7 @@ public class CardButton : MonoBehaviour
         if (TutorialManager.Instance.card)
         {
             Debug.Log("½Ê¾Ë");
-
+            SoundManager.Instance.Deck();
             image.sprite = unactiveSprite;
             hp_Card = cards[0];
             ShowCardAlignment();
@@ -45,7 +45,7 @@ public class CardButton : MonoBehaviour
     {
         List<PRS> originCardPRSs = new List<PRS>();
 
-        originCardPRSs = ShowCards(cards.Count, Vector3.one * 1.9f);
+        originCardPRSs = ShowCards(cards.Count, Vector3.one * 1.7f);
         StartCoroutine(SetPosition(originCardPRSs));
     }
     private IEnumerator SetPosition(List<PRS> originCardPRSs)
@@ -68,9 +68,9 @@ public class CardButton : MonoBehaviour
 
         switch (Mathf.CeilToInt((float)objCnt / 4))
         {
-            case 1: objYpos = new float[1] { 1.85f }; break;
-            case 2: objYpos = new float[2] { 0.16f, 1.85f }; break;
-            case 3: objYpos = new float[3] { -1.63f, 0.16f, 1.85f }; break;
+            case 1: objYpos = new float[1] { 1.5f }; break;
+            case 2: objYpos = new float[2] { 0f, 1.5f }; break;
+            case 3: objYpos = new float[3] { -1.5f, 0f, 1.5f }; break;
         }
         targetRot = Utils.QI;
 
@@ -84,7 +84,7 @@ public class CardButton : MonoBehaviour
             {
                 if (objCnt == 0) break;
                 objCnt--;
-                targetPos = Vector3.Lerp(new Vector2(-2.1f, objYpos[i]), new Vector2(2.1f, objYpos[i]), interval * j);
+                targetPos = Vector3.Lerp(new Vector2(-1.8f, objYpos[i]), new Vector2(1.8f, objYpos[i]), interval * j);
                 results.Add(new PRS(targetPos, targetRot, scale));
             }
         }

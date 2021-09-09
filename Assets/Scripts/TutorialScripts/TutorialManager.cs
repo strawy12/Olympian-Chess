@@ -1,13 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TutorialManager : MonoBehaviour
 {
-    [Header("게임 시작 사운드")]
-    [SerializeField]
-    private AudioClip startSound;
-
     [Header("체스말 움직일 떄 사운드")]
     [SerializeField]
     private AudioClip moveSound;
@@ -99,5 +96,16 @@ public class TutorialManager : MonoBehaviour
     void Start()
     {
         SoundManager.Instance.StartSound();
+        SoundManager.Instance.SetTutorialSound();
+    }
+
+    public void OnClickLobby()
+    {
+        SceneManager.LoadScene("Lobby");
+    }
+
+    public void OnClickBtn()
+    {
+        SceneManager.LoadScene("Lobby");
     }
 }

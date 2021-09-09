@@ -14,7 +14,8 @@ public class OceanJail : SkillBase
     [Photon.Pun.PunRPC]
     private void OJ_UsingSkill()
     {
-        selectPiece.spriteRenderer.material.SetColor("_Color", new Color32(0, 0, 255, 144));
+        base.StartEffect();
+        animator.Play("OJ_Anim");
         skillData.posX = selectPiece.GetXBoard();
         skillData.posY = selectPiece.GetYBoard();
         selectPiece.spriteRenderer.sortingOrder = -2;
@@ -45,7 +46,7 @@ public class OceanJail : SkillBase
             ChessManager.Inst.SetPositionEmpty(skillData.posX, skillData.posY);
         }
         ChessManager.Inst.SetChessPiecePosition(skillData.posX, skillData.posY, selectPiece);
-        selectPiece.spriteRenderer.material.SetColor("_Color", new Color32(0, 0, 0, 0));
+        
         SkillManager.Inst.RemoveSkillList(this);
         DestroySkill();
 

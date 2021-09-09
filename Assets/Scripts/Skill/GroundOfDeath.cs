@@ -20,7 +20,7 @@ public class GroundOfDeath : SkillBase
     }
     public override void ResetSkill()
     {
-        photonView.RPC("StartEffect", Photon.Pun.RpcTarget.AllBuffered);
+        photonView.RPC("GOD_SkillEffect", Photon.Pun.RpcTarget.AllBuffered);
     }
     private void GOD_UsingSkill()
     {
@@ -28,7 +28,6 @@ public class GroundOfDeath : SkillBase
         GameManager.Inst.SetMoving(false);
         GameManager.Inst.RealAllMovePlateSpawn();
         GameManager.Inst.DestroyNonemptyMovePlate();
-
         if (selectPiece != null)
         {
             selectPiece.RemoveChosenSkill(this);
@@ -37,8 +36,27 @@ public class GroundOfDeath : SkillBase
     }
 
     [Photon.Pun.PunRPC]
+    private void GOD_Effect()
+    {
+        base.StartEffect();
+
+        float x = skillData.posX;
+        float y = skillData.posY;
+
+        x *= 0.598f;
+        y *= 0.598f;
+
+        x += -2.094f;
+        y += -2.094f;
+
+        animator.transform.position = new Vector2(x, y);
+        animator.Play("GOD_Anim");
+    }
+
+    [Photon.Pun.PunRPC]
     private void GOD_StandardSkill()
     {
+        GOD_Effect();
         CardManager.Inst.NotAmolang();
         god_Mp = GameManager.Inst.MovePlateSpawn(skillData.posX, skillData.posY, null);
         SpriteRenderer sp = god_Mp.GetComponent<SpriteRenderer>();
@@ -52,11 +70,6 @@ public class GroundOfDeath : SkillBase
     }
 
     [Photon.Pun.PunRPC]
-    private void StartEffect()
-    {
-        StartCoroutine(GOD_SkillEffect());
-    }
-
     private IEnumerator GOD_SkillEffect()
     {
         if (ChessManager.Inst.GetPosition(skillData.posX, skillData.posY) == null)
@@ -69,7 +82,12 @@ public class GroundOfDeath : SkillBase
         {
             god_Mp.SetActive(true);
             chosen_CP = ChessManager.Inst.GetPosition(skillData.posX, skillData.posY);
-            if (chosen_CP == null) yield return 0;
+            if (chosen_CP == null)
+            {
+                god_Mp.SetActive(false);
+                yield return 0;
+            }
+           
             for (int i = 0; i < 5; i++)
             {
                 chosen_CP.spriteRenderer.material.SetColor("_Color", new Color(1, 0, 0, 0));

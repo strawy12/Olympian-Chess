@@ -18,7 +18,7 @@ public class Zeus : SkillBase
 
     public override void StandardSkill()
     {
-        SuperSkillManager.Inst.UnUsingSkill("Zeus");
+        //SuperSkillManager.Inst.UnUsingSkill("Zeus");
         GameManager.Inst.DestroyMovePlates();
 
         if (!isSetting)
@@ -81,8 +81,9 @@ public class Zeus : SkillBase
 
         for (int i = 0; i < cps.Count; i++)
         {
-            SkillManager.Inst.AddDontClickPiece(cps[i]);
+            SkillManager.Inst.AddDontClickPiece(cps[i], true);
         }
+
         StartCoroutine(Z_SkillEffect());
     }
 
@@ -98,11 +99,13 @@ public class Zeus : SkillBase
         {
             for(int i = 0; i < cps.Count; i++)
             {
+                if (cps[i] == null) continue;
                 cps[i].spriteRenderer.material.color = new Color32(255, 228, 0, 0);
             }
             yield return new WaitForSeconds(0.2f);
             for (int i = 0; i < cps.Count; i++)
             {
+                if (cps[i] == null) continue;
                 cps[i].spriteRenderer.material.color = new Color32(0, 0, 0, 0);
             }
             yield return new WaitForSeconds(0.2f);

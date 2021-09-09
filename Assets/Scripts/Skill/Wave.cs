@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Wave : SkillBase
 {
+    bool isMoving;
     public override void UsingSkill()
     {
         WV_UsingSkill();
@@ -11,7 +12,7 @@ public class Wave : SkillBase
 
     public override void StandardSkill()
     {
-        WaveCheck();
+        StartCoroutine(WaveCheck());
     }
     public override void ResetSkill()
     {
@@ -21,6 +22,7 @@ public class Wave : SkillBase
 
     private void WV_UsingSkill()
     {
+        isMoving = ChessManager.Inst.GetIsMoving();
         GameManager.Inst.SetUsingSkill(true);
         GameManager.Inst.SetMoving(false);
         //TurnManager.Instance.ButtonInactive();
@@ -29,15 +31,19 @@ public class Wave : SkillBase
 
     private void WV_ResetSkill()
     {
-        TurnManager.Instance.ButtonInactive();
+        if (!isMoving)
+        {
+            TurnManager.Instance.ButtonInactive();
+            ChessManager.Inst.SetIsMoving(false);
+        }
         GameManager.Inst.SetUsingSkill(false);
         GameManager.Inst.SetMoving(true);
 
         if (selectPiece != null)
         {
-            selectPiece.RemoveChosenSkill(this);
+            selectPiece.RemoveChosenSkill(this, true);
         }
-        DestroySkill();
+        RPC_DestroySkill();
 
 
     }
@@ -56,10 +62,9 @@ public class Wave : SkillBase
             GameManager.Inst.MovePlateSpawn(x, y - 1, selectPiece);
     }
 
-    private void WaveCheck()
+    private IEnumerator WaveCheck()
     {
         CardManager.Inst.NotAmolang();
-        photonView.RPC("WV_Effect", Photon.Pun.RpcTarget.AllBuffered);
         if (skillData.posX == selectPiece.GetXBoard() + 1)
             WaveMove(true, true);
         else if (skillData.posX == selectPiece.GetXBoard() - 1)
@@ -70,19 +75,29 @@ public class Wave : SkillBase
             WaveMove(false, false);
 
         GameManager.Inst.DestroyMovePlates();
+
+        yield return new WaitForSeconds(3f);
+        ResetSkill();
     }
 
     [Photon.Pun.PunRPC]
-    private IEnumerator WV_Effect()
+    private void WV_Effect(int x, int y)
     {
+        Debug.Log("¿¿æ÷");
         base.StartEffect();
-        animator.transform.SetParent(null);
-        animator.transform.position = Vector2.zero;
-        animator.transform.localScale = new Vector3(12f, 12f, 12f);
-        animator.Play("WV_Anim");
 
-        yield return new WaitForSeconds(1.5f);
-        ResetSkill();
+        float xPos = x;
+        float yPos = y;
+
+        xPos *= 0.598f;
+        yPos *= 0.598f;
+
+        xPos += -2.094f;
+        yPos += -2.094f;
+        animator.transform.SetParent(null);
+        animator.transform.position = new Vector2(xPos, yPos);
+        animator.transform.localScale = new Vector3(2f, 2f, 2f);
+        animator.Play("WV_Anim");
     }
     void WaveMove(bool isXY, bool isPlma)
     {
@@ -127,10 +142,14 @@ public class Wave : SkillBase
 
         for (int i = 0; i < cmList.Count; i++)
         {
+            if (cmList[i] == null) continue;
+            Debug.Log(cmList[i]);
+            photonView.RPC("WV_Effect", Photon.Pun.RpcTarget.AllBuffered, cmList[i].GetXBoard(), cmList[i].GetYBoard());
             ChessManager.Inst.SetPosition(cmList[i]);
         }
-
+        
     }
+
     ChessBase WV_Move(bool isXY, int i, bool isPlma)
     {
         ChessBase cb;

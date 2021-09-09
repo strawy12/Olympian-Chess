@@ -37,10 +37,8 @@ public class Pawn : ChessBase
             if (chessData.moveCnt == 2 && chessData.xBoard == originPosX)
             {
                 isEnpassant = true;
-                if (chessData.player == "white" && chessData.yBoard == 4) { y -= 1; }
-                else if (chessData.player == "black" && chessData.yBoard == 3) { y += 1; }
-
-                else return;
+                if (chessData.player == "white" && chessData.yBoard == 4) { y--; }
+                else if (chessData.player == "black" && chessData.yBoard == 3) { y++; }
 
                 if (ChessManager.Inst.PositionOnBoard(x + 1, y) && ChessManager.Inst.GetPosition(x + 1, y) != null &&
                ChessManager.Inst.GetPosition(x + 1, y).GetComponent<ChessBase>().GetPlayer() != chessData.player &&

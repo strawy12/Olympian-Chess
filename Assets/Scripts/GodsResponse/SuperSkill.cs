@@ -8,7 +8,6 @@ public class SuperSkill : MonoBehaviour
     private Collider2D col;
     [SerializeField] private string player;
     private Sprite defaultSprite;
-    private Sprite usingSprite;
     private bool isUsed;
 
     private void Awake()
@@ -19,14 +18,16 @@ public class SuperSkill : MonoBehaviour
     void Start()
     {
         col = GetComponent<Collider2D>();
-        spriteRenderer.color = Color.gray;
+
         col.enabled = false;
+        spriteRenderer.color = Color.gray;
     }
 
     private void OnMouseUp()
     {
         if (GameManager.Inst.GetPlayer() != player) return;
-        if(!isUsed)
+
+        if (!isUsed)
         {
             SuperSkillManager.Inst.SpawnSkill(this);
             spriteRenderer.color = Color.gray;
@@ -35,31 +36,53 @@ public class SuperSkill : MonoBehaviour
         }
     }
 
-
     public void CheckSkill()
     {
         if (isUsed) return;
+        if (!gameObject.activeSelf) return;
 
         if (player == "white")
         {
-            if (SkillActive(SuperSkillManager.Inst.whiteGodsRes))
+            if (SkillActive(SuperSkillManager.Inst.GetResponse(true))) //white
             {
                 spriteRenderer.color = Color.white;
-                col.enabled = true;
+                ActiveCollider();
             }
         }
 
         else
         {
-            if (SkillActive(SuperSkillManager.Inst.blackGodsRes))
+            if (SkillActive(SuperSkillManager.Inst.GetResponse(false))) //black
             {
                 spriteRenderer.color = Color.white;
-                col.enabled = true;
+                ActiveCollider();
             }
         }
+    }
 
-        if (player != TurnManager.Instance.GetCurrentPlayer())
+    private void ActiveCollider()
+    {
+        if(player != GameManager.Inst.GetPlayer())
+        {
+            Debug.Log("sdf");
             col.enabled = false;
+            return;
+        }
+
+        if (player == GameManager.Inst.GetPlayer())
+        {
+            if (player != TurnManager.Instance.GetCurrentPlayer())
+            {
+                col.enabled = false;
+                Debug.Log(player + ", " + TurnManager.Instance.GetCurrentPlayer());
+
+            }
+            else if(player == TurnManager.Instance.GetCurrentPlayer())
+            {
+                col.enabled = true;
+                Debug.Log(player + ", " + TurnManager.Instance.GetCurrentPlayer());
+            }
+        }
     }
 
     private bool SkillActive(string response)
@@ -129,10 +152,10 @@ public class SuperSkill : MonoBehaviour
             }
         }
     }
-    public void UsingSkill()
-    {
-        spriteRenderer.sprite = usingSprite;
-    }
+    //public void UsingSkill()
+    //{
+    //    spriteRenderer.sprite = usingSprite;
+    //}
 
     public void UnUsingSkill()
     {
@@ -143,10 +166,10 @@ public class SuperSkill : MonoBehaviour
     {
         return player;
     }
-    public void ChangeSprite(Sprite sprite, Sprite sprite2)
+
+    public void ChangeSprite(Sprite sprite/*, Sprite sprite2*/)
     {
         spriteRenderer.sprite = sprite;
         defaultSprite = sprite;
-        usingSprite = sprite2;
     }
 }

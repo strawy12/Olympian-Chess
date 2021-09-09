@@ -184,11 +184,11 @@ public class ChessBase : MonoBehaviourPunCallbacks
         float x = chessData.xBoard;
         float y = chessData.yBoard;
 
-        x *= 0.684f;
-        y *= 0.684f;
+        x *= 0.598f;
+        y *= 0.598f;
 
-        x += -2.398f;
-        y += -2.398f;
+        x += -2.094f;
+        y += -2.094f;
 
         // Aligns according the board
         transform.position = new Vector3(x, y, -1.0f);
@@ -206,11 +206,11 @@ public class ChessBase : MonoBehaviourPunCallbacks
         float x = chessData.xBoard;
         float y = chessData.yBoard;
 
-        x *= 0.684f;
-        y *= 0.684f;
+        x *= 0.598f;
+        y *= 0.598f;
 
-        x += -2.398f;
-        y += -2.398f;
+        x += -2.094f;
+        y += -2.094f;
 
         // end position
         Vector3 endPos = new Vector3(x, y, -1.0f);
@@ -225,6 +225,8 @@ public class ChessBase : MonoBehaviourPunCallbacks
             transform.position = Vector3.Lerp(startPos, endPos, t);
             yield return null;
         }
+
+        SoundManager.Instance.MoveChessSound();
     }
 
     public void DestroyChessPiece()

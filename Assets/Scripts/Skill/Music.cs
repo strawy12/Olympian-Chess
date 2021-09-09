@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Music : SkillBase
 {
+    int cnt = 0;
     //Music function
     public override void UsingSkill()
     {
@@ -21,66 +22,56 @@ public class Music : SkillBase
     [Photon.Pun.PunRPC]
     private void MC_UsingSkill()
     {
-        StartCoroutine(MC_SkillEffect());
+        base.StartEffect();
+        animator.Play("MC_Anim");
         CardManager.Inst.SetisBreak(false);
         SkillManager.Inst.AddDontClickPiece(selectPiece);
     }
-    private IEnumerator MC_SkillEffect()
+    private bool MC_CheckTurn()
     {
-        int k = skillData.turnCnt;
-        int cnt = 1;
 
         // Randomly determines whether or not there is a sparkling effect
-        while (skillData.turnCnt < k + 4)
+        if (skillData.turnCnt < 4)
         {
             if(photonView.IsMine)
             {
-                if (skillData.turnCnt > k + 1)
+                if (skillData.turnCnt > 1)
                 {
-                    if (skillData.turnCnt == k + 2 && cnt == 1)
+                    if (skillData.turnCnt == 2 && cnt == 1)
                     {
                         cnt++;
-                        if (RandomPercent(skillData.turnCnt, k))
-                            break;
+                        if (RandomPercent(skillData.turnCnt, 2))
+                            return true;
                     }
-                    else if (skillData.turnCnt == k + 3 && cnt == 2)
+                    else if (skillData.turnCnt == 3 && cnt == 2)
                     {
                         cnt++;
-                        if (RandomPercent(skillData.turnCnt, k))
-                            break;
+                        if (RandomPercent(skillData.turnCnt, 3))
+                            return true;
                     }
                 }
             }
-            
-            
-            selectPiece.spriteRenderer.material.color = new Color32(237, 175, 140, 0);
-            yield return new WaitForSeconds(0.2f);
-            selectPiece.spriteRenderer.material.color = new Color32(0, 0, 0, 0);
-            yield return new WaitForSeconds(0.2f);
         }
-
-        photonView.RPC("StopEffect", Photon.Pun.RpcTarget.AllBuffered);
+        return false;
     }
 
-    [Photon.Pun.PunRPC]
-    public void StopEffect()
+    public override void ResetSkill()
     {
-        StopAllCoroutines();
+        if (!MC_CheckTurn()) return;
 
-        selectPiece.spriteRenderer.material.color = new Color32(0, 0, 0, 0);
         if (selectPiece != null)
         {
             selectPiece.RemoveChosenSkill(this);
             SkillManager.Inst.RemoveDontClickPiece(selectPiece);
         }
-        DestroySkill();
+        RPC_DestroySkill();
     }
 
     //Functions setting true or false randomly
     private bool RandomPercent(int turnTime, int k)
     {
         int percent = Random.Range(1, 11);
-        if (turnTime == k + 2)
+        if (turnTime == k)
         {
             if (percent % 2 == 0)
             {
@@ -91,7 +82,7 @@ public class Music : SkillBase
                 return false;
             }
         }
-        else if (turnTime == k + 3)
+        else if (turnTime == k)
         {
             if (percent > 7)
             {
@@ -108,11 +99,10 @@ public class Music : SkillBase
 
     private void RemoveSkill()
     {
-        SkillManager.Inst.RemoveSkillList(this);
         if (selectPiece != null)
         {
             selectPiece.RemoveChosenSkill(this);
         }
-        Destroy(gameObject);
+        RPC_DestroySkill();
     }
 }

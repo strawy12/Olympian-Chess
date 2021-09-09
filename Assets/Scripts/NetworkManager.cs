@@ -75,11 +75,14 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        DisConnect();
         Connect();
     }
 
     public void Connect()
     {
+        Debug.Log("¿¿æ÷");
+        Debug.Log(PhotonNetwork.ConnectUsingSettings());
         lodingDisplay.SetActive(true);
         PhotonNetwork.ConnectUsingSettings();
     }
@@ -116,7 +119,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         friendlyMatchPanal.SetActive(true);
     }
-
 
     public override void OnConnectedToMaster()
     {

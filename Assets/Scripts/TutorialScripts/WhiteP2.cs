@@ -10,6 +10,8 @@ public class WhiteP2 : MonoBehaviour
     private GameObject movePlate_other;
     [SerializeField]
     private GameObject BP;
+    [SerializeField]
+    private Transform p;
 
     private GameObject MV_M;
     private GameObject MV_O;
@@ -27,13 +29,13 @@ public class WhiteP2 : MonoBehaviour
     }
     private void InstantiateMV_M()
     {
-        Vector3 pos = new Vector3(transform.position.x, transform.position.y, -10f);
+        Vector3 pos = new Vector3(-0.295f, 0.295f, -10f);
         MV_M = Instantiate(movePlate_me,pos,Quaternion.identity);
     }
 
     private void InstantiateMV_O()
     {
-        Vector3 pos = new Vector3(0.342f, 1.026f, -10f);
+        Vector3 pos = new Vector3(0.297f, 0.889f, -10f);
         MV_O = Instantiate(movePlate_other,pos,Quaternion.identity);
     }
 
@@ -56,7 +58,7 @@ public class WhiteP2 : MonoBehaviour
     public IEnumerator PositionMove()
     {
         Vector3 startPos = transform.position;
-        Vector3 endPos = new Vector3(0.336f,1.02f,0f);
+        Vector3 endPos = new Vector3(0.344f,1.01f,0f);
 
         //float distance = (endPos - startPos).magnitude;
 
@@ -70,7 +72,7 @@ public class WhiteP2 : MonoBehaviour
         //    yield return null;
         //}
         SoundManager.Instance.MoveChessSound();
-        transform.position = endPos;
+        transform.position = p.transform.position;
         yield return null;
         
     }

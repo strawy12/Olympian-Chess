@@ -37,14 +37,12 @@ public class SuperSkillManager : MonoBehaviourPunCallbacks
     [SerializeField] Sprite zeusUsing;
     [SerializeField] Sprite poseidon;
     [SerializeField] Sprite poseidonUsing;
+    [SerializeField] Sprite none;
 
-    public string whiteGodsRes;
-    public string blackGodsRes;
+    private string whiteGodsRes;
+    private string blackGodsRes;
 
-    private void Start()
-    {
-        SetGodsResponse();
-    }
+    private int godNum = 0;
 
     public void UsingSkill(MovePlate mp)
     {
@@ -60,10 +58,19 @@ public class SuperSkillManager : MonoBehaviourPunCallbacks
 
     public GameObject SpawnSkill(SuperSkill superSkill)
     {
+        Debug.Log("스폰스킬");
+        string response = GameManager.Inst.GetPlayer() == "white" ? whiteGodsRes : blackGodsRes;
+        User user = NetworkManager.Inst.LoadDataFromJson<User>();
+
+        if (response != "")
+        {
+            user.superSkills[godNum].amount--;
+            NetworkManager.Inst.SaveDataToJson(user, true);
+        }
+
         GameObject obj = null;
         int skillID;
         SkillBase sb;
-        photonView.RPC("ChangeUsingSprite", RpcTarget.AllBuffered, superSkill.GetPlayer());
 
         obj = NetworkManager.Inst.SpawnObject(skillPrefab);
         obj.transform.SetParent(null);
@@ -87,64 +94,84 @@ public class SuperSkillManager : MonoBehaviourPunCallbacks
         return obj;
     }
 
-    [Photon.Pun.PunRPC]
-    private void ChangeUsingSprite(string name)
-    {
-        if(name == "white")
-        {
-            whiteIcon.UsingSkill();
-        }
-        else
-        {
-            blackIcon.UsingSkill();
-        }
-    }
-
-    public void UnUsingSkill(string name)
-    {
-        photonView.RPC("ChangeDefaultSprite", RpcTarget.AllBuffered, name);
-    }
+    //public void UnUsingSkill(string name)
+    //{
+    //    photonView.RPC("ChangeDefaultSprite", RpcTarget.AllBuffered, name);
+    //}
 
 
-    [Photon.Pun.PunRPC]
-    private void ChangeDefaultSprite(string name)
-    {
-        if (name == whiteGodsRes)
-        {
-            whiteIcon.UnUsingSkill();
-        }
-        else
-        {
-            blackIcon.UnUsingSkill();
-        }
-    }
-
+    //[Photon.Pun.PunRPC]
+    //private void ChangeDefaultSprite(string name)
+    //{
+    //    if (name == whiteGodsRes)
+    //    {
+    //        whiteIcon.UnUsingSkill();
+    //    }
+    //    else
+    //    {
+    //        blackIcon.UnUsingSkill();
+    //    }
+    //}
 
     public void SetActive(bool isActive)
     {
         whiteIcon.gameObject.SetActive(isActive);
         blackIcon.gameObject.SetActive(isActive);
-    }
 
+        if (isActive)
+        {
+            SetGodsResponse();
+        }
+    }
 
     private void SetGodsResponse()
     {
-        whiteGodsRes = "Zeus";
-        SetSprite(whiteIcon, whiteGodsRes);
-        blackGodsRes = "Poseidon";
-        SetSprite(blackIcon, blackGodsRes);
+        User user = NetworkManager.Inst.LoadDataFromJson<User>();
+        string response = "";
+
+        for (int i = 0; i < user.superSkills.Length; i++)
+        {
+            if (user.superSkills[i].isSelect)
+            {
+                response = user.superSkills[i].skillName;
+                godNum = i;
+                break;
+            }
+        }
+
+        if (GameManager.Inst.GetPlayer() == "white")
+        {
+            whiteGodsRes = response;
+            photonView.RPC("SetSprite", RpcTarget.AllBuffered, "white", whiteGodsRes);
+        }
+
+        else if (GameManager.Inst.GetPlayer() == "black")
+        {
+            blackGodsRes = response;
+            photonView.RPC("SetSprite", RpcTarget.AllBuffered, "black", blackGodsRes); ;
+        }
+
+        NetworkManager.Inst.SaveDataToJson(user, true);
     }
 
-    private void SetSprite(SuperSkill icon, string response)
+    [PunRPC]
+    private void SetSprite(string player, string response)
     {
+        SuperSkill icon = player == "white" ? whiteIcon : blackIcon;
+
         if (response == "Zeus")
         {
-            icon.ChangeSprite(zeus, zeusUsing);
+            icon.ChangeSprite(zeus);
+        }
+
+        else if (response == "Poseidon")
+        {
+            icon.ChangeSprite(poseidon);
         }
 
         else
         {
-            icon.ChangeSprite(poseidon, poseidonUsing);
+            icon.ChangeSprite(null);
         }
     }
 
@@ -176,5 +203,13 @@ public class SuperSkillManager : MonoBehaviourPunCallbacks
     public void RemoveSuperList(SkillBase sb)
     {
         superList.Remove(sb);
+    }
+
+    public string GetResponse(bool isWhite)
+    {
+        if (isWhite)
+            return whiteGodsRes;
+        else
+            return blackGodsRes;
     }
 }

@@ -48,7 +48,8 @@ public class TurnManager : MonoBehaviourPunCallbacks
     [Header("상대와 나의 버튼 위치")]
     [SerializeField] Transform posUp; // Opponent's button position
     [SerializeField] Transform posDown; // button position of the current player
-    [SerializeField] GameObject loadingDisplay;
+    [SerializeField] private GameObject loadingDisplay;
+    public GameObject loadingObj { get{ return loadingDisplay; } }
     [SerializeField] GameObject uiObject;
 
     private bool isActive = false;
@@ -103,6 +104,7 @@ public class TurnManager : MonoBehaviourPunCallbacks
             currentPlayer = "white";
         }
 
+        SuperSkillManager.Inst.CheckSuperSkill();
         //StartCoroutine(CameraDelayRotate());
     }
 
@@ -138,7 +140,6 @@ public class TurnManager : MonoBehaviourPunCallbacks
         CardManager.Inst.CardShare();
         yield return new WaitForSeconds(2f);
 
-
         isLoading = false;
     }
 
@@ -156,8 +157,6 @@ public class TurnManager : MonoBehaviourPunCallbacks
     {
         return currentPlayer;
     }
-
-
 
     // Start a new turn & Win, lose decision
     public IEnumerator StartTurnCo()
@@ -244,7 +243,6 @@ public class TurnManager : MonoBehaviourPunCallbacks
         photonView.RPC("NextTurn", RpcTarget.All);
         SuperSkillManager.Inst.SuperListCntPlus();
         GameManager.Inst.PlusAttackCnt();
-        SuperSkillManager.Inst.CheckSuperSkill();
 
         GameManager.Inst.SetUsingSkill(false);
         GameManager.Inst.SetMoving(true);
