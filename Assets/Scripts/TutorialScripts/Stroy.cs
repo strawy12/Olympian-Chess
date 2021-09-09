@@ -33,58 +33,79 @@ public class Stroy : MonoBehaviour
 
     private void StartStory(int num)
     {
-        //Debug.Log(num);
+        Debug.Log(num);
         switch (num)
         {
             case 1:
-                story1();
+                Story1();
                 break;
 
             case 2:
-                story2();
+                Story2();
                 break;
 
             case 3:
-                story3();
+                Story3();
                 break;
 
             case 4:
-                story4();
+                Story4();
                 break;
 
             case 5:
-                story5();
+                Story5();
                 break;
 
             case 6:
-                story6();
+                Story6();
                 break;
 
             case 7:
-                story7();
+                Story7();
                 break;
 
             case 8:
-                story8();
+                Story8();
                 break;
 
             case 9:
-                story9();
+                Story9();
                 break;
 
             case 10:
-                Debug.Log("∆©≈Ù∏ÆæÛ¿ª øœ∑·«œºÀΩ¿¥œ¥Á");
-                SoundManager.Instance.StopBGM();
-                SoundManager.Instance.WinOrLose(true);
-                endPanel.transform.DOScale(1, 0.4f);
-                User user = DataManager.Inst.LoadDataFromJson<User>();
-                if(user == null)
-                {
-                    story1();
-                }
-                user.isTuto = true;
+                Story10();
+                break;
 
-                DataManager.Inst.SaveDataToJson(user, true);
+            case 11:
+                Story11();
+                break;
+
+            case 12:
+                Story12();
+                break;
+
+            case 13:
+                Story13();
+                break;
+
+            case 14:
+                Story14();
+                break;
+
+            case 15:
+                Story15();
+                break;
+
+            case 16:
+                Story16();
+                break;
+
+            case 17:
+                Story17();
+                break;
+
+            case 18:
+                TuToEnd();
                 break;
         }
     }
@@ -107,63 +128,133 @@ public class Stroy : MonoBehaviour
     }
 
     #region Ω∫≈‰∏Æ¡¯«‡
-    private void story1()
+    private void Story1()
     {
         StartCoroutine((TypingEffect(stroyText, story[0], speed)));
     }
 
-    private void story2()
+    private void Story2()
     {
         StartCoroutine((TypingEffect(stroyText, story[1], speed)));
     }
 
-    private void story3()
+    private void Story3()
     {
-       if (TutorialManager.Instance.blackPawn) return;
+       if (TutorialManager.Instance.blackPawnOut1) return;
         TutorialManager.Instance.is3Story = true;
-        TutorialManager.Instance.blackPawn = true;
+        TutorialManager.Instance.blackPawnOut1 = true;
 
         StartCoroutine((TypingEffect(stroyText, story[2], speed)));
     }
-    private void story4()
+    private void Story4()
     {
         if (TutorialManager.Instance.card) return;
         TutorialManager.Instance.card = true;
         TutorialManager.Instance.iscardPush = true;
+
         StartCoroutine((TypingEffect(stroyText, story[3], speed)));
     }
-    private void story5()
+    private void Story5()
+    {
+        
+        StartCoroutine((TypingEffect(stroyText, story[4], speed)));
+    }
+    private void Story6()
+    {
+      
+
+        StartCoroutine((TypingEffect(stroyText, story[5], speed)));
+    }
+    private void Story7()
+    {
+       
+
+        StartCoroutine((TypingEffect(stroyText, story[6], speed)));
+
+    }
+    private void Story8()
     {
         if (!TutorialManager.Instance.clickturnBtn) return;
         TutorialManager.Instance.clickturnBtn = false;
         TutorialManager.Instance.is5Story = true;
-        StartCoroutine((TypingEffect(stroyText, story[4], speed)));
+
+        StartCoroutine((TypingEffect(stroyText, story[7], speed)));
     }
-    private void story6()
+    private void Story9()
     {
         if (!TutorialManager.Instance.turnEnd) return;
         TutorialManager.Instance.turnEnd = false;
         TutorialManager.Instance.is6Story = true;
-
-        StartCoroutine((TypingEffect(stroyText, story[5], speed)));
+        StartCoroutine((TypingEffect(stroyText, story[8], speed)));
     }
-    private void story7()
+
+    private void Story10()
     {
         if (TutorialManager.Instance.blackPawn2) return;
         TutorialManager.Instance.is7Story = true;
         TutorialManager.Instance.blackPawn2 = true;
 
-        StartCoroutine((TypingEffect(stroyText, story[6], speed)));
+        StartCoroutine((TypingEffect(stroyText, story[9], speed)));
 
     }
-    private void story8()
+
+    private void Story11()
     {
-        StartCoroutine((TypingEffect(stroyText, story[7], speed)));
+
+        StartCoroutine((TypingEffect(stroyText, story[10], speed)));
+
     }
-    private void story9()
+
+    private void Story12()
     {
-        TutorialManager.Instance.isFadeOut = true;
-        StartCoroutine((TypingEffect(stroyText, story[8], speed)));
+        StartCoroutine((TypingEffect(stroyText, story[11], speed)));
+
+    }
+
+    private void Story13()
+    {
+        StartCoroutine((TypingEffect(stroyText, story[12], speed)));
+
+    }
+    private void Story14()
+    {
+        StartCoroutine((TypingEffect(stroyText, story[13], speed)));
+
+    }
+    private void Story15()
+    {
+        StartCoroutine((TypingEffect(stroyText, story[14], speed)));
+
+    }
+    private void Story16()
+    {
+        StartCoroutine((TypingEffect(stroyText, story[15], speed)));
+
+    }
+    private void Story17()
+    {
+        if (!TutorialManager.Instance.clickturnBtn) return;
+        TutorialManager.Instance.clickturnBtn = false;
+        TutorialManager.Instance.is5Story = true;
+
+        StartCoroutine((TypingEffect(stroyText, story[16], speed)));
+
+    }
+
+    private void TuToEnd()
+    {
+        Debug.Log("∆©≈Ù∏ÆæÛ¿ª øœ∑·«œºÀΩ¿¥œ¥Á");
+        SoundManager.Instance.StopBGM();
+        SoundManager.Instance.WinOrLose(true);
+        endPanel.transform.DOScale(1, 0.4f);
+        User user = DataManager.Inst.LoadDataFromJson<User>();
+        if (user == null)
+        {
+            Story1();
+        }
+        user.isTuto = true;
+
+        DataManager.Inst.SaveDataToJson(user, true);
     }
     private void OnMouseUp()
     {
@@ -171,7 +262,7 @@ public class Stroy : MonoBehaviour
         {
             if (index == 3)
             {
-                if (!TutorialManager.Instance.blackPawn)
+                if (!TutorialManager.Instance.blackPawnOut1)
                 {
                     index++;
                 }

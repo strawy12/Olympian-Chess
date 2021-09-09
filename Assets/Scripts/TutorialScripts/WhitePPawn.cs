@@ -51,7 +51,7 @@ public class WhitePPawn : MonoBehaviour
 
     public void DestoryBP()
     {
-        TutorialManager.Instance.blackPawn = false;
+        TutorialManager.Instance.blackPawnOut1 = false;
         Destroy(BP);
     }
 

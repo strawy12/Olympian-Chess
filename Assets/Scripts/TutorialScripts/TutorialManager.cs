@@ -61,7 +61,7 @@ public class TutorialManager : MonoBehaviour
     public bool clickturnBtn = false;
     
     [HideInInspector]
-    public bool blackPawn = false;
+    public bool blackPawnOut1 = false;
     
     [HideInInspector]
     public bool blackPawn2 = false;
