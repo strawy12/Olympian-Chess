@@ -6,6 +6,7 @@ using DG.Tweening;
 using UnityEngine.UI;
 using System.IO;
 using Photon.Pun;
+using UnityEngine.SceneManagement;
 
 public class DeckManager : MonoBehaviourPunCallbacks
 {
@@ -60,12 +61,17 @@ public class DeckManager : MonoBehaviourPunCallbacks
     //여기서 isChosen[카드 번호]가 true면 그 카드를 선택된거임
     private void Awake()
     {
-        user = NetworkManager.Inst.LoadDataFromJson<User>();
+        user = DataManager.Inst.LoadDataFromJson<User>();
         if (user == null)
         {
-            user = new User(100, 0, new string[10], new bool[6], 0.5f, 0.5f, supers.superSkills);
+            user = new User(100, 0, new string[10], new bool[6], 0.5f, 0.5f, supers.superSkills, false);
+            DataManager.Inst.SaveDataToJson(user, true);
         }
 
+        if(!user.isTuto)
+        {
+            SceneManager.LoadScene("Tutorial");
+        }
         SettingIsChosen();
     }
 
@@ -188,7 +194,7 @@ public class DeckManager : MonoBehaviourPunCallbacks
         if (i == myDeck.Length)
         {
             StartCoroutine(Message("덱이 저장되었습니다!"));
-            NetworkManager.Inst.SaveDataToJson(user, true);
+            DataManager.Inst.SaveDataToJson(user, true);
         }
         else
         {
@@ -264,7 +270,7 @@ public class DeckManager : MonoBehaviourPunCallbacks
     private void OnApplicationQuit()
     {
         user.player = "";
-        NetworkManager.Inst.SaveDataToJson(user, true);
+        DataManager.Inst.SaveDataToJson(user, true);
     }
 
     public void PointerUp()
@@ -278,7 +284,6 @@ public class DeckManager : MonoBehaviourPunCallbacks
     public void Drag()
     {
         isDrag = true;
-        cardInfoImage.gameObject.SetActive(false);
     }
 
     public void PointerDown(Carditem carditem)
@@ -290,7 +295,6 @@ public class DeckManager : MonoBehaviourPunCallbacks
     IEnumerator Info(Carditem carditem)
     {
         yield return new WaitForSeconds(0.7f);
-        Debug.Log("d2d");
         SoundManager.Instance.Button();
 
         if (isInfo && !isDrag)
@@ -304,15 +308,9 @@ public class DeckManager : MonoBehaviourPunCallbacks
             targetText.text = carditem.target;
             turnText.text = carditem.turn;
         }
-
-        if (!isInfo)
-        {
-            cardInfoImage.gameObject.SetActive(false);
-        }
     }
     public void SetPlayer(int i)
     {
-        Debug.Log("실러");
 
         if (i == 0)
         {
@@ -324,15 +322,14 @@ public class DeckManager : MonoBehaviourPunCallbacks
             user.player = "black";
             photonView.RPC("SetPlayer", RpcTarget.OthersBuffered, "white");
         }
-        NetworkManager.Inst.SaveDataToJson(user, true);
+        DataManager.Inst.SaveDataToJson(user, true);
     }
 
     [PunRPC]
     private void SetPlayer(string player)
     {
-        Debug.Log("실러");
         user.player = player;
-        NetworkManager.Inst.SaveDataToJson(user, true);
+        DataManager.Inst.SaveDataToJson(user, true);
     }
 
     public bool IsInfoActive()
@@ -361,8 +358,9 @@ public class User
     public float bgmVolume;
     public float effectVolume;
     public SuperSkillData[] superSkills;
+    public bool isTuto;
 
-    public User(int gold, int backGround, string[] myDecks, bool[] myBackground, float bgmVolume, float effectVolume, SuperSkillData[] superSkills)
+    public User(int gold, int backGround, string[] myDecks, bool[] myBackground, float bgmVolume, float effectVolume, SuperSkillData[] superSkills, bool isTuto)
     {
         this.gold = gold;
         this.backGround = backGround;
@@ -371,5 +369,6 @@ public class User
         this.bgmVolume = bgmVolume;
         this.effectVolume = effectVolume;
         this.superSkills = superSkills;
+        this.isTuto = isTuto;
     }
 }

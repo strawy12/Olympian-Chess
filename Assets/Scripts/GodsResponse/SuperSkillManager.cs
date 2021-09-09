@@ -60,12 +60,12 @@ public class SuperSkillManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("스폰스킬");
         string response = GameManager.Inst.GetPlayer() == "white" ? whiteGodsRes : blackGodsRes;
-        User user = NetworkManager.Inst.LoadDataFromJson<User>();
+        User user = DataManager.Inst.LoadDataFromJson<User>();
 
         if (response != "")
         {
             user.superSkills[godNum].amount--;
-            NetworkManager.Inst.SaveDataToJson(user, true);
+            DataManager.Inst.SaveDataToJson(user, true);
         }
 
         GameObject obj = null;
@@ -126,7 +126,7 @@ public class SuperSkillManager : MonoBehaviourPunCallbacks
 
     private void SetGodsResponse()
     {
-        User user = NetworkManager.Inst.LoadDataFromJson<User>();
+        User user = DataManager.Inst.LoadDataFromJson<User>();
         string response = "";
 
         for (int i = 0; i < user.superSkills.Length; i++)
@@ -151,7 +151,7 @@ public class SuperSkillManager : MonoBehaviourPunCallbacks
             photonView.RPC("SetSprite", RpcTarget.AllBuffered, "black", blackGodsRes); ;
         }
 
-        NetworkManager.Inst.SaveDataToJson(user, true);
+        DataManager.Inst.SaveDataToJson(user, true);
     }
 
     [PunRPC]

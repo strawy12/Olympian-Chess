@@ -46,11 +46,6 @@ public class SlotManager : MonoBehaviour, IPointerClickHandler, IPointerDownHand
     {
         if (Input.GetMouseButtonUp(0))
             DeckManager.Instance.PointerUp();
-
-        if (DeckManager.Instance.IsInfoActive())
-        {
-            DeckManager.Instance.InActiveInfo();
-        }
     }
 
     private void CardIn()
@@ -127,6 +122,7 @@ public class SlotManager : MonoBehaviour, IPointerClickHandler, IPointerDownHand
     public void OnBeginDrag(PointerEventData eventData)
     {
         DeckManager.Instance.Drag();
+        Debug.Log(12);
         if (DeckManager.Instance.IsInfoActive())
         {
             DeckManager.Instance.InActiveInfo();

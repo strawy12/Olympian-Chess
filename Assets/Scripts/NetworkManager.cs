@@ -15,7 +15,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     private string roomname;
     private string user_ID;
-    private string SAVE_PATH;
+
     private int nicknameCnt = 0;
 
     private static NetworkManager inst;
@@ -45,6 +45,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
+        User user = DataManager.Inst.LoadDataFromJson<User>();
+
+        if (!user.isTuto || user == null)
+        {
+            return;
+        }
+
         NetworkManager[] nms = FindObjectsOfType<NetworkManager>();
 
         if (nms.Length != 1)
@@ -64,17 +71,19 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         PhotonNetwork.SendRate = 60;
         PhotonNetwork.SerializationRate = 30;
 
-        SAVE_PATH = Path.Combine(Application.persistentDataPath, "Save");
-
-        if (!Directory.Exists(SAVE_PATH))
-        {
-            Directory.CreateDirectory(SAVE_PATH);
-        }
+        
 
     }
 
     private void Start()
     {
+        User user = DataManager.Inst.LoadDataFromJson<User>();
+
+        if (!user.isTuto || user == null)
+        {
+            return;
+        }
+
         DisConnect();
         Connect();
     }
@@ -87,33 +96,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         PhotonNetwork.ConnectUsingSettings();
     }
 
-    public string SaveDataToJson<T>(T data, bool isSave)
-    {
-        SAVE_PATH = Path.Combine(Application.persistentDataPath, "Save");
 
-        string jsonData = JsonUtility.ToJson(data, true);
-        if (isSave)
-        {
-            string path = Path.Combine(SAVE_PATH, typeof(T).ToString() + ".json");
-            File.WriteAllText(path, jsonData);
-        }
-
-        return jsonData;
-    }
-
-    public T LoadDataFromJson<T>(string jsonData = null)
-    {
-        SAVE_PATH = Path.Combine(Application.persistentDataPath, "Save");
-
-        if (jsonData == null)
-        {
-            string path = Path.Combine(SAVE_PATH, typeof(T).ToString() + ".json");
-            if (File.Exists(path))
-                jsonData = File.ReadAllText(path);
-
-        }
-        return JsonUtility.FromJson<T>(jsonData);
-    }
 
     public void ActiveFriendlyMatchPanal()
     {
@@ -221,7 +204,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.PlayerList.Length == 2)
         {
             int i;
-
+            PhotonNetwork.CurrentRoom.IsOpen = false;
             i = Random.Range(0, 2);
             DeckManager.Instance.SetPlayer(i);
             StartCoroutine(Startgame());

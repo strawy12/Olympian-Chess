@@ -284,7 +284,7 @@ public class LobbyManager : MonoBehaviour
             user.superSkills[super_num].isSelect = true;
         }
 
-        NetworkManager.Inst.SaveDataToJson(user, true);
+        DataManager.Inst.SaveDataToJson(user, true);
     }
 
     private void SetSuperSkill()

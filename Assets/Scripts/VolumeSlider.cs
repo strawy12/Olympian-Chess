@@ -10,7 +10,7 @@ public class VolumeSlider : MonoBehaviour
 
     void Start()
     {
-        User user = NetworkManager.Inst.LoadDataFromJson<User>();
+        User user = DataManager.Inst.LoadDataFromJson<User>();
         slider = GetComponent<Slider>();
         sliderText = GetComponentInChildren<Text>();
 

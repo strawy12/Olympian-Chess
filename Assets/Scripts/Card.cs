@@ -42,11 +42,15 @@ public class Card : MonoBehaviourPunCallbacks
     void OnMouseDown()
     {
         if (CheckClickCard()) return;
+        Debug.Log("¿õ¾Ö");
         if (isSelected) return;
+        Debug.Log("¿õ¾Ö");
         // reselection Prevention 
+
         isSelected = true;
         if (isFront)
         {
+            Debug.Log("ÀÀ¾Ö");
             CardManager.Inst.CardMouseDown(this);
         }
 
@@ -79,25 +83,21 @@ public class Card : MonoBehaviourPunCallbacks
     }
     public bool CheckClickCard()
     {
-        if (enabled == false) return true;
         if (GameManager.Inst.IsGameOver()) return true;
-        if (!TurnManager.Instance.GetCurrentPlayerTF()) return true;
-        if (GameManager.Inst.GetPlayer() != carditem.player) return true;
-
 
         return false;
     }
 
     private void SendCardData()
     {
-        string jsonData = NetworkManager.Inst.SaveDataToJson(carditem, true);
+        string jsonData = DataManager.Inst.SaveDataToJson(carditem, true);
         photonView.RPC("SetCardData", RpcTarget.OthersBuffered, jsonData);
     }
 
     [PunRPC]
     public void SetCardData(string jsonData)
     {
-        Carditem carditem = NetworkManager.Inst.LoadDataFromJson<Carditem>(jsonData);
+        Carditem carditem = DataManager.Inst.LoadDataFromJson<Carditem>(jsonData);
         this.carditem = carditem;
     }
     #endregion
@@ -132,7 +132,7 @@ public class Card : MonoBehaviourPunCallbacks
     }
     public void MoveTransform(PRS prs, bool useDotween, bool isSend, float dotweemTime = 0)
     {
-        string prs_ToJson = NetworkManager.Inst.SaveDataToJson(prs, false);
+        string prs_ToJson = DataManager.Inst.SaveDataToJson(prs, false);
         if (isSend)
         {
             photonView.RPC("SetMoveTransform", RpcTarget.All, prs_ToJson, useDotween, dotweemTime);
@@ -146,7 +146,7 @@ public class Card : MonoBehaviourPunCallbacks
     [PunRPC]
     public void SetMoveTransform(string prs_ToJson, bool useDotween, float dotweemTime = 0) // Card Move
     {
-        PRS prs = NetworkManager.Inst.LoadDataFromJson<PRS>(prs_ToJson);
+        PRS prs = DataManager.Inst.LoadDataFromJson<PRS>(prs_ToJson);
         originPRS = prs;
         //pv.enabled = true;
         if (useDotween)

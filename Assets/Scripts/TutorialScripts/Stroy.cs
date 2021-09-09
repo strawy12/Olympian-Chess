@@ -77,6 +77,14 @@ public class Stroy : MonoBehaviour
                 SoundManager.Instance.StopBGM();
                 SoundManager.Instance.WinOrLose(true);
                 endPanel.transform.DOScale(1, 0.4f);
+                User user = DataManager.Inst.LoadDataFromJson<User>();
+                if(user == null)
+                {
+                    story1();
+                }
+                user.isTuto = true;
+
+                DataManager.Inst.SaveDataToJson(user, true);
                 break;
         }
     }

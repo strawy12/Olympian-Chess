@@ -245,6 +245,10 @@ public class CardManager : MonoBehaviourPunCallbacks
         turnText.text = selectCard.carditem.turn;
     }
 
+    public void DontShowInfo()
+    {
+        cardInfoImage.gameObject.SetActive(false);
+    }
     void SetECardState() // enum event Setting
     {
         if (TurnManager.Instance.isLoading)
@@ -379,7 +383,7 @@ public class CardManager : MonoBehaviourPunCallbacks
     void SetUpCardBuffer() // Card Buffer value Get, Set
     {
         var targetCardBuffer = ComparisonPlayer("white") ? whiteCardBuffer : blackCardBuffer;
-        var deck = NetworkManager.Inst.LoadDataFromJson<User>();
+        var deck = DataManager.Inst.LoadDataFromJson<User>();
         if (deck == null)
         {
             for (int i = 0; i < 10; i++)
@@ -500,7 +504,7 @@ public class CardManager : MonoBehaviourPunCallbacks
     {
         if (card == null) return;
 
-        string jsonData = NetworkManager.Inst.SaveDataToJson(card.GetCarditem(), false);
+        string jsonData = DataManager.Inst.SaveDataToJson(card.GetCarditem(), false);
         photonView.RPC("DestroyCard", RpcTarget.AllBuffered, jsonData);
     }
 
@@ -508,7 +512,7 @@ public class CardManager : MonoBehaviourPunCallbacks
     public void DestroyCard(string jsonData)
     {
         bool isSame = false;
-        Carditem carditem = NetworkManager.Inst.LoadDataFromJson<Carditem>(jsonData);
+        Carditem carditem = DataManager.Inst.LoadDataFromJson<Carditem>(jsonData);
         var targetCards = carditem.ID < 200 ? whiteCards : blackCards;
         Card card = GetCard(carditem);
         if (card == null) return;
@@ -816,7 +820,7 @@ public class CardManager : MonoBehaviourPunCallbacks
     {
         if (isEnlarge)
         {
-            if (TurnManager.Instance.CheckPlayer("white"))
+            if (ComparisonPlayer("white"))
             {
                 Vector3 enlargePos = new Vector3(card.originPRS.pos.x, card.originPRS.pos.y, -10f);
                 card.MoveTransform(new PRS(enlargePos, Utils.QI, Vector3.one * 2.2f), false, false);
@@ -861,8 +865,6 @@ public class CardManager : MonoBehaviourPunCallbacks
 
     public void CardMouseDown(Card card)
     {
-        if (eCardState != ECardState.CanMouseDrag || eCardState == ECardState.Nothing)
-            return;
         if (isUse) return;
 
         isClick = true;
@@ -882,11 +884,13 @@ public class CardManager : MonoBehaviourPunCallbacks
     public void CardMouseUp(Card card)
     {
         if (isUse) return;
-        selectCard.ReloadCard();
+            selectCard.ReloadCard();
         if (pointDownTime < 0.75f)
         {
             var targetPos = ComparisonPlayer("white") ? new Vector2(1.6f, 0f) : new Vector2(-1.6f, 0f);
             var targetRot = ComparisonPlayer("white") ? Utils.QI : Quaternion.Euler(0f, 0f, 180f);
+            Debug.Log(GameManager.Inst.GetPlayer());
+
             StartCoroutine(DontShowCards(GetTargetCards()));
             cardInfoImage.gameObject.SetActive(true);
             ShowInfo();
@@ -919,6 +923,7 @@ public class CardManager : MonoBehaviourPunCallbacks
 
     private void CardDrag()
     {
+        if (!TurnManager.Instance.GetCurrentPlayerTF()) return;
         selectCard.SelectingCard();
         TargetingChessPiece();
 
