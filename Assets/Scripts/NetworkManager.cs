@@ -70,7 +70,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
         PhotonNetwork.SendRate = 60;
         PhotonNetwork.SerializationRate = 30;
-
+        Application.targetFrameRate = 60;
         
 
     }
