@@ -1,5 +1,5 @@
 # Olympian-Chess
-202103~20210911
+2021.03~2021.09.11
 
 ### [ 넷마블 아카데미 부트캠프 참여작 ] 
 [![unnamed](https://user-images.githubusercontent.com/77655318/170164135-89191318-f411-427e-a2bd-bca648fd39e8.png)](https://play.google.com/store/apps/details?id=com.CCRKR.Olympian_Chess&hl=ko&gl=US)
